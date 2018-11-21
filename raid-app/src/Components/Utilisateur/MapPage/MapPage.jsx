@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import '../../../Css/Utilisateur/MapPage/HomePage.css'
+import L from 'leaflet';
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -76,5 +77,13 @@ const mapStateToProps = state => ({
     lat6: state.reducerMapPage.lat6,
     lng6: state.reducerMapPage.lng6,
 })
+
+const iconBlack = new L.Icon({
+    iconUrl: require('../../../Img/map-default-black.png'),
+    iconRetinaUrl: require('../../../Img/map-default-black.png'),
+    iconSize: [60, 60],
+    className: 'leaflet-div-icon'
+});
+
 
 export default connect(mapStateToProps)(MapPage)
