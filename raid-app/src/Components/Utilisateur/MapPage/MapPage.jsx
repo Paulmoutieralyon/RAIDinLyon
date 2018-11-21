@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
 import '../../../Css/Utilisateur/MapPage/HomePage.css'
 import L from 'leaflet';
 
@@ -12,13 +12,23 @@ class MapPage extends React.Component {
         }
     }
 
+
     render() {
+
+
         const position1 = [this.props.lat1, this.props.lng1];
         const position2 = [this.props.lat2, this.props.lng2];
         const position3 = [this.props.lat3, this.props.lng3];
         const position4 = [this.props.lat4, this.props.lng4];
         const position5 = [this.props.lat5, this.props.lng5];
         const position6 = [this.props.lat6, this.props.lng6];
+
+        const enigme1 = [this.props.eg1];
+        const enigme2 = [this.props.eg2];
+        const enigme3 = [this.props.eg3];
+        const enigme4 = [this.props.eg4];
+        const enigme5 = [this.props.eg5];
+        const enigme6 = [this.props.eg6]
         return (
             <div>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
@@ -28,33 +38,63 @@ class MapPage extends React.Component {
                     />
                     <Marker position={position1}>
                         <Popup>
-                            <span>Wild Code School <br /> Easily customizable.</span>
+                            <span>{enigme1}<br /></span>
+                            <button>Accéder à lénigme</button>
                         </Popup>
+                        <Circle
+                            center={position1}
+                            fillColor="blue"
+                            radius={200} />
                     </Marker>
                     <Marker position={position2}>
                         <Popup>
-                            <span>Wild Code School <br /> Easily customizable.</span>
+                            <span>{enigme2}<br /></span>
+                            <button>Accéder à lénigme</button>
                         </Popup>
+                        <Circle
+                            center={position2}
+                            fillColor="blue"
+                            radius={200} />
                     </Marker>
                     <Marker position={position3}>
                         <Popup>
-                            <span>Wild Code School <br /> Easily customizable.</span>
+                            <span>{enigme3} <br /></span>
+                            <button>Accéder à lénigme</button>
                         </Popup>
+                        <Circle
+                            center={position3}
+                            fillColor="blue"
+                            radius={200} />
                     </Marker>
                     <Marker position={position4}>
                         <Popup>
-                            <span>Wild Code School <br /> Easily customizable.</span>
+                            <span>{enigme4}<br /></span>
+                            <button>Accéder à lénigme</button>
                         </Popup>
+                        <Circle
+                            center={position4}
+                            fillColor="blue"
+                            radius={200} />
                     </Marker>
                     <Marker position={position5}>
                         <Popup>
-                            <span>Wild Code School <br /> Easily customizable.</span>
+                            <span>{enigme5}<br /></span>
+                            <button>Accéder à lénigme</button>
                         </Popup>
+                        <Circle
+                            center={position5}
+                            fillColor="blue"
+                            radius={200} />
                     </Marker>
                     <Marker position={position6}>
                         <Popup>
-                            <span>Wild Code School <br /> Easily customizable.</span>
+                            <span>{enigme6}<br /></span>
+                            <button>Accéder à lénigme</button>
                         </Popup>
+                        <Circle
+                            center={position6}
+                            fillColor="blue"
+                            radius={200} />
                     </Marker>
                 </Map>
             </div>
@@ -76,6 +116,14 @@ const mapStateToProps = state => ({
     lng5: state.reducerMapPage.lng5,
     lat6: state.reducerMapPage.lat6,
     lng6: state.reducerMapPage.lng6,
+
+    //nom énigme
+    eg1: state.reducerMapPage.eg1,
+    eg2: state.reducerMapPage.eg2,
+    eg3: state.reducerMapPage.eg2,
+    eg4: state.reducerMapPage.eg3,
+    eg5: state.reducerMapPage.eg4,
+    eg6: state.reducerMapPage.eg5
 })
 
 const iconBlack = new L.Icon({
