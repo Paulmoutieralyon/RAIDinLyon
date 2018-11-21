@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class EgnimePage extends React.Component {
+export default class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
