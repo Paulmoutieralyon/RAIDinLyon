@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class FinalStepMap extends React.Component {
+export default class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -8,7 +8,7 @@ export default class FinalStepMap extends React.Component {
 
     render() {
         return (
-            <div>ici l'étape final sur la carte</div>
+            <div>Ici la map des egnimes</div>
         );
     }
 }
