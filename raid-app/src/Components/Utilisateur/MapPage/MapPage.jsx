@@ -26,32 +26,32 @@ class MapPage extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                     />
-                    <Marker position={position1}>
+                    <Marker icon={iconRed} position={position1}>
                         <Popup>
                             <span>Wild Code School <br /> Easily customizable.</span>
                         </Popup>
                     </Marker>
-                    <Marker position={position2}>
+                    <Marker icon={iconRed} position={position2}>
                         <Popup>
                             <span>Wild Code School <br /> Easily customizable.</span>
                         </Popup>
                     </Marker>
-                    <Marker position={position3}>
+                    <Marker icon={iconRed} position={position3}>
                         <Popup>
                             <span>Wild Code School <br /> Easily customizable.</span>
                         </Popup>
                     </Marker>
-                    <Marker position={position4}>
+                    <Marker icon={iconRed} position={position4}>
                         <Popup>
                             <span>Wild Code School <br /> Easily customizable.</span>
                         </Popup>
                     </Marker>
-                    <Marker position={position5}>
+                    <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>Wild Code School <br /> Easily customizable.</span>
                         </Popup>
                     </Marker>
-                    <Marker position={position6}>
+                    <Marker icon={iconRed} position={position6}>
                         <Popup>
                             <span>Wild Code School <br /> Easily customizable.</span>
                         </Popup>
@@ -78,11 +78,20 @@ const mapStateToProps = state => ({
     lng6: state.reducerMapPage.lng6,
 })
 
+const iconRed = new L.Icon({
+    iconUrl: require('../../../Img/map-default-red.png'),
+    iconRetinaUrl: require('../../../Img/map-default-red.png'),
+    iconSize: [50, 50],
+});
 const iconBlack = new L.Icon({
     iconUrl: require('../../../Img/map-default-black.png'),
     iconRetinaUrl: require('../../../Img/map-default-black.png'),
-    iconSize: [60, 60],
-    className: 'leaflet-div-icon'
+    iconSize: [50, 50],
+});
+const iconGreen = new L.Icon({
+    iconUrl: require('../../../Img/map-default-green.png'),
+    iconRetinaUrl: require('../../../Img/map-default-green.png'),
+    iconSize: [50, 50],
 });
 
 
