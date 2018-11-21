@@ -4,8 +4,8 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 // Chemin 
 
 import HomePage from './Components/Utilisateur/HomePage/HomePage';
-import EnigmePage from './Components/Utilisateur/EnigmePage/EgnimePage';
-import MapPage from './Components/Utilisateur/MapEgnime/MapPage';
+import EnigmePage from './Components/Utilisateur/EnigmePage/EnigmePage';
+import MapPage from './Components/Utilisateur/MapPage/MapPage';
 
 import AddEgnimes from './Components/Admin/AddEgnimes';
 import AddTeam from './Components/Admin/AddTeam';
