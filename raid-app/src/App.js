@@ -4,10 +4,9 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 // Chemin 
 
 import HomePage from './Components/Utilisateur/HomePage/HomePage';
-import EgnimePage from './Components/Utilisateur/EgnimePage/EgnimePage';
-import EtapeMapEgnime from './Components/Utilisateur/EtapeMapEgnime/EtapeMapEgnime';
-import FinalStepMap from './Components/Utilisateur/FinalStepMap/FinalStepMap';
-import MapEgnime from './Components/Utilisateur/MapEgnime/MapEgnime';
+import EnigmePage from './Components/Utilisateur/EnigmePage/EgnimePage';
+import MapPage from './Components/Utilisateur/MapEgnime/MapPage';
+
 import AddEgnimes from './Components/Admin/AddEgnimes';
 import AddTeam from './Components/Admin/AddTeam';
 import AdminComptes from './Components/Admin/AdminComptes';
@@ -27,10 +26,9 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/EgnimePage" component={EgnimePage} />
-            <Route path="/EtapeMapEgnime" component={EtapeMapEgnime} />
-            <Route path="/FinalStepMap" component={FinalStepMap} />
-            <Route path="/MapEgnime/" component={MapEgnime} />
+            <Route path="/EnigmePage" component={EnigmePage} />
+            <Route path="/MapPage/" component={MapPage} />
+
             <Route exact path="/Admin" component={Connexion} />
             <Route path="/Admin/AddTeam" component={AddTeam} />
             <Route path="/Admin/AdminComptes" component={AdminComptes} />
@@ -39,7 +37,6 @@ export default class App extends Component {
             <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
             <Route path="/Admin/SessionPage" component={SessionPage} />
             <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
-
           </Switch>
         </BrowserRouter>
 
