@@ -13,6 +13,13 @@ const initialState = {
     lng5: 4.840434,
     lat6: 45.784142,
     lng6: 4.860323,
+
+    eg1: '"Le survivant"',
+    eg2: '"Une vitre disparait"',
+    eg3: '"Les lettres de nulle part"',
+    eg4: '"Le gardien des clés"',
+    eg5: '"Le chemin de traverse"',
+    eg6: '"Rendez vous sur la voie 9 3/4"'
 }
 
 export function reducerMapPage(state = initialState, action) {
