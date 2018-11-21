@@ -36,7 +36,7 @@ class MapPage extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                     />
-                    <Marker position={position1}>
+                    <Marker icon={iconRed} position={position1}>
                         <Popup>
                             <span>{enigme1}<br /></span>
                             <button>Accéder à lénigme</button>
@@ -46,7 +46,7 @@ class MapPage extends React.Component {
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position2}>
+                    <Marker icon={iconRed} position={position2}>
                         <Popup>
                             <span>{enigme2}<br /></span>
                             <button>Accéder à lénigme</button>
@@ -56,7 +56,7 @@ class MapPage extends React.Component {
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position3}>
+                    <Marker icon={iconRed} position={position3}>
                         <Popup>
                             <span>{enigme3} <br /></span>
                             <button>Accéder à lénigme</button>
@@ -66,7 +66,7 @@ class MapPage extends React.Component {
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position4}>
+                    <Marker icon={iconRed} position={position4}>
                         <Popup>
                             <span>{enigme4}<br /></span>
                             <button>Accéder à lénigme</button>
@@ -76,7 +76,7 @@ class MapPage extends React.Component {
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position5}>
+                    <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>{enigme5}<br /></span>
                             <button>Accéder à lénigme</button>
@@ -86,7 +86,7 @@ class MapPage extends React.Component {
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position6}>
+                    <Marker icon={iconRed} position={position6}>
                         <Popup>
                             <span>{enigme6}<br /></span>
                             <button>Accéder à lénigme</button>
@@ -126,11 +126,20 @@ const mapStateToProps = state => ({
     eg6: state.reducerMapPage.eg5
 })
 
+const iconRed = new L.Icon({
+    iconUrl: require('../../../Img/map-default-red.png'),
+    iconRetinaUrl: require('../../../Img/map-default-red.png'),
+    iconSize: [50, 50],
+});
 const iconBlack = new L.Icon({
     iconUrl: require('../../../Img/map-default-black.png'),
     iconRetinaUrl: require('../../../Img/map-default-black.png'),
-    iconSize: [60, 60],
-    className: 'leaflet-div-icon'
+    iconSize: [50, 50],
+});
+const iconGreen = new L.Icon({
+    iconUrl: require('../../../Img/map-default-green.png'),
+    iconRetinaUrl: require('../../../Img/map-default-green.png'),
+    iconSize: [50, 50],
 });
 
 
