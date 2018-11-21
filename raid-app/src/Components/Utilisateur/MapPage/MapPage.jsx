@@ -1,4 +1,5 @@
 import React from 'react';
+import Modal from "react-responsive-modal";
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import '../../../Css/Utilisateur/MapPage/HomePage.css'
 
@@ -12,10 +13,25 @@ export default class MapPage extends React.Component {
             latWild: 45.746606,
             lngWild: 4.826917,
             /* 45.746606, 4.826917*/
+            open: false,
         }
     }
 
+    onOpenModal = () => {
+        this.setState({
+            open: true
+        });
+    };
+
+    onCloseModal = () => {
+        this.setState({
+            open: false
+        });
+    };
+
     render() {
+        const { open } = this.state;
+
         const position = [this.state.lat, this.state.lng];
         const positionWild = [this.state.latWild, this.state.lngWild]
         return (
@@ -33,7 +49,15 @@ export default class MapPage extends React.Component {
                     </Marker>
                     <Marker position={positionWild}>
                         <Popup>
-                            <span>A pretty CSS3 popup. <br /> Easily customizable.</span>
+                            <span>
+                                Egnime n°1 <br /> <button onClick={this.onOpenModal}>Go </button>
+                                <Modal open={open} onClose={this.onCloseModal} center>
+                                    <h2>Enigme n°1</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                                        pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+                                        hendrerit risus, sed porttitor quam.</p>
+                                </Modal>
+                            </span>
                         </Popup>
                     </Marker>
                 </Map>
