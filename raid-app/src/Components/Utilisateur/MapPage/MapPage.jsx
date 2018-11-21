@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import '../../../Css/Utilisateur/MapPage/HomePage.css'
 import L from 'leaflet';
 
@@ -31,6 +32,7 @@ class MapPage extends React.Component {
         const enigme6 = [this.props.eg6]
         return (
             <div>
+                <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
