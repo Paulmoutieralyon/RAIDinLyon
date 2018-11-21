@@ -39,3 +39,18 @@
     border-radius:3px;
   
 }
+
+.ButtonBack{
+    font-family: 'cursive';
+    text-shadow: -1px -1px 0px ;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    box-shadow: -3px -3px 0px #ca9307;
+    background:rgb(75, 73, 73);
+    background-size:100%;
+    border: 1px double orange;
+    border-radius: 3px;
+    margin: 3px;
+    
+}
