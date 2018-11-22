@@ -43,6 +43,7 @@ class MapPage extends React.Component {
         return (
             <div>
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
+                <p className="TitreMapPage"> SUR LES TRACES DE NICOLAS FLAMEL</p>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

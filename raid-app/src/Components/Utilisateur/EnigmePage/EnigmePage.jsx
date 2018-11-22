@@ -3,7 +3,7 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import './EnigmePage.css';
-import Info from './Info.png';
+import info from './info.1.png';
 import Pierrephilosophale from './Pierrephilosophale.jpeg';
 import Faux from './faux.png';
 import Vrai from './vrai.png';
@@ -46,16 +46,16 @@ export default class EnigmePage extends React.Component {
 
             <div>
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
-                <img className="bontonInfo" src={Info} />
+                <img className="infologo" src={info} alt='egnimeInfo' />
 
                 <img className="Illustration" src={Pierrephilosophale} />
                 <p className="Titre">Nicolas Flamel </p>
-                <p>Nicolas Flamel, éminent personnage du XIVème siècle est essentiellement réputé comme étant l’alchimiste ayant réussi dans la quête de la Pierre Philosophale. On attribuait à cette pierre certaines propriétés dont celle de pouvoir transmuter les métaux vils en métaux précieux comme l’or ou l’argent.</p>
+                <p className="BodyText">Nicolas Flamel, éminent personnage du XIVème siècle est essentiellement réputé comme étant l’alchimiste ayant réussi dans la quête de la Pierre Philosophale. On attribuait à cette pierre certaines propriétés dont celle de pouvoir transmuter les métaux vils en métaux précieux comme l’or ou l’argent.</p>
 
                 <AvForm className="reponse" onSubmit={this.isTrue}>
-                    <h3>Quelle découverte a rendu célèbre Nicolas Flamel ?</h3>
-                    <AvField name="enigme" type="text" onChange={this.isProposing} />
-                    <Button color="primary">Submit</Button>
+                    <h3 className="TitreQuestion">Quelle découverte a rendu célèbre Nicolas Flamel ?</h3>
+                    <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                    <Button color="primary">Validé</Button>
                     <img className="final" src={this.state.final} />
                 </AvForm>
 
