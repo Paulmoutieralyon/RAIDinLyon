@@ -1,0 +1,8 @@
+.map{
+    height: 500px;
+    margin-top: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 6px;
+    border: 2px solid black;
+}

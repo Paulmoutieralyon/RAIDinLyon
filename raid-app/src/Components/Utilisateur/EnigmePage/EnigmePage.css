@@ -1,0 +1,30 @@
+body{
+    padding: 5vmin;
+}
+
+.bontonInfo{
+    margin-left: 80vmin;
+    height: 10vmin;
+}
+
+.final{
+    height: 10vmin;
+}
+
+.Titre{
+    text-align: center;
+    font-size: 7vmin;
+}
+
+.Illustration{
+    margin-left: 25vmin;
+    max-height: 35vmin;
+}
+
+.reponse{
+    padding: 3vmin;
+    border-width:1px;
+    border-style:solid;
+    border-color:green;
+    border-radius: 3vmin;
+}
