@@ -3,6 +3,7 @@ import '../../../App.css';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../Img/RaidLyonLogo.png';
 import info from '../../../Img/info.png'
+import '../../../Css/Utilisateur/HomePage/HomePage.css'
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -12,11 +13,11 @@ export default class HomePage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="bodyHome">
                 <img className="LogoImg" src={logo} alt='homelogo' />
                 <img className="infologo" src={info} alt='homeinfo' />
                 <h1 className="TitreSession"> BIENVENUE <br /> A <br />RaidInLyon</h1>
-                <NavLink to="../../MapPage/MapPage"><button className="Button1">Lancer la Partie</button></NavLink>
+                <NavLink to="../../MapPage"><button className="Button1">Lancer la Partie</button></NavLink>
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import '../../../Css/Utilisateur/MapPage/HomePage.css'
 import L from 'leaflet';
 
@@ -31,66 +32,67 @@ class MapPage extends React.Component {
         const enigme6 = [this.props.eg6]
         return (
             <div>
-
+                <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                     />
-                    <Marker position={position1}>
+                    <Marker icon={iconRed} position={position1}>
                         <Popup>
                             <span>{enigme1}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                            
                         </Popup>
                         <Circle
                             center={position1}
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position2}>
+                    <Marker icon={iconRed} position={position2}>
                         <Popup>
                             <span>{enigme2}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position2}
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position3}>
+                    <Marker icon={iconRed} position={position3}>
                         <Popup>
                             <span>{enigme3} <br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position3}
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position4}>
+                    <Marker icon={iconRed} position={position4}>
                         <Popup>
                             <span>{enigme4}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position4}
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position5}>
+                    <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>{enigme5}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position5}
                             fillColor="blue"
                             radius={200} />
                     </Marker>
-                    <Marker position={position6}>
+                    <Marker icon={iconRed} position={position6}>
                         <Popup>
                             <span>{enigme6}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position6}
@@ -127,11 +129,20 @@ const mapStateToProps = state => ({
     eg6: state.reducerMapPage.eg5
 })
 
+const iconRed = new L.Icon({
+    iconUrl: require('../../../Img/map-default-red.png'),
+    iconRetinaUrl: require('../../../Img/map-default-red.png'),
+    iconSize: [50, 100],
+});
 const iconBlack = new L.Icon({
     iconUrl: require('../../../Img/map-default-black.png'),
     iconRetinaUrl: require('../../../Img/map-default-black.png'),
-    iconSize: [60, 60],
-    className: 'leaflet-div-icon'
+    iconSize: [50, 50],
+});
+const iconGreen = new L.Icon({
+    iconUrl: require('../../../Img/map-default-green.png'),
+    iconRetinaUrl: require('../../../Img/map-default-green.png'),
+    iconSize: [50, 50],
 });
 
 
