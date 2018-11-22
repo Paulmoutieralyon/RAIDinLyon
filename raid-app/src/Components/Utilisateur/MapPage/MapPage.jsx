@@ -9,11 +9,21 @@ class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            lat: null,
+            lng: null,
+            currentPosition: [0,0],
         }
     }
 
-
+    componentDidMount = () => {
+        navigator.geolocation.getCurrentPosition(location => {
+            this.setState({
+                lat: location.coords.latitude,
+                lng: location.coords.longitude,
+            })
+            this.setState({currentPosition:[this.state.lat, this.state.lng]})
+        });
+    }
     render() {
 
 
@@ -42,7 +52,7 @@ class MapPage extends React.Component {
                         <Popup>
                             <span>{enigme1}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                            
+
                         </Popup>
                         <Circle
                             center={position1}
@@ -99,7 +109,18 @@ class MapPage extends React.Component {
                             fillColor="blue"
                             radius={200} />
                     </Marker>
+                    <Marker icon={iconBlack} position={this.state.currentPosition}>
+                        <Popup>
+                            <span>{enigme6}<br /></span>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                        </Popup>
+                        <Circle
+                            center={this.state.currentPosition}
+                            fillColor="blue"
+                            radius={200} />
+                    </Marker>
                 </Map>
+                <p><h1>{this.state.lat}{this.state.lng}</h1></p>
             </div>
         );
     }
