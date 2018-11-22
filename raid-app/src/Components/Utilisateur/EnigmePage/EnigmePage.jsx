@@ -1,6 +1,7 @@
 import React from 'react';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Button } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 import './EnigmePage.css';
 import Info from './Info.png';
 import Pierrephilosophale from './Pierrephilosophale.jpeg';
@@ -36,7 +37,7 @@ export default class EnigmePage extends React.Component {
                 final: Faux
             })
         }
-        
+
     }
 
     render() {
@@ -44,6 +45,7 @@ export default class EnigmePage extends React.Component {
         return (
 
             <div>
+                <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 <img className="bontonInfo" src={Info} />
 
                 <img className="Illustration" src={Pierrephilosophale} />

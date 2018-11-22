@@ -41,7 +41,8 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position1}>
                         <Popup>
                             <span>{enigme1}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                            
                         </Popup>
                         <Circle
                             center={position1}
@@ -51,7 +52,7 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position2}>
                         <Popup>
                             <span>{enigme2}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position2}
@@ -61,7 +62,7 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position3}>
                         <Popup>
                             <span>{enigme3} <br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position3}
@@ -71,7 +72,7 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position4}>
                         <Popup>
                             <span>{enigme4}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position4}
@@ -81,7 +82,7 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>{enigme5}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position5}
@@ -91,7 +92,7 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position6}>
                         <Popup>
                             <span>{enigme6}<br /></span>
-                            <button>Accéder à lénigme</button>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position6}
