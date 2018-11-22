@@ -131,7 +131,7 @@ const mapStateToProps = state => ({
 const iconRed = new L.Icon({
     iconUrl: require('../../../Img/map-default-red.png'),
     iconRetinaUrl: require('../../../Img/map-default-red.png'),
-    iconSize: [50, 50],
+    iconSize: [50, 100],
 });
 const iconBlack = new L.Icon({
     iconUrl: require('../../../Img/map-default-black.png'),
