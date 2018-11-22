@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
-import '../../../Css/Utilisateur/MapPage/HomePage.css'
+import './MapPage.css'
 import L from 'leaflet';
 
 class MapPage extends React.Component {
@@ -130,18 +130,18 @@ const mapStateToProps = state => ({
 })
 
 const iconRed = new L.Icon({
-    iconUrl: require('../../../Img/map-default-red.png'),
-    iconRetinaUrl: require('../../../Img/map-default-red.png'),
+    iconUrl: require('./map-default-red.png'),
+    iconRetinaUrl: require('./map-default-red.png'),
     iconSize: [50, 100],
 });
 const iconBlack = new L.Icon({
-    iconUrl: require('../../../Img/map-default-black.png'),
-    iconRetinaUrl: require('../../../Img/map-default-black.png'),
+    iconUrl: require('./map-default-black.png'),
+    iconRetinaUrl: require('./map-default-black.png'),
     iconSize: [50, 50],
 });
 const iconGreen = new L.Icon({
-    iconUrl: require('../../../Img/map-default-green.png'),
-    iconRetinaUrl: require('../../../Img/map-default-green.png'),
+    iconUrl: require('./map-default-green.png'),
+    iconRetinaUrl: require('./map-default-green.png'),
     iconSize: [50, 50],
 });
 
