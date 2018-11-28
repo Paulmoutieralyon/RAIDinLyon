@@ -1,0 +1,24 @@
+.boutonninfo{
+    width: 5vh;
+}
+
+.Infologo{
+    width: 5vh;
+    margin-left: 330px;
+    
+}
+
+.modaltexte
+{
+    text-align: center;
+}
+
+.modal-content{
+ background: white;
+ opacity: 1;
+color:black;
+}
+
+.close{
+    color: black ;
+}
