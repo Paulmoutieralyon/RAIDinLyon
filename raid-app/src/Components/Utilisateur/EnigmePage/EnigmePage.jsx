@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { NavLink } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
@@ -10,7 +13,7 @@ import Vrai from './vrai.png';
 import Vide from './Vide.png';
 import './InfosModalEgnime.css';
 
-export default class EnigmePage extends React.Component {
+export class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,11 +67,14 @@ export default class EnigmePage extends React.Component {
     isTrue = () => {
 
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
+            this.props.addPoints()
             this.setState({
                 final: Vrai
             })
+            
 
         } else {
+            this.props.removePoints()
             this.setState({
                 final: Faux
             })
@@ -81,8 +87,9 @@ export default class EnigmePage extends React.Component {
         return (
 
             <div>
+                <p className="points">{this.props.points} pts</p>
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
-                /*<img className="bontonInfo" src={Info} alt="" />*/
+                {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologo'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
                         <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                             <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
@@ -108,3 +115,16 @@ export default class EnigmePage extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({
+    points: state.pointManagement.points
+  })
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      addPoints: bindActionCreators( addPoint, dispatch),
+      removePoints: bindActionCreators( removePoint, dispatch)
+    }
+  
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);

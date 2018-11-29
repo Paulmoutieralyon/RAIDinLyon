@@ -35,6 +35,12 @@ body{
     border-radius: 3vmin;
 }
 
+.points{
+    font-size: 7vmin;
+    position: absolute;
+    margin-left: 30vmin;
+
+}
 
 .infologo{
     width: 5vh;
