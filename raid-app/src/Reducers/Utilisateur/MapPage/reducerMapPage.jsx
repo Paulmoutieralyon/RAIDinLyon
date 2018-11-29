@@ -1,4 +1,4 @@
-import { GET_POSITION, SET_POSITION } from '../../../Actions/Utilisateur/types'
+import { GET_POSITION } from '../../../Actions/Utilisateur/types'
 
 const initialState = {
     zoom: 13,
