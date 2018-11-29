@@ -19,7 +19,11 @@ const initialState = {
     eg3: '"Les lettres de nulle part"',
     eg4: '"Le gardien des clés"',
     eg5: '"Le chemin de traverse"',
-    eg6: '"Rendez vous sur la voie 9 3/4"'
+    eg6: '"Rendez vous sur la voie 9 3/4"',
+
+    titleMain: 'Sur les traces de Nicolas Flamel',
+    title1: 'Bravo, rendez-vous à une nouvelle énigme',
+    titleEnd: 'Bravo, tu as repondu à toutes les énigmes ! Rends toi au point final',
 }
 
 export function reducerMapPage(state = initialState, action) {
