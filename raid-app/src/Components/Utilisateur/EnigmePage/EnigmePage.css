@@ -28,3 +28,7 @@ body{
     border-color:green;
     border-radius: 3vmin;
 }
+
+.btn btn-secondary{
+    background: red;
+}
