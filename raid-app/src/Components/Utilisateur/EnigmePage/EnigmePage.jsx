@@ -23,6 +23,7 @@ export class EnigmePage extends React.Component {
             modal: false,
             indice: null,
             indiceNumber: 0,
+            visibilite:"visible"
         };
         this.toggle = this.toggle.bind(this);
     }
@@ -69,7 +70,8 @@ export class EnigmePage extends React.Component {
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
             this.setState({
-                final: Vrai
+                final: Vrai,
+                visibilite:"invisible"
             })
             
 
@@ -104,7 +106,7 @@ export class EnigmePage extends React.Component {
                 <AvForm className="reponse" onSubmit={this.isTrue}>
                     <h3 className="TitreQuestion">Quelle découverte a rendu célèbre Nicolas Flamel ?</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
-                    <Button color="primary">Valider</Button>
+                    <Button color="primary" className={this.state.visibilite}>Valider</Button>
                     <img className="final" src={this.state.final} alt='' />
                     <Button onClick={this.indices} className="bonton2" >Indice</Button>
                     {this.state.indice}
