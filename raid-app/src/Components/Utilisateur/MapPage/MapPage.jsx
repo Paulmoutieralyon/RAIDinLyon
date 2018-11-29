@@ -28,44 +28,44 @@ class MapPage extends React.Component {
     }
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
-        lat1 = this.toRadian(distance1[1]),
-        lon2 = this.toRadian(currentPosition[0]),
-        lat2 = this.toRadian(currentPosition[1]);
+            lat1 = this.toRadian(distance1[1]),
+            lon2 = this.toRadian(currentPosition[0]),
+            lat2 = this.toRadian(currentPosition[1]);
         let deltaLat = lat2 - lat1;
         let deltaLon = lon2 - lon1;
-        
+
         let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
         let c = 2 * Math.asin(Math.sqrt(a));
         let EARTH_RADIUS = 6371;
         return c * EARTH_RADIUS;
-        }
-        toRadian(degrees) {
+    }
+    toRadian(degrees) {
         return degrees * Math.PI / 180;
-        }
-   
-render() {
-    
-    const currentPosition = [this.state.lat, this.state.lng];
+    }
 
-    const position1 = [this.props.lat1, this.props.lng1];
-    const position2 = [this.props.lat2, this.props.lng2];
-    const position3 = [this.props.lat3, this.props.lng3];
-    const position4 = [this.props.lat4, this.props.lng4];
-    const position5 = [this.props.lat5, this.props.lng5];
-    const position6 = [this.props.lat6, this.props.lng6];
+    render() {
 
-    const enigme1 = [this.props.eg1];
-    const enigme2 = [this.props.eg2];
-    const enigme3 = [this.props.eg3];
-    const enigme4 = [this.props.eg4];
-    const enigme5 = [this.props.eg5];
-    const enigme6 = [this.props.eg6];
-    
-    return (
-        <div>
-            <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-        <p className="TitreMapPage"> SUR LES TRACES DE NICOLAS FLAMEL</p>
-                           <Map className="map" center={position1} zoom={this.props.zoom}>
+        const currentPosition = [this.state.lat, this.state.lng];
+
+        const position1 = [this.props.lat1, this.props.lng1];
+        const position2 = [this.props.lat2, this.props.lng2];
+        const position3 = [this.props.lat3, this.props.lng3];
+        const position4 = [this.props.lat4, this.props.lng4];
+        const position5 = [this.props.lat5, this.props.lng5];
+        const position6 = [this.props.lat6, this.props.lng6];
+
+        const enigme1 = [this.props.eg1];
+        const enigme2 = [this.props.eg2];
+        const enigme3 = [this.props.eg3];
+        const enigme4 = [this.props.eg4];
+        const enigme5 = [this.props.eg5];
+        const enigme6 = [this.props.eg6];
+
+        return (
+            <div>
+                <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
+                <p className="TitreMapPage"> SUR LES TRACES DE NICOLAS FLAMEL</p>
+                <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -117,15 +117,16 @@ render() {
                             radius={200} />
                     </Marker>
                 </Map>
-            <p>{this.getDistance(currentPosition,position4)}</p>
-            <div>
-                {this.getDistance(currentPosition,position4) < 600000? 'near' : 'far'} logged in.
-        </div>
-    );
-}
+                <p>{this.getDistance(this.props.currentPosition, position4)}</p>
+                <div>
+                    {this.getDistance(this.props.currentPosition, position4) < 600000 ? 'near' : 'far'} logged in.
+                </div>
+            </div>
+        );
+    }
 }
 
-/* const mapDispatchToProps = dispatch => ({bindActionCreators({getPosition}, dispatch)}) */
+/* const mapDispatchToProps = dispatch => ({bindActionCreators({ getPosition }, dispatch)}) */
 
 const mapDispatchToProps = dispatch => {
     return {
