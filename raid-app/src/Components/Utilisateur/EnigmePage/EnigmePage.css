@@ -12,23 +12,46 @@ body{
 }
 
 .Titre{
+    font-family: 'Lilita One', cursive;
     text-align: center;
-    font-size: 7vmin;
+    font-size: 10vmin;
+    padding-top: 2vmin;
 }
 
 .Illustration{
-    margin-left: 25vmin;
-    max-height: 35vmin;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0,0.2), 0 6px 20px 0 ;
 }
 
 .reponse{
     padding: 3vmin;
-    border-width:1px;
+    border-width:3px;
     border-style:solid;
-    border-color:green;
+    border-color:rgb(249, 160, 7);
     border-radius: 3vmin;
 }
 
-.btn btn-secondary{
-    background: red;
+
+.infologo{
+    width: 5vh;
+    margin-left: 330px;
+    padding-bottom: 5px;
+}
+
+.BodyText{
+    text-align: center;
+    text-shadow: 1px 1px 1px black;
+}
+
+.TitreQuestion{
+    text-align: center;
+}
+
+.bonton2{ 
+    
+    float: right;
 }
