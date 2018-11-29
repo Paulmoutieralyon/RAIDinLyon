@@ -1,0 +1,59 @@
+.bodyHome{
+    font-family: 'Lilita One', cursive;
+}
+
+/* Image Home Page */
+.LogoImg{  
+    width: 40vh;
+    margin-left: 45px;
+    margin-top: 50px;
+}
+
+/* Info logo Home Page */
+.infologo{
+    width: 5vh;
+    margin-left: 330px;
+    
+}
+
+/* Titre Home Page */
+.TitreSession{
+    text-align: center;
+    font-size: 50px;
+    margin-top: 60px; 
+    text-shadow: 2px 2px 0px black;
+
+}
+
+/* Boutton Home Page */
+.Button1{
+    font-family: 'cursive';
+    text-shadow: -1px -1px 0px ;
+    color: white;
+    font-weight: bold;
+    font-size:25px;
+    box-shadow: -3px -3px 0px #ca9307;
+    background:rgb(75, 73, 73);
+    background-size:100%;
+    border: 1px double orange;
+    display : block;
+    width:150px;
+    margin:5px auto; 
+    margin-bottom:10px;
+    margin-top: 50px; 
+    border-radius:3px;
+}
+
+.ButtonBack{
+    font-family: 'cursive';
+    text-shadow: -1px -1px 0px ;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    box-shadow: -3px -3px 0px #ca9307;
+    background:rgb(75, 73, 73);
+    background-size:100%;
+    border: 1px double orange;
+    border-radius: 3px;
+    margin: 3px;
+}

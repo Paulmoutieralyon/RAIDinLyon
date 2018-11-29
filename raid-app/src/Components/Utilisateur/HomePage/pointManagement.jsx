@@ -19,6 +19,9 @@ class pointManagement extends React.Component {
   }
 }
 
+
+
+
 const mapStateToProps = state => ({
   points: state.pointManagement.points
 })
