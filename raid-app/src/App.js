@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
-
 // Chemin 
-
 import HomePage from './Components/Utilisateur/HomePage/HomePage';
 import EnigmePage from './Components/Utilisateur/EnigmePage/EnigmePage';
 import MapPage from './Components/Utilisateur/MapPage/MapPage';
-
 import AddEgnimes from './Components/Admin/AddEgnimes';
 import AddTeam from './Components/Admin/AddTeam';
 import AdminComptes from './Components/Admin/AdminComptes';
@@ -16,8 +13,8 @@ import ListEgnimes from './Components/Admin/ListEgnimes';
 import ListSessionPage from './Components/Admin/ListSessionPage';
 import SessionPage from './Components/Admin/SessionPage';
 
-export default class App extends Component {
 
+export default class App extends Component {
 
   render() {
     return (

@@ -42,6 +42,19 @@ export default class EnigmePage extends React.Component {
         }
     };
 
+    indices = () => {
+        this.setState({ indiceNumber: this.state.indiceNumber + 1 })
+        if (this.state.indiceNumber === 0) {
+            this.setState({ indice: "Harry Potter" })
+        }
+        if (this.state.indiceNumber === 1) {
+            this.setState({ indice: "Pernelle" })
+        }
+        if (this.state.indiceNumber === 2) {
+            this.setState({ indice: "Amis de Albus, et Francais'" })
+        }
+    };
+
     isProposing = (e) => {
         this.setState({
             proposition: e.target.value
@@ -69,6 +82,7 @@ export default class EnigmePage extends React.Component {
 
             <div>
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
+                /*<img className="bontonInfo" src={Info} alt="" />*/
                 <img className='Infologo'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
                         <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                             <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
