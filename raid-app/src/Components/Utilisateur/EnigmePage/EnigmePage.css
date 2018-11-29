@@ -49,3 +49,8 @@ body{
 .TitreQuestion{
     text-align: center;
 }
+
+.bonton2{ 
+    
+    float: right;
+}
