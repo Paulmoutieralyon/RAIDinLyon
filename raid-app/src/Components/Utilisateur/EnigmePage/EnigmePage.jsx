@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Button } from 'reactstrap';
 import './EnigmePage.css';
@@ -8,7 +11,7 @@ import Faux from './faux.png';
 import Vrai from './vrai.png';
 import Vide from './Vide.png';
 
-export default class EnigmePage extends React.Component {
+export class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,11 +30,14 @@ export default class EnigmePage extends React.Component {
     isTrue = () => {
 
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
+            this.props.addPoints()
             this.setState({
                 final: Vrai
             })
+            
 
         } else {
+            this.props.removePoints()
             this.setState({
                 final: Faux
             })
@@ -45,6 +51,7 @@ export default class EnigmePage extends React.Component {
 
             <div>
                 <img className="bontonInfo" src={Info} />
+                <p className="points">{this.props.points} pts</p>
 
                 <img className="Illustration" src={Pierrephilosophale} />
                 <p className="Titre">Nicolas Flamel </p>
@@ -63,3 +70,16 @@ export default class EnigmePage extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({
+    points: state.pointManagement.points
+  })
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      addPoints: bindActionCreators( addPoint, dispatch),
+      removePoints: bindActionCreators( removePoint, dispatch)
+    }
+  
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);

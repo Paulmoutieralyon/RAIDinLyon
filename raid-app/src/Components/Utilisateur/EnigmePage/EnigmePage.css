@@ -28,3 +28,10 @@ body{
     border-color:green;
     border-radius: 3vmin;
 }
+
+.points{
+    font-size: 7vmin;
+    position: absolute;
+    margin-left: 7vmin;
+    margin-top: -5vmin;
+}

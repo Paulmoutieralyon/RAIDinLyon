@@ -1,14 +1,22 @@
-import 'bootstrap/dist/css/bootstrap.css';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { Provider } from 'react-redux'
+import allReducers from './Reducers/allReducers.jsx';
+import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
-import store from './Store/store'
+import { createStore } from 'redux';
+import App from './App';
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
+
+const store = createStore(allReducers);
+
+ReactDOM.render(
+<Provider store={store}>
+    <App />
+</Provider>, document.getElementById('root')
+);
 
 
 
