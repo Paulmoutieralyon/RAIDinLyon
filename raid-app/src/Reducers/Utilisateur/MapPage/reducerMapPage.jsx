@@ -1,3 +1,5 @@
+import { GET_POSITION } from '../../../Actions/Utilisateur/types'
+
 const initialState = {
     zoom: 13,
 
@@ -19,12 +21,19 @@ const initialState = {
     eg3: '"Les lettres de nulle part"',
     eg4: '"Le gardien des clés"',
     eg5: '"Le chemin de traverse"',
-    eg6: '"Rendez vous sur la voie 9 3/4"'
+    eg6: '"Rendez vous sur la voie 9 3/4"',
+
+    currentPosition: [0, 0],
 }
 
 export function reducerMapPage(state = initialState, action) {
     /* console.log(action) */
     switch (action.type) {
+        case GET_POSITION:
+        return {
+            ...state,
+            currentPosition:action.payload
+        }
         default:
             return state
     }

@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import './MapPage.css'
 import L from 'leaflet';
+import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 
 
 
@@ -138,7 +140,7 @@ class MapPage extends React.Component {
 
                     </Marker>
 
-                    {this.getDistance(currentPosition, position2) < 200 ?
+                    {this.getDistance(currentPosition, position2) >200 ?
                         <div>
                             <Circle
                                 center={this.state.currentPosition}
@@ -148,7 +150,7 @@ class MapPage extends React.Component {
                             />
                         </div> : ' '}
                 </Map>
-                {this.getDistance(currentPosition, position2) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
+                {this.getDistance(currentPosition, position2) > 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
                 
 
 
@@ -178,7 +180,9 @@ const mapStateToProps = state => ({
     eg3: state.reducerMapPage.eg2,
     eg4: state.reducerMapPage.eg3,
     eg5: state.reducerMapPage.eg4,
-    eg6: state.reducerMapPage.eg5
+    eg6: state.reducerMapPage.eg5,
+
+    currentPosition: state.reducerMapPage.currentPosition,
 })
 
 const iconRed = new L.Icon({
