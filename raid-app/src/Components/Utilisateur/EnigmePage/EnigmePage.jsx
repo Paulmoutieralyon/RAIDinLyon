@@ -46,18 +46,6 @@ export class EnigmePage extends React.Component {
         }
     };
 
-    indices = () => {
-        this.setState({ indiceNumber: this.state.indiceNumber + 1 })
-        if (this.state.indiceNumber === 0) {
-            this.setState({ indice: "Harry Potter" })
-        }
-        if (this.state.indiceNumber === 1) {
-            this.setState({ indice: "Pernelle" })
-        }
-        if (this.state.indiceNumber === 2) {
-            this.setState({ indice: "Amis de Albus, et Francais'" })
-        }
-    };
 
     isProposing = (e) => {
         this.setState({
@@ -92,7 +80,7 @@ export class EnigmePage extends React.Component {
                 <p className="points">{this.props.points} pts</p>
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
-                <img className='Infologo'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
+                <img className='Infologoegnime'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
                         <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                             <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
                             <ModalBody className='modaltexte'>
@@ -109,7 +97,7 @@ export class EnigmePage extends React.Component {
                     <Button color="primary" className={this.state.visibilite}>Valider</Button>
                     <img className="final" src={this.state.final} alt='' />
                     <Button onClick={this.indices} className="bonton2" >Indice</Button>
-                    {this.state.indice}
+                    <div className="Textindices">{this.state.indice}</div>
                 </AvForm>
             </div>
 
