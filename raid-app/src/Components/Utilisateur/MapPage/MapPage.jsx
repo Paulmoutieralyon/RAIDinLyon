@@ -13,18 +13,22 @@ class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            lat: null,
+            lng: null,
+            currentPosition: [0, 0],
+            nameMap: "tu es proche",
         }
     }
 
     componentDidMount = () => {
-        this.props.getPosition()
-        /*         navigator.geolocation.getCurrentPosition(location => {
-                    this.setState({
-                        lat: location.coords.latitude,
-                        lng: location.coords.longitude,
-                    })
-                    this.setState({ currentPosition: [this.state.lat, this.state.lng] })
-                }); */
+        navigator.geolocation.watchPosition(location => {
+            this.setState({
+                lat: location.coords.latitude,
+                lng: location.coords.longitude,
+            })
+            this.setState({ currentPosition: [this.state.lat, this.state.lng] })
+        });
+
     }
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
@@ -37,11 +41,13 @@ class MapPage extends React.Component {
         let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
         let c = 2 * Math.asin(Math.sqrt(a));
         let EARTH_RADIUS = 6371;
-        return c * EARTH_RADIUS;
+        return c * EARTH_RADIUS * 1000;
     }
     toRadian(degrees) {
         return degrees * Math.PI / 180;
     }
+
+
 
     render() {
 
@@ -59,12 +65,11 @@ class MapPage extends React.Component {
         const enigme3 = [this.props.eg3];
         const enigme4 = [this.props.eg4];
         const enigme5 = [this.props.eg5];
-        const enigme6 = [this.props.eg6];
-
+        const enigme6 = [this.props.eg6]
         return (
             <div>
+
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <p className="TitreMapPage"> SUR LES TRACES DE NICOLAS FLAMEL</p>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -74,63 +79,83 @@ class MapPage extends React.Component {
                         <Popup>
                             <span>{enigme1}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+
                         </Popup>
+                        <Circle
+                            center={position1}
+                        />
                     </Marker>
                     <Marker icon={iconRed} position={position2}>
                         <Popup>
                             <span>{enigme2}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
+                        <Circle
+                            center={position2}
+                        />
                     </Marker>
                     <Marker icon={iconRed} position={position3}>
                         <Popup>
                             <span>{enigme3} <br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
+                        <Circle
+                            center={position3}
+
+                        />
                     </Marker>
                     <Marker icon={iconRed} position={position4}>
                         <Popup>
                             <span>{enigme4}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
+                        <Circle
+                            center={position4}
+                        />
                     </Marker>
                     <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>{enigme5}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
+                        <Circle
+                            center={position5}
+                        />
                     </Marker>
                     <Marker icon={iconRed} position={position6}>
                         <Popup>
                             <span>{enigme6}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
+                        <Circle
+                            center={position6}
+
+                        />
                     </Marker>
-                    <Marker icon={iconBlack} position={this.props.currentPosition}>
+                    <Marker icon={iconBlack} position={this.state.currentPosition}>
                         <Popup>
                             <span>{enigme6}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
-                        <Circle
-                            center={this.props.currentPosition}
-                            fillColor="blue"
-                            radius={200} />
+
                     </Marker>
+
+                    {this.getDistance(currentPosition, position2) >200 ?
+                        <div>
+                            <Circle
+                                center={this.state.currentPosition}
+                                fillColor="purple"
+                                radius={200}
+
+                            />
+                        </div> : ' '}
                 </Map>
-                <p>{this.getDistance(this.props.currentPosition, position4)}</p>
-                <div>
-                    {this.getDistance(this.props.currentPosition, position4) < 600000 ? 'near' : 'far'} logged in.
-                </div>
+                {this.getDistance(currentPosition, position2) > 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
+                
+
+
             </div>
         );
-    }
-}
-
-/* const mapDispatchToProps = dispatch => ({bindActionCreators({ getPosition }, dispatch)}) */
-
-const mapDispatchToProps = dispatch => {
-    return {
-        getPosition: bindActionCreators(getPosition, dispatch)
     }
 }
 
@@ -177,4 +202,4 @@ const iconGreen = new L.Icon({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapPage)
+export default connect(mapStateToProps)(MapPage)
