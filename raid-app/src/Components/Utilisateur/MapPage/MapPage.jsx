@@ -1,29 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import './MapPage.css'
 import L from 'leaflet';
+import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
+import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
+
 
 class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lat: null,
-            lng: null,
-            currentPosition: [0, 0],
-            title: ''
         }
     }
 
     componentDidMount = () => {
-        navigator.geolocation.getCurrentPosition(location => {
-            this.setState({
-                lat: location.coords.latitude,
-                lng: location.coords.longitude,
-            })
-            this.setState({ currentPosition: [this.state.lat, this.state.lng] })
-        });
+        this.props.getPosition()
+        /*         navigator.geolocation.getCurrentPosition(location => {
+                    this.setState({
+                        lat: location.coords.latitude,
+                        lng: location.coords.longitude,
+                    })
+                    this.setState({ currentPosition: [this.state.lat, this.state.lng] })
+                }); */
+
+
     }
 
     getDistance(distance1, currentPosition) {
@@ -34,21 +37,23 @@ class MapPage extends React.Component {
         let deltaLat = lat2 - lat1;
         let deltaLon = lon2 - lon1;
 
+
         let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
         let c = 2 * Math.asin(Math.sqrt(a));
         let EARTH_RADIUS = 6371;
         return c * EARTH_RADIUS;
     }
-
     toRadian(degrees) {
         return degrees * Math.PI / 180;
     }
 
+
+
     render() {
+       /*  const boolTitle = this.props.addPoint ? this.props.titleMain : this.props.title
+        this.props.removePoints() */
 
         const currentPosition = [this.state.lat, this.state.lng];
-
-
 
         const position1 = [this.props.lat1, this.props.lng1];
         const position2 = [this.props.lat2, this.props.lng2];
@@ -62,23 +67,21 @@ class MapPage extends React.Component {
         const enigme3 = [this.props.eg3];
         const enigme4 = [this.props.eg4];
         const enigme5 = [this.props.eg5];
-        const enigme6 = [this.props.eg6]
+        const enigme6 = [this.props.eg6];
 
         return (
             <div>
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <h1 style={{ color: 'black' }}>{this.state.title}</h1>
+                <p className="TitreMapPage"> {this.props.title}</p>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                     />
-
                     <Marker icon={iconRed} position={position1}>
                         <Popup>
                             <span>{enigme1}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-
                         </Popup>
                     </Marker>
                     <Marker icon={iconRed} position={position2}>
@@ -111,24 +114,33 @@ class MapPage extends React.Component {
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                     </Marker>
-                    <Marker icon={iconBlack} position={this.state.currentPosition}>
+                    <Marker icon={iconBlack} position={this.props.currentPosition}>
                         <Popup>
                             <span>{enigme6}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
                         <Circle
-                            center={this.state.currentPosition}
+                            center={this.props.currentPosition}
                             fillColor="blue"
-                            radius={200}
-                        />
+                            radius={200} />
                     </Marker>
                 </Map>
-                <p>{this.getDistance(currentPosition, position4)}</p>
+                <p>{this.getDistance(this.props.currentPosition, position4)}</p>
                 <div>
-                    {this.getDistance(currentPosition, position4) < 600000 ? 'near' : 'far'} logged in.
-            </div>
+                    {this.getDistance(this.props.currentPosition, position4) < 600000 ? 'near' : 'far'} logged in.
+                </div>
             </div>
         );
+    }
+}
+
+/* const mapDispatchToProps = dispatch => ({bindActionCreators({ getPosition }, dispatch)}) */
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getPosition: bindActionCreators(getPosition, dispatch),
+        addPoints: bindActionCreators(addPoint, dispatch),
+        removePoints: bindActionCreators(removePoint, dispatch)
     }
 }
 
@@ -155,6 +167,9 @@ const mapStateToProps = state => ({
     eg5: state.reducerMapPage.eg4,
     eg6: state.reducerMapPage.eg5,
 
+    currentPosition: state.reducerMapPage.currentPosition,
+
+    title: state.pointManagement.title,
 })
 
 const iconRed = new L.Icon({
@@ -174,4 +189,4 @@ const iconGreen = new L.Icon({
 });
 
 
-export default connect(mapStateToProps)(MapPage)
+export default connect(mapStateToProps, mapDispatchToProps)(MapPage)

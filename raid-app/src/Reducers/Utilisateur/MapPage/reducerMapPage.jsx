@@ -1,3 +1,5 @@
+import { GET_POSITION } from '../../../Actions/Utilisateur/types'
+
 const initialState = {
     zoom: 13,
 
@@ -21,14 +23,17 @@ const initialState = {
     eg5: '"Le chemin de traverse"',
     eg6: '"Rendez vous sur la voie 9 3/4"',
 
-    titleMain: 'Sur les traces de Nicolas Flamel',
-    title1: 'Bravo, rendez-vous à une nouvelle énigme',
-    titleEnd: 'Bravo, tu as repondu à toutes les énigmes ! Rends toi au point final',
+    currentPosition: [0, 0],
 }
 
 export function reducerMapPage(state = initialState, action) {
     /* console.log(action) */
     switch (action.type) {
+        case GET_POSITION:
+        return {
+            ...state,
+            currentPosition:action.payload
+        }
         default:
             return state
     }
