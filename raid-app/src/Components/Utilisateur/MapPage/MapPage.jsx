@@ -7,28 +7,23 @@ import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 
-
-
 class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lat: null,
-            lng: null,
-            currentPosition: [0, 0],
             nameMap: "tu es proche",
         }
     }
 
     componentDidMount = () => {
-        navigator.geolocation.watchPosition(location => {
-            this.setState({
-                lat: location.coords.latitude,
-                lng: location.coords.longitude,
-            })
-            this.setState({ currentPosition: [this.state.lat, this.state.lng] })
-        });
-
+        this.props.getPosition()
+        /*         navigator.geolocation.getCurrentPosition(location => {
+                    this.setState({
+                        lat: location.coords.latitude,
+                        lng: location.coords.longitude,
+                    })
+                    this.setState({ currentPosition: [this.state.lat, this.state.lng] })
+                }); */
     }
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
@@ -50,8 +45,6 @@ class MapPage extends React.Component {
 
 
     render() {
-
-        const currentPosition = [this.state.lat, this.state.lng];
 
         const position1 = [this.props.lat1, this.props.lng1];
         const position2 = [this.props.lat2, this.props.lng2];
@@ -82,81 +75,72 @@ class MapPage extends React.Component {
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
 
                         </Popup>
-                        <Circle
-                            center={position1}
-                        />
                     </Marker>
                     <Marker icon={iconRed} position={position2}>
                         <Popup>
                             <span>{enigme2}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
-                        <Circle
-                            center={position2}
-                        />
                     </Marker>
                     <Marker icon={iconRed} position={position3}>
                         <Popup>
                             <span>{enigme3} <br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
-                        <Circle
-                            center={position3}
-
-                        />
                     </Marker>
                     <Marker icon={iconRed} position={position4}>
                         <Popup>
                             <span>{enigme4}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
-                        <Circle
-                            center={position4}
-                        />
                     </Marker>
                     <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>{enigme5}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme5</button> </NavLink>
                         </Popup>
-                        <Circle
-                            center={position5}
-                        />
                     </Marker>
                     <Marker icon={iconRed} position={position6}>
                         <Popup>
                             <span>{enigme6}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
-                        <Circle
-                            center={position6}
-
-                        />
                     </Marker>
-                    <Marker icon={iconBlack} position={this.state.currentPosition}>
+                    <Marker icon={iconBlack} position={this.props.currentPosition}>
                         <Popup>
                             <span>{enigme6}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
                         </Popup>
-
+                        <Circle
+                            center={this.props.currentPosition}
+                            fillColor="blue"
+                            radius={200} />
                     </Marker>
 
-                    {this.getDistance(currentPosition, position2) < 200 ?
+                    {this.getDistance(this.props.currentPosition, position2) < 200 ?
                         <div>
                             <Circle
-                                center={this.state.currentPosition}
+                                center={this.props.currentPosition}
                                 fillColor="purple"
                                 radius={200}
 
                             />
                         </div> : ' '}
                 </Map>
-                {this.getDistance(currentPosition, position2) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
-                
+                {this.getDistance(this.props.currentPosition, position2) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
+
 
 
             </div>
         );
+    }
+}
+
+/* const mapDispatchToProps = dispatch => ({bindActionCreators({ getPosition }, dispatch)}) */
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getPosition: bindActionCreators(getPosition, dispatch)
     }
 }
 
@@ -175,7 +159,6 @@ const mapStateToProps = state => ({
     lat6: state.reducerMapPage.lat6,
     lng6: state.reducerMapPage.lng6,
 
-    //nom énigme
     eg1: state.reducerMapPage.eg1,
     eg2: state.reducerMapPage.eg2,
     eg3: state.reducerMapPage.eg2,
@@ -194,7 +177,7 @@ const iconRed = new L.Icon({
 const iconBlack = new L.Icon({
     iconUrl: require('./map-default-black.png'),
     iconRetinaUrl: require('./map-default-black.png'),
-    iconSize: [50, 50],
+    iconSize: [50, 100],
 });
 const iconGreen = new L.Icon({
     iconUrl: require('./map-default-green.png'),
@@ -203,4 +186,4 @@ const iconGreen = new L.Icon({
 });
 
 
-export default connect(mapStateToProps)(MapPage)
+export default connect(mapStateToProps, mapDispatchToProps)(MapPage)
