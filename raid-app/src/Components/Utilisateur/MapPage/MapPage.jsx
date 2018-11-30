@@ -70,6 +70,7 @@ class MapPage extends React.Component {
             <div>
 
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
+                <h3 className="TitreMapePage">Allez à la l'énigme</h3>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -116,7 +117,7 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>{enigme5}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme5</button> </NavLink>
                         </Popup>
                         <Circle
                             center={position5}
@@ -140,7 +141,7 @@ class MapPage extends React.Component {
 
                     </Marker>
 
-                    {this.getDistance(currentPosition, position2) >200 ?
+                    {this.getDistance(currentPosition, position2) < 200 ?
                         <div>
                             <Circle
                                 center={this.state.currentPosition}
@@ -150,7 +151,7 @@ class MapPage extends React.Component {
                             />
                         </div> : ' '}
                 </Map>
-                {this.getDistance(currentPosition, position2) > 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
+                {this.getDistance(currentPosition, position2) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
                 
 
 
