@@ -46,27 +46,16 @@ export class EnigmePage extends React.Component {
         }
     };
 
-    indices = () => {
-        this.setState({ indiceNumber: this.state.indiceNumber + 1 })
-        if (this.state.indiceNumber === 0) {
-            this.setState({ indice: "Harry Potter" })
-        }
-        if (this.state.indiceNumber === 1) {
-            this.setState({ indice: "Pernelle" })
-        }
-        if (this.state.indiceNumber === 2) {
-            this.setState({ indice: "Amis de Albus, et Francais'" })
-        }
-    };
-
+/* Fonction qui récupère la proposition de réponse a l'énigme en input */
     isProposing = (e) => {
         this.setState({
             proposition: e.target.value
         });
     }
 
-    isTrue = () => {
 
+/* Fonction qui gère la bonne ou mauvaise réponse */    
+    isTrue = () => {
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
             this.setState({

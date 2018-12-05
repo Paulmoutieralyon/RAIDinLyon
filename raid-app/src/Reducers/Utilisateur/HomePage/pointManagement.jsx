@@ -1,4 +1,3 @@
-
 const pointManagement = (state = { points: 0 }, action) => {
     let pts;
     switch (action.type) {
