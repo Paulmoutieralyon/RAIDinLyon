@@ -1,4 +1,4 @@
-.map{
+.map {
     height: 500px;
     margin-top: 30px;
     margin-left: 10px;
@@ -7,13 +7,24 @@
     border: 2px solid black;
 }
 
-.TitreMapPage{
-    font-family: 'Lilita One', cursive;
-    margin-top: 25px;
+.ProximitéMessage {
+    color: white;
     text-align: center;
-    text-shadow: 2px 2px 3px white;
-    font-size: 40px;
+    font-size: 25px;
+    background: black;
+    opacity: 0.9;
+    border-radius: 16px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    box-shadow: 3px -3px 0px #ca9307;
+
 }
-h1{
-    color: transparent;
+
+.TitreMapePage{
+    font-size:  30px;
+    text-align: center;
+    font-family: 'cursive';
+
 }

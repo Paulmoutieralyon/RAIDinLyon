@@ -47,6 +47,7 @@ export class EnigmePage extends React.Component {
     };
 
 /* Fonction qui récupère la proposition de réponse a l'énigme en input */
+
     isProposing = (e) => {
         this.setState({
             proposition: e.target.value
@@ -81,7 +82,7 @@ export class EnigmePage extends React.Component {
                 <p className="points">{this.props.points} pts</p>
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
-                <img className='Infologo'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
+                <img className='Infologoegnime'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
                         <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                             <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
                             <ModalBody className='modaltexte'>
@@ -98,7 +99,7 @@ export class EnigmePage extends React.Component {
                     <Button color="primary" className={this.state.visibilite}>Valider</Button>
                     <img className="final" src={this.state.final} alt='' />
                     <Button onClick={this.indices} className="bonton2" >Indice</Button>
-                    {this.state.indice}
+                    <div className="Textindices">{this.state.indice}</div>
                 </AvForm>
             </div>
 
