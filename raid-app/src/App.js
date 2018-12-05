@@ -4,14 +4,16 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import HomePage from './Components/Utilisateur/HomePage/HomePage';
 import EnigmePage from './Components/Utilisateur/EnigmePage/EnigmePage';
 import MapPage from './Components/Utilisateur/MapPage/MapPage';
-import AddEgnimes from './Components/Admin/AddEgnimes';
-import AddTeam from './Components/Admin/AddTeam';
-import AdminComptes from './Components/Admin/AdminComptes';
-import Classement from './Components/Admin/Classement';
-import Connexion from './Components/Admin/Connexion';
-import ListEgnimes from './Components/Admin/ListEgnimes';
-import ListSessionPage from './Components/Admin/ListSessionPage';
-import SessionPage from './Components/Admin/SessionPage';
+import AddEgnimes from './Components/Admin/Enigmes/AddEgnimes';
+import AddTeam from './Components/Admin/Equipes/AddTeam';
+import ListTeam from './Components/Admin/Equipes/ListTeam';
+import AdminComptes from './Components/Admin/Administrateurs/AdminComptes';
+import AddAdmin from './Components/Admin/Administrateurs/AddAdmin'
+import Classement from './Components/Admin/Equipes/Classement';
+import ConnexionAdmin from './Components/Admin/Connexion/ConnexionAdmin';
+import ListEgnimes from './Components/Admin/Enigmes/ListEgnimes';
+import ListSessionPage from './Components/Admin/Sessions/ListSessionPage';
+import SessionPage from './Components/Admin/Sessions/SessionPage';
 
 
 export default class App extends Component {
@@ -26,9 +28,11 @@ export default class App extends Component {
             <Route path="/EnigmePage" component={EnigmePage} />
             <Route path="/MapPage/" component={MapPage} />
 
-            <Route exact path="/Admin" component={Connexion} />
+            <Route exact path="/Admin" component={ConnexionAdmin} />
             <Route path="/Admin/AddTeam" component={AddTeam} />
+            <Route path="/Admin/ListTeam" component={ListTeam}/>
             <Route path="/Admin/AdminComptes" component={AdminComptes} />
+            <Route path="/Admin/AddAdmin" component={AddAdmin} />
             <Route path="/Admin/Classement" component={Classement} />
             <Route path="/Admin/ListEgnimes" component={ListEgnimes} />
             <Route path="/Admin/ListSessionPage" component={ListSessionPage} />

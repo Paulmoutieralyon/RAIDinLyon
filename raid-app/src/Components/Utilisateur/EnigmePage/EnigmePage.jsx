@@ -46,6 +46,7 @@ export class EnigmePage extends React.Component {
         }
     };
 
+/* Fonction qui récupère la proposition de réponse a l'énigme en input */
 
     isProposing = (e) => {
         this.setState({
@@ -53,8 +54,9 @@ export class EnigmePage extends React.Component {
         });
     }
 
-    isTrue = () => {
 
+/* Fonction qui gère la bonne ou mauvaise réponse */    
+    isTrue = () => {
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
             this.setState({
