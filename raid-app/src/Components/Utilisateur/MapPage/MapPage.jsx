@@ -6,7 +6,7 @@ import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
-import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
+import { goodTitle, badTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
 
 
 class MapPage extends React.Component {
@@ -50,8 +50,6 @@ class MapPage extends React.Component {
 
 
     render() {
-       /*  const boolTitle = this.props.addPoint ? this.props.titleMain : this.props.title
-        this.props.removePoints() */
 
         const currentPosition = [this.state.lat, this.state.lng];
 
@@ -139,8 +137,9 @@ class MapPage extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
-        addPoints: bindActionCreators(addPoint, dispatch),
-        removePoints: bindActionCreators(removePoint, dispatch)
+        goodTitle: bindActionCreators(goodTitle, dispatch),
+        badTitle: bindActionCreators(badTitle, dispatch)
+
     }
 }
 
@@ -169,7 +168,7 @@ const mapStateToProps = state => ({
 
     currentPosition: state.reducerMapPage.currentPosition,
 
-    title: state.pointManagement.title,
+    title: state.titleManagement.title,
 })
 
 const iconRed = new L.Icon({

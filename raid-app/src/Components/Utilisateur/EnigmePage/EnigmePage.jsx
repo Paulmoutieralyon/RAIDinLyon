@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
+import { goodTitle, badTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
+
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { NavLink } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
@@ -71,6 +73,7 @@ export class EnigmePage extends React.Component {
 
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
+            this.props.goodTitle()
             this.setState({
                 final: Vrai,
                 visibilite: "invisible"
@@ -79,6 +82,7 @@ export class EnigmePage extends React.Component {
 
         } else {
             this.props.removePoints()
+            this.props.badTitle()
             this.setState({
                 final: Faux
             })
@@ -120,13 +124,16 @@ export class EnigmePage extends React.Component {
 
 const mapStateToProps = state => ({
     points: state.pointManagement.points,
-    title: state.pointManagement.title
+    //title: state.pointManagement.title
+    title: state.titleManagement.title
 })
 
 const mapDispatchToProps = dispatch => {
     return {
         addPoints: bindActionCreators(addPoint, dispatch),
-        removePoints: bindActionCreators(removePoint, dispatch)
+        removePoints: bindActionCreators(removePoint, dispatch),
+        goodTitle: bindActionCreators(goodTitle, dispatch),
+        badTitle: bindActionCreators(badTitle, dispatch)
     }
 
 };

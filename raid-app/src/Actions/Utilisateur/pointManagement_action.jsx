@@ -1,12 +1,11 @@
-const addPoint = (points, title) => ({
+const addPoint = (points) => ({
     type: 'ADD_POINTS',
-    points, title
-    
+    points
 });
 
-const removePoint = (points, title) => ({
+const removePoint = (points) => ({
     type: 'REMOVE_POINTS',
-    points, title
+    points
 });
 
-export {addPoint, removePoint};
+export { addPoint, removePoint };
