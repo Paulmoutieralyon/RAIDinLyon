@@ -21,7 +21,7 @@ const pointManagement = (state = { points: 0, /* title: 'Sur les traces de Nicol
 
         default:
             return state
-    };
+    }
 
 }
 

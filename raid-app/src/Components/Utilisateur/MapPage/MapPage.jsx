@@ -6,7 +6,7 @@ import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
-import { goodTitle, badTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
+import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
 
 
 class MapPage extends React.Component {
@@ -138,7 +138,8 @@ const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
         goodTitle: bindActionCreators(goodTitle, dispatch),
-        badTitle: bindActionCreators(badTitle, dispatch)
+        badTitle: bindActionCreators(badTitle, dispatch),
+        actualTitle: bindActionCreators(actualTitle, dispatch),
 
     }
 }
