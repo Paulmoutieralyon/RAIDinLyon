@@ -77,7 +77,6 @@ export class EnigmePage extends React.Component {
             this.props.addPoints()
             this.props.goodTitle()
             
-
             setTimeout(() => {
                 console.log("lmjmkjmjmkj")
                 this.props.actualTitle()
@@ -92,6 +91,12 @@ export class EnigmePage extends React.Component {
         } else {
             this.props.removePoints()
             this.props.badTitle()
+
+            setTimeout(() => {
+                console.log("lmjmkjmjmkj")
+                this.props.actualTitle()
+            }, 8000);
+
             this.setState({
                 final: Faux
             })
