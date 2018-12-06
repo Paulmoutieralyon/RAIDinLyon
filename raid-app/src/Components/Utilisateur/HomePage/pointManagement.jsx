@@ -28,8 +28,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addPoints: bindActionCreators(addPoint, dispatch),
-    removePoints: bindActionCreators(removePoint, dispatch)
+    addPoints: bindActionCreators( addPoint, dispatch),
+    removePoints: bindActionCreators( removePoint, dispatch)
   }
 
 };

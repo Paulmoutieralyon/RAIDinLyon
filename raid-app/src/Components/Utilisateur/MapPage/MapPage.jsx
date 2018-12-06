@@ -13,6 +13,7 @@ class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            nameMap: "tu es proche",
         }
     }
 
@@ -25,8 +26,6 @@ class MapPage extends React.Component {
                     })
                     this.setState({ currentPosition: [this.state.lat, this.state.lng] })
                 }); */
-
-
     }
 
     getDistance(distance1, currentPosition) {
@@ -41,7 +40,7 @@ class MapPage extends React.Component {
         let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
         let c = 2 * Math.asin(Math.sqrt(a));
         let EARTH_RADIUS = 6371;
-        return c * EARTH_RADIUS;
+        return c * EARTH_RADIUS * 1000;
     }
     toRadian(degrees) {
         return degrees * Math.PI / 180;
@@ -50,8 +49,6 @@ class MapPage extends React.Component {
 
 
     render() {
-
-        const currentPosition = [this.state.lat, this.state.lng];
 
         const position1 = [this.props.lat1, this.props.lng1];
         const position2 = [this.props.lat2, this.props.lng2];
@@ -65,10 +62,10 @@ class MapPage extends React.Component {
         const enigme3 = [this.props.eg3];
         const enigme4 = [this.props.eg4];
         const enigme5 = [this.props.eg5];
-        const enigme6 = [this.props.eg6];
-
+        const enigme6 = [this.props.eg6]
         return (
             <div>
+
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
                 <p className="TitreMapPage"> {this.props.title}</p>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
@@ -103,7 +100,7 @@ class MapPage extends React.Component {
                     <Marker icon={iconRed} position={position5}>
                         <Popup>
                             <span>{enigme5}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme5</button> </NavLink>
                         </Popup>
                     </Marker>
                     <Marker icon={iconRed} position={position6}>
@@ -122,11 +119,21 @@ class MapPage extends React.Component {
                             fillColor="blue"
                             radius={200} />
                     </Marker>
+
+                    {this.getDistance(this.props.currentPosition, position2) < 200 ?
+                        <div>
+                            <Circle
+                                center={this.props.currentPosition}
+                                fillColor="purple"
+                                radius={200}
+
+                            />
+                        </div> : ' '}
                 </Map>
-                <p>{this.getDistance(this.props.currentPosition, position4)}</p>
-                <div>
-                    {this.getDistance(this.props.currentPosition, position4) < 600000 ? 'near' : 'far'} logged in.
-                </div>
+                {this.getDistance(this.props.currentPosition, position2) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
+
+
+
             </div>
         );
     }
@@ -159,7 +166,6 @@ const mapStateToProps = state => ({
     lat6: state.reducerMapPage.lat6,
     lng6: state.reducerMapPage.lng6,
 
-    //nom énigme
     eg1: state.reducerMapPage.eg1,
     eg2: state.reducerMapPage.eg2,
     eg3: state.reducerMapPage.eg2,
@@ -180,7 +186,7 @@ const iconRed = new L.Icon({
 const iconBlack = new L.Icon({
     iconUrl: require('./map-default-black.png'),
     iconRetinaUrl: require('./map-default-black.png'),
-    iconSize: [50, 50],
+    iconSize: [50, 100],
 });
 const iconGreen = new L.Icon({
     iconUrl: require('./map-default-green.png'),

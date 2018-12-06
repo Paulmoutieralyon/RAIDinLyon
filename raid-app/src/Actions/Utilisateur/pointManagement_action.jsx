@@ -8,4 +8,4 @@ const removePoint = (points) => ({
     points
 });
 
-export { addPoint, removePoint };
+export {addPoint, removePoint};

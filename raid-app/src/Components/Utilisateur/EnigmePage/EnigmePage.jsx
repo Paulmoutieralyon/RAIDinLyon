@@ -62,6 +62,7 @@ export class EnigmePage extends React.Component {
             this.setState({ indice: "Amis de Albus, et Francais'" })
         }
     };
+/* Fonction qui récupère la proposition de réponse a l'énigme en input */
 
     isProposing = (e) => {
         this.setState({
@@ -69,8 +70,9 @@ export class EnigmePage extends React.Component {
         });
     }
 
-    isTrue = () => {
 
+/* Fonction qui gère la bonne ou mauvaise réponse */    
+    isTrue = () => {
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
             this.props.goodTitle()
@@ -104,12 +106,12 @@ export class EnigmePage extends React.Component {
                 <p className="points">{this.props.points} pts</p>
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
-                <img className='Infologo' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
-                <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
-                    <ModalBody className='modaltexte'>
-                        Ne parlez pas trop fort ! les murs sont sensibles ^^     </ModalBody>
-                </Modal>
+                <img className='Infologoegnime'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
+                        <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
+                            <ModalBody className='modaltexte'>
+                       Ne parlez pas trop fort ! les murs sont sensibles ^^     </ModalBody>
+                        </Modal>
 
                 <img className="Illustration" src={Pierrephilosophale} alt='' />
                 <p className="Titre">Nicolas Flamel </p>
@@ -121,7 +123,7 @@ export class EnigmePage extends React.Component {
                     <Button color="primary" className={this.state.visibilite}>Valider</Button>
                     <img className="final" src={this.state.final} alt='' />
                     <Button onClick={this.indices} className="bonton2" >Indice</Button>
-                    {this.state.indice}
+                    <div className="Textindices">{this.state.indice}</div>
                 </AvForm>
             </div>
 
@@ -146,4 +148,4 @@ const mapDispatchToProps = dispatch => {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);
+  export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);
