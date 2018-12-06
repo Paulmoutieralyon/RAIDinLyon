@@ -23,8 +23,11 @@
 }
 
 .TitreMapePage{
-    font-size:  30px;
+    /* font-size:  30px;
     text-align: center;
-    font-family: 'cursive';
+    font-family: 'cursive'; */
+    font-family: 'Lilita One', cursive;
+    text-align: center;
+    font-size: 10vmin;
 
 }

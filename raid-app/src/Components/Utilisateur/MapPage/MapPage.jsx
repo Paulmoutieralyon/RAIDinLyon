@@ -6,6 +6,8 @@ import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
+import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
+
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -25,6 +27,7 @@ class MapPage extends React.Component {
                     this.setState({ currentPosition: [this.state.lat, this.state.lng] })
                 }); */
     }
+
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
             lat1 = this.toRadian(distance1[1]),
@@ -32,6 +35,7 @@ class MapPage extends React.Component {
             lat2 = this.toRadian(currentPosition[1]);
         let deltaLat = lat2 - lat1;
         let deltaLon = lon2 - lon1;
+
 
         let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
         let c = 2 * Math.asin(Math.sqrt(a));
@@ -63,7 +67,7 @@ class MapPage extends React.Component {
             <div>
 
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <h3 className="TitreMapePage">Allez à la l'énigme</h3>
+                <p className="TitreMapPage"> {this.props.title}</p>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -73,7 +77,6 @@ class MapPage extends React.Component {
                         <Popup>
                             <span>{enigme1}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-
                         </Popup>
                     </Marker>
                     <Marker icon={iconRed} position={position2}>
@@ -140,7 +143,11 @@ class MapPage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getPosition: bindActionCreators(getPosition, dispatch)
+        getPosition: bindActionCreators(getPosition, dispatch),
+        goodTitle: bindActionCreators(goodTitle, dispatch),
+        badTitle: bindActionCreators(badTitle, dispatch),
+        actualTitle: bindActionCreators(actualTitle, dispatch),
+
     }
 }
 
@@ -167,6 +174,8 @@ const mapStateToProps = state => ({
     eg6: state.reducerMapPage.eg5,
 
     currentPosition: state.reducerMapPage.currentPosition,
+
+    title: state.titleManagement.title,
 })
 
 const iconRed = new L.Icon({

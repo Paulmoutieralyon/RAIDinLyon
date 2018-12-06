@@ -30,7 +30,7 @@ export default class App extends Component {
 
             <Route exact path="/Admin" component={ConnexionAdmin} />
             <Route path="/Admin/AddTeam" component={AddTeam} />
-            <Route path="/Admin/ListTeam" component={ListTeam}/>
+            <Route path="/Admin/ListTeam" component={ListTeam} />
             <Route path="/Admin/AdminComptes" component={AdminComptes} />
             <Route path="/Admin/AddAdmin" component={AddAdmin} />
             <Route path="/Admin/Classement" component={Classement} />

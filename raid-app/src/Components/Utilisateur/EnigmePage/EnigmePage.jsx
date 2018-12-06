@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
+import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
+
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { NavLink } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
@@ -23,10 +25,12 @@ export class EnigmePage extends React.Component {
             modal: false,
             indice: null,
             indiceNumber: 0,
-            visibilite:"visible"
+            visibilite: "visible",
         };
         this.toggle = this.toggle.bind(this);
     }
+
+
     toggle() {
         this.setState({
             modal: !this.state.modal
@@ -46,6 +50,18 @@ export class EnigmePage extends React.Component {
         }
     };
 
+    indices = () => {
+        this.setState({ indiceNumber: this.state.indiceNumber + 1 })
+        if (this.state.indiceNumber === 0) {
+            this.setState({ indice: "Harry Potter" })
+        }
+        if (this.state.indiceNumber === 1) {
+            this.setState({ indice: "Pernelle" })
+        }
+        if (this.state.indiceNumber === 2) {
+            this.setState({ indice: "Amis de Albus, et Francais'" })
+        }
+    };
 /* Fonction qui récupère la proposition de réponse a l'énigme en input */
 
     isProposing = (e) => {
@@ -59,14 +75,28 @@ export class EnigmePage extends React.Component {
     isTrue = () => {
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
+            this.props.goodTitle()
+            
+            setTimeout(() => {
+                console.log("lmjmkjmjmkj")
+                this.props.actualTitle()
+            }, 8000); 
+
             this.setState({
                 final: Vrai,
-                visibilite:"invisible"
+                visibilite: "invisible"
             })
-            
+
 
         } else {
             this.props.removePoints()
+            this.props.badTitle()
+
+            setTimeout(() => {
+                console.log("lmjmkjmjmkj")
+                this.props.actualTitle()
+            }, 8000);
+
             this.setState({
                 final: Faux
             })
@@ -75,7 +105,6 @@ export class EnigmePage extends React.Component {
     }
 
     render() {
-
         return (
 
             <div>
@@ -108,15 +137,20 @@ export class EnigmePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    points: state.pointManagement.points
-  })
-  
-  const mapDispatchToProps = dispatch => {
+    points: state.pointManagement.points,
+    //title: state.pointManagement.title
+    title: state.titleManagement.title
+})
+
+const mapDispatchToProps = dispatch => {
     return {
-      addPoints: bindActionCreators( addPoint, dispatch),
-      removePoints: bindActionCreators( removePoint, dispatch)
+        addPoints: bindActionCreators(addPoint, dispatch),
+        removePoints: bindActionCreators(removePoint, dispatch),
+        goodTitle: bindActionCreators(goodTitle, dispatch),
+        badTitle: bindActionCreators(badTitle, dispatch),
+        actualTitle: bindActionCreators(actualTitle, dispatch),
     }
-  
-  };
-  
+
+};
+
   export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);
