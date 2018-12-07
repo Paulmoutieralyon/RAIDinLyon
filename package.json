@@ -1,0 +1,20 @@
+{
+    "name": "my-first-own-mern",
+    "version": "1.0.0",
+    "scripts": {
+        "setdb" : "mongo RAIDinLyon --eval db.enigme.drop() && mongo RAIDinLyon --eval db.marker.drop()",
+        "client": "cd raid-app && yarn start",
+        "server": "nodemon server.js",
+        "database" : "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json",
+        "dev": "concurrently --kill-others-on-fail \"yarn setdb\" \"yarn server\" \"yarn client\" \"yarn database\""
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "mongoose": "^5.3.14"
+    },
+    "devDependencies": {
+        "concurrently": "^4.1.0"
+    },
+    "proxy": "http://localhost:5000/"
+}

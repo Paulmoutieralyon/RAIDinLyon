@@ -12,18 +12,28 @@ class MapPage extends React.Component {
         super(props);
         this.state = {
             nameMap: "tu es proche",
+
+            //va y avoir la DB après
+            id: 0,
+            position: [0, 0]
         }
     }
 
     componentDidMount = () => {
         this.props.getPosition()
-        /*         navigator.geolocation.getCurrentPosition(location => {
-                    this.setState({
-                        lat: location.coords.latitude,
-                        lng: location.coords.longitude,
-                    })
-                    this.setState({ currentPosition: [this.state.lat, this.state.lng] })
-                }); */
+
+
+        fetch("http://localhost:5000/api/markers")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
+            })
+            .then(data => {
+                this.setState({
+                    id: data[0].id,
+                    position: data[0].position,
+                })
+            })
+
     }
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
@@ -73,7 +83,6 @@ class MapPage extends React.Component {
                         <Popup>
                             <span>{enigme1}<br /></span>
                             <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-
                         </Popup>
                     </Marker>
                     <Marker icon={iconRed} position={position2}>

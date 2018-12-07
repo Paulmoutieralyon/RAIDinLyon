@@ -17,16 +17,45 @@ export class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            reponse: ["la pierre philosophale", "pierre philosophale"],
             proposition: "",
             final: Vide,
             modal: false,
             indice: null,
             indiceNumber: 0,
-            visibilite:"visible"
+            visibilite: "visible",
+
+
+            markernumber: null,
+            //Les états qu'on l'on fetchera
+            question: null,
+            titre: null,
+            texte: null,
+            reponse: null,
+            indices: null,
+            info: null,
+            img: "./Pierrephilosophale.jpeg",
         };
         this.toggle = this.toggle.bind(this);
     }
+
+    componentDidMount = () => {
+        fetch("http://localhost:5000/api/enigmes")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
+            })
+            .then(data => {
+                this.setState({
+                    question: data[0].question,
+                    titre: data[0].titre,
+                    texte: data[0].texte,
+                    reponse: data[0].reponse,
+                    indices: data[0].indices,
+                    info: data[0].info,
+                    img: data[0].img,
+                })
+            })
+    }
+
     toggle() {
         this.setState({
             modal: !this.state.modal
@@ -59,9 +88,9 @@ export class EnigmePage extends React.Component {
             this.props.addPoints()
             this.setState({
                 final: Vrai,
-                visibilite:"invisible"
+                visibilite: "invisible"
             })
-            
+
 
         } else {
             this.props.removePoints()
@@ -74,25 +103,25 @@ export class EnigmePage extends React.Component {
 
     render() {
 
+
         return (
 
             <div>
                 <p className="points">{this.props.points} pts</p>
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
-                <img className='Infologoegnime'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
-                        <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                            <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
-                            <ModalBody className='modaltexte'>
-                       Ne parlez pas trop fort ! les murs sont sensibles ^^     </ModalBody>
-                        </Modal>
+                <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
+                <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
+                    <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
+                </Modal>
 
-                <img className="Illustration" src={Pierrephilosophale} alt='' />
-                <p className="Titre">Nicolas Flamel </p>
-                <p className="BodyText">Nicolas Flamel, éminent personnage du XIVème siècle est essentiellement réputé comme étant l’alchimiste ayant réussi dans la quête de la Pierre Philosophale. On attribuait à cette pierre certaines propriétés dont celle de pouvoir transmuter les métaux vils en métaux précieux comme l’or ou l’argent.</p>
+                <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
+                <p className="Titre">{this.state.titre}</p>
+                <p className="BodyText">{this.state.texte}</p>
 
                 <AvForm className="reponse" onSubmit={this.isTrue}>
-                    <h3 className="TitreQuestion">Quelle découverte a rendu célèbre Nicolas Flamel ?</h3>
+                    <h3 className="TitreQuestion">{this.state.question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <Button color="primary" className={this.state.visibilite}>Valider</Button>
                     <img className="final" src={this.state.final} alt='' />
@@ -107,14 +136,14 @@ export class EnigmePage extends React.Component {
 
 const mapStateToProps = state => ({
     points: state.pointManagement.points
-  })
-  
-  const mapDispatchToProps = dispatch => {
+})
+
+const mapDispatchToProps = dispatch => {
     return {
-      addPoints: bindActionCreators( addPoint, dispatch),
-      removePoints: bindActionCreators( removePoint, dispatch)
+        addPoints: bindActionCreators(addPoint, dispatch),
+        removePoints: bindActionCreators(removePoint, dispatch)
     }
-  
-  };
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);
