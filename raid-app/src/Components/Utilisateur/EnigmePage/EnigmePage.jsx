@@ -78,7 +78,6 @@ export class EnigmePage extends React.Component {
             this.props.goodTitle()
             
             setTimeout(() => {
-                console.log("lmjmkjmjmkj")
                 this.props.actualTitle()
             }, 8000); 
 
@@ -93,7 +92,6 @@ export class EnigmePage extends React.Component {
             this.props.badTitle()
 
             setTimeout(() => {
-                console.log("lmjmkjmjmkj")
                 this.props.actualTitle()
             }, 8000);
 
@@ -101,7 +99,6 @@ export class EnigmePage extends React.Component {
                 final: Faux
             })
         }
-
     }
 
     render() {
