@@ -12,6 +12,8 @@ import Connexion from './Components/Admin/Connexion';
 import ListEgnimes from './Components/Admin/ListEgnimes';
 import ListSessionPage from './Components/Admin/ListSessionPage';
 import SessionPage from './Components/Admin/SessionPage';
+import Listequipes from './Components/Admin/ListEquipes';
+import Addsession from './Components/Admin/Addsession';
 
 
 export default class App extends Component {
@@ -32,8 +34,10 @@ export default class App extends Component {
             <Route path="/Admin/Classement" component={Classement} />
             <Route path="/Admin/ListEgnimes" component={ListEgnimes} />
             <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
+            <Route path="/Admin/ListTeam" component={Listequipes} />
             <Route path="/Admin/SessionPage" component={SessionPage} />
             <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
+            <Route path='/Admin/Addsession' component={Addsession} />
           </Switch>
         </BrowserRouter>
 

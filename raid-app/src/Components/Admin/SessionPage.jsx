@@ -1,4 +1,4 @@
-
+import { Button } from 'reactstrap';
 import React from 'react';
 
 export default class SessionPage extends React.Component {
@@ -9,7 +9,12 @@ export default class SessionPage extends React.Component {
 
     render() {
         return (
-            <div> Session sélectionner </div>
+            <div>
+            <h1>Titre de la session</h1>
+            <Button>Liste des énigmes</Button>
+            <Button>Liste des équipes</Button>
+            <Button>Classement</Button>
+            </div>
         );
     }
 }
