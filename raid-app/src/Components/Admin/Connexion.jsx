@@ -1,7 +1,9 @@
 
 import React from 'react';
+import { InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
+import logo from './logo_tinyplanet_orange.png';
 
-export default class Connexion extends React.Component {
+export default class AdminComptes extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -9,7 +11,20 @@ export default class Connexion extends React.Component {
 
     render() {
         return (
-            <div> Connexion Admin </div>
+            <div>
+
+                <img src={logo}/>
+
+            <InputGroup>
+                <InputGroupAddon addonType="prepend">Admin :</InputGroupAddon>
+                <Input />
+                <InputGroupAddon addonType="prepend">Mot de passe :</InputGroupAddon>
+                <Input />
+            </InputGroup>
+
+            <Button color="secondary" size="lg">Connexion</Button>
+            
+            </div >
         );
     }
 }

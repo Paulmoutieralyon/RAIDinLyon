@@ -1,7 +1,9 @@
-
 import React from 'react';
+import { Breadcrumb, BreadcrumbItem, Card, Button} from 'reactstrap';
 
-export default class ListEquipes extends React.Component {
+import "react-toggle-component/styles.css"
+
+export default class ListSessionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -9,7 +11,21 @@ export default class ListEquipes extends React.Component {
 
     render() {
         return (
-            <div> Liste des équipes </div>
+            <div>
+                <h1>Équipes</h1>
+                <Breadcrumb>
+                    <BreadcrumbItem active>Équipe 1</BreadcrumbItem>
+                </Breadcrumb>
+                <Breadcrumb>
+                    <BreadcrumbItem active>Équipe 2</BreadcrumbItem>
+                </Breadcrumb>
+
+                <Card body>
+                    <Button>Nouvelle équipe</Button>
+                </Card>
+
+
+            </div>
         );
     }
 }
