@@ -48,11 +48,11 @@ export class EnigmePage extends React.Component {
                 this.setState({
                     question: data[0].question,
                     titre: data[0].titre,
-                    texte: data[0].texte,
-                    reponse: data[0].reponse,
+                    texte: data[0].enonce,
+                    reponse: data[0].reponses,
                     indices: data[0].indices,
                     info: data[0].info,
-                    img: data[0].img,
+                    img: data[0].url_image,
                 })
             })
     }
