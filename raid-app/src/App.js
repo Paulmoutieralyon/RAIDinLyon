@@ -9,7 +9,7 @@ import AddTeam from './Components/Admin/AddTeam';
 import AdminComptes from './Components/Admin/AdminComptes';
 import Classement from './Components/Admin/Classement';
 import Connexion from './Components/Admin/Connexion';
-import ListEgnimes from './Components/Admin/ListEgnimes';
+import ListEnigmes from './Components/Admin/ListEnigmes';
 import ListSessionPage from './Components/Admin/ListSessionPage';
 import SessionPage from './Components/Admin/SessionPage';
 import Listequipes from './Components/Admin/ListEquipes';
@@ -32,7 +32,7 @@ export default class App extends Component {
             <Route path="/Admin/AddTeam" component={AddTeam} />
             <Route path="/Admin/AdminComptes" component={AdminComptes} />
             <Route path="/Admin/Classement" component={Classement} />
-            <Route path="/Admin/ListEgnimes" component={ListEgnimes} />
+            <Route path="/Admin/ListEnigmes" component={ListEnigmes} />
             <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
             <Route path="/Admin/ListTeam" component={Listequipes} />
             <Route path="/Admin/SessionPage" component={SessionPage} />
