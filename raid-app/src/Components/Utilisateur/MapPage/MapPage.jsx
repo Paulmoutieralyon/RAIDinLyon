@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
+import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
@@ -73,7 +74,7 @@ class MapPage extends React.Component {
             <div>
 
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <h3 className="TitreMapePage">Allez à la l'énigme</h3>
+                <h3 className="TitreMapePage">{this.props.title}</h3>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -149,7 +150,10 @@ class MapPage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getPosition: bindActionCreators(getPosition, dispatch)
+        getPosition: bindActionCreators(getPosition, dispatch),
+        goodTitle: bindActionCreators(goodTitle, dispatch),
+        badTitle: bindActionCreators(badTitle, dispatch),
+        actualTitle: bindActionCreators(actualTitle, dispatch),
     }
 }
 
@@ -176,6 +180,8 @@ const mapStateToProps = state => ({
     eg6: state.reducerMapPage.eg5,
 
     currentPosition: state.reducerMapPage.currentPosition,
+
+    title: state.titleManagement.title,
 })
 
 const iconRed = new L.Icon({
