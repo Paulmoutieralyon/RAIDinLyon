@@ -47,6 +47,7 @@ app.get('/api/markers', function (req, res) {
 
 app.post('/api/enigmes', function (req, res) {
     var enigme = req.body
+    console.log(req.body)
     Enigme.addEnigme(enigme, function (err, enigme) {
         if (err) {
             throw err
