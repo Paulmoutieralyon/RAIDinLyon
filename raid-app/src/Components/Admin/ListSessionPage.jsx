@@ -2,6 +2,7 @@ import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import Toggle from "react-toggle-component";
 import "react-toggle-component/styles.css"
+import './ListSessionPage.css'
 
 export default class ListSessionPage extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ export default class ListSessionPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div class='containerListSessionPage'>
                 <h1>Sessions</h1>
                 <Breadcrumb>
                     <BreadcrumbItem active>Session 1</BreadcrumbItem>
