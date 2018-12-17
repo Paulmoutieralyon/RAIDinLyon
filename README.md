@@ -18,6 +18,6 @@ Lance le back sur le port 5000 puis le front sur le port 3000
 
 ### `yarn jeffrey`
 
-Commande à usage personelle
+Commande à usage personel
 
 **Pour aller plus loin, voir le package.json**
