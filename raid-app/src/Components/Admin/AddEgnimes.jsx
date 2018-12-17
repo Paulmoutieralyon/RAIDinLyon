@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup } from 'reactstrap';
-const axios = require('axios');
-
+import axios from 'axios'
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {

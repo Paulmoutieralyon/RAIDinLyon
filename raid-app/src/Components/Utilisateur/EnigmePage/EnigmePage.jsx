@@ -52,7 +52,7 @@ export class EnigmePage extends React.Component {
                     reponse: data[0].reponses,
                     indices: data[0].indices,
                     info: data[0].info,
-                    img: data[0].url_image,
+                    img: data[0].img,
                 })
             })
     }
@@ -84,7 +84,7 @@ export class EnigmePage extends React.Component {
     }
 
     isTrue = () => {
-
+console.log(this.state.reponse)
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
             this.props.goodTitle()
