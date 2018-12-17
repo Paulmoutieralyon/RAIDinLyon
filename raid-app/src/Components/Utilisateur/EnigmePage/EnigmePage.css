@@ -1,77 +1,103 @@
-body{
-    padding: 5vmin;
+.EnigmePageContainer {
+    width: 100vw;
+    padding: 1em !important;
 }
 
-.bontonInfo{
+.bontonInfo {
     margin-left: 80vmin;
     height: 10vmin;
 }
 
-.final{
+.final {
     height: 10vmin;
 }
 
-.Titre{
+.Titre {
     font-family: 'Lilita One', cursive;
     text-align: center;
-    font-size: 10vmin;
+    font-size: 1.5em;
     padding-top: 2vmin;
 }
 
-.Illustration{
+.Illustration {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 30px;
     width: 50%;
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0,0.2), 0 6px 20px 0 ;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0;
 }
 
-.reponse{
-    padding: 3vmin;
-    border-width:3px;
+.reponse {
+    /*     border-width:3px;
     border-style:solid;
     border-color:rgb(249, 160, 7);
-    border-radius: 3vmin;
-    height: 200px;
+    border-radius: 3vmin; */
 }
 
-.points{
+.points {
     font-size: 7vmin;
     position: absolute;
-    margin-left: 30vmin;
-
+    right: 5vw;
 }
 
-.Infologoegnime{
-    width: 5vh;
-    margin-left: 360px;
-    margin-top: -45px;
+.Infologoegnime {
+    width: 2em;
+    position: absolute;
+    right: 5vw;
     z-index: 999;
-
+    top: 2vh;
 }
 
-.BodyText{
+.BodyText {
     text-align: center;
     text-shadow: 1px 1px 1px black;
 }
 
-.TitreQuestion{
+.TitreQuestion {
     text-align: center;
+    font-size: 1.5em;
 }
 
-.bonton2{ 
-    
-    float: right;
+.pasvisible {
+    visibility: visible !important;
+    display: block !important;
+    background-color: rgb(21, 180, 0) !important;
 }
 
-.invisible{
-    display: none;
+.visible {
+    background-color: orange !important;
 }
 
-.Textindices{
-    padding-left: 60px;
+.btn-primary {
+    border: none !important;
+    font-size: 1px !important;
+}
+
+.validationContainer {
+    position: relative;
+}
+
+.final {
+    position: absolute;
+    top: 25%;
+    right: 10%;
+}
+
+.bouton2 {
+    width: 50vw !important;
+    margin-top: 0em !important;
+}
+
+.EnigmePageContainer .btn {
+    margin-top: 0.5em !important;
+}
+
+.EnigmePageContainer .position-relative {
+    padding: 0em !important;
+}
+
+.Textindices {
     text-align: center;
-    margin-top: -35px;
+    padding: 1em !important;
 }
