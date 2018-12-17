@@ -1,5 +1,6 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, Button} from 'reactstrap';
+import './ListEquipes.css'
 
 import "react-toggle-component/styles.css"
 
@@ -11,7 +12,7 @@ export default class ListSessionPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='containerListEquipe'>
                 <h1>Équipes</h1>
                 <Breadcrumb>
                     <BreadcrumbItem active>Équipe 1</BreadcrumbItem>
