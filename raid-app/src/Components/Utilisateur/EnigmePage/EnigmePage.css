@@ -99,5 +99,6 @@
 
 .Textindices {
     text-align: center;
-    padding: 1em !important;
+    padding: 1em;
+    font-size: 1.5em;
 }
