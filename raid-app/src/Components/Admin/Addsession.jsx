@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button, Input, FormGroup, Label, FormText } from 'reactstrap';
+import './Addsession.css'
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class AddEgnimes extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='containerAddsession'>
                 <h1>Titre Session</h1>
                 <FormGroup>
                     <Label for="exampleFile">Image</Label>

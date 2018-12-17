@@ -1,0 +1,42 @@
+.containerAddTeam h1 {
+    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding: 0.3em;
+    font-size:2em;
+}
+
+.btn {
+    display: block !important;
+    font-weight: 200 !important;
+    padding: 0.2em !important;
+    width: 90vw;
+    margin-bottom: 0vh !important;
+}
+
+.card {
+    border: none !important;
+}
+
+.input-group {
+    padding: 1em !important;
+}
+
+.card-body {
+    height: 100vh !important;
+    padding: 0em !important;
+}
+
+.enregistrerModifications {
+    display: block !important;
+    margin: 0 auto !important;
+    margin-top: 5vh;
+}
+
+.breadcrumbContainer {
+    margin-top: 5vh !important;
+}
+
+.close {
+    position: absolute !important;
+}

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input } from 'reactstrap';
 
+
 export default class AddEgnimes extends React.Component {
     constructor(props) {
         super(props);

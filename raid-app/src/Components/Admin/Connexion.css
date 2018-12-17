@@ -1,0 +1,33 @@
+.containerConnexion{
+ height: 100vh;
+}
+
+.containerConnexion img {
+    display: block;
+    margin: 0 auto;
+    padding-top: 5vh;
+}
+
+.input-group {
+    display: inline-block !important;
+    padding: 10vh;
+    padding-top: 10vh;
+}
+
+.input-group-prepend {
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+.form-control {
+    display: block !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+}
+
+.btn {
+    display: block !important;
+    margin: 0 auto !important;
+    font-size: 30px !important;
+    margin-top: 0vh !important;
+}

@@ -1,10 +1,8 @@
 .map {
-    height: 500px;
-    margin-top: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border-radius: 6px;
-    border: 2px solid black;
+    position: fixed !important;
+    bottom: 0px !important;
+    height: 80vh !important;
+    width: 100vw !important;
 }
 
 .ProximitéMessage {
@@ -19,12 +17,25 @@
     margin-right: auto;
     margin-top: 5px;
     box-shadow: 3px -3px 0px #ca9307;
-
 }
 
-.TitreMapePage{
-    font-size:  30px;
+.TitreMapePage {
+    font-size: 1em;
     text-align: center;
-    font-family: 'cursive';
+    padding: 1em;
+}
 
+.leaflet-popup-content-wrapper {
+    text-align: center !important;
+    border-radius: 0px !important;
+}
+
+input, button, select, optgroup, textarea {
+    border:none;
+    color: white;
+    font-size:12px;
+/*     box-shadow: -3px -3px 0px #ca9307; */
+    background:rgb(75, 73, 73);
+    background-size:100%;
+    border: 1px double orange;
 }
