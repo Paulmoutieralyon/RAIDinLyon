@@ -40,7 +40,7 @@ export class EnigmePage extends React.Component {
     }
 
     componentDidMount = () => {
-        fetch("http://localhost:5000/api/enigmes")
+       /* fetch("http://localhost:5000/api/enigmes")
             .then(laPetiteReponse => {
                 return laPetiteReponse.json()
             })
@@ -54,7 +54,7 @@ export class EnigmePage extends React.Component {
                     info: data[0].info,
                     img: data[0].url_image,
                 })
-            })
+            })*/
     }
 
     toggle() {

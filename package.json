@@ -6,8 +6,8 @@
         "client": "cd raid-app && yarn start",
         "server": "nodemon server.js",
         "database": "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json",
-        "jeffrey" : "concurrently --kill-others-on-fail \"yarn setdb\" \"yarn server\" \"yarn client\" \"yarn database\"",
-        "dev" : "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+        "jeffrey": "concurrently --kill-others-on-fail \"yarn setdb\" \"yarn server\" \"yarn client\" \"yarn database\"",
+        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
     },
     "dependencies": {
         "cors": "^2.8.5",

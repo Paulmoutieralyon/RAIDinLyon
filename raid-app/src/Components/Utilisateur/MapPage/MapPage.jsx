@@ -24,7 +24,7 @@ class MapPage extends React.Component {
         this.props.getPosition()
 
 
-        fetch("http://localhost:5000/api/markers")
+       /* fetch("http://localhost:5000/api/markers")
             .then(laPetiteReponse => {
                 return laPetiteReponse.json()
             })
@@ -33,7 +33,7 @@ class MapPage extends React.Component {
                     id: data[0].id,
                     position: data[0].position,
                 })
-            })
+            })*/
 
     }
     getDistance(distance1, currentPosition) {
