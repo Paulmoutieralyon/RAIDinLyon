@@ -1,0 +1,12 @@
+.containerListSessionPage {
+    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding: 0.3em;
+    font-size: 2em;
+}
+
+.rsbc-switch-button {
+    position: absolute !important;
+    right: 0.8em;
+}

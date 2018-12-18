@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input } from 'reactstrap';
+import './AdminComptes.css'
 
 export default class AddTeam extends React.Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class AddTeam extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div class="containerAdminComptes">
                 <h1>Administrateurs</h1>
 
                 <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Ajouter un administrateur</Button>

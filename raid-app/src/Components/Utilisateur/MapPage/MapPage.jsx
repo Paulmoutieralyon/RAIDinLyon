@@ -74,6 +74,7 @@ class MapPage extends React.Component {
             <div>
 
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
+                <p className="points">{0} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
                 <Map className="map" center={position1} zoom={this.props.zoom}>
                     <TileLayer

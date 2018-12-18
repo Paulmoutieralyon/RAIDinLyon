@@ -2,10 +2,20 @@ var mangoose = require('mongoose')
 
 //Enigme Schema
 var enigmeSchema = mangoose.Schema({
-create_table: {
+    create_table: {
         type: Date,
         default: Date.now,
-    }
+    },
+    question : String,
+    reponses : String,
+    coordonnees : Array,
+    indices: Array,
+    info: String,
+    url_image : String,
+    titre: String,
+    enonce : String
+
+
 }, { collection: 'enigme' });
 
 var Enigme = module.exports = mangoose.model('Enigme', enigmeSchema)
