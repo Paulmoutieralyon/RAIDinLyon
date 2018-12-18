@@ -14,13 +14,29 @@ class MapPage extends React.Component {
         super(props);
         this.state = {
             nameMap: "tu es proche",
+            coordonee: [0, 0],
+            isFloat: false,
         }
+        this.tab = []
+        this.data = null
     }
 
     componentDidMount = () => {
         this.props.getPosition()
         this.props.enigmesFetch()
+
+        fetch("http://localhost:5000/api/enigmes")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
+            })
+            .then(data => {
+                this.data = data
+                this.setState({
+                    isFloat: true
+                })
+            })
     }
+
 
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
@@ -42,48 +58,51 @@ class MapPage extends React.Component {
 
     render() {
         let position1 = [0, 0]
-/*         this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait') */
+        /*         this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait') */
         this.props.enigme[0] ? position1 = [this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]] : console.log("wait")
-
         const enigme1 = [this.props.eg1];
-
+        
         return (
             <div>
 
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
                 <p className="points">{0} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
-                <Map className="map" center={position1} zoom={this.props.zoom}>
-                    <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                    />
-                    <Marker icon={iconRed} position={position1}>
-                        <Popup>
-                            <span>{enigme1}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconBlack} position={this.props.currentPosition}>
-                        <Circle
-                            center={this.props.currentPosition}
-                            fillColor="blue"
-                            radius={200} />
-                    </Marker>
-                    {this.getDistance(this.props.currentPosition, position1) < 200 ?
-                        <div>
-                            <Circle
-                                center={this.props.currentPosition}
-                                fillColor="purple"
-                                radius={200}
+                {(this.state.isFloat === true) ?
+                    <div>
+                        <Map className="map" center={this.data[1].coordonee.map(Number)} zoom={this.props.zoom}>
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                             />
-                        </div> : ' '}
-                </Map>
-                {this.getDistance(this.props.currentPosition, position1) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
-            </div>
+                            {this.data.map((x, i) =>
+                                <Marker position={this.data[i].coordonee.map(Number)}>
+                                    <Popup>
+                                        <p>{this.data[i].titre}</p>
+                                        <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                                    </Popup>
+                                </Marker>
+                            )}
+                            <Marker icon={iconBlack} position={this.props.currentPosition}>
+                                <Circle
+                                    center={this.props.currentPosition}
+                                    fillColor="blue"
+                                    radius={200} />
+                            </Marker>
+                            {this.getDistance(this.props.currentPosition, this.data.map((x, i) => this.data[i].coordonee.map(Number))) > 200 ?
+                                <div><Circle center={this.props.currentPosition} fillColor="purple" radius={200} /></div> : ' '
+                            }
+                        </Map>
+                        {this.getDistance(this.props.currentPosition, this.data[1].coordonee.map(Number)) < 200 ?
+                            <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null
+                        }
+                    </div> : <div></div>
+                }
+            </div >
         );
     }
 }
+
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -102,7 +121,6 @@ const mapStateToProps = state => ({
     lng1: state.reducerMapPage.lng1,
     eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
-
     title: state.titleManagement.title,
 
     enigme: state.reducerMongoEnigmes.enigme,

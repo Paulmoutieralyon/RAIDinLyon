@@ -35,6 +35,8 @@ export class EnigmePage extends React.Component {
 
     displayIndices = () => {
         this.setState({ indiceNumber: this.state.indiceNumber + 1 })
+
+
         if (this.state.indiceNumber === 0) {
             this.setState({ indice: this.props.enigme[0].indices[0] })
         }
