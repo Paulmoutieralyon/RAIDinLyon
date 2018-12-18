@@ -13,7 +13,7 @@ import Faux from './faux.png';
 import Vrai from './vrai.png';
 import Vide from './Vide.png';
 import './InfosModalEgnime.css';
-
+ 
 export class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +24,7 @@ export class EnigmePage extends React.Component {
             indice: null,
             indiceNumber: 0,
             visibilite: "visible",
-
+            continuer: null,
 
             markernumber: null,
             //Les états qu'on l'on fetchera
@@ -76,7 +76,6 @@ export class EnigmePage extends React.Component {
         }
     };
 
-
     isProposing = (e) => {
         this.setState({
             proposition: e.target.value
@@ -97,7 +96,6 @@ export class EnigmePage extends React.Component {
                 final: Vrai,
                 visibilite: "invisible"
             })
-
 
         } else {
             this.props.removePoints()
@@ -140,6 +138,7 @@ export class EnigmePage extends React.Component {
                     <img className="final" src={this.state.final} alt='' />
                     <Button onClick={this.indices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
+                    <NavLink to="/MapPage"><button color="" className="buttonContinuer"> Continuer </button></NavLink>
                 </AvForm>
             </div>
 
@@ -160,7 +159,6 @@ const mapDispatchToProps = dispatch => {
         badTitle: bindActionCreators(badTitle, dispatch),
         actualTitle: bindActionCreators(actualTitle, dispatch),
     }
-
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnigmePage);

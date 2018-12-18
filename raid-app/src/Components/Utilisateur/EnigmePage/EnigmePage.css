@@ -75,3 +75,9 @@ body{
     text-align: center;
     margin-top: -35px;
 }
+.buttonContinuer{
+    background-color: darkgreen;
+    width: 100px;
+    margin-top: 40px;
+    margin-left: 135px;
+}
