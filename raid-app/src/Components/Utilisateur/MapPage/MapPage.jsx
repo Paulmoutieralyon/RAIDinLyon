@@ -7,35 +7,72 @@ import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/t
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
+import axios from 'axios';
 
 class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nameMap: "tu es proche",
-
             //va y avoir la DB après
-            id: 0,
-            position: [0, 0]
+            //id: 0,
+            coordonee: [0, 0],
+            isFloat: false,
         }
+        this.tab = []
+        this.data = null
     }
 
     componentDidMount = () => {
         this.props.getPosition()
+        let coordonee = [];
 
+        //const position1 = [this.props.lat1, this.props.lng1];
 
-        fetch("http://localhost:5000/api/markers")
+        /* axios.get("http://localhost:5000/api/enigmes")
+            .then(result => {
+                console.log(result.data[0].coordonee);
+                this.setState({
+                    coordonee: result.data[0].coordonee,
+                });
+                console.log("coordonee state: ", this.state.coordonee);
+                console.log("pos1:", position1)
+             
+                console.log("jsonParse: ", parseFloat(result.data[0].coordonee))
+
+            })
+            .catch(error => {
+                console.log('Error', error);
+            }); */
+
+        fetch("http://localhost:5000/api/enigmes")
             .then(laPetiteReponse => {
                 return laPetiteReponse.json()
             })
             .then(data => {
+                this.data = data
+
+                /* data.map((x, i) => {
+                    this.tab.push(data[i].coordonee)
+                    console.log("push: ", data[i].coordonee.map(Number))
+                    this.setState({
+                        //coordonee: data[0].coordonee,
+                        coordonee: this.tab
+                    })
+                }) */
+
+
+                //console.log("coord props: ", [this.props.lat3, this.props.lng3])
+                //console.log("coord tab[]: ", this.tab[0].map(Number));
+                //this.tab = this.tab[0].map(Number)
+                //console.log("this tab", this.tab)
                 this.setState({
-                    id: data[0].id,
-                    position: data[0].position,
+                    isFloat: true
                 })
             })
-
     }
+
+
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
             lat1 = this.toRadian(distance1[1]),
@@ -49,6 +86,7 @@ class MapPage extends React.Component {
         let EARTH_RADIUS = 6371;
         return c * EARTH_RADIUS * 1000;
     }
+
     toRadian(degrees) {
         return degrees * Math.PI / 180;
     }
@@ -57,97 +95,69 @@ class MapPage extends React.Component {
 
     render() {
 
-        const position1 = [this.props.lat1, this.props.lng1];
-        const position2 = [this.props.lat2, this.props.lng2];
-        const position3 = [this.props.lat3, this.props.lng3];
-        const position4 = [this.props.lat4, this.props.lng4];
-        const position5 = [this.props.lat5, this.props.lng5];
-        const position6 = [this.props.lat6, this.props.lng6];
 
-        const enigme1 = [this.props.eg1];
-        const enigme2 = [this.props.eg2];
-        const enigme3 = [this.props.eg3];
-        const enigme4 = [this.props.eg4];
-        const enigme5 = [this.props.eg5];
-        const enigme6 = [this.props.eg6]
+
         return (
             <div>
 
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
                 <p className="points">{0} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
-                <Map className="map" center={position1} zoom={this.props.zoom}>
-                    <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                    />
-                    <Marker icon={iconRed} position={position1}>
-                        <Popup>
-                            <span>{enigme1}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position2}>
-                        <Popup>
-                            <span>{enigme2}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position3}>
-                        <Popup>
-                            <span>{enigme3} <br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position4}>
-                        <Popup>
-                            <span>{enigme4}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position5}>
-                        <Popup>
-                            <span>{enigme5}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme5</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position6}>
-                        <Popup>
-                            <span>{enigme6}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconBlack} position={this.props.currentPosition}>
-                        <Popup>
-                            <span>{enigme6}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                        <Circle
-                            center={this.props.currentPosition}
-                            fillColor="blue"
-                            radius={200} />
-                    </Marker>
+                {(this.state.isFloat === true) ?
+                    <div>
+                        <Map className="map" center={this.data[1].coordonee.map(Number)} zoom={this.props.zoom}>
 
-                    {this.getDistance(this.props.currentPosition, position2) < 200 ?
-                        <div>
-                            <Circle
-                                center={this.props.currentPosition}
-                                fillColor="purple"
-                                radius={200}
-
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                             />
-                        </div> : ' '}
-                </Map>
-                {this.getDistance(this.props.currentPosition, position2) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
 
+                            {/* {(this.state.isFloat === true) ? */}
+                            {this.data.map((x, i) =>
+                                <Marker position={this.data[i].coordonee.map(Number)}>
+                                    <Popup>
+                                        <p>{this.data[i].titre}</p>
+                                        <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                                    </Popup>
+                                </Marker>
+                            )}
+                            {/*  :
+                            <div> </div>
+                        } */}
 
+                            <Marker icon={iconBlack} position={this.props.currentPosition}>
+                                <Circle
+                                    center={this.props.currentPosition}
+                                    fillColor="blue"
+                                    radius={200} />
+                            </Marker>
+                            {this.getDistance(this.props.currentPosition, this.data.map((x, i) => this.data[i].coordonee.map(Number))) > 200 ?
 
+                                <div>
+                                    <Circle
+                                        center={this.props.currentPosition}
+                                        fillColor="purple"
+                                        radius={200}
+                                    />
+                                </div>
+                                :
+                                ' '}
+
+                        </Map>
+                        {this.getDistance(this.props.currentPosition, this.data[1].coordonee.map(Number)) < 200 ?
+                            <div><p className="ProximitéMessage">{this.state.nameMap}</p></div>
+                            :
+                            null}
+                    </div>
+                    :
+                    <div> </div>
+                }
             </div>
+
         );
     }
 }
 
-/* const mapDispatchToProps = dispatch => ({bindActionCreators({ getPosition }, dispatch)}) */
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -160,28 +170,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => ({
     zoom: state.reducerMapPage.zoom,
-    lat1: state.reducerMapPage.lat1,
-    lng1: state.reducerMapPage.lng1,
     lat2: state.reducerMapPage.lat2,
     lng2: state.reducerMapPage.lng2,
-    lat3: state.reducerMapPage.lat3,
-    lng3: state.reducerMapPage.lng3,
-    lat4: state.reducerMapPage.lat4,
-    lng4: state.reducerMapPage.lng4,
-    lat5: state.reducerMapPage.lat5,
-    lng5: state.reducerMapPage.lng5,
-    lat6: state.reducerMapPage.lat6,
-    lng6: state.reducerMapPage.lng6,
-
-    eg1: state.reducerMapPage.eg1,
-    eg2: state.reducerMapPage.eg2,
-    eg3: state.reducerMapPage.eg2,
-    eg4: state.reducerMapPage.eg3,
-    eg5: state.reducerMapPage.eg4,
-    eg6: state.reducerMapPage.eg5,
-
     currentPosition: state.reducerMapPage.currentPosition,
-
     title: state.titleManagement.title,
 })
 

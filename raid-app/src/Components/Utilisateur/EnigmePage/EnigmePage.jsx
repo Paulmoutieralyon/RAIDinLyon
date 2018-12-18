@@ -37,10 +37,11 @@ export class EnigmePage extends React.Component {
             img: "./Pierrephilosophale.jpeg",
         };
         this.toggle = this.toggle.bind(this);
+        this.data = null
     }
 
     componentDidMount = () => {
-        fetch("http://localhost:5000/api/enigmes")
+        /* fetch("http://localhost:5000/api/enigmes")
             .then(laPetiteReponse => {
                 return laPetiteReponse.json()
             })
@@ -54,7 +55,30 @@ export class EnigmePage extends React.Component {
                     info: data[0].info,
                     img: data[0].img,
                 })
+            }) */
+        fetch("http://localhost:5000/api/enigmes")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
             })
+            .then(data => {
+                this.data = data
+
+                this.setState({
+                    question: data[2].question,
+                    titre: data[2].titre,
+                    texte: data[2].texte,
+                    reponse: data[2].reponse,
+                    indices: data[2].indices,
+                    info: data[2].info,
+                    img: data[2].img,
+                })
+
+                this.setState({
+                    isFloat: true
+                })
+            })
+
+
     }
 
     toggle() {
@@ -65,14 +89,16 @@ export class EnigmePage extends React.Component {
 
     indices = () => {
         this.setState({ indiceNumber: this.state.indiceNumber + 1 })
+
+
         if (this.state.indiceNumber === 0) {
-            this.setState({ indice: "Harry Potter" })
+            this.setState({ indice: this.data[2].indices[0] })
         }
         if (this.state.indiceNumber === 1) {
-            this.setState({ indice: "Pernelle" })
+            this.setState({ indice: this.data[2].indices[1] })
         }
         if (this.state.indiceNumber === 2) {
-            this.setState({ indice: "Amis de Albus" })
+            this.setState({ indice: this.data[2].indices[2] })
         }
     };
 
