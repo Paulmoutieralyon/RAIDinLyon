@@ -49,7 +49,7 @@ export class EnigmePage extends React.Component {
                 this.setState({
                     question: data[0].question,
                     titre: data[0].titre,
-                    texte: data[0].texte,
+                    texte: data[0].enonce,
                     reponse: data[0].reponse,
                     indices: data[0].indices,
                     info: data[0].info,
@@ -110,7 +110,6 @@ export class EnigmePage extends React.Component {
     }
 
     isTrue = () => {
-
         if (this.state.proposition === this.state.reponse[0] || this.state.proposition === this.state.reponse[1]) {
             this.props.addPoints()
             this.props.goodTitle()
@@ -121,7 +120,7 @@ export class EnigmePage extends React.Component {
 
             this.setState({
                 final: Vrai,
-                visibilite: "invisible"
+                visibilite: "pasvisible"
             })
 
 
@@ -142,11 +141,9 @@ export class EnigmePage extends React.Component {
 
     render() {
 
-
         return (
 
-            <div>
-                <p className="points">{this.props.points} pts</p>
+            <div class="EnigmePageContainer">
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
@@ -154,6 +151,7 @@ export class EnigmePage extends React.Component {
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
                     <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
                 </Modal>
+                <p className="points">{this.props.points} pts</p>
 
                 <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
                 <p className="Titre">{this.state.titre}</p>
@@ -162,8 +160,10 @@ export class EnigmePage extends React.Component {
                 <AvForm className="reponse" onSubmit={this.isTrue}>
                     <h3 className="TitreQuestion">{this.state.question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
-                    <Button color="primary" className={this.state.visibilite}>Valider</Button>
-                    <img className="final" src={this.state.final} alt='' />
+                    <div className="validationContainer">
+                        <Button color="primary" className={this.state.visibilite}>Valider</Button>
+                        <img className="final" src={this.state.final} alt='' />
+                    </div>
                     <Button onClick={this.indices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
                 </AvForm>

@@ -70,7 +70,6 @@ class MapPage extends React.Component {
                     isFloat: true
                 })
             })
-
     }
 
 
@@ -96,47 +95,65 @@ class MapPage extends React.Component {
 
     render() {
 
+
+
         return (
             <div>
 
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
+                <p className="points">{0} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
                 {(this.state.isFloat === true) ?
-                    <Map className="map" center={this.data[1].coordonee.map(Number)} zoom={this.props.zoom}>
-                        <TileLayer
-                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                        />
+                    <div>
+                        <Map className="map" center={this.data[1].coordonee.map(Number)} zoom={this.props.zoom}>
 
-                        {/* {(this.state.isFloat === true) ? */}
-                        {this.data.map((x, i) =>
-                            <Marker position={this.data[i].coordonee.map(Number)}>
-                                <Popup>
-                                    <p>{this.data[i].titre}</p>
-                                    <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                                </Popup>
-                            </Marker>
-                        )}
-                        {/*  :
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+                            />
+
+                            {/* {(this.state.isFloat === true) ? */}
+                            {this.data.map((x, i) =>
+                                <Marker position={this.data[i].coordonee.map(Number)}>
+                                    <Popup>
+                                        <p>{this.data[i].titre}</p>
+                                        <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
+                                    </Popup>
+                                </Marker>
+                            )}
+                            {/*  :
                             <div> </div>
                         } */}
 
-
-                        {this.getDistance(this.props.currentPosition, this.data[1].coordonee.map(Number)) < 200 ?
-                            <div>
+                            <Marker icon={iconBlack} position={this.props.currentPosition}>
                                 <Circle
                                     center={this.props.currentPosition}
-                                    fillColor="purple"
-                                    radius={200}
+                                    fillColor="blue"
+                                    radius={200} />
+                            </Marker>
+                            {this.getDistance(this.props.currentPosition, this.data.map((x, i) => this.data[i].coordonee.map(Number))) > 200 ?
 
-                                />
-                            </div> : ' '}
-                        {this.getDistance(this.props.currentPosition, this.data[1].coordonee.map(Number)) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
-                    </Map>
+                                <div>
+                                    <Circle
+                                        center={this.props.currentPosition}
+                                        fillColor="purple"
+                                        radius={200}
+                                    />
+                                </div>
+                                :
+                                ' '}
+
+                        </Map>
+                        {this.getDistance(this.props.currentPosition, this.data[1].coordonee.map(Number)) < 200 ?
+                            <div><p className="ProximitéMessage">{this.state.nameMap}</p></div>
+                            :
+                            null}
+                    </div>
                     :
                     <div> </div>
                 }
             </div>
+
         );
     }
 }

@@ -1,5 +1,6 @@
 import { Button } from 'reactstrap';
 import React from 'react';
+import './SessionPage.css'
 
 export default class SessionPage extends React.Component {
     constructor(props) {
@@ -9,11 +10,11 @@ export default class SessionPage extends React.Component {
 
     render() {
         return (
-            <div>
-            <h1>Titre de la session</h1>
-            <Button>Liste des énigmes</Button>
-            <Button>Liste des équipes</Button>
-            <Button>Classement</Button>
+            <div className='containerSessionPage'>
+                <h1>Titre de la session</h1>
+                <Button>Liste des énigmes</Button>
+                <Button>Liste des équipes</Button>
+                <Button>Classement</Button>
             </div>
         );
     }

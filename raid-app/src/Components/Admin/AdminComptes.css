@@ -1,0 +1,25 @@
+.containerAdminComptes h1 {
+    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding: 0.3em;
+    font-size: 2em;
+}
+
+.close {
+    position: absolute !important;
+    right: 0.1em !important;
+}
+
+.breadcrumb {
+    margin-top: 5vh !important;
+    margin-bottom: 5vh !important;
+}
+
+.btn {
+    display: block !important;
+    font-weight: 200 !important;
+    width: 90vw;
+    margin-bottom: 0vh !important;
+    white-space: normal !important;
+}
