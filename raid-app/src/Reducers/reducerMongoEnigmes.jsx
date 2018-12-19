@@ -1,5 +1,6 @@
 const initialState = {
-    enigme: {}
+    enigme: null,
+    display: null
 }
 
 export function reducerMongoEnigmes(state = initialState, action) {
@@ -9,6 +10,11 @@ export function reducerMongoEnigmes(state = initialState, action) {
             return {
                 ...state,
                 enigme: action.payload
+            }
+        case "DISPLAY_ENIGME":
+            return {
+                ...state,
+                display: action.payload
             }
         default:
             return state
