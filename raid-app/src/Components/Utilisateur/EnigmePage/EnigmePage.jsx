@@ -38,13 +38,13 @@ export class EnigmePage extends React.Component {
 
 
         if (this.state.indiceNumber === 0) {
-            this.setState({ indice: this.props.enigme[0].indices[0] })
+            this.setState({ indice: this.props.enigme[this.props.display].indices[0] })
         }
         if (this.state.indiceNumber === 1) {
-            this.setState({ indice: this.props.enigme[0].indices[1] })
+            this.setState({ indice: this.props.enigme[this.props.display].indices[1] })
         }
         if (this.state.indiceNumber === 2) {
-            this.setState({ indice: this.props.enigme[0].indices[2] })
+            this.setState({ indice: this.props.enigme[this.props.display].indices[2] })
         }
     };
 
@@ -56,7 +56,7 @@ export class EnigmePage extends React.Component {
     }
 
     isTrue = () => {
-        if (this.state.proposition === this.props.enigme[0].reponse[0] || this.state.proposition === this.props.enigme[0].reponse[1]) {
+        if (this.state.proposition === this.props.enigme[this.props.display].reponse[0] || this.state.proposition === this.props.enigme[this.props.display].reponse[1]) {
             this.props.addPoints()
             this.props.goodTitle()
 
@@ -93,20 +93,20 @@ export class EnigmePage extends React.Component {
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
-                    <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
+                    <ModalBody className='modaltexte'>{this.props.enigme.info}</ModalBody>
                 </Modal>
                 <p className="points">{this.props.points} pts</p>
-                <img className="Illustration" src={require(`${this.props.enigme[0].img}`)} alt='' />
-                <p className="Titre">{this.props.enigme[0].enonce}</p>
+                <img className="Illustration" src={require(`${this.props.enigme[this.props.display].img}`)} alt='' />
+                <p className="Titre">{this.props.enigme[this.props.display].enonce}</p>
                 <p className="BodyText">{this.state.texte}</p>
                 <AvForm className="reponse" onSubmit={this.isTrue}>
-                    <h3 className="TitreQuestion">{this.props.enigme[0].question}</h3>
+                    <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
                         <Button color="primary" className={this.state.visibilite}>Valider</Button>
                         <img className="final" src={this.state.final} alt='' />
                     </div>
-                    <Button type="button"  onClick={this.displayIndices} className="bonton2" >Indice</Button>
+                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
                 </AvForm>
             </div>
@@ -119,6 +119,7 @@ const mapStateToProps = state => ({
     title: state.titleManagement.title,
 
     enigme: state.reducerMongoEnigmes.enigme,
+    display: state.reducerMongoEnigmes.display
 })
 
 const mapDispatchToProps = dispatch => {
