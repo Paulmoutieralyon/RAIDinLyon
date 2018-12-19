@@ -1,25 +1,28 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
-import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { NavLink } from 'react-router-dom';
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import './EnigmePage.css';
-import info from './info.1.png';
-import Pierrephilosophale from './Pierrephilosophale.jpeg';
-import Faux from './faux.png';
-import Vrai from './vrai.png';
-import Vide from './Vide.png';
-import './InfosModalEgnime.css';
- 
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { displayEnigmeAction, enigmeValidation } from '../../../Actions/displayEnigmeAction.js'
+import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx'
+import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
+import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
+import { AvForm, AvField } from 'availity-reactstrap-validation'
+import { NavLink } from 'react-router-dom'
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import './EnigmePage.css'
+import info from './info.1.png'
+import Pierrephilosophale from './Pierrephilosophale.jpeg'
+import Faux from './faux.png'
+import Vrai from './vrai.png'
+import Vide from './Vide.png'
+import './InfosModalEgnime.css'
+
 export class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             compteurcontinue: 0,
             proposition: "",
+            isResTrue:false,
             final: Vide,
             modal: false,
             indice: null,
@@ -114,11 +117,15 @@ export class EnigmePage extends React.Component {
             this.props.addPoints()
             this.props.goodTitle()
 
+            //celui qui supprime cette fonction je le casse en deux
+            this.props.enigmeValidation(this.props.display)
+
             setTimeout(() => {
                 this.props.actualTitle()
             }, 8000);
 
             this.setState({
+                isResTrue:true,
                 final: Vrai,
                 visibilite: "pasvisible"
             })
@@ -132,6 +139,7 @@ export class EnigmePage extends React.Component {
             }, 8000);
 
             this.setState({
+                isResTrue:false,
                 final: Faux
             })
         }
@@ -143,7 +151,8 @@ export class EnigmePage extends React.Component {
         if(this.state.compteurcontinue === 2) console.log("un mot")
     }*/
     render() {
-
+        //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
+        //console.log(this.props.check)
         return (
 
             <div class="EnigmePageContainer">
@@ -163,12 +172,12 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        <Button color="primary" className={this.state.visibilite} /*onClick={this.handleclick}*/>Valider</Button>
+                        {(this.state.isResTrue)?<Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                        :<Button color="primary" className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
-                    <NavLink to="/MapPage"><button color="" className="buttonContinuer"> Continuer </button></NavLink>
                 </AvForm>
             </div>
 
@@ -181,7 +190,8 @@ const mapStateToProps = state => ({
     title: state.titleManagement.title,
 
     enigme: state.reducerMongoEnigmes.enigme,
-    display: state.reducerMongoEnigmes.display
+    display: state.reducerMongoEnigmes.display,
+    check: state.reducerMongoEnigmes.check
 })
 
 const mapDispatchToProps = dispatch => {
@@ -191,6 +201,10 @@ const mapDispatchToProps = dispatch => {
         goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
         actualTitle: bindActionCreators(actualTitle, dispatch),
+        displayEnigmeAction: bindActionCreators(displayEnigmeAction, dispatch),
+        enigmeValidation: bindActionCreators(enigmeValidation, dispatch),
+        enigmesFetch: bindActionCreators(enigmesFetch, dispatch)
+
     }
 };
 
