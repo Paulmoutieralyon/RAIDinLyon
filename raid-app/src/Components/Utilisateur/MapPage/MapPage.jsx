@@ -9,6 +9,7 @@ import L from 'leaflet'
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js'
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -19,7 +20,13 @@ class MapPage extends React.Component {
             countAnswer: 0,
         }
         this.tab = []
+
     }
+    toggle = id => {
+        this.setState({
+            modal: id
+        });
+    };
 
     async componentDidMount() {
         await this.props.getPosition()
@@ -30,8 +37,8 @@ class MapPage extends React.Component {
 
     areAllAnswersTrue = () => {
         for (let i = 0; i < this.props.enigme.length; i++) {
-            if(this.props.enigme[i].check===true){
-                this.setState({countAnswer:this.state.countAnswer+1})
+            if (this.props.enigme[i].check === true) {
+                this.setState({ countAnswer: this.state.countAnswer + 1 })
             }
         }
     }
@@ -43,14 +50,16 @@ class MapPage extends React.Component {
             lat2 = this.toRadian(currentPosition[1]);
         let deltaLat = lat2 - lat1;
         let deltaLon = lon2 - lon1;
-        let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
+        let a =
+            Math.pow(Math.sin(deltaLat / 2), 2) +
+            Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
         let c = 2 * Math.asin(Math.sqrt(a));
         let EARTH_RADIUS = 6371;
         return c * EARTH_RADIUS * 1000;
     }
 
     toRadian(degrees) {
-        return degrees * Math.PI / 180;
+        return (degrees * Math.PI) / 180;
     }
 
     render() {
@@ -76,11 +85,22 @@ class MapPage extends React.Component {
                                                 </Popup>
                                             </Marker>
                                             :
-                                            <Marker position={this.props.enigme[i].coordonnee.map(Number)}>
-                                                <Popup>
-                                                    <p>{this.props.enigme[i].titre}</p>
-                                                    <NavLink to="/EnigmePage"> <button onClick={() => this.props.displayEnigmeAction(i)}>Accéder à lénigme</button> </NavLink>
-                                                </Popup>
+                                            <Marker position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
+                                                <Modal
+                                                    className="Modale-content"
+                                                    isOpen={this.state.modal === i}
+                                                    toggle={this.toggle}
+                                                >
+                                                    <ModalHeader toggle={this.toggle}>
+                                                        <p>{this.props.enigme[i].titre}</p>
+                                                    </ModalHeader>
+                                                    <ModalBody className="modaltexte">
+                                                        <NavLink to="/EnigmePage">
+                                                            {" "}
+                                                            <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                        </NavLink>
+                                                    </ModalBody>
+                                                </Modal>
                                             </Marker>}
                                     </div>
                                 )}
@@ -98,12 +118,10 @@ class MapPage extends React.Component {
                                 <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
                         </div> : null}
                 </div>
-
             </div >
         )
     }
 }
-
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -129,20 +147,22 @@ const mapStateToProps = state => ({
 })
 
 const iconRed = new L.Icon({
-    iconUrl: require('./map-default-red.png'),
-    iconRetinaUrl: require('./map-default-red.png'),
-    iconSize: [50, 100],
+    iconUrl: require("./map-default-red.png"),
+    iconRetinaUrl: require("./map-default-red.png"),
+    iconSize: [50, 100]
 });
 const iconBlack = new L.Icon({
-    iconUrl: require('./map-default-black.png'),
-    iconRetinaUrl: require('./map-default-black.png'),
-    iconSize: [50, 100],
+    iconUrl: require("./map-default-black.png"),
+    iconRetinaUrl: require("./map-default-black.png"),
+    iconSize: [50, 100]
 });
 const iconGreen = new L.Icon({
-    iconUrl: require('./map-default-green.png'),
-    iconRetinaUrl: require('./map-default-green.png'),
-    iconSize: [50, 50],
+    iconUrl: require("./map-default-green.png"),
+    iconRetinaUrl: require("./map-default-green.png"),
+    iconSize: [50, 50]
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(MapPage)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MapPage);

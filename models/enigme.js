@@ -6,16 +6,15 @@ var enigmeSchema = mangoose.Schema({
         type: Date,
         default: Date.now,
     },
+    id: String,
+    titre : String,
     question : String,
-    reponses : String,
-    coordonnees : Array,
+    enonce : String,
     indices: Array,
     info: String,
-    url_image : String,
-    titre: String,
-    enonce : String
-
-
+    coordonnee : Array,
+    img : String,
+    reponse : Array,
 }, { collection: 'enigme' });
 
 var Enigme = module.exports = mangoose.model('Enigme', enigmeSchema)
