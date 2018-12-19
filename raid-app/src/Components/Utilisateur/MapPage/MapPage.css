@@ -35,7 +35,11 @@
     border-radius: 0px !important;
 }
 
-input, button, select, optgroup, textarea {
+input,
+button,
+select,
+optgroup,
+textarea {
     border: none;
     color: white;
     font-size: 12px;
@@ -43,4 +47,9 @@ input, button, select, optgroup, textarea {
     background: rgb(75, 73, 73);
     background-size: 100%;
     border: 1px double orange;
+}
+
+.modal-content {
+    border-color: black;
+    margin-top: 22vh
 }
