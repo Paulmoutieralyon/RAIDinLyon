@@ -25,28 +25,6 @@ export class EnigmePage extends React.Component {
             indiceNumber: 0,
             visibilite: "visible",
         };
-<<<<<<< HEAD
-        this.toggle = this.toggle.bind(this);
-    }
-
-    componentDidMount = () => {
-       /* fetch("http://localhost:5000/api/enigmes")
-            .then(laPetiteReponse => {
-                return laPetiteReponse.json()
-            })
-            .then(data => {
-                this.setState({
-                    question: data[0].question,
-                    titre: data[0].titre,
-                    texte: data[0].enonce,
-                    reponse: data[0].reponse,
-                    indices: data[0].indices,
-                    info: data[0].info,
-                    img: data[0].img,
-                })
-            })*/
-=======
->>>>>>> 1300eb1eb108f5e5482676376dd878d715f73c5a
     }
 
     toggle = () => {
