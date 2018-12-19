@@ -1,17 +1,13 @@
 {
     "name": "my-first-own-mern",
     "version": "1.0.0",
+    "license":"private",
     "scripts": {
         "setdb": "mongo RAIDinLyon --eval db.enigme.drop() && mongo RAIDinLyon --eval db.marker.drop()",
         "client": "cd raid-app && yarn start",
         "server": "nodemon server.js",
-<<<<<<< HEAD
-        "database": "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json",
-        "jeffrey": "concurrently --kill-others-on-fail \"yarn setdb\" \"yarn server\" \"yarn client\" \"yarn database\"",
-=======
         "database": "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json && mongoimport --db RAIDinLyon --collection equipe --file equipe.json && mongoimport --db RAIDinLyon --collection map --file map.json && mongoimport --db RAIDinLyon --collection administrateur --file administrateur.json && mongoimport --db RAIDinLyon --collection session --file session.json ",
         "jeffrey": "concurrently --kill-others-on-fail \"yarn setdb\" \"yarn server\" \"yarn database\" \"yarn client\"",
->>>>>>> 4c1c1f2960435ee80e32950ebfda0a6680bdb456
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
     },
     "dependencies": {
