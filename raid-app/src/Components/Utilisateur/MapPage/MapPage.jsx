@@ -47,7 +47,7 @@ class MapPage extends React.Component {
         return (
             <div>
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <p className="points">{0} pts</p>
+                <p className="points">{this.props.points} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
                 <div>
                     <Map className="map" center={[45.767383, 4.831571]} zoom={this.props.zoom}>
@@ -101,6 +101,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => ({
+    points: state.pointManagement.points,
     zoom: state.reducerMapPage.zoom,
     lat1: state.reducerMapPage.lat1,
     lng1: state.reducerMapPage.lng1,
