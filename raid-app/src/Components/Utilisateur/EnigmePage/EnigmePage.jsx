@@ -22,13 +22,14 @@ export class EnigmePage extends React.Component {
         this.state = {
             compteurcontinue: 0,
             proposition: "",
-            isResTrue:false,
+            isResTrue: false,
             final: Vide,
             modal: false,
             indice: null,
             indiceNumber: 0,
             visibilite: "visible",
             continuer: null,
+            isContinue: false,
 
             markernumber: null,
             //Les états qu'on l'on fetchera
@@ -125,7 +126,8 @@ export class EnigmePage extends React.Component {
             }, 8000);
 
             this.setState({
-                isResTrue:true,
+                isContinue: true,
+                isResTrue: true,
                 final: Vrai,
                 visibilite: "pasvisible"
             })
@@ -139,17 +141,21 @@ export class EnigmePage extends React.Component {
             }, 8000);
 
             this.setState({
-                isResTrue:false,
+                isResTrue: false,
                 final: Faux
             })
         }
 
     }
-    
-  /*  handleclick = (e) =>{
-        this.setState({compteurcontinue: this.state.compteurcontinue +1})
-        if(this.state.compteurcontinue === 2) console.log("un mot")
-    }*/
+
+    handleclick = (e) => {
+        this.setState({ compteurcontinue: this.state.compteurcontinue + 1 })
+        if (this.state.compteurcontinue >= 2) {
+            this.setState({
+                isContinue: true,
+            })
+        }
+    }
     render() {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
@@ -172,12 +178,19 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        {(this.state.isResTrue)?<Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
-                        :<Button color="primary" className={this.state.visibilite}>Valider</Button>}
+                        {(this.state.isResTrue) ?
+                            <Button color="primary" type="button" className={this.state.visibilite} onClick={this.handleclick}>Valider</Button>
+                            :
+                            <Button color="primary" className={this.state.visibilite} onClick={this.handleclick}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
+                    {(this.state.isContinue === true) ?
+                        <NavLink to="/MapPage"><button className="buttonContinuer">Continuer</button></NavLink>
+                        :
+                        null}
+
                 </AvForm>
             </div>
 
