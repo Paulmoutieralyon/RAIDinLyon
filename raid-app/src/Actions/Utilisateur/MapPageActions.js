@@ -10,7 +10,7 @@ export const getPosition = () => {
         function displayLocationInfo(position) {
             lng = position.coords.longitude;
             lat = position.coords.latitude;
-            console.log(`longitude: ${lng} | latitude: ${lat}`,"FUNCTION DISPLAY LOCATION");
+            console.log(`longitude: ${lng} | latitude: ${lat}`, "FUNCTION DISPLAY LOCATION");
             dispatch({
                 type: GET_POSITION,
                 payload: [lat, lng],

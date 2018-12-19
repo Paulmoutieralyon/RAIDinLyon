@@ -2,69 +2,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
-import axios from 'axios';
-
-
-
-const iconRed = new L.Icon({
-    iconUrl: require('./map-default-red.png'),
-    iconRetinaUrl: require('./map-default-red.png'),
-    iconSize: [50, 100],
-});
-const iconBlack = new L.Icon({
-    iconUrl: require('./map-default-black.png'),
-    iconRetinaUrl: require('./map-default-black.png'),
-    iconSize: [50, 100],
-});
-const iconGreen = new L.Icon({
-    iconUrl: require('./map-default-green.png'),
-    iconRetinaUrl: require('./map-default-green.png'),
-    iconSize: [50, 50],
-});
+import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 
 class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nameMap: "tu es proche",
-            //va y avoir la DB après
-            //id: 0,
             coordonee: [0, 0],
             isFloat: false,
         }
-        this.default = [45.746606,4.826917]
-        this.tab = [0.0]
+        this.tab = []
         this.data = null
     }
 
     componentDidMount = () => {
         this.props.getPosition()
-        this.colorMarker()
-        let coordonee = [];
-
-        //const position1 = [this.props.lat1, this.props.lng1];
-
-        /* axios.get("http://localhost:5000/api/enigmes")
-            .then(result => {
-                console.log(result.data[0].coordonee);
-                this.setState({
-                    coordonee: result.data[0].coordonee,
-                });
-                console.log("coordonee state: ", this.state.coordonee);
-                console.log("pos1:", position1)
-             
-                console.log("jsonParse: ", parseFloat(result.data[0].coordonee))
-
-            })
-            .catch(error => {
-                console.log('Error', error);
-            }); */
+        this.props.enigmesFetch()
 
         fetch("http://localhost:5000/api/enigmes")
             .then(laPetiteReponse => {
@@ -72,28 +31,11 @@ class MapPage extends React.Component {
             })
             .then(data => {
                 this.data = data
-
-                /* data.map((x, i) => {
-                    this.tab.push(data[i].coordonee)
-                    console.log("push: ", data[i].coordonee.map(Number))
-                    this.setState({
-                        //coordonee: data[0].coordonee,
-                        coordonee: this.tab
-                    })
-                }) */
-
-
-                //console.log("coord props: ", [this.props.lat3, this.props.lng3])
-                //console.log("coord tab[]: ", this.tab[0].map(Number));
-                //this.tab = this.tab[0].map(Number)
-                //console.log("this tab", this.tab)
                 this.setState({
                     isFloat: true
                 })
             })
     }
-
-    
 
 
     getDistance(distance1, currentPosition) {
@@ -114,33 +56,25 @@ class MapPage extends React.Component {
         return degrees * Math.PI / 180;
     }
 
-    colorMarker = () => {
-        if(this.props.points > 0){
-            console.log("yes")
-            Marker.icon = {iconRed}
-        } else {
-            console.log("NOOOOOO")
-        }
-    }
-
-
-
     render() {
+        let position1 = [0, 0]
+        /*         this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait') */
+        this.props.enigme[0] ? position1 = [this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]] : console.log("wait")
+        const enigme1 = [this.props.eg1];
+
         return (
             <div>
+
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <p className="points">{this.props.points} pts</p>
+                <p className="points">{0} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
                 {(this.state.isFloat === true) ?
                     <div>
                         <Map className="map" center={this.data[1].coordonee.map(Number)} zoom={this.props.zoom}>
-
                             <TileLayer
                                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                             />
-
-                            {/* {(this.state.isFloat === true) ? */}
                             {this.data.map((x, i) =>
                                 <Marker position={this.data[i].coordonee.map(Number)}>
                                     <Popup>
@@ -149,10 +83,6 @@ class MapPage extends React.Component {
                                     </Popup>
                                 </Marker>
                             )}
-                            {/*  :
-                            <div> </div>
-                        } */}
-
                             <Marker icon={iconBlack} position={this.props.currentPosition}>
                                 <Circle
                                     center={this.props.currentPosition}
@@ -160,28 +90,15 @@ class MapPage extends React.Component {
                                     radius={200} />
                             </Marker>
                             {this.getDistance(this.props.currentPosition, this.data.map((x, i) => this.data[i].coordonee.map(Number))) > 200 ?
-
-                                <div>
-                                    <Circle
-                                        center={this.props.currentPosition}
-                                        fillColor="purple"
-                                        radius={200}
-                                    />
-                                </div>
-                                :
-                                ' '}
-
+                                <div><Circle center={this.props.currentPosition} fillColor="purple" radius={200} /></div> : ' '
+                            }
                         </Map>
                         {this.getDistance(this.props.currentPosition, this.data[1].coordonee.map(Number)) < 200 ?
-                            <div><p className="ProximitéMessage">{this.state.nameMap}</p></div>
-                            :
-                            null}
-                    </div>
-                    :
-                    <div> </div>
+                            <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null
+                        }
+                    </div> : <div></div>
                 }
-            </div>
-
+            </div >
         );
     }
 }
@@ -190,23 +107,40 @@ class MapPage extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
+        enigmesFetch: bindActionCreators(enigmesFetch, dispatch),
+
         goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
         actualTitle: bindActionCreators(actualTitle, dispatch),
-
-        addPoints: bindActionCreators(addPoint, dispatch),
     }
 }
 
 const mapStateToProps = state => ({
     zoom: state.reducerMapPage.zoom,
-    lat2: state.reducerMapPage.lat2,
-    lng2: state.reducerMapPage.lng2,
+    lat1: state.reducerMapPage.lat1,
+    lng1: state.reducerMapPage.lng1,
+    eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
     title: state.titleManagement.title,
-    points: state.pointManagement.points,
-    
+
+    enigme: state.reducerMongoEnigmes.enigme,
 })
+
+const iconRed = new L.Icon({
+    iconUrl: require('./map-default-red.png'),
+    iconRetinaUrl: require('./map-default-red.png'),
+    iconSize: [50, 100],
+});
+const iconBlack = new L.Icon({
+    iconUrl: require('./map-default-black.png'),
+    iconRetinaUrl: require('./map-default-black.png'),
+    iconSize: [50, 100],
+});
+const iconGreen = new L.Icon({
+    iconUrl: require('./map-default-green.png'),
+    iconRetinaUrl: require('./map-default-green.png'),
+    iconSize: [50, 50],
+});
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapPage)
