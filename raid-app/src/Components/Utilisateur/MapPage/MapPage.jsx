@@ -116,13 +116,10 @@ class MapPage extends React.Component {
           </Map>
           {this.state.loaded ? (
             <div>
-              {this.getDistance(
-                this.props.currentPosition,
-                this.props.enigme[1].coordonnee.map(Number)
-              ) < 200 ? (
-                <div>
-                  <p className="ProximitéMessage">{this.state.nameMap}</p>
-                </div>
+              <p className="points">{this.props.points} pts</p>
+              <div>
+                <p className="ProximitéMessage">{this.state.nameMap}</p>
+              </div>
               ) : null}
             </div>
           ) : null}
@@ -145,6 +142,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => ({
+  points: state.pointManagement.points,
   zoom: state.reducerMapPage.zoom,
   lat1: state.reducerMapPage.lat1,
   lng1: state.reducerMapPage.lng1,
