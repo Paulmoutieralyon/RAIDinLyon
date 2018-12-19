@@ -1,6 +1,7 @@
 const initialState = {
     enigme: null,
-    display: null
+    display: null,
+/*     check: 0, */
 }
 
 export function reducerMongoEnigmes(state = initialState, action) {
@@ -15,6 +16,19 @@ export function reducerMongoEnigmes(state = initialState, action) {
             return {
                 ...state,
                 display: action.payload
+            }
+/*         case "ENIGME_VALIDATION":
+            return {
+                ...state,
+                check: state.check + 1
+            }, */
+        case "ENIGME_VALIDATION":
+        let obj = [...state.enigme]
+        //obj[action.payload] = {...obj[action.payload]}
+        obj[action.payload].check = true
+            return {
+                ...state,
+                enigme: obj
             }
         default:
             return state
