@@ -150,12 +150,12 @@ _________________________________ */
             data: {
                 titre: this.state.titre,
                 question: this.state.question,
-                coordonnees: this.state.coordonnees,
-                reponses: this.state.responses,
                 enonce: this.state.enonce,
                 indices: this.state.indices,
                 info: this.state.info,
-                url_image: this.state.image
+                coordonnee: this.state.coordonnees,
+                img: this.state.image,
+                reponse: this.state.responses,
             }
         })
             .then(function (response) {
