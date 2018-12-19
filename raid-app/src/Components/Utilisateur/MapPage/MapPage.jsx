@@ -1,14 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
-import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
+import React from 'react'
+import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
+import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
+import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
 import './MapPage.css'
-import L from 'leaflet';
+import L from 'leaflet'
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
-import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js';
+import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js'
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -16,14 +16,24 @@ class MapPage extends React.Component {
         this.state = {
             nameMap: "tu es proche",
             loaded: false,
+            countAnswer: 0,
         }
         this.tab = []
     }
 
     async componentDidMount() {
         await this.props.getPosition()
-        await this.props.enigmesFetch()
+        await (this.props.enigme ? null : this.props.enigmesFetch())
         this.setState({ loaded: true })
+        this.areAllAnswersTrue()
+    }
+
+    areAllAnswersTrue = () => {
+        for (let i = 0; i < this.props.enigme.length; i++) {
+            if(this.props.enigme[i].check===true){
+                this.setState({countAnswer:this.state.countAnswer+1})
+            }
+        }
     }
 
     getDistance(distance1, currentPosition) {
@@ -47,7 +57,7 @@ class MapPage extends React.Component {
         return (
             <div>
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <p className="points">{0} pts</p>
+                <p className="points">{this.props.points} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
                 <div>
                     <Map className="map" center={[45.767383, 4.831571]} zoom={this.props.zoom}>
@@ -58,14 +68,21 @@ class MapPage extends React.Component {
                         {this.state.loaded ?
                             <div>
                                 {this.props.enigme.map((x, i) =>
-                                    <Marker position={this.props.enigme[i].coordonnee.map(Number)}>
-                                        <Popup>
-                                            <p>{this.props.enigme[i].titre}</p>
-                                            {console.log(i)}
-                                            <p>{i}</p>
-                                            <NavLink to="/EnigmePage"> <button onClick={() => this.props.displayEnigmeAction(i)}>Accéder à lénigme</button> </NavLink>
-                                        </Popup>
-                                    </Marker>
+                                    <div>
+                                        {this.state.countAnswer === this.props.enigme.length ?
+                                            <Marker position={[45.758473, 4.859238]}>
+                                                <Popup>
+                                                    <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
+                                                </Popup>
+                                            </Marker>
+                                            :
+                                            <Marker position={this.props.enigme[i].coordonnee.map(Number)}>
+                                                <Popup>
+                                                    <p>{this.props.enigme[i].titre}</p>
+                                                    <NavLink to="/EnigmePage"> <button onClick={() => this.props.displayEnigmeAction(i)}>Accéder à lénigme</button> </NavLink>
+                                                </Popup>
+                                            </Marker>}
+                                    </div>
                                 )}
                             </div> : null}
                         <Marker icon={iconBlack} position={this.props.currentPosition}>
@@ -81,7 +98,7 @@ class MapPage extends React.Component {
                                 <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
                         </div> : null}
                 </div>
-                
+
             </div >
         )
     }
@@ -92,7 +109,6 @@ const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
         enigmesFetch: bindActionCreators(enigmesFetch, dispatch),
-
         goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
         actualTitle: bindActionCreators(actualTitle, dispatch),
@@ -107,8 +123,9 @@ const mapStateToProps = state => ({
     eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
     title: state.titleManagement.title,
-
     enigme: state.reducerMongoEnigmes.enigme,
+    check: state.reducerMongoEnigmes.check,
+    points: state.pointManagement.points,
 })
 
 const iconRed = new L.Icon({
