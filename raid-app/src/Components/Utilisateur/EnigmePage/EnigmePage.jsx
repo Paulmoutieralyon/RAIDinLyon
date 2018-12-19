@@ -137,7 +137,11 @@ export class EnigmePage extends React.Component {
         }
 
     }
-
+    
+  /*  handleclick = (e) =>{
+        this.setState({compteurcontinue: this.state.compteurcontinue +1})
+        if(this.state.compteurcontinue === 2) console.log("un mot")
+    }*/
     render() {
 
         return (
@@ -159,7 +163,7 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        <Button color="primary" className={this.state.visibilite}>Valider</Button>
+                        <Button color="primary" className={this.state.visibilite} /*onClick={this.handleclick}*/>Valider</Button>
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
