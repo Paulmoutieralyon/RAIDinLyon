@@ -7,19 +7,20 @@ import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/t
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
+import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
+import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js';
 
 class MapPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nameMap: "tu es proche",
-
-            //va y avoir la DB après
-            id: 0,
-            position: [0, 0]
+            loaded: false,
         }
+        this.tab = []
     }
 
+<<<<<<< HEAD
     componentDidMount = () => {
         this.props.getPosition()
 
@@ -35,7 +36,14 @@ class MapPage extends React.Component {
                 })
             })*/
 
+=======
+    async componentDidMount() {
+        await this.props.getPosition()
+        await this.props.enigmesFetch()
+        this.setState({ loaded: true })
+>>>>>>> 1300eb1eb108f5e5482676376dd878d715f73c5a
     }
+
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
             lat1 = this.toRadian(distance1[1]),
@@ -43,118 +51,70 @@ class MapPage extends React.Component {
             lat2 = this.toRadian(currentPosition[1]);
         let deltaLat = lat2 - lat1;
         let deltaLon = lon2 - lon1;
-
         let a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
         let c = 2 * Math.asin(Math.sqrt(a));
         let EARTH_RADIUS = 6371;
         return c * EARTH_RADIUS * 1000;
     }
+
     toRadian(degrees) {
         return degrees * Math.PI / 180;
     }
 
-
-
     render() {
-
-        const position1 = [this.props.lat1, this.props.lng1];
-        const position2 = [this.props.lat2, this.props.lng2];
-        const position3 = [this.props.lat3, this.props.lng3];
-        const position4 = [this.props.lat4, this.props.lng4];
-        const position5 = [this.props.lat5, this.props.lng5];
-        const position6 = [this.props.lat6, this.props.lng6];
-
-        const enigme1 = [this.props.eg1];
-        const enigme2 = [this.props.eg2];
-        const enigme3 = [this.props.eg3];
-        const enigme4 = [this.props.eg4];
-        const enigme5 = [this.props.eg5];
-        const enigme6 = [this.props.eg6]
         return (
             <div>
-
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
                 <p className="points">{0} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
-                <Map className="map" center={position1} zoom={this.props.zoom}>
-                    <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                    />
-                    <Marker icon={iconRed} position={position1}>
-                        <Popup>
-                            <span>{enigme1}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position2}>
-                        <Popup>
-                            <span>{enigme2}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position3}>
-                        <Popup>
-                            <span>{enigme3} <br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position4}>
-                        <Popup>
-                            <span>{enigme4}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position5}>
-                        <Popup>
-                            <span>{enigme5}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme5</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconRed} position={position6}>
-                        <Popup>
-                            <span>{enigme6}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                    </Marker>
-                    <Marker icon={iconBlack} position={this.props.currentPosition}>
-                        <Popup>
-                            <span>{enigme6}<br /></span>
-                            <NavLink to="/EnigmePage"> <button>Accéder à lénigme</button> </NavLink>
-                        </Popup>
-                        <Circle
-                            center={this.props.currentPosition}
-                            fillColor="blue"
-                            radius={200} />
-                    </Marker>
-
-                    {this.getDistance(this.props.currentPosition, position2) < 200 ?
-                        <div>
+                <div>
+                    <Map className="map" center={[45.767383, 4.831571]} zoom={this.props.zoom}>
+                        <TileLayer
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+                        />
+                        {this.state.loaded ?
+                            <div>
+                                {this.props.enigme.map((x, i) =>
+                                    <Marker position={this.props.enigme[i].coordonnee.map(Number)}>
+                                        <Popup>
+                                            <p>{this.props.enigme[i].titre}</p>
+                                            {console.log(i)}
+                                            <p>{i}</p>
+                                            <NavLink to="/EnigmePage"> <button onClick={() => this.props.displayEnigmeAction(i)}>Accéder à lénigme</button> </NavLink>
+                                        </Popup>
+                                    </Marker>
+                                )}
+                            </div> : null}
+                        <Marker icon={iconBlack} position={this.props.currentPosition}>
                             <Circle
                                 center={this.props.currentPosition}
-                                fillColor="purple"
-                                radius={200}
-
-                            />
-                        </div> : ' '}
-                </Map>
-                {this.getDistance(this.props.currentPosition, position2) < 200 ? <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
-
-
-
-            </div>
-        );
+                                fillColor="blue"
+                                radius={200} />
+                        </Marker>
+                    </Map>
+                    {this.state.loaded ?
+                        <div>
+                            {this.getDistance(this.props.currentPosition, this.props.enigme[1].coordonnee.map(Number)) < 200 ?
+                                <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
+                        </div> : null}
+                </div>
+                
+            </div >
+        )
     }
 }
 
-/* const mapDispatchToProps = dispatch => ({bindActionCreators({ getPosition }, dispatch)}) */
 
 const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
+        enigmesFetch: bindActionCreators(enigmesFetch, dispatch),
+
         goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
         actualTitle: bindActionCreators(actualTitle, dispatch),
+        displayEnigmeAction: bindActionCreators(displayEnigmeAction, dispatch)
     }
 }
 
@@ -162,27 +122,11 @@ const mapStateToProps = state => ({
     zoom: state.reducerMapPage.zoom,
     lat1: state.reducerMapPage.lat1,
     lng1: state.reducerMapPage.lng1,
-    lat2: state.reducerMapPage.lat2,
-    lng2: state.reducerMapPage.lng2,
-    lat3: state.reducerMapPage.lat3,
-    lng3: state.reducerMapPage.lng3,
-    lat4: state.reducerMapPage.lat4,
-    lng4: state.reducerMapPage.lng4,
-    lat5: state.reducerMapPage.lat5,
-    lng5: state.reducerMapPage.lng5,
-    lat6: state.reducerMapPage.lat6,
-    lng6: state.reducerMapPage.lng6,
-
     eg1: state.reducerMapPage.eg1,
-    eg2: state.reducerMapPage.eg2,
-    eg3: state.reducerMapPage.eg2,
-    eg4: state.reducerMapPage.eg3,
-    eg5: state.reducerMapPage.eg4,
-    eg6: state.reducerMapPage.eg5,
-
     currentPosition: state.reducerMapPage.currentPosition,
-
     title: state.titleManagement.title,
+
+    enigme: state.reducerMongoEnigmes.enigme,
 })
 
 const iconRed = new L.Icon({
