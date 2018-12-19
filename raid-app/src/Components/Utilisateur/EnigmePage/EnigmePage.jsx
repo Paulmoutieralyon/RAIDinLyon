@@ -77,8 +77,6 @@ export class EnigmePage extends React.Component {
                     isFloat: true
                 })
             })
-
-
     }
 
     toggle() {
@@ -143,9 +141,8 @@ export class EnigmePage extends React.Component {
 
         return (
 
-            <div class="EnigmePageContainer">
+            <div className="EnigmePageContainer">
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
-                {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>

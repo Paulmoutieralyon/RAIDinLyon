@@ -2,12 +2,31 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx';
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx';
 import './MapPage.css'
 import L from 'leaflet';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 import axios from 'axios';
+
+
+
+const iconRed = new L.Icon({
+    iconUrl: require('./map-default-red.png'),
+    iconRetinaUrl: require('./map-default-red.png'),
+    iconSize: [50, 100],
+});
+const iconBlack = new L.Icon({
+    iconUrl: require('./map-default-black.png'),
+    iconRetinaUrl: require('./map-default-black.png'),
+    iconSize: [50, 100],
+});
+const iconGreen = new L.Icon({
+    iconUrl: require('./map-default-green.png'),
+    iconRetinaUrl: require('./map-default-green.png'),
+    iconSize: [50, 50],
+});
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -19,12 +38,14 @@ class MapPage extends React.Component {
             coordonee: [0, 0],
             isFloat: false,
         }
-        this.tab = []
+        this.default = [45.746606,4.826917]
+        this.tab = [0.0]
         this.data = null
     }
 
     componentDidMount = () => {
         this.props.getPosition()
+        this.colorMarker()
         let coordonee = [];
 
         //const position1 = [this.props.lat1, this.props.lng1];
@@ -72,6 +93,8 @@ class MapPage extends React.Component {
             })
     }
 
+    
+
 
     getDistance(distance1, currentPosition) {
         let lon1 = this.toRadian(distance1[0]),
@@ -91,17 +114,22 @@ class MapPage extends React.Component {
         return degrees * Math.PI / 180;
     }
 
+    colorMarker = () => {
+        if(this.props.points > 0){
+            console.log("yes")
+            Marker.icon = {iconRed}
+        } else {
+            console.log("NOOOOOO")
+        }
+    }
+
 
 
     render() {
-
-
-
         return (
             <div>
-
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <p className="points">{0} pts</p>
+                <p className="points">{this.props.points} pts</p>
                 <h3 className="TitreMapePage">{this.props.title}</h3>
                 {(this.state.isFloat === true) ?
                     <div>
@@ -165,6 +193,8 @@ const mapDispatchToProps = dispatch => {
         goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
         actualTitle: bindActionCreators(actualTitle, dispatch),
+
+        addPoints: bindActionCreators(addPoint, dispatch),
     }
 }
 
@@ -174,23 +204,9 @@ const mapStateToProps = state => ({
     lng2: state.reducerMapPage.lng2,
     currentPosition: state.reducerMapPage.currentPosition,
     title: state.titleManagement.title,
+    points: state.pointManagement.points,
+    
 })
-
-const iconRed = new L.Icon({
-    iconUrl: require('./map-default-red.png'),
-    iconRetinaUrl: require('./map-default-red.png'),
-    iconSize: [50, 100],
-});
-const iconBlack = new L.Icon({
-    iconUrl: require('./map-default-black.png'),
-    iconRetinaUrl: require('./map-default-black.png'),
-    iconSize: [50, 100],
-});
-const iconGreen = new L.Icon({
-    iconUrl: require('./map-default-green.png'),
-    iconRetinaUrl: require('./map-default-green.png'),
-    iconSize: [50, 50],
-});
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapPage)
