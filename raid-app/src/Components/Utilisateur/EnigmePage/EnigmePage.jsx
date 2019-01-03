@@ -21,12 +21,13 @@ export class EnigmePage extends React.Component {
         super(props);
         this.state = {
             proposition: "",
-            isResTrue:false,
+            isResTrue: false,
             final: Vide,
             modal: false,
             indice: null,
             indiceNumber: 0,
             visibilite: "visible",
+            count: 0,
         };
     }
 
@@ -71,7 +72,7 @@ export class EnigmePage extends React.Component {
             }, 8000);
 
             this.setState({
-                isResTrue:true,
+                isResTrue: true,
                 final: Vrai,
                 visibilite: "pasvisible"
             })
@@ -86,11 +87,18 @@ export class EnigmePage extends React.Component {
             }, 8000);
 
             this.setState({
-                isResTrue:false,
+                isResTrue: false,
                 final: Faux
             })
         }
 
+    }
+
+    xnxx =() => {
+        this.setState({
+            count: this.state.count + 1
+        })
+        console.log("apwal")
     }
 
     render() {
@@ -112,8 +120,10 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        {(this.state.isResTrue)?<Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
-                        :<Button color="primary" className={this.state.visibilite}>Valider</Button>}
+                        {(this.state.isResTrue) ?
+                            <Button onClick={this.xnxx} color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                            :
+                            <Button onClick={this.xnxx} color="primary" className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
