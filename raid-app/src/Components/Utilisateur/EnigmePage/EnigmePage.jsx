@@ -20,6 +20,7 @@ export class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            compteurcontinue: 0,
             proposition: "",
             isResTrue: false,
             final: Vide,
@@ -27,17 +28,70 @@ export class EnigmePage extends React.Component {
             indice: null,
             indiceNumber: 0,
             visibilite: "visible",
-            count: 0,
+            continuer: null,
+
+            markernumber: null,
+            //Les états qu'on l'on fetchera
+            question: null,
+            titre: null,
+            texte: null,
+            reponse: null,
+            indices: null,
+            info: null,
+            img: "./Pierrephilosophale.jpeg",
         };
+        this.toggle = this.toggle.bind(this);
+        this.data = null
     }
 
-    toggle = () => {
+    componentDidMount = () => {
+        /* fetch("http://localhost:5000/api/enigmes")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
+            })
+            .then(data => {
+                this.setState({
+                    question: data[0].question,
+                    titre: data[0].titre,
+                    texte: data[0].enonce,
+                    reponse: data[0].reponse,
+                    indices: data[0].indices,
+                    info: data[0].info,
+                    img: data[0].img,
+                })
+            }) */
+        fetch("http://localhost:5000/api/enigmes")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
+            })
+            .then(data => {
+                this.data = data
+
+                this.setState({
+                    question: data[2].question,
+                    titre: data[2].titre,
+                    texte: data[2].texte,
+                    reponse: data[2].reponse,
+                    indices: data[2].indices,
+                    info: data[2].info,
+                    img: data[2].img,
+                })
+
+                this.setState({
+                    isFloat: true
+                })
+            })
+
+
+    }
+
+    toggle() {
         this.setState({
             modal: !this.state.modal
         });
     }
 
-    displayIndices = () => {
+    indices = () => {
         this.setState({ indiceNumber: this.state.indiceNumber + 1 })
 
 
@@ -51,7 +105,6 @@ export class EnigmePage extends React.Component {
             this.setState({ indice: this.props.enigme[this.props.display].indices[2] })
         }
     };
-
 
     isProposing = (e) => {
         this.setState({
@@ -77,7 +130,6 @@ export class EnigmePage extends React.Component {
                 visibilite: "pasvisible"
             })
 
-
         } else {
             this.props.removePoints()
             this.props.badTitle()
@@ -93,19 +145,17 @@ export class EnigmePage extends React.Component {
         }
 
     }
-
-    xnxx =() => {
-        this.setState({
-            count: this.state.count + 1
-        })
-        console.log("apwal")
-    }
-
+    
+  /*  handleclick = (e) =>{
+        this.setState({compteurcontinue: this.state.compteurcontinue +1})
+        if(this.state.compteurcontinue === 2) console.log("un mot")
+    }*/
     render() {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
-            <div className="EnigmePageContainer">
+
+            <div class="EnigmePageContainer">
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -116,6 +166,7 @@ export class EnigmePage extends React.Component {
                 <img className="Illustration" src={require(`${this.props.enigme[this.props.display].img}`)} alt='' />
                 <p className="Titre">{this.props.enigme[this.props.display].enonce}</p>
                 <p className="BodyText">{this.state.texte}</p>
+
                 <AvForm className="reponse" onSubmit={this.isTrue}>
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
@@ -128,9 +179,9 @@ export class EnigmePage extends React.Component {
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
-
                 </AvForm>
             </div>
+
         );
     }
 }

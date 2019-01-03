@@ -1,6 +1,7 @@
 {
     "name": "my-first-own-mern",
     "version": "1.0.0",
+    "license":"private",
     "scripts": {
         "setdb": "mongo RAIDinLyon --eval db.enigme.drop() && mongo RAIDinLyon --eval db.marker.drop()",
         "client": "cd raid-app && yarn start",
