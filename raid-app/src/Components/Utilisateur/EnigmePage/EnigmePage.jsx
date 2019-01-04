@@ -178,19 +178,12 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        {(this.state.isResTrue) ?
-                            <Button color="primary" type="button" className={this.state.visibilite} onClick={this.handleclick}>Valider</Button>
-                            :
-                            <Button color="primary" className={this.state.visibilite} onClick={this.handleclick}>Valider</Button>}
+                        {(this.state.isResTrue)?<Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                        :<Button color="primary" className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
-                    {(this.state.isContinue === true) ?
-                        <NavLink to="/MapPage"><button className="buttonContinuer">Continuer</button></NavLink>
-                        :
-                        null}
-
                 </AvForm>
             </div>
 
