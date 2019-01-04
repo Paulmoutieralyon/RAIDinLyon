@@ -23,7 +23,7 @@ export class EnigmePage extends React.Component {
         this.state = {
             compteurcontinue: 0,
             proposition: "",
-            //isResTrue: false,
+            isResTrue: false,
             final: Vide,
             modal: false,
             indice: null,
@@ -130,7 +130,7 @@ export class EnigmePage extends React.Component {
                         this.props.actualTitle()
                     }, 8000);
                     this.setState({
-                        //isResTrue: true,
+                        isResTrue: true,
                         final: Vrai,
                         visibilite: "pasvisible"
                     })
@@ -144,7 +144,7 @@ export class EnigmePage extends React.Component {
                     }, 8000);
 
                     this.setState({
-                        //isResTrue: false,
+                        isResTrue: false,
                         final: Faux
                     })
                 }
