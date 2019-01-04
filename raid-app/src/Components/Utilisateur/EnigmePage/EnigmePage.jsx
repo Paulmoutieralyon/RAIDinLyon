@@ -22,13 +22,14 @@ export class EnigmePage extends React.Component {
         this.state = {
             compteurcontinue: 0,
             proposition: "",
-            isResTrue:false,
+            isResTrue: false,
             final: Vide,
             modal: false,
             indice: null,
             indiceNumber: 0,
             visibilite: "visible",
             continuer: null,
+            isContinue: false,
 
             markernumber: null,
             //Les états qu'on l'on fetchera
@@ -125,7 +126,8 @@ export class EnigmePage extends React.Component {
             }, 8000);
 
             this.setState({
-                isResTrue:true,
+                isContinue: true,
+                isResTrue: true,
                 final: Vrai,
                 visibilite: "pasvisible"
             })
@@ -139,17 +141,21 @@ export class EnigmePage extends React.Component {
             }, 8000);
 
             this.setState({
-                isResTrue:false,
+                isResTrue: false,
                 final: Faux
             })
         }
 
     }
-    
-  /*  handleclick = (e) =>{
-        this.setState({compteurcontinue: this.state.compteurcontinue +1})
-        if(this.state.compteurcontinue === 2) console.log("un mot")
-    }*/
+
+    handleclick = (e) => {
+        this.setState({ compteurcontinue: this.state.compteurcontinue + 1 })
+        if (this.state.compteurcontinue >= 2) {
+            this.setState({
+                isContinue: true,
+            })
+        }
+    }
     render() {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
