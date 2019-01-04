@@ -145,11 +145,11 @@ export class EnigmePage extends React.Component {
         }
 
     }
-    
-  /*  handleclick = (e) =>{
-        this.setState({compteurcontinue: this.state.compteurcontinue +1})
-        if(this.state.compteurcontinue === 2) console.log("un mot")
-    }*/
+
+    /*  handleclick = (e) =>{
+          this.setState({compteurcontinue: this.state.compteurcontinue +1})
+          if(this.state.compteurcontinue === 2) console.log("un mot")
+      }*/
     render() {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
@@ -157,6 +157,7 @@ export class EnigmePage extends React.Component {
 
             <div class="EnigmePageContainer">
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
+                {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
@@ -171,10 +172,8 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        {(this.state.isResTrue) ?
-                            <Button onClick={this.xnxx} color="primary" type="button" className={this.state.visibilite}>Valider</Button>
-                            :
-                            <Button onClick={this.xnxx} color="primary" className={this.state.visibilite}>Valider</Button>}
+                        {(this.state.isResTrue) ? <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                            : <Button color="primary" className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
