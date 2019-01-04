@@ -23,7 +23,7 @@ export class EnigmePage extends React.Component {
         this.state = {
             compteurcontinue: 0,
             proposition: "",
-            isResTrue: false,
+            //isResTrue: false,
             final: Vide,
             modal: false,
             indice: null,
@@ -70,13 +70,13 @@ export class EnigmePage extends React.Component {
 
                 this.setState({
                     id: data[this.props.display].id,
-                    question: data[2].question,
-                    titre: data[2].titre,
-                    texte: data[2].texte,
-                    reponse: data[2].reponse,
-                    indices: data[2].indices,
-                    info: data[2].info,
-                    img: data[2].img,
+                    question: data[this.props.display].question,
+                    titre: data[this.props.display].titre,
+                    texte: data[this.props.display].texte,
+                    reponse: data[this.props.display].reponse,
+                    indices: data[this.props.display].indices,
+                    info: data[this.props.display].info,
+                    img: data[this.props.display].img,
                 })
 
                 this.setState({
@@ -93,7 +93,7 @@ export class EnigmePage extends React.Component {
         });
     }
 
-    indices = () => {
+    displayIndices = () => {
         this.setState({ indiceNumber: this.state.indiceNumber + 1 })
 
 
@@ -122,20 +122,15 @@ export class EnigmePage extends React.Component {
         })
             .then(response => {
 
-                if (this.state.proposition === this.props.enigme[this.props.display].reponse[0] || this.state.proposition === this.props.enigme[this.props.display].reponse[1]) {
+                if (response.data.status === true) {
                     this.props.addPoints()
                     this.props.goodTitle()
-                    console.log("1")
-
-                    //celui qui supprime cette fonction je le casse en deux
                     this.props.enigmeValidation(this.props.display)
-
                     setTimeout(() => {
                         this.props.actualTitle()
                     }, 8000);
-
                     this.setState({
-                        isResTrue: true,
+                        //isResTrue: true,
                         final: Vrai,
                         visibilite: "pasvisible"
                     })
@@ -144,13 +139,12 @@ export class EnigmePage extends React.Component {
                     this.props.removePoints()
                     this.props.badTitle()
                     console.log("2")
-
                     setTimeout(() => {
                         this.props.actualTitle()
                     }, 8000);
 
                     this.setState({
-                        isResTrue: false,
+                        //isResTrue: false,
                         final: Faux
                     })
                 }
