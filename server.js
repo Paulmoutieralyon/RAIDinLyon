@@ -77,5 +77,15 @@ app.delete('/api/enigmes/:_id', function (req, res) {
     })
 })
 
+app.get('/api/enigmes/:titre', (req, res) => {
+    let titre = req.params.titre
+    Enigme.find(titre, (err, items) => {
+     if (err) res.status(500).send(error)
+
+     res.status(200).json(items);
+   });
+ });
+
+ 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
