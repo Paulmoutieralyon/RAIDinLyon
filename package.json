@@ -1,9 +1,9 @@
 {
     "name": "my-first-own-mern",
     "version": "1.0.0",
-    "license":"private",
+    "license": "private",
     "scripts": {
-        "setdb": "mongo RAIDinLyon --eval db.enigme.drop() && mongo RAIDinLyon --eval db.marker.drop()",
+        "setdb": "mongo RAIDinLyon --eval db.enigme.drop && mongo RAIDinLyon --eval db.marker.drop",
         "client": "cd raid-app && yarn start",
         "server": "nodemon server.js",
         "database": "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json && mongoimport --db RAIDinLyon --collection equipe --file equipe.json && mongoimport --db RAIDinLyon --collection map --file map.json && mongoimport --db RAIDinLyon --collection administrateur --file administrateur.json && mongoimport --db RAIDinLyon --collection session --file session.json ",
@@ -14,7 +14,8 @@
         "cors": "^2.8.5",
         "express": "^4.16.4",
         "mongoose": "^5.3.14",
-        "nodemon": "^1.18.8"
+        "nodemon": "^1.18.8",
+        "string-similarity": "^3.0.0"
     },
     "devDependencies": {
         "concurrently": "^4.1.0"

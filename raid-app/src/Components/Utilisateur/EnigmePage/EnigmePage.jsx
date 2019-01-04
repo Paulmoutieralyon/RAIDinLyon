@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { displayEnigmeAction, enigmeValidation } from '../../../Actions/displayEnigmeAction.js'
@@ -29,7 +30,6 @@ export class EnigmePage extends React.Component {
             indiceNumber: 0,
             visibilite: "visible",
             continuer: null,
-            isContinue: false,
 
             markernumber: null,
             //Les états qu'on l'on fetchera
@@ -69,13 +69,14 @@ export class EnigmePage extends React.Component {
                 this.data = data
 
                 this.setState({
-                    question: data[2].question,
-                    titre: data[2].titre,
-                    texte: data[2].texte,
-                    reponse: data[2].reponse,
-                    indices: data[2].indices,
-                    info: data[2].info,
-                    img: data[2].img,
+                    id: data[this.props.display].id,
+                    question: data[this.props.display].question,
+                    titre: data[this.props.display].titre,
+                    texte: data[this.props.display].texte,
+                    reponse: data[this.props.display].reponse,
+                    indices: data[this.props.display].indices,
+                    info: data[this.props.display].info,
+                    img: data[this.props.display].img,
                 })
 
                 this.setState({
@@ -92,7 +93,7 @@ export class EnigmePage extends React.Component {
         });
     }
 
-    indices = () => {
+    displayIndices = () => {
         this.setState({ indiceNumber: this.state.indiceNumber + 1 })
 
 
@@ -113,54 +114,59 @@ export class EnigmePage extends React.Component {
         });
     }
 
-    isTrue = () => {
-        if (this.state.proposition === this.props.enigme[this.props.display].reponse[0] || this.state.proposition === this.props.enigme[this.props.display].reponse[1]) {
-            this.props.addPoints()
-            this.props.goodTitle()
+    ReponseManagement = () => {
+        console.log("hello")
+        axios.post('http://localhost:5000/api/enigmes/' + this.state.id, {
+            proposition: this.state.proposition,
 
-            //celui qui supprime cette fonction je le casse en deux
-            this.props.enigmeValidation(this.props.display)
+        })
+            .then(response => {
 
-            setTimeout(() => {
-                this.props.actualTitle()
-            }, 8000);
+                if (response.data.status === true) {
+                    this.props.addPoints()
+                    this.props.goodTitle()
+                    this.props.enigmeValidation(this.props.display)
+                    setTimeout(() => {
+                        this.props.actualTitle()
+                    }, 8000);
+                    this.setState({
+                        isResTrue: true,
+                        final: Vrai,
+                        visibilite: "pasvisible"
+                    })
 
-            this.setState({
-                isContinue: true,
-                isResTrue: true,
-                final: Vrai,
-                visibilite: "pasvisible"
+                } else {
+                    this.props.removePoints()
+                    this.props.badTitle()
+                    console.log("2")
+                    setTimeout(() => {
+                        this.props.actualTitle()
+                    }, 8000);
+
+                    this.setState({
+                        isResTrue: false,
+                        final: Faux
+                    })
+                }
+                console.log(response);
             })
+            .catch(function (error) {
+                console.log(error);
+            });
 
-        } else {
-            this.props.removePoints()
-            this.props.badTitle()
-
-            setTimeout(() => {
-                this.props.actualTitle()
-            }, 8000);
-
-            this.setState({
-                isResTrue: false,
-                final: Faux
-            })
-        }
 
     }
 
-    handleclick = (e) => {
-        this.setState({ compteurcontinue: this.state.compteurcontinue + 1 })
-        if (this.state.compteurcontinue >= 2) {
-            this.setState({
-                isContinue: true,
-            })
-        }
-    }
+
+
+    /*  handleclick = (e) =>{
+          this.setState({compteurcontinue: this.state.compteurcontinue +1})
+          if(this.state.compteurcontinue === 2) console.log("un mot")
+      }*/
     render() {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
-
             <div class="EnigmePageContainer">
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
@@ -178,8 +184,8 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        {(this.state.isResTrue)?<Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
-                        :<Button color="primary" className={this.state.visibilite}>Valider</Button>}
+                        {(this.state.isResTrue) ? <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                            : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
@@ -190,6 +196,8 @@ export class EnigmePage extends React.Component {
         );
     }
 }
+
+
 
 const mapStateToProps = state => ({
     points: state.pointManagement.points,
