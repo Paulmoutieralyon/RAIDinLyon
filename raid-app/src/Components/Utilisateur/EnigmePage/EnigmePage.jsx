@@ -118,7 +118,7 @@ export class EnigmePage extends React.Component {
         console.log("hello")
         axios.post('http://localhost:5000/api/enigmes/' + this.state.id, {
             proposition: this.state.proposition,
-           
+
         })
             .then(response => {
 
@@ -159,42 +159,42 @@ export class EnigmePage extends React.Component {
 
 
 
-/*  handleclick = (e) =>{
-      this.setState({compteurcontinue: this.state.compteurcontinue +1})
-      if(this.state.compteurcontinue === 2) console.log("un mot")
-  }*/
-render() {
-    //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
-    //console.log(this.props.check)
-    return (
-        <div class="EnigmePageContainer">
-            <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
-            {/*<img className="bontonInfo" src={Info} alt="" />*/}
-            <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
-            <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
-                <ModalBody className='modaltexte'>{this.props.enigme.info}</ModalBody>
-            </Modal>
-            <p className="points">{this.props.points} pts</p>
-            <img className="Illustration" src={require(`${this.props.enigme[this.props.display].img}`)} alt='' />
-            <p className="Titre">{this.props.enigme[this.props.display].enonce}</p>
-            <p className="BodyText">{this.state.texte}</p>
+    /*  handleclick = (e) =>{
+          this.setState({compteurcontinue: this.state.compteurcontinue +1})
+          if(this.state.compteurcontinue === 2) console.log("un mot")
+      }*/
+    render() {
+        //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
+        //console.log(this.props.check)
+        return (
+            <div class="EnigmePageContainer">
+                <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
+                {/*<img className="bontonInfo" src={Info} alt="" />*/}
+                <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
+                <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
+                    <ModalBody className='modaltexte'>{this.props.enigme.info}</ModalBody>
+                </Modal>
+                <p className="points">{this.props.points} pts</p>
+                <img className="Illustration" src={require(`${this.props.enigme[this.props.display].img}`)} alt='' />
+                <p className="Titre">{this.props.enigme[this.props.display].enonce}</p>
+                <p className="BodyText">{this.state.texte}</p>
 
-            <AvForm className="reponse" onSubmit={this.isTrue}>
-                <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
-                <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
-                <div className="validationContainer">
-                    {(this.state.isResTrue) ? <Button color="primary"  type="button" className={this.state.visibilite}>Valider</Button>
-                        : <Button color="primary"  onClick={()=>{this.ReponseManagement()}} className={this.state.visibilite}>Valider</Button>}
-                    <img className="final" src={this.state.final} alt='' />
-                </div>
-                <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
-                <div className="Textindices">{this.state.indice}</div>
-            </AvForm>
-        </div>
-    
-    );
-}
+                <AvForm className="reponse" onSubmit={this.isTrue}>
+                    <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
+                    <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                    <div className="validationContainer">
+                        {(this.state.isResTrue) ? <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                            : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
+                        <img className="final" src={this.state.final} alt='' />
+                    </div>
+                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
+                    <div className="Textindices">{this.state.indice}</div>
+                </AvForm>
+            </div>
+
+        );
+    }
 }
 
 
