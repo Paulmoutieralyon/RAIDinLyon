@@ -69,7 +69,7 @@ export default class ListSessionPage extends React.Component {
 
                 {this.EnigmesList()}
                 < Card body >
-                    <NavLink to='AddEgnimes' onClick={this.forceUpdate}>
+                    <NavLink to='/Admin/AddEnigmes' onClick={this.forceUpdate}>
                         <Button>Nouvelle énigme</Button>
                     </NavLink>
                 </Card >

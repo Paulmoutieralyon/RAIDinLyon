@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input } from 'reactstrap';
-import './AddTeam.css'
+import './AddTeam.css';
+import {NavLink} from 'react-router-dom'
 
 export default class AddTeam extends React.Component {
     constructor(props) {
@@ -56,6 +57,7 @@ export default class AddTeam extends React.Component {
                 <Card body>
                     <div class="enregistrerModifications">
                         <Button>Enregistrer <br />les modifications</Button>
+                        <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
                     </div>
                 </Card>
             </div>

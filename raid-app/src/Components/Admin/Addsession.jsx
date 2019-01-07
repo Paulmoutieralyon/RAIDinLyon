@@ -27,7 +27,7 @@ export default class AddEgnimes extends React.Component {
 
                 <NavLink to = "/Admin/AddEgnimes"><Button>Créer une énigme</Button></NavLink>
                 <NavLink to = "/Admin/AddTeam"><Button>Créer une équipe</Button></NavLink>
-                <Button>Classement</Button>
+                <NavLink to = "/Admin/Classement"><Button>Classement</Button></NavLink>
             </div>
         );
     }
