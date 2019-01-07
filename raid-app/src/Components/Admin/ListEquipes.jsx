@@ -36,7 +36,7 @@ export default class ListEquipes extends React.Component {
                 <BrowserRouter>
                     <Breadcrumb>
                         <ListGroup>
-                            <NavLink to={`/equipe/${equipe.nom}`} onClick={this.forceUpdate} className="navlink">
+                            <NavLink to={`/equipe/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
                                 <ListGroupItem active>
                                     <ListGroupItemHeading>{equipe.nom}</ListGroupItemHeading>
                                     <ListGroupItemText>
@@ -65,6 +65,11 @@ export default class ListEquipes extends React.Component {
             })
     }
 
+    addTeam = e => {
+        e.preventDefault()
+        window.location.href = 'AddTeam';
+    }
+
     render() {
         return (
             <div>
@@ -72,7 +77,7 @@ export default class ListEquipes extends React.Component {
                     {this.EquipeList()}
                         <Card body>
                             <NavLink to='AddEquipes' onClick={this.forceUpdate}>
-                            <Button> Nouvelle Equipe </Button>
+                            <Button onClick={this.addTeam}> Nouvelle Equipe </Button>
                             </NavLink>
                         </Card>
             </div>
