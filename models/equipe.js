@@ -20,8 +20,6 @@ module.exports.getEquipe = function (callback, limit) {
 }
 
 // Get EquipeId
-module.exports.getEquipeById = function (id, callback) {
-    Equipe.findOne({ id }, callback)
 module.exports.getEquipeById = function (id,callback) {
     Equipe.findOne({id},callback)
 }
