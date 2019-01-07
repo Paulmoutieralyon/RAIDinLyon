@@ -161,7 +161,6 @@ export class EnigmePage extends React.Component {
     }
 
 
-
     /*  handleclick = (e) =>{
           this.setState({compteurcontinue: this.state.compteurcontinue +1})
           if(this.state.compteurcontinue === 2) console.log("un mot")
