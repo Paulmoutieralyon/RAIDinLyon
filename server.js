@@ -1,19 +1,23 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const stringSimilarity = require('string-similarity')
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const stringSimilarity = require('string-similarity');
+const ObjectId = require('mongodb').ObjectID;
 
 app.use(bodyParser.json())
 
 Enigme = require("./models/enigme")
 Marker = require("./models/marker")
 Administrateur = require("./models/administrateur")
+Equipe = require("./models/equipe")
 
 //Connect to Mongoose
-mongoose.connect('mongodb://localhost/RAIDinLyon', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost/RAIDinLyon', {
+    useNewUrlParser: true
+})
 const db = mongoose.connection
 
 //Options CORS
@@ -25,9 +29,8 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.get('/', function (req, res) {
-    res.send('Please use /api/enigmes or /api/markers')
+    res.send('Please use /api/enigmes or /api/markers or /api/equipe')
 })
-
 
 app.get('/api/enigmes', function (req, res) {
     Enigme.getEnigmes(function (err, enigmes) {
@@ -48,6 +51,15 @@ app.get('/api/markers', function (req, res) {
     })
 })
 
+app.get('/api/equipe', function (req, res) {
+    Equipe.getEquipe(function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
 // proposition string
 function comparaison(trueAnswer, toTestAnswer) {
     console.log(trueAnswer, toTestAnswer)
@@ -56,9 +68,15 @@ function comparaison(trueAnswer, toTestAnswer) {
     if (similarity >= 0.7) {
         status = true
     }
-    return { similarity, status }
+    return {
+        similarity,
+        status
+    }
 }
- 
+/*
+ENIGMES
+*/
+
 app.post('/api/enigmes/:_id', function (req, res) {
     let id = req.params._id
     Enigme.getEnigmeById(id, function (err, enigme) {
@@ -71,7 +89,6 @@ app.post('/api/enigmes/:_id', function (req, res) {
     })
 
 })
-
 
 app.post('/api/enigmes', function (req, res) {
     var enigme = req.body
@@ -105,14 +122,76 @@ app.delete('/api/enigmes/:_id', function (req, res) {
     })
 })
 
-app.get('/api/enigmes/:titre', (req, res) => {
-    let titre = req.params.titre
-    Enigme.find(titre, (err, items) => {
-     if (err) res.status(500).send(error)
+app.get('/api/enigmes/:_id', function (req, res) {
+    let _id = new ObjectId(req.params._id)
+    Enigme.find({ _id}, function (err, items) {
+        if (err) {
+            throw err
+        }
+        res.json(items);
+    })
+});
 
-     res.status(200).json(items);
-   });
- });
+
+/*
+EQUIPE
+*/
+app.post('/api/equipe/:_id', function (req, res) {
+    let id = req.params._id
+    Equipe.getEquipeById(id, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        const compar = comparaison(equipe.reponse, req.body.proposition)
+        if (compar.status) res.json(compar)
+        else res.json(compar)
+    })
+
+})
+
+app.post('/api/equipe', function (req, res) {
+    var equipe = req.body
+    console.log(req.body)
+    Equipe.addEquipe(equipe, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+app.put('/api/equipe/:_id', function (req, res) {
+    var id = req.params._id
+    var equipe = req.body
+    Equipe.updateEquipe(id, equipe, {}, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+app.delete('/api/equipe/:_id', function (req, res) {
+    var id = req.params._id
+    Equipe.removeEquipe(id, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+app.get('/api/equipe/:nom', (req, res) => {
+    let nom = req.params.nom
+    Equipe.find(nom, (err, items) => {
+        if (err) res.status(500).send(error)
+
+        res.status(200).json(items);
+    });
+});
+
+
+
 
  app.get('/api/administrateurs', function (req, res) {
     Administrateur.getAdministrateurs(function (err, administrateurs) {
