@@ -10,12 +10,15 @@ export default class AddTeam extends React.Component {
         super(props);
         this.state = {
             collapse: false,
+            collapseTitle: false,
             isEmpty: true,
+            teamName: null,
             name: null,
             email: null,
             phone: null,
             value: true,
             data: null,
+            load: false,
         };
     }
 
@@ -24,6 +27,13 @@ export default class AddTeam extends React.Component {
             collapse: !this.state.collapse
         });
     }
+
+    toggleTitle = () => {
+        this.setState({
+            collapseTitle: !this.state.collapseTitle
+        });
+    }
+
 
     handleparticipantChange = (evt) => {
         this.setState({
@@ -59,13 +69,15 @@ export default class AddTeam extends React.Component {
     }
 
     submitParticipant = () => {
-        
+
         axios({
+
             method: 'post',
             url: 'http://localhost:5000/api/equipe',
             data: {
                 participants: this.state.name
-            }
+            },
+
         })
             .then(function (response) {
                 console.log(response);
@@ -73,7 +85,13 @@ export default class AddTeam extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-        window.location.href = 'ListEnigmes';
+        // window.location.href = 'ListEquipes';
+    }
+
+    handleTeamNameChange = (evt) => {
+        this.setState({
+            teamName: evt.target.value
+        });
     }
 
     /* handleChange = (evt) => {
@@ -84,7 +102,18 @@ export default class AddTeam extends React.Component {
     render() {
         return (
             <div className="containerAddTeam">
-                <h1>Nom de l'équipe</h1>
+                <h1>{this.state.teamName}</h1>
+                <Button color="primary" onClick={this.toggleTitle} style={{ marginBottom: '1rem' }}>Modifier le nom de l'équipe</Button>
+                <Collapse isOpen={this.state.collapseTitle}>
+                    <InputGroup>
+                        <Input
+                            type="name"
+                            placeholder="Les farfadets de Bourgogne"
+                            onChange={this.handleTeamNameChange}
+                            />
+                    </InputGroup>
+                    <Button>Confirmer</Button>
+                </Collapse>
 
                 <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Ajouter un participant</Button>
                 <Collapse isOpen={this.state.collapse}>
@@ -115,27 +144,15 @@ export default class AddTeam extends React.Component {
                     {(this.state.isEmpty === false) ?
                         <Button style={{ backgroundColor: 'green' }} >Ajouter</Button>
                         :
-                        <Button>Ajouter</Button>
+                        <Button onClick={this.submitParticipant}>Ajouter</Button>
                     }
                     {/* </CardBody>
                     </Card> */}
-
                 </Collapse>
+
                 <div className='breadcrumbContainer'>
                     <Breadcrumb>
                         <BreadcrumbItem active>Jean-Pierre</BreadcrumbItem>
-                        
-
-                        <Button style={{ marginRight: '3vh' }} close />
-                    </Breadcrumb>
-
-                    <Breadcrumb>
-                        <BreadcrumbItem active>Maryvonne</BreadcrumbItem>
-                        <Button style={{ marginRight: '3vh' }} close />
-                    </Breadcrumb>
-
-                    <Breadcrumb>
-                        <BreadcrumbItem active>Claire-Andrée</BreadcrumbItem>
                         <Button style={{ marginRight: '3vh' }} close />
                     </Breadcrumb>
                 </div>

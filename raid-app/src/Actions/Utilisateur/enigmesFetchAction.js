@@ -1,6 +1,6 @@
 export const enigmesFetch = () => {
     return dispatch => {
-        return fetch("http://localhost:5000/api/enigmes")
+        return fetch("http://localhost:5000/api/enigme")
             .then(laPetiteReponse => {
                 return laPetiteReponse.json()
             })
