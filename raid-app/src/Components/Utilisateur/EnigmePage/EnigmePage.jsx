@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { displayEnigmeAction, enigmeValidation } from '../../../Actions/displayEnigmeAction.js'
@@ -20,17 +21,73 @@ export class EnigmePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            compteurcontinue: 0,
             proposition: "",
-            isResTrue:false,
+            isResTrue: false,
             final: Vide,
             modal: false,
             indice: null,
             indiceNumber: 0,
             visibilite: "visible",
+            continuer: null,
+
+            markernumber: null,
+            //Les états qu'on l'on fetchera
+            question: null,
+            titre: null,
+            texte: null,
+            reponse: null,
+            indices: null,
+            info: null,
+            img: "./Pierrephilosophale.jpeg",
         };
+        this.toggle = this.toggle.bind(this);
+        this.data = null
     }
 
-    toggle = () => {
+    componentDidMount = () => {
+        /* fetch("http://localhost:5000/api/enigmes")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
+            })
+            .then(data => {
+                this.setState({
+                    question: data[0].question,
+                    titre: data[0].titre,
+                    texte: data[0].enonce,
+                    reponse: data[0].reponse,
+                    indices: data[0].indices,
+                    info: data[0].info,
+                    img: data[0].img,
+                })
+            }) */
+        fetch("http://localhost:5000/api/enigmes")
+            .then(laPetiteReponse => {
+                return laPetiteReponse.json()
+            })
+            .then(data => {
+                this.data = data
+
+                this.setState({
+                    id: data[this.props.display].id,
+                    question: data[this.props.display].question,
+                    titre: data[this.props.display].titre,
+                    texte: data[this.props.display].texte,
+                    reponse: data[this.props.display].reponse,
+                    indices: data[this.props.display].indices,
+                    info: data[this.props.display].info,
+                    img: data[this.props.display].img,
+                })
+
+                this.setState({
+                    isFloat: true
+                })
+            })
+
+
+    }
+
+    toggle() {
         this.setState({
             modal: !this.state.modal
         });
@@ -51,53 +108,66 @@ export class EnigmePage extends React.Component {
         }
     };
 
-
     isProposing = (e) => {
         this.setState({
             proposition: e.target.value
         });
     }
 
-    isTrue = () => {
-        if (this.state.proposition === this.props.enigme[this.props.display].reponse[0] || this.state.proposition === this.props.enigme[this.props.display].reponse[1]) {
-            this.props.addPoints()
-            this.props.goodTitle()
+    ReponseManagement = () => {
+        console.log("hello")
+        axios.post('http://localhost:5000/api/enigmes/' + this.state.id, {
+            proposition: this.state.proposition,
 
-            //celui qui supprime cette fonction je le casse en deux
-            this.props.enigmeValidation(this.props.display)
+        })
+            .then(response => {
 
-            setTimeout(() => {
-                this.props.actualTitle()
-            }, 8000);
+                if (response.data.status === true) {
+                    this.props.addPoints()
+                    this.props.goodTitle()
+                    this.props.enigmeValidation(this.props.display)
+                    setTimeout(() => {
+                        this.props.actualTitle()
+                    }, 8000);
+                    this.setState({
+                        isResTrue: true,
+                        final: Vrai,
+                        visibilite: "pasvisible"
+                    })
 
-            this.setState({
-                isResTrue:true,
-                final: Vrai,
-                visibilite: "pasvisible"
+                } else {
+                    this.props.removePoints()
+                    this.props.badTitle()
+                    console.log("2")
+                    setTimeout(() => {
+                        this.props.actualTitle()
+                    }, 8000);
+
+                    this.setState({
+                        isResTrue: false,
+                        final: Faux
+                    })
+                }
+                console.log(response);
             })
+            .catch(function (error) {
+                console.log(error);
+            });
 
-
-        } else {
-            this.props.removePoints()
-            this.props.badTitle()
-
-            setTimeout(() => {
-                this.props.actualTitle()
-            }, 8000);
-
-            this.setState({
-                isResTrue:false,
-                final: Faux
-            })
-        }
 
     }
 
+
+
+    /*  handleclick = (e) =>{
+          this.setState({compteurcontinue: this.state.compteurcontinue +1})
+          if(this.state.compteurcontinue === 2) console.log("un mot")
+      }*/
     render() {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
-            <div className="EnigmePageContainer">
+            <div class="EnigmePageContainer">
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
@@ -109,22 +179,25 @@ export class EnigmePage extends React.Component {
                 <img className="Illustration" src={require(`${this.props.enigme[this.props.display].img}`)} alt='' />
                 <p className="Titre">{this.props.enigme[this.props.display].enonce}</p>
                 <p className="BodyText">{this.state.texte}</p>
+
                 <AvForm className="reponse" onSubmit={this.isTrue}>
                     <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        {(this.state.isResTrue)?<Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
-                        :<Button color="primary" className={this.state.visibilite}>Valider</Button>}
+                        {(this.state.isResTrue) ? <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                            : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
                     <div className="Textindices">{this.state.indice}</div>
-
                 </AvForm>
             </div>
+
         );
     }
 }
+
+
 
 const mapStateToProps = state => ({
     points: state.pointManagement.points,

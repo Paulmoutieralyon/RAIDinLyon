@@ -4,6 +4,7 @@ const port = process.env.PORT || 5000;
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const stringSimilarity = require('string-similarity')
 
 app.use(bodyParser.json())
 
@@ -45,6 +46,31 @@ app.get('/api/markers', function (req, res) {
     })
 })
 
+// proposition string
+function comparaison(trueAnswer, toTestAnswer) {
+    console.log(trueAnswer, toTestAnswer)
+    let similarity = stringSimilarity.compareTwoStrings(trueAnswer, toTestAnswer);
+    let status = false
+    if (similarity >= 0.7) {
+        status = true
+    }
+    return { similarity, status }
+}
+ 
+app.post('/api/enigmes/:_id', function (req, res) {
+    let id = req.params._id
+    Enigme.getEnigmeById(id, function (err, enigme) {
+        if (err) {
+            throw err
+        }
+        const compar = comparaison(enigme.reponse, req.body.proposition)
+        if (compar.status) res.json(compar)
+        else res.json(compar)
+    })
+
+})
+
+
 app.post('/api/enigmes', function (req, res) {
     var enigme = req.body
     console.log(req.body)
@@ -77,5 +103,15 @@ app.delete('/api/enigmes/:_id', function (req, res) {
     })
 })
 
+app.get('/api/enigmes/:titre', (req, res) => {
+    let titre = req.params.titre
+    Enigme.find(titre, (err, items) => {
+     if (err) res.status(500).send(error)
+
+     res.status(200).json(items);
+   });
+ });
+
+ 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

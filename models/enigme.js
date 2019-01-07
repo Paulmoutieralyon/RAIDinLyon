@@ -2,10 +2,6 @@ var mangoose = require('mongoose')
 
 //Enigme Schema
 var enigmeSchema = mangoose.Schema({
-    create_table: {
-        type: Date,
-        default: Date.now,
-    },
     id: String,
     titre : String,
     question : String,
@@ -14,7 +10,7 @@ var enigmeSchema = mangoose.Schema({
     info: String,
     coordonnee : Array,
     img : String,
-    reponse : Array,
+    reponse : String,
 }, { collection: 'enigme' });
 
 var Enigme = module.exports = mangoose.model('Enigme', enigmeSchema)
@@ -23,6 +19,12 @@ var Enigme = module.exports = mangoose.model('Enigme', enigmeSchema)
 module.exports.getEnigmes = function (callback, limit) {
     Enigme.find(callback).limit(limit)
 }
+
+// Get EnigmesId
+module.exports.getEnigmeById = function (id,callback) {
+    Enigme.findOne({id},callback)
+}
+
 
 // Add Enigme
 module.exports.addEnigme = function (enigme, callback) {
