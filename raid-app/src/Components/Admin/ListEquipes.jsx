@@ -19,8 +19,10 @@ export default class ListEquipes extends React.Component {
     componentDidMount() {
         axios.get('http://localhost:5000/api/equipe/')
             .then(response => {
+                
                 this.setState({
                     equipe: response.data
+                    
                 })
             })
             .catch(error => {
@@ -54,7 +56,7 @@ export default class ListEquipes extends React.Component {
         axios.delete(`http://localhost:5000/api/equipe/${equipeid}`)
             .then(response => {
                 console.log(response)
-                if (response.status === 2000) {
+                if (response.status === 200) {
                     const tab = this.state.equipe.slice()
                     delete tab[index]
                     this.setState({ equipe: tab })
