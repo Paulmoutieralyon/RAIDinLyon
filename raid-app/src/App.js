@@ -14,6 +14,7 @@ import ListSessionPage from './Components/Admin/ListSessionPage';
 import SessionPage from './Components/Admin/SessionPage';
 import Listequipes from './Components/Admin/ListEquipes';
 import Addsession from './Components/Admin/Addsession';
+import UnEnigme from './Components/Admin/UnEnigme';
 
 
 export default class App extends Component {
@@ -38,6 +39,7 @@ export default class App extends Component {
             <Route path="/Admin/SessionPage" component={SessionPage} />
             <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
             <Route path='/Admin/Addsession' component={Addsession} />
+            <Route path="/enigmes/:id" component={UnEnigme} />/>
           </Switch>
         </BrowserRouter>
 
