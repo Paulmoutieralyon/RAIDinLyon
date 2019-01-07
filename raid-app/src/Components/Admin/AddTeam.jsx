@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Breadcrumb, CardFooter, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup } from 'reactstrap';
 import axios from 'axios'
+import {NavLink} from 'react-router-dom'
 
 export default class AddTeam extends React.Component {
     constructor(props) {
@@ -132,7 +133,9 @@ export default class AddTeam extends React.Component {
                 </FormGroup>
 
                 <CardFooter>
+                    <NavLink to = "/Admin/ListTeam"><Button>Voir la liste des équipes </Button></NavLink>
                     <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
+                    <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
                 </CardFooter>
             </div>
         );

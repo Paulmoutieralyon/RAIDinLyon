@@ -1,8 +1,9 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import Toggle from "react-toggle-component";
-import "react-toggle-component/styles.css"
-import './ListSessionPage.css'
+import "react-toggle-component/styles.css";
+import './ListSessionPage.css';
+import {NavLink} from 'react-router-dom';
 
 export default class ListSessionPage extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class ListSessionPage extends React.Component {
  
 
                 <Card body>
-                    <Button>Nouvelle session</Button>
+                    <NavLink to = "/Admin/SessionPage"><Button>Nouvelle session</Button></NavLink>
                 </Card>
 
 

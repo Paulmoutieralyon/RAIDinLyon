@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-
+import {NavLink} from 'react-router-dom'
 export default class Classement extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +22,7 @@ export default class Classement extends React.Component {
           </Input>
         </FormGroup>
         <Button>Réinitialiser</Button>
+        <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
       </div>
     );
   }
