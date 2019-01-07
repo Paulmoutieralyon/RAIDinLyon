@@ -7,7 +7,7 @@
         "client": "cd raid-app && yarn start",
         "server": "nodemon server.js",
         "database": "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json && mongoimport --db RAIDinLyon --collection equipe --file equipe.json && mongoimport --db RAIDinLyon --collection map --file map.json && mongoimport --db RAIDinLyon --collection administrateur --file administrateur.json && mongoimport --db RAIDinLyon --collection session --file session.json ",
-        "jeffrey": "concurrently --kill-others-on-fail \"yarn setdb\" \"yarn server\" \"yarn database\" \"yarn client\"",
+        "jeffrey": "concurrently --kill-others-on-fail \"mongoimportyarn setdb\" \"yarn server\" \"yarn database\" \"yarn client\"",
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
     },
     "dependencies": {
@@ -15,6 +15,8 @@
         "express": "^4.16.4",
         "mongoose": "^5.3.14",
         "nodemon": "^1.18.8",
+        "qrcode-reader": "^1.0.4",
+        "react-qr-reader": "^2.1.2",
         "string-similarity": "^3.0.0"
     },
     "devDependencies": {

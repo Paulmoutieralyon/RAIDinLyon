@@ -6,21 +6,20 @@ import axios from 'axios';
 import trash from './trash.jpg'
 import "react-toggle-component/styles.css"
 
-export default class ListSessionPage extends React.Component {
+export default class ListAdmin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            enigmes: [],
-            actualisation: false
+            admin: [],
         };
     }
 
+
     componentDidMount() {
-        axios.get('http://localhost:5000/api/enigmes/')
+        axios.get('http://localhost:5000/api/administrateurs/')
             .then(response => {
-                console.log(response)
                 this.setState({
-                    enigmes: response.data
+                    admin: response.data
                 })
             })
             .catch(error => {
@@ -28,20 +27,20 @@ export default class ListSessionPage extends React.Component {
             });
     }
 
-    EnigmesList = () => {
-        return this.state.enigmes.map((enigme, i) => {
+    AdminList = () => {
+        return this.state.admin.map((administrateur, i) => {
             return (
                 <BrowserRouter>
                     <Breadcrumb>
                         <ListGroup>
-                            <NavLink to={`/enigmes/${enigme._id}`} onClick={this.forceUpdate} className="navlink">
+                            <NavLink to={`/administrateurs/${administrateur.email}`} onClick={this.forceUpdate} className="navlink">
                                 <ListGroupItem active>
-                                    <ListGroupItemHeading>{enigme.titre}</ListGroupItemHeading>
+                                    <ListGroupItemHeading>{administrateur.email}</ListGroupItemHeading>
                                     <ListGroupItemText>
                                     </ListGroupItemText>
                                 </ListGroupItem>
                             </NavLink>
-                            <img src={trash} onClick={() => this.Delete(enigme._id, i)} className="trash" />
+                            <img src={trash} onClick={() => this.Delete(administrateur._id, i)} className="trash" />
                         </ListGroup>
                     </Breadcrumb>
                 </BrowserRouter >
@@ -49,15 +48,15 @@ export default class ListSessionPage extends React.Component {
         })
     }
 
-    Delete = (enigmeid, index) => {
-        axios.delete(`http://localhost:5000/api/enigmes/${enigmeid}`)
+    Delete = (administrateurid, index) => {
+        axios.delete(`http://localhost:5000/api/administrateurs/${administrateurid}`)
             .then(response => {
                 console.log(response)
                 if (response.status === 200) {
-                    const tab = this.state.enigmes.slice()
+                    const tab = this.state.admin.slice()
                     delete tab[index]
-                    this.setState({ enigmes: tab })
-                    console.log(this.state.enigmes)
+                    this.setState({ admin: tab })
+                    console.log(this.state.admin)
                 }
             })
     }
@@ -65,12 +64,12 @@ export default class ListSessionPage extends React.Component {
     render() {
         return (
             <div>
-                <h1>Énigmes</h1>
+                <h1>Administrateurs</h1>
 
-                {this.EnigmesList()}
+                {this.AdminList()}
                 < Card body >
-                    <NavLink to='/Admin/AddEnigmes' onClick={this.forceUpdate}>
-                        <Button>Nouvelle énigme</Button>
+                    <NavLink to='AdminComptes' onClick={this.forceUpdate}>
+                        <Button>Nouvelle administrateur</Button>
                     </NavLink>
                 </Card >
 
