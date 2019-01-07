@@ -4,7 +4,6 @@ import { BrowserRouter, NavLink } from 'react-router-dom';
 import { Breadcrumb, Card, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 import axios from 'axios';
 import trash from './trash.jpg'
-
 import "react-toggle-component/styles.css"
 
 export default class ListSessionPage extends React.Component {
@@ -19,6 +18,7 @@ export default class ListSessionPage extends React.Component {
     componentDidMount() {
         axios.get('http://localhost:5000/api/enigmes/')
             .then(response => {
+                console.log(response)
                 this.setState({
                     enigmes: response.data
                 })
@@ -34,7 +34,7 @@ export default class ListSessionPage extends React.Component {
                 <BrowserRouter>
                     <Breadcrumb>
                         <ListGroup>
-                            <NavLink to={`/enigmes/${enigme.titre}`} onClick={this.forceUpdate} className="navlink">
+                            <NavLink to={`/enigmes/${enigme._id}`} onClick={this.forceUpdate} className="navlink">
                                 <ListGroupItem active>
                                     <ListGroupItemHeading>{enigme.titre}</ListGroupItemHeading>
                                     <ListGroupItemText>

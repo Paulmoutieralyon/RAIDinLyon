@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const stringSimilarity = require('string-similarity')
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const stringSimilarity = require('string-similarity');
+const ObjectId = require('mongodb').ObjectID;
 
 app.use(bodyParser.json())
 
@@ -29,7 +30,6 @@ app.use(cors(corsOptions))
 app.get('/', function (req, res) {
     res.send('Please use /api/enigmes or /api/markers or /api/equipe')
 })
-
 
 app.get('/api/enigmes', function (req, res) {
     Enigme.getEnigmes(function (err, enigmes) {
@@ -74,6 +74,7 @@ function comparaison(trueAnswer, toTestAnswer) {
 /*
 ENIGMES
 */
+
 app.post('/api/enigmes/:_id', function (req, res) {
     let id = req.params._id
     Enigme.getEnigmeById(id, function (err, enigme) {
@@ -119,15 +120,15 @@ app.delete('/api/enigmes/:_id', function (req, res) {
     })
 })
 
-app.get('/api/enigmes/:titre', (req, res) => {
-    let titre = req.params.titre
-    Enigme.find(titre, (err, items) => {
-        if (err) res.status(500).send(error)
-
-        res.status(200).json(items);
-    });
+app.get('/api/enigmes/:_id', function (req, res) {
+    let _id = new ObjectId(req.params._id)
+    Enigme.find({ _id}, function (err, items) {
+        if (err) {
+            throw err
+        }
+        res.json(items);
+    })
 });
-
 
 
 /*
@@ -186,6 +187,8 @@ app.get('/api/equipe/:nom', (req, res) => {
         res.status(200).json(items);
     });
 });
+
+
 
 
 
