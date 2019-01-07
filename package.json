@@ -15,6 +15,7 @@
         "express": "^4.16.4",
         "mongoose": "^5.3.14",
         "nodemon": "^1.18.8",
+        "qrcode-reader": "^1.0.4",
         "string-similarity": "^3.0.0"
     },
     "devDependencies": {
