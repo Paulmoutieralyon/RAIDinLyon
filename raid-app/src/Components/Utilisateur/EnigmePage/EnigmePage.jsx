@@ -192,7 +192,7 @@ export class EnigmePage extends React.Component {
                     </div>
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
-                    {(this.state.isContinue === true || this.state.indiceNumber === 3) ?
+                    {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
                         <NavLink to="/MapPage"><button className="buttonContinuer">Continuer</button></NavLink>
                         :
                         null}
