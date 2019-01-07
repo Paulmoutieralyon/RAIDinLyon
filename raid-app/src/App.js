@@ -15,6 +15,7 @@ import SessionPage from './Components/Admin/SessionPage';
 import Listequipes from './Components/Admin/ListEquipes';
 import Addsession from './Components/Admin/Addsession';
 import QrCodeScan from './Components/Admin/QrCodeScan';
+import ListAdmin from './Components/Admin/ListAdmin';
 import UnEnigme from './Components/Admin/UnEnigme';
 
 
@@ -35,6 +36,7 @@ export default class App extends Component {
             <Route path="/Admin/AdminComptes" component={AdminComptes} />
             <Route path="/Admin/Classement" component={Classement} />
             <Route path="/Admin/ListEnigmes" component={ListEnigmes} />
+            <Route path="/Admin/ListAdmin" component={ListAdmin} />
             <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
             <Route path="/Admin/ListTeam" component={Listequipes} />
             <Route path="/Admin/SessionPage" component={SessionPage} />
