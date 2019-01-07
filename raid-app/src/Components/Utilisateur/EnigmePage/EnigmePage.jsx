@@ -1,3 +1,4 @@
+
 import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -30,6 +31,7 @@ export class EnigmePage extends React.Component {
             indiceNumber: 0,
             visibilite: "visible",
             continuer: null,
+            isContinue: false,
 
             markernumber: null,
             //Les états qu'on l'on fetchera
@@ -130,6 +132,7 @@ export class EnigmePage extends React.Component {
                         this.props.actualTitle()
                     }, 8000);
                     this.setState({
+                        isContinue: true,
                         isResTrue: true,
                         final: Vrai,
                         visibilite: "pasvisible"
@@ -170,7 +173,7 @@ export class EnigmePage extends React.Component {
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
-                <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
                     <ModalBody className='modaltexte'>{this.props.enigme.info}</ModalBody>
                 </Modal>
@@ -187,8 +190,12 @@ export class EnigmePage extends React.Component {
                             : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
-                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button>
+                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
+                    {(this.state.isContinue === true || this.state.indiceNumber === 3) ?
+                        <NavLink to="/MapPage"><button className="buttonContinuer">Continuer</button></NavLink>
+                        :
+                        null}
                 </AvForm>
             </div>
 

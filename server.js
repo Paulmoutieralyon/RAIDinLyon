@@ -13,7 +13,9 @@ Marker = require("./models/marker")
 Equipe = require("./models/equipe")
 
 //Connect to Mongoose
-mongoose.connect('mongodb://localhost/RAIDinLyon', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost/RAIDinLyon', {
+    useNewUrlParser: true
+})
 const db = mongoose.connection
 
 //Options CORS
@@ -64,7 +66,10 @@ function comparaison(trueAnswer, toTestAnswer) {
     if (similarity >= 0.7) {
         status = true
     }
-    return { similarity, status }
+    return {
+        similarity,
+        status
+    }
 }
 /*
 ENIGMES
