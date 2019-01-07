@@ -11,10 +11,6 @@ export default class AddTeam extends React.Component {
             email: null,
             telephone: null
         };
-        /* this.addResp = [];
-        this.Clue1 = null;
-        this.Clue2 = null;
-        this.Clue3 = null; */
     }
 
     /* Modification du nom de l'quipe*/
@@ -41,15 +37,6 @@ export default class AddTeam extends React.Component {
     /* ________________________________
                 participants
     _________________________________ */
-
-
-    /* Ajout des participants */
-    /* add1Clue = (e) => {
-        const participants = this.state.participants.slice()
-        participants[0] = e.target.value
-        this.setState({ participants: participants })
-
-    } */
 
     handleText = i => e => {
         let participants = [...this.state.participants]
@@ -91,18 +78,18 @@ export default class AddTeam extends React.Component {
                 token: null,
                 participants: this.state.participants,
                 telephone: this.state.telephone,
-                
+                h_fin: 0,
             }
         })
             .then(function (response) {
                 console.log("YES",response);
+                return <div>Ajout de l'équipe avec succès</div>
             })
             .catch(function (error) {
                 console.log("MERDE",error);
             });
-        //window.location.href = 'ListEquipes';
+        window.location.href = 'ListTeam';
         console.log("DONEEEEEEEEEEEEEEEEEEEEE")
-
     }
 
     render() {
