@@ -145,7 +145,7 @@ _________________________________ */
     /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
     submit = () => {
         axios({
-            method: 'post',
+            method: 'pwost',
             url: 'http://localhost:5000/api/enigmes',
             data: {
                 titre: this.state.titre,
