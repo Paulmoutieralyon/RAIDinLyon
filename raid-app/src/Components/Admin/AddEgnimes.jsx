@@ -12,18 +12,22 @@ export default class AddEgnimes extends React.Component {
             titre: null,
             enonce: null,
             nouvellerep: null,
-            responses: null,
+            responses: [],
             nouvelindice: null,
             indices: [],
             info: null,
             image: null
         };
         this.addResp = [];
-        this.Clue1 = null;
-        this.Clue2 = null;
-        this.Clue3 = null;
+        this.addClu = [];
     }
 
+    /* Questionnaire déroulant d'ajout d'une reponse */
+    toggle = () => {
+        this.setState({
+            collapse: !this.state.collapse
+        });
+    }
 
     /* Ajout d'une image */
     modifyImage = (e) => {
@@ -45,51 +49,78 @@ export default class AddEgnimes extends React.Component {
         })
     }
 
-    /* Modification de la question */
-    modifyQuestion = (e) => {
-        this.setState({
-            question: e.target.value
-        })
+    delete = (e) => {
+
     }
-
-
     /* _________________________________
                 Reponses
     _________________________________ */
 
-    /* Ajout de la réponse */
-    addResponse = (e) => {
+    /* Stockage momentané de la réponse en cours de rédaction */
+    momentaryResp = (e) => {
         this.setState({
-            responses: e.target.value
+            nouvellerep: e.target.value
         })
-        console.log(this.state.responses)
     }
 
+    /* Stockage  de la réponse*/
+    addResponse = (e) => {
+        this.addResp.push(this.state.nouvellerep)
+        this.setState({
+            responses: this.addResp,
+            /*collapse: !this.state.collapse*/
+        })
+    }
+
+    /* Affichage des réponses*/
+    responseList = (e) => {
+        return this.state.responses.map((x, index) => {
+            return (
+                <Breadcrumb id="zone">
+                    <BreadcrumbItem active>{x}</BreadcrumbItem>
+                    <Button close />
+                </Breadcrumb>
+            )
+        })
+    }
+
+    /* Rassemblement des fonctions declenchées par OnClick lors de l'ajout d'une reponse*/
+    rassemblement = (e) => {
+        this.addResponse();
+        this.responseList();
+    }
 
     /* ________________________________
                 INDICES
     _________________________________ */
 
-
-    /* Ajout des indices */
-    add1Clue = (e) => {
-        const indices = this.state.indices.slice()
-        indices[0] = e.target.value
-        this.setState({ indices: indices })
-
+    /* Stockage  de l'indice'*/
+    addClue = (e) => {
+        this.addClu.push(this.state.nouvellerep)
+        this.setState({
+            indices: this.addClu,
+            /*collapse: !this.state.collapse*/
+        })
     }
 
-    add2Clue = (e) => {
-        const indices = this.state.indices.slice()
-        indices[1] = e.target.value
-        this.setState({ indices: indices })
+    /* Affichage des indices*/
+    clueList = (e) => {
+        return this.state.indices.map((x, index) => {
+            return (
+                <Breadcrumb>
+                    <BreadcrumbItem active>{x}</BreadcrumbItem>
+                    <Button close/>
+                </Breadcrumb>
+            )
+        })
+    } 
+
+    /* Rassemblement des fonctions declenchées par OnClick lors de l'ajout d'une reponse*/
+    rassemblementClue = (e) => {
+        this.addClue();
+        this.clueList()
     }
 
-    add3Clue = (e) => {
-        const indices = this.state.indices.slice()
-        indices[2] = e.target.value
-        this.setState({ indices: indices })
-    }
 
     /* ________________________________
             LOCALISATION
@@ -111,7 +142,6 @@ _________________________________ */
             info: e.target.value
         })
     }
-
     /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
     submit = () => {
         axios({
@@ -139,7 +169,6 @@ _________________________________ */
     }
 
     render() {
-        console.log(this.state.indices)
         return (
             <div>
 
@@ -159,37 +188,24 @@ _________________________________ */
                     <Input type="textarea" name="text" id="exampleText" onChange={this.modifyAnnouncement} />
                 </FormGroup>
 
-                <FormGroup>
-                    <Label for="exampleText">Question</Label>
-                    <Input type="textarea" name="text" id="exampleText" onChange={this.modifyQuestion} />
-                </FormGroup>
+                <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Ajouter une reponse / un indice</Button>
+                <Collapse isOpen={this.state.collapse}>
+                    <Card>
+                        <CardBody>
+                            <InputGroup>
+                                <InputGroupAddon addonType="prepend"></InputGroupAddon>
+                                <Input type="reponse" placeholder="Tapez une réponse / un indice" onChange={this.momentaryResp} />
+                            </InputGroup>
+                            <Button onClick={this.rassemblement} >Ajouter une reponse</Button>
+                            <Button onClick={this.rassemblementClue} >Ajouter un indice</Button>
+                        </CardBody>
+                    </Card>
+                </Collapse>
+                <h5>Réponses possible : </h5>
+                {this.responseList()}
+                <h5>Indices : </h5>
+                {this.clueList()}
 
-                <FormGroup>
-                    <Label for="exampleText">Réponse</Label>
-                    <Input type="textarea" name="text" id="exampleText" onChange={this.addResponse} />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="exampleEmail">Indices</Label>
-                    <Input
-                        type="indice"
-                        name="indice"
-                        placeholder="Indice #1"
-                        onChange={this.add1Clue}
-                    />
-                    <Input
-                        type="indice"
-                        name="indice"
-                        placeholder="Indice #2"
-                        onChange={this.add2Clue}
-                    />
-                    <Input
-                        type="indice"
-                        name="indice"
-                        placeholder="Indice #3"
-                        onChange={this.add3Clue}
-                    />
-                </FormGroup>
 
 
                 <h3>Localisation</h3>
@@ -205,6 +221,7 @@ _________________________________ */
                     <Label for="exampleEmail">Règles du lieu</Label>
                     <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyInfo} />
                 </FormGroup>
+
 
                 <Card body>
                     <Button onClick={this.submit}>Enregistrer les modifications</Button>
