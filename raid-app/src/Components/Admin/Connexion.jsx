@@ -26,4 +26,4 @@ export default class AdminComptes extends React.Component {
             </div >
         );
     }
-}ƒ
+}
