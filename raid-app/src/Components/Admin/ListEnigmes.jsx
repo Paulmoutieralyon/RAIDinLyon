@@ -105,7 +105,7 @@ export default class ListSessionPage extends React.Component {
                 {this.deleteValidation()}
 
                 < Card body >
-                    <NavLink to='AddEgnimes' onClick={this.forceUpdate}>
+                    <NavLink to='/Admin/AddEnigmes' onClick={this.forceUpdate}>
                         <Button>Nouvelle énigme</Button>
                     </NavLink>
                 </Card >

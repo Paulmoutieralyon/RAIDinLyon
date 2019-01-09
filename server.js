@@ -11,6 +11,7 @@ app.use(bodyParser.json())
 
 Enigme = require("./models/enigme")
 Marker = require("./models/marker")
+Administrateur = require("./models/administrateur")
 Equipe = require("./models/equipe")
 
 //Connect to Mongoose
@@ -39,6 +40,7 @@ app.get('/api/enigmes', function (req, res) {
         res.json(enigmes)
     })
 })
+
 
 app.get('/api/markers', function (req, res) {
     Marker.getMarkers(function (err, markers) {
@@ -179,10 +181,10 @@ app.delete('/api/equipe/:_id', function (req, res) {
     })
 })
 
-app.get('/api/equipe/:nom', (req, res) => {
-    let nom = req.params.nom
-    Equipe.find(nom, (err, items) => {
-        if (err) res.status(500).send(error)
+app.get('/api/equipe/:_id', (req, res) => {
+    let id= ObjectId(req.params._id)
+    Equipe.find({_id:id}, (err, items) => {
+        if (err) res.status(500).send(err)
 
         res.status(200).json(items);
     });
@@ -190,6 +192,36 @@ app.get('/api/equipe/:nom', (req, res) => {
 
 
 
+
+ app.get('/api/administrateurs', function (req, res) {
+    Administrateur.getAdministrateurs(function (err, administrateurs) {
+        if (err) {
+            throw err
+        }
+        res.json(administrateurs)
+    })
+})
+
+app.post('/api/administrateurs', function (req, res) {
+    var enigme = req.body
+    console.log(req.body)
+    Administrateur.addAdministrateur(enigme, function (err, administrateur) {
+        if (err) {
+            throw err
+        }
+        res.json(administrateur)
+    })
+})
+
+app.delete('/api/administrateurs/:_id', function (req, res) {
+    var id = req.params._id
+    Administrateur.removeAdministrateur(id, function (err, administrateur) {
+        if (err) {
+            throw err
+        }
+        res.json(administrateur)
+    })
+})
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

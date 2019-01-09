@@ -1,7 +1,8 @@
 import React from 'react';
 import { InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
 import logo from './logo_tinyplanet_orange.png';
-import './Connexion.css'
+import './Connexion.css';
+import {NavLink} from 'react-router-dom'
 
 export default class AdminComptes extends React.Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export default class AdminComptes extends React.Component {
                     <Input />
                 </InputGroup>
 
-                <Button color="secondary" size="lg">Connexion</Button>
+                <NavLink to = "/Admin/ListSessionPage"><Button color="secondary" size="lg">Connexion</Button></NavLink>
             </div >
         );
     }

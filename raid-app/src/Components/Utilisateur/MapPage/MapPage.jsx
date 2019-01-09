@@ -16,7 +16,7 @@ class MapPage extends React.Component {
         super(props);
         this.state = {
             nameMap: "tu es proche",
-            loaded: false,
+            loaded: true,
             countAnswer: 0,
         }
         this.tab = []
@@ -30,8 +30,8 @@ class MapPage extends React.Component {
 
     async componentDidMount() {
         await this.props.getPosition()
-        await (this.props.enigme ? null : this.props.enigmesFetch())
-        this.setState({ loaded: true })
+        await this.props.enigmesFetch()
+        // this.setState({ loaded: true })
         this.areAllAnswersTrue()
     }
 
@@ -63,6 +63,7 @@ class MapPage extends React.Component {
     }
 
     render() {
+        console.log("render",this.props.enigme)
         return (
             <div>
                 <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
@@ -74,7 +75,6 @@ class MapPage extends React.Component {
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                         />
-                        {this.state.loaded ?
                             <div>
                                 {this.props.enigme.map((x, i) =>
                                     <div>
@@ -104,7 +104,7 @@ class MapPage extends React.Component {
                                             </Marker>}
                                     </div>
                                 )}
-                            </div> : null}
+                            </div> 
                         <Marker icon={iconBlack} position={this.props.currentPosition}>
                             <Circle
                                 center={this.props.currentPosition}
@@ -112,11 +112,7 @@ class MapPage extends React.Component {
                                 radius={200} />
                         </Marker>
                     </Map>
-                    {this.state.loaded ?
-                        <div>
-                            {this.getDistance(this.props.currentPosition, this.props.enigme[1].coordonnee.map(Number)) < 200 ?
-                                <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
-                        </div> : null}
+
                 </div>
             </div >
         )

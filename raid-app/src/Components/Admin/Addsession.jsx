@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Button, Input, FormGroup, Label, FormText } from 'reactstrap';
-import './Addsession.css'
+import './Addsession.css';
+import {NavLink} from 'react-router-dom';
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {
@@ -24,9 +25,9 @@ export default class AddEgnimes extends React.Component {
                 </FormGroup>
                 
 
-                <Button>Créer une énigme</Button>
-                <Button>Créer une équipe</Button>
-                <Button>Classement</Button>
+                <NavLink to = "/Admin/AddEgnimes"><Button>Créer une énigme</Button></NavLink>
+                <NavLink to = "/Admin/AddTeam"><Button>Créer une équipe</Button></NavLink>
+                <NavLink to = "/Admin/Classement"><Button>Classement</Button></NavLink>
             </div>
         );
     }
