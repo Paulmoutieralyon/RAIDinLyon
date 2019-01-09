@@ -1,143 +1,183 @@
-import React from 'react';
-import { Row, Col, Breadcrumb, CardFooter, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup } from 'reactstrap';
-import axios from 'axios'
-import {NavLink} from 'react-router-dom'
+import React from "react";
+import {
+  Row,
+  Col,
+  Breadcrumb,
+  CardFooter,
+  BreadcrumbItem,
+  Collapse,
+  Button,
+  CardBody,
+  Card,
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Label,
+  FormGroup
+} from "reactstrap";
+import axios from "axios";
+import { Redirect } from "react-router";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 export default class AddTeam extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            nom: null,
-            participants: [],
-            email: null,
-            telephone: null
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      nom: null,
+      participants: [],
+      email: null,
+      telephone: null,
+      redirect: false
+    };
+  }
 
-    /* Modification du nom de l'quipe*/
-    modifyNom = (e) => {
-        this.setState({
-            nom: e.target.value
-        })
-    }
+  /* Modification du nom de l'quipe*/
+  modifyNom = e => {
+    this.setState({
+      nom: e.target.value
+    });
+  };
 
-    /* Modification du mail*/
-    modifyEmail = (e) => {
-        this.setState({
-            email: e.target.value
-        })
-    }
+  /* Modification du mail*/
+  modifyEmail = e => {
+    this.setState({
+      email: e.target.value
+    });
+  };
 
-    /* Modification du phone*/
-    modifyTelephone = (e) => {
-        this.setState({
-            telephone: e.target.value
-        })
-    }
+  /* Modification du phone*/
+  modifyTelephone = e => {
+    this.setState({
+      telephone: e.target.value
+    });
+  };
 
-    /* ________________________________
+  /* ________________________________
                 participants
     _________________________________ */
 
-    handleText = i => e => {
-        let participants = [...this.state.participants]
-        participants[i] = e.target.value
-        this.setState({
-            participants
-        })
+  handleText = i => e => {
+    let participants = [...this.state.participants];
+    participants[i] = e.target.value;
+    this.setState({
+      participants
+    });
+  };
+
+  handleDelete = i => e => {
+    e.preventDefault();
+    let participants = [
+      ...this.state.participants.slice(0, i),
+      ...this.state.participants.slice(i + 1)
+    ];
+    this.setState({
+      participants
+    });
+  };
+
+  addParticipants = e => {
+    e.preventDefault();
+    let participants = this.state.participants.concat([""]);
+    this.setState({
+      participants
+    });
+  };
+
+  /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
+  submitTeam = () => {
+    console.log("greg");
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/equipe",
+      data: {
+        score: 0,
+        nom: this.state.nom,
+        email: this.state.email,
+        token: null,
+        participants: this.state.participants,
+        telephone: this.state.telephone,
+        h_fin: 0
+      }
+    })
+      .then(function(response) {if (response.status === 200) {
+        this.setState({ redirect: true })
+        console.log(this.state.enigmes)
     }
+        console.log("YES", response);
+        return <div>Ajout de l'équipe avec succès</div>;
+      })
+      .catch(function(error) {
+        console.log("MERDE", error);
+      });
 
-    handleDelete = i => e => {
-        e.preventDefault()
-        let participants = [
-            ...this.state.participants.slice(0, i),
-            ...this.state.participants.slice(i + 1)
-        ]
-        this.setState({
-            participants
-        })
-    }
+    //window.location.href = 'ListTeam';
+    console.log("DONEEEEEEEEEEEEEEEEEEEEE");
+  };
 
-    addParticipants = e => {
-        e.preventDefault()
-        let participants = this.state.participants.concat([''])
-        this.setState({
-            participants
-        })
-    }
+  render() {
+    return (
+      <div>
+      {this.state.redirect? <Redirect to="/ListTeam"/> : ""}
+        
+        <h3>Création d'une équipe </h3>
 
+        <FormGroup>
+          <Label for="exampleEmail">Titre de l'équipe</Label>
+          <Input
+            type="titre"
+            name="titre"
+            id="titreequipe"
+            onChange={this.modifyNom}
+          />
+        </FormGroup>
 
-    /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
-    submitTeam = () => {
-        axios({
-            method: 'post',
-            url: 'http://localhost:5000/api/equipe',
-            data: {
-                score: 0,
-                nom: this.state.nom,
-                email: this.state.email,
-                token: null,
-                participants: this.state.participants,
-                telephone: this.state.telephone,
-                h_fin: 0,
-            }
-        })
-            .then(function (response) {
-                console.log("YES",response);
-                return <div>Ajout de l'équipe avec succès</div>
-            })
-            .catch(function (error) {
-                console.log("MERDE",error);
-            });
-        window.location.href = 'ListTeam';
-        console.log("DONEEEEEEEEEEEEEEEEEEEEE")
-    }
+        <FormGroup>
+          <Label for="exampleEmail">E-mail de l'équipe</Label>
+          <Input
+            type="email"
+            name="email"
+            id="emailequipe"
+            onChange={this.modifyEmail}
+          />
+        </FormGroup>
 
-    render() {
-        return (
-            <div>
+        <FormGroup>
+          <Label for="exampleEmail">Téléphone de l'équipe</Label>
+          <Input
+            type="phone"
+            name="phone"
+            id="phoneequipe"
+            onChange={this.modifyTelephone}
+          />
+        </FormGroup>
 
-                <h3>Création d'une équipe </h3>
+        <FormGroup>
+          <Label for="exampleEmail">Participants</Label>
+          <br />
+          {this.state.participants.map((participants, index) => (
+            <span key={index}>
+              <Input
+                type="text"
+                size="2"
+                onChange={this.handleText(index)}
+                value={participants}
+              />
+              <button onClick={this.handleDelete(index)}>supprimer</button>
+              <hr />
+            </span>
+          ))}
+          <Button onClick={this.addParticipants}>Add New participants</Button>
+        </FormGroup>
 
-                <FormGroup>
-                    <Label for="exampleEmail">Titre de l'équipe</Label>
-                    <Input type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="exampleEmail">E-mail de l'équipe</Label>
-                    <Input type="email" name="email" id="emailequipe" onChange={this.modifyEmail} />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="exampleEmail">Téléphone de l'équipe</Label>
-                    <Input type="phone" name="phone" id="phoneequipe" onChange={this.modifyTelephone} />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="exampleEmail">Participants</Label><br />
-                    {this.state.participants.map((participants, index) => (
-                        <span key={index}>
-                                    <Input
-                                        type="text"
-                                        size="2"
-                                        onChange={this.handleText(index)}
-                                        value={participants}
-                                    />
-                                    <button onClick={this.handleDelete(index)}>supprimer</button>
-                             <hr />
-                        </span>
-                    ))}
-                    <Button onClick={this.addParticipants}>Add New participants</Button>
-                  
-                </FormGroup>
-
-                <CardFooter>
-                    <NavLink to = "/Admin/ListTeam"><Button>Voir la liste des équipes </Button></NavLink>
-                    <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
-                    <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
-                </CardFooter>
-            </div>
-        );
-    }
+        <CardFooter>
+          <Link to="/Admin/ListTeam">
+            <Button onClick={this.submitTeam}>
+              Enregistrer les modifications
+            </Button>
+          </Link>
+        </CardFooter>
+        
+      </div>
+    );
+  }
 }
