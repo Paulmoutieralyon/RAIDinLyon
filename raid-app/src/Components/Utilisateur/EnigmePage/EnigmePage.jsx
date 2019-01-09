@@ -43,7 +43,7 @@ export class EnigmePage extends React.Component {
             info: null,
             img: "./Pierrephilosophale.jpeg",
         };
-        this.toggle = this.toggle.bind(this);
+        
         this.data = null
     }
 
@@ -89,7 +89,7 @@ export class EnigmePage extends React.Component {
 
     }
 
-    toggle() {
+    toggle= ()=> {
         this.setState({
             modal: !this.state.modal
         });
