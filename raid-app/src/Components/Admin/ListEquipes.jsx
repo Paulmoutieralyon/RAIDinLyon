@@ -17,7 +17,7 @@ export default class ListEquipes extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/equipe/')
+        axios.get('http://localhost:5000/api/equipes/')
             .then(response => {
                 
                 this.setState({

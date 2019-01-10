@@ -70,9 +70,9 @@ export default class AddTeam extends React.Component {
     submitTeam = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/api/equipe',
+            url: 'http://localhost:5000/api/equipes',
             data: {
-                score: 0,
+                sscore: 0,
                 nom: this.state.nom,
                 email: this.state.email,
                 token: null,
@@ -88,11 +88,12 @@ export default class AddTeam extends React.Component {
             .catch(function (error) {
                 console.log("MERDE",error);
             });
-        window.location.href = 'ListTeam';
-        console.log("DONEEEEEEEEEEEEEEEEEEEEE")
+        //window.location.href = 'ListTeam';
+        //console.log("DONEEEEEEEEEEEEEEEEEEEEE")
     }
 
     render() {
+        console.log(this.state)
         return (
             <div>
 
