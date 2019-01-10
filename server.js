@@ -198,7 +198,7 @@ app.delete('/api/equipes/:_id', function (req, res) {
     })
 })
 
-app.get('/api/equipes/:_id', (req, res) => {
+app.get('/api/equipe/:_id', (req, res) => {
     let id= ObjectId(req.params._id)
     Equipe.find({_id:id}, (err, items) => {
         if (err) res.status(500).send(err)
