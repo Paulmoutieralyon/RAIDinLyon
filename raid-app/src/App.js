@@ -30,7 +30,7 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/EnigmePage" component={EnigmePage} />
+            <Route path="/EnigmePage/:_id" component={EnigmePage} />
             <Route path="/MapPage/" component={MapPage} />
 
             <Route exact path="/Admin" component={Connexion} />
@@ -45,8 +45,9 @@ export default class App extends Component {
             <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
             <Route path='/Admin/Addsession' component={Addsession} />
             <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
-            <Route path="/enigmes/:id" component={UnEnigme} />
-            <Route path="/equipe/:_id" component={uneTeam} />
+            <Route path="/Admin/enigmes/:id" component={UnEnigme} />
+            <Route path="/Admin/equipe/:_id" component={uneTeam} />
+            
 
           </Switch>
         </BrowserRouter>

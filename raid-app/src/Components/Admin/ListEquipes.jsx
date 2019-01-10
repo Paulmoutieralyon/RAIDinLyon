@@ -36,7 +36,7 @@ export default class ListEquipes extends React.Component {
                 <BrowserRouter>
                     <Breadcrumb>
                         <ListGroup>
-                            <NavLink to={`/equipe/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
+                            <NavLink to={`/Admin/equipe/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
                                 <ListGroupItem active>
                                     <ListGroupItemHeading>{equipe.nom}</ListGroupItemHeading>
                                     <ListGroupItemText>

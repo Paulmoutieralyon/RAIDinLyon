@@ -38,7 +38,7 @@ export default class ListSessionPage extends React.Component {
 
                 <Breadcrumb>
                     <ListGroup>
-                        <NavLink to={`/enigmes/${enigme._id}`} onClick={this.forceUpdate} className="navlink">
+                        <NavLink to={`/Admin/enigmes/${enigme._id}`} onClick={this.forceUpdate} className="navlink">
                             <ListGroupItem active>
                                 <ListGroupItemHeading>{enigme.titre}</ListGroupItemHeading>
                                 <ListGroupItemText>

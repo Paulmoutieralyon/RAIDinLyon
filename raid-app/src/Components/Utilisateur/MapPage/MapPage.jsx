@@ -132,7 +132,7 @@ class MapPage extends React.Component {
                                                             <p>{this.props.enigme[i].titre}</p>
                                                         </ModalHeader>
                                                         <ModalBody className="modaltexte">
-                                                            <NavLink to="/EnigmePage">
+                                                            <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}`}>
                                                                 {" "}
                                                                 <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
                                                             </NavLink>
