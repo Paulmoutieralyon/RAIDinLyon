@@ -22,8 +22,8 @@ module.exports.getEnigmes = function (callback, limit) {
 }
 
 // Get EnigmesId
-module.exports.getEnigmeById = function (id,callback) {
-    Enigme.findOne({id},callback)
+module.exports.getEnigmeById = function (_id,callback) {
+    Enigme.findOne({_id},callback)
 }
 
 

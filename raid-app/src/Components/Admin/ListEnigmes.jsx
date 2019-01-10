@@ -35,20 +35,18 @@ export default class ListSessionPage extends React.Component {
     EnigmesList = () => {
         return this.state.enigmes.map((enigme, i) => {
             return (
-                <BrowserRouter>
-                    <Breadcrumb>
-                        <ListGroup>
-                            <NavLink to={`/Admin/enigmes/${enigme._id}`} onClick={this.forceUpdate} className="navlink">
-                                <ListGroupItem active>
-                                    <ListGroupItemHeading>{enigme.titre}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-                            </NavLink>
-                            <img src={trash} onClick={() => this.Delete(enigme._id, i)} className="trash" />
-                        </ListGroup>
-                    </Breadcrumb>
-                </BrowserRouter >
+                <Breadcrumb>
+                    <ListGroup>
+                        <NavLink to={`/Admin/enigmes/${enigme._id}`} onClick={this.forceUpdate} className="navlink">
+                            <ListGroupItem active>
+                                <ListGroupItemHeading>{enigme.titre}</ListGroupItemHeading>
+                                <ListGroupItemText>
+                                </ListGroupItemText>
+                            </ListGroupItem>
+                        </NavLink>
+                        <img src={trash} onClick={() => this.willDelete(enigme._id, i)} className="trash" />
+                    </ListGroup>
+                </Breadcrumb>
             )
         })
     }
