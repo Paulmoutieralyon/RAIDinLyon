@@ -1,6 +1,8 @@
 import React from 'react';
 import { Row, Col, Breadcrumb, CardFooter, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup } from 'reactstrap';
 import axios from 'axios'
+import {NavLink} from 'react-router-dom';
+
 
 export default class AddTeam extends React.Component {
     constructor(props) {
@@ -135,6 +137,8 @@ export default class AddTeam extends React.Component {
                 <CardFooter>
                     <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
                 </CardFooter>
+                <NavLink to="/Admin/Addsession"><Button>Retour</Button></NavLink>
+
             </div>
         );
     }

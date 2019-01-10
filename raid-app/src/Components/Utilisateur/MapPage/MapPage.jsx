@@ -39,6 +39,7 @@ class MapPage extends React.Component {
             loaded: true,
             countAnswer: 0,
             isOpen: false,
+            isOpenT: false,
             deadline: '10/01/2019',
             hours: 0,
             minutes: 0,
@@ -49,17 +50,24 @@ class MapPage extends React.Component {
 
             }
         };
-        this.toggle = this.toggle.bind(this);
-        this.tick = this.tick.bind(this);
+        
         this.tab = []
         setInterval(() => this.tick(), 1000)
 
     }
+    toggle =() =>  {
+        console.log('jeryy')
+        this.setState({
+          modal: !this.state.modal
+        });
+      }
+    
     toggle = id => {
         this.setState({
             modal: id
         });
     };
+    
     
        // coundown timer
        componentWillMount() {
@@ -86,10 +94,10 @@ class MapPage extends React.Component {
         }
     }
 
-    tick() {
+    tick = () => {
         this.getTimeUntil(this.state.deadline);
         
-        const counterEnd = this.state.deadline + '  ' + '13' + ':' + '12' + ':' + '0';
+        const counterEnd = this.state.deadline + '  ' + '8' + ':' + '39' + ':' + '0';
         let counterCheckEnd = this.state.deadline + '  ' + this.state.hours + ':' + this.state.minutes + ':' + this.state.seconds;
        
         console.log(counterCheckEnd + ' Compare à : ' + counterEnd);
@@ -97,7 +105,9 @@ class MapPage extends React.Component {
             console.warn('end game');
                 this.setState({
                   modal: !this.state.modal
+                  
                 });
+                console.log('hehhuhruhe')
               
         }
     }
@@ -143,6 +153,12 @@ class MapPage extends React.Component {
         });
     }
 
+    toggleTerminer = () => {
+        this.setState({
+            isOpenT: !this.state.isOpenT
+        });
+    }
+
     render() {
         console.log("render",this.props.enigme)
         return (
@@ -155,9 +171,8 @@ class MapPage extends React.Component {
                         <Col> {this.leading0(this.state.minutes)}M</Col>
                         <Col>{this.leading0(this.state.seconds)}S</Col>
                     </Row>
-                    
-                    <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>La session est terminer</ModalHeader>
+                    <Modal isOpenT={this.state.modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>La session est terminer</ModalHeader> 
                     <ModalBody>Bravo à vous la session est terminer veillez rejoindre le dernier points sur la map pour les résultats. Soyez fier de vous !</ModalBody>
                     <ModalFooter>
                     <Button color="primary" onClick={this.toggle}>Allez</Button>
