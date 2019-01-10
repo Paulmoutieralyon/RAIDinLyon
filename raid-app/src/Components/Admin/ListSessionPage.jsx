@@ -24,7 +24,7 @@ export default class ListSessionPage extends React.Component {
                 <Card body>
                     <NavLink to = "/Admin/SessionPage"><Button>Nouvelle session</Button></NavLink>
                 </Card>
-
+                <NavLink to = "/Admin/"><Button>Retour</Button></NavLink>
 
             </div>
         );

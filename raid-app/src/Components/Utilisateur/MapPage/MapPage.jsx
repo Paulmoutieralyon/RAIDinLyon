@@ -14,10 +14,14 @@ import {
     Collapse,
     Modal,
     ModalHeader,
+    ModalFooter,
     ModalBody,
     Navbar,
     NavbarToggler,
     NavbarBrand,
+    Button,
+    Row,
+    Col,
     Nav,
     NavItem,
     UncontrolledDropdown,
@@ -34,16 +38,80 @@ class MapPage extends React.Component {
             nameMap: "tu es proche",
             loaded: true,
             countAnswer: 0,
-            isOpen: false
-        }
+            isOpen: false,
+            isOpenT: false,
+            deadline: '10/01/2019',
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            timeoff: false,
+            modal: false,
+            interval: function() {
+
+            }
+        };
+        
         this.tab = []
+        setInterval(() => this.tick(), 1000)
 
     }
+    toggle =() =>  {
+        console.log('jeryy')
+        this.setState({
+          modal: !this.state.modal
+        });
+      }
+    
     toggle = id => {
         this.setState({
             modal: id
         });
     };
+    
+    
+       // coundown timer
+       componentWillMount() {
+        this.getTimeUntil(this.state.deadline);
+    }
+    leading0(num) {
+        return num < 0 ? '0' + num : num;
+        
+    }
+
+    componentDidMount() {
+        setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
+    }
+
+    getTimeUntil(deadL) {
+        const time = Date.parse(deadL) - Date.parse(new Date());
+        if (time < 0) {
+            this.setState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        } else {
+            const seconds = Math.floor((time / 1000) % 60);
+            const minutes = Math.floor((time / 1000 / 60) % 60);
+            const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
+            this.setState({ hours, minutes, seconds });
+        }
+    }
+
+    tick = () => {
+        this.getTimeUntil(this.state.deadline);
+        
+        const counterEnd = this.state.deadline + '  ' + '8' + ':' + '39' + ':' + '0';
+        let counterCheckEnd = this.state.deadline + '  ' + this.state.hours + ':' + this.state.minutes + ':' + this.state.seconds;
+       
+        console.log(counterCheckEnd + ' Compare à : ' + counterEnd);
+        if( counterCheckEnd === counterEnd ){
+            console.warn('end game');
+                this.setState({
+                  modal: !this.state.modal
+                  
+                });
+                console.log('hehhuhruhe')
+              
+        }
+    }
+
 
     async componentDidMount() {
         await this.props.getPosition()
@@ -85,13 +153,32 @@ class MapPage extends React.Component {
         });
     }
 
+    toggleTerminer = () => {
+        this.setState({
+            isOpenT: !this.state.isOpenT
+        });
+    }
+
     render() {
         console.log("render",this.props.enigme)
         return (
             <div className="mapPageContainer">
                 <Navbar light expand="md">
-                    <NavbarBrand href="../../"> Raid In Lyon </NavbarBrand>
+                    <NavbarBrand href="../../"> Raid In Lyon </NavbarBrand><div className="count_title" >Fin :</div>
                     <Container className="d-none d-md-block">{this.props.title}</Container>
+                    <Row>
+                        <Col> {this.leading0(this.state.hours)}H</Col>
+                        <Col> {this.leading0(this.state.minutes)}M</Col>
+                        <Col>{this.leading0(this.state.seconds)}S</Col>
+                    </Row>
+                    <Modal isOpenT={this.state.modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>La session est terminer</ModalHeader> 
+                    <ModalBody>Bravo à vous la session est terminer veillez rejoindre le dernier points sur la map pour les résultats. Soyez fier de vous !</ModalBody>
+                    <ModalFooter>
+                    <Button color="primary" onClick={this.toggle}>Allez</Button>
+                    
+                    </ModalFooter>
+                    </Modal>
                     <NavbarToggler onClick={this.toggleHead}>
                         <FaCompass style={{ color: '#c6c6c6' }} />
                     </NavbarToggler>
