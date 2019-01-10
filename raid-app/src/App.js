@@ -45,12 +45,9 @@ export default class App extends Component {
             <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
             <Route path='/Admin/Addsession' component={Addsession} />
             <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
-            <Route path="/Admin/enigmes/:id" component={UnEnigme} />
+            <Route path="/Admin/enigmes/:_id" component={UnEnigme} />
             <Route path="/Admin/equipe/:_id" component={uneTeam} />
-<<<<<<< HEAD
-=======
             
->>>>>>> User
 
           </Switch>
         </BrowserRouter>

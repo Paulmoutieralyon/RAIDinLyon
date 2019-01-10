@@ -10,7 +10,7 @@ export default class UnEnigme extends Component {
         this.state = {
             enigmes: null,
         }
-        this.page = this.props.match.params.id
+        this.page = this.props.match.params._id
     }
 
     componentDidMount() {
