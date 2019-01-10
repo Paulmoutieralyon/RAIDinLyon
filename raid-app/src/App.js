@@ -17,6 +17,8 @@ import Addsession from './Components/Admin/Addsession';
 import QrCodeScan from './Components/Admin/QrCodeScan';
 import ListAdmin from './Components/Admin/ListAdmin';
 import UnEnigme from './Components/Admin/UnEnigme';
+import uneTeam from './Components/Admin/uneTeam';
+
 
 
 export default class App extends Component {
@@ -43,7 +45,9 @@ export default class App extends Component {
             <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
             <Route path='/Admin/Addsession' component={Addsession} />
             <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
-            <Route path="/enigmes/:id" component={UnEnigme} />/>
+            <Route path="/enigmes/:id" component={UnEnigme} />
+            <Route path="/equipe/:_id" component={uneTeam} />
+
           </Switch>
         </BrowserRouter>
 

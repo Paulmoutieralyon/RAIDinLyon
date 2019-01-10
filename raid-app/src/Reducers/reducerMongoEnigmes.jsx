@@ -1,5 +1,5 @@
 const initialState = {
-    enigme: null,
+    enigme: [],
     display: null,
 /*     check: 0, */
 }

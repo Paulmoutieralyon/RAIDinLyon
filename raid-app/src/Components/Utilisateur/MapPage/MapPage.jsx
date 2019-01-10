@@ -32,7 +32,7 @@ class MapPage extends React.Component {
         super(props);
         this.state = {
             nameMap: "tu es proche",
-            loaded: false,
+            loaded: true,
             countAnswer: 0,
             isOpen: false
         }
@@ -47,8 +47,8 @@ class MapPage extends React.Component {
 
     async componentDidMount() {
         await this.props.getPosition()
-        await (this.props.enigme ? null : this.props.enigmesFetch())
-        this.setState({ loaded: true })
+        await this.props.enigmesFetch()
+        // this.setState({ loaded: true })
         this.areAllAnswersTrue()
     }
 
@@ -86,6 +86,7 @@ class MapPage extends React.Component {
     }
 
     render() {
+        console.log("render",this.props.enigme)
         return (
             <div className="mapPageContainer">
                 <Navbar light expand="md">
@@ -149,11 +150,6 @@ class MapPage extends React.Component {
                             </Marker>
                         </Map>
                     </div>
-                    {this.state.loaded ?
-                        <div>
-                            {this.getDistance(this.props.currentPosition, this.props.enigme[1].coordonnee.map(Number)) < 200 ?
-                                <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
-                        </div> : null}
                 </div>
             </div >
         )

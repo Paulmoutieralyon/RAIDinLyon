@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Breadcrumb, CardFooter, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup } from 'reactstrap';
 import axios from 'axios'
+import {NavLink} from 'react-router-dom'
 
 export default class AddTeam extends React.Component {
     constructor(props) {
@@ -70,9 +71,9 @@ export default class AddTeam extends React.Component {
     submitTeam = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/api/equipe',
+            url: 'http://localhost:5000/api/equipes',
             data: {
-                score: 0,
+                sscore: 0,
                 nom: this.state.nom,
                 email: this.state.email,
                 token: null,
@@ -88,11 +89,12 @@ export default class AddTeam extends React.Component {
             .catch(function (error) {
                 console.log("MERDE",error);
             });
-        window.location.href = 'ListTeam';
-        console.log("DONEEEEEEEEEEEEEEEEEEEEE")
+        //window.location.href = 'ListTeam';
+        //console.log("DONEEEEEEEEEEEEEEEEEEEEE")
     }
 
     render() {
+        console.log(this.state)
         return (
             <div>
 
@@ -132,7 +134,9 @@ export default class AddTeam extends React.Component {
                 </FormGroup>
 
                 <CardFooter>
+                    <NavLink to = "/Admin/ListTeam"><Button>Voir la liste des équipes </Button></NavLink>
                     <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
+                    <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
                 </CardFooter>
             </div>
         );
