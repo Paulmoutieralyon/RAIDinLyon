@@ -9,7 +9,23 @@ import L from 'leaflet'
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js'
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import {
+    Container,
+    Collapse,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    Navbar,
+    NavbarToggler,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
+} from "reactstrap";
+import { FaCompass } from 'react-icons/fa';
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -18,6 +34,7 @@ class MapPage extends React.Component {
             nameMap: "tu es proche",
             loaded: true,
             countAnswer: 0,
+            isOpen: false
         }
         this.tab = []
 
@@ -62,58 +79,85 @@ class MapPage extends React.Component {
         return (degrees * Math.PI) / 180;
     }
 
+    toggleHead = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
+    }
+
     render() {
         console.log("render",this.props.enigme)
         return (
-            <div>
-                <NavLink to="../../"><button className="ButtonBack"> Retour </button></NavLink>
-                <p className="points">{this.props.points} pts</p>
-                <h3 className="TitreMapePage">{this.props.title}</h3>
-                <div>
-                    <Map className="map" center={[45.767383, 4.831571]} zoom={this.props.zoom}>
-                        <TileLayer
-                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                        />
-                            <div>
-                                {this.props.enigme.map((x, i) =>
-                                    <div>
-                                        {this.state.countAnswer === this.props.enigme.length ?
-                                            <Marker position={[45.758473, 4.859238]}>
-                                                <Popup>
-                                                    <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
-                                                </Popup>
-                                            </Marker>
-                                            :
-                                            <Marker position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
-                                                <Modal
-                                                    className="Modale-content"
-                                                    isOpen={this.state.modal === i}
-                                                    toggle={this.toggle}
-                                                >
-                                                    <ModalHeader toggle={this.toggle}>
-                                                        <p>{this.props.enigme[i].titre}</p>
-                                                    </ModalHeader>
-                                                    <ModalBody className="modaltexte">
-                                                        <NavLink to="/EnigmePage">
-                                                            {" "}
-                                                            <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
-                                                        </NavLink>
-                                                    </ModalBody>
-                                                </Modal>
-                                            </Marker>}
-                                    </div>
-                                )}
-                            </div> 
-                        <Marker icon={iconBlack} position={this.props.currentPosition}>
-                            <Circle
-                                center={this.props.currentPosition}
-                                fillColor="blue"
-                                radius={200} />
-                        </Marker>
-                    </Map>
-
+            <div className="mapPageContainer">
+                <Navbar light expand="md">
+                    <NavbarBrand href="../../"> Raid In Lyon </NavbarBrand>
+                    <Container className="d-none d-md-block">{this.props.title}</Container>
+                    <NavbarToggler onClick={this.toggleHead}>
+                        <FaCompass style={{ color: '#c6c6c6' }} />
+                    </NavbarToggler>
+                </Navbar>
+                <ul className="menuList">
+                    <li id='pts'>{this.props.points} pts</li>
+                    <li>Accueil</li>
+                    <li>Qui sommes-nous</li>
+                    <li>Mentions légales / CGU</li>
+                    <li>Nos partenaires</li>
+                    <li>Contactez-nous</li>
+                </ul>
+                <div id='blockMap' className={this.state.isOpen ? 'slideOut' : 'slideIn'}>
+                    <div className="middle">
+                        <Map className="map" center={[45.767383, 4.831571]} zoom={this.props.zoom}>
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+                            />
+                            {this.state.loaded ?
+                                <div>
+                                    {this.props.enigme.map((x, i) =>
+                                        <div>
+                                            {this.state.countAnswer === this.props.enigme.length ?
+                                                <Marker position={[45.758473, 4.859238]}>
+                                                    <Popup>
+                                                        <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
+                                                    </Popup>
+                                                </Marker>
+                                                :
+                                                <Marker position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
+                                                    <Modal
+                                                        className="Modale-content"
+                                                        isOpen={this.state.modal === i}
+                                                        toggle={this.toggle}
+                                                    >
+                                                        <ModalHeader toggle={this.toggle}>
+                                                            <p>{this.props.enigme[i].titre}</p>
+                                                        </ModalHeader>
+                                                        <ModalBody className="modaltexte">
+                                                            <NavLink to="/EnigmePage">
+                                                                {" "}
+                                                                <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                            </NavLink>
+                                                        </ModalBody>
+                                                    </Modal>
+                                                </Marker>}
+                                        </div>
+                                    )}
+                                </div> : null}
+                            <Marker icon={iconYou} position={this.props.currentPosition}>
+                                <Circle
+                                    center={this.props.currentPosition}
+                                    fillColor="blue"
+                                    /* radius={200} */ />
+                            </Marker>
+                        </Map>
+                    </div>
+                    {this.state.loaded ?
+                        <div>
+                            {this.getDistance(this.props.currentPosition, this.props.enigme[1].coordonnee.map(Number)) < 200 ?
+                                <div><p className="ProximitéMessage">{this.state.nameMap}</p></div> : null}
+                        </div> : null}
+                        
                 </div>
+                console.log(yo)
             </div >
         )
     }
@@ -142,6 +186,12 @@ const mapStateToProps = state => ({
     points: state.pointManagement.points,
 })
 
+const iconYou = new L.Icon({
+    iconUrl: require("./position.png"),
+    iconRetinaUrl: require("./position.png"),
+    iconSize: [50, 100],
+    className: 'blinking'
+});
 const iconRed = new L.Icon({
     iconUrl: require("./map-default-red.png"),
     iconRetinaUrl: require("./map-default-red.png"),

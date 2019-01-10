@@ -7,6 +7,17 @@ const cors = require('cors');
 const stringSimilarity = require('string-similarity');
 const ObjectId = require('mongodb').ObjectID;
 
+// Mongoose connexion to Mlab server with variable as ID ans Password
+const userID = require('./keys').userID
+const userPass = require('./keys').userPass
+
+mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwild`, {
+    useNewUrlParser: true
+})
+    .then(() => console.log('MongoDB Connected WOAW'))
+    .catch(err => console.log("Error :", err, "IT DOESNT FUCKING WORK"))
+
+
 app.use(bodyParser.json())
 
 Enigme = require("./models/enigme")
@@ -14,11 +25,11 @@ Marker = require("./models/marker")
 Administrateur = require("./models/administrateur")
 Equipe = require("./models/equipe")
 
-//Connect to Mongoose
+/* //Connect to Mongoose
 mongoose.connect('mongodb://localhost/RAIDinLyon', {
     useNewUrlParser: true
 })
-const db = mongoose.connection
+const db = mongoose.connection */
 
 //Options CORS
 const corsOptions = {
@@ -28,6 +39,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+//Get All Items
 app.get('/', function (req, res) {
     res.send('Please use /api/enigmes or /api/markers or /api/equipe')
 })
@@ -39,6 +51,9 @@ app.get('/api/enigmes', function (req, res) {
         }
         res.json(enigmes)
     })
+    /*     Enigme.find()
+        .sort({ _id: 1 })
+        .then(enigmes => res.json(enigmes)) */
 })
 
 
@@ -124,7 +139,7 @@ app.delete('/api/enigmes/:_id', function (req, res) {
 
 app.get('/api/enigmes/:_id', function (req, res) {
     let _id = new ObjectId(req.params._id)
-    Enigme.find({ _id}, function (err, items) {
+    Enigme.find({ _id }, function (err, items) {
         if (err) {
             throw err
         }
@@ -193,7 +208,7 @@ app.get('/api/equipe/:_id', (req, res) => {
 
 
 
- app.get('/api/administrateurs', function (req, res) {
+app.get('/api/administrateurs', function (req, res) {
     Administrateur.getAdministrateurs(function (err, administrateurs) {
         if (err) {
             throw err
