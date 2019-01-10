@@ -1,5 +1,9 @@
+body {
+    background-color: rgb(75, 73, 73) !important;
+}
+
 .bodyHome{
-    font-family: 'Lilita One', cursive;
+    
 }
 
 /* Image Home Page */
@@ -24,12 +28,11 @@
 
 /* Boutton Home Page */
 .Button1{
-    color: white;
+    color: orange;
     font-size:25px;
 /*     box-shadow: -3px -3px 0px #ca9307; */
     background:rgb(75, 73, 73);
     background-size:100%;
-    border: 2px double orange;
     display : block;
     width:80vw;
     height:70px;
@@ -40,9 +43,8 @@
     outline: none;
 }
 .Button1:hover{
-    color: rgb(223, 223, 223);
-    background:rgb(0, 0, 0);
-    border: 2px double orange;
+    color: orange;
+    border: 1px double orange;
 }
 
 .ButtonBack{
@@ -60,7 +62,7 @@
 }
 .ButtonBack:hover{
     color: rgb(223, 223, 223);
-    background:rgb(0, 0, 0);
+    background:rgb(75, 73, 73);
     border: 1px double orange;
 }
 
