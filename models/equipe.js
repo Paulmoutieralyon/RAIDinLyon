@@ -3,7 +3,6 @@ var mangoose = require('mongoose')
 // Equipe Schema
 
 var equipeSchema = mangoose.Schema({
-    _id: mangoose.Schema.Types.ObjectId,
     score: Number,
     nom: String,
     email: String,
