@@ -16,6 +16,7 @@
         "mongoose": "^5.3.14",
         "nodemon": "^1.18.8",
         "qrcode-reader": "^1.0.4",
+        "react-icons": "^3.3.0",
         "react-qr-reader": "^2.1.2",
         "string-similarity": "^3.0.0"
     },
