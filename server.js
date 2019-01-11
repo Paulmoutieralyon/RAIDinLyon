@@ -7,17 +7,29 @@ const cors = require('cors');
 const stringSimilarity = require('string-similarity');
 const ObjectId = require('mongodb').ObjectID;
 
+// Mongoose connexion to Mlab server with variable as ID ans Password
+const userID = require('./keys').userID
+const userPass = require('./keys').userPass
+
+mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwild`, {
+    useNewUrlParser: true
+})
+    .then(() => console.log('MongoDB Connected WOAW'))
+    .catch(err => console.log("Error :", err, "IT DOESNT FUCKING WORK"))
+
+
 app.use(bodyParser.json())
 
 Enigme = require("./models/enigme")
 Marker = require("./models/marker")
+Administrateur = require("./models/administrateur")
 Equipe = require("./models/equipe")
 
-//Connect to Mongoose
+/* //Connect to Mongoose
 mongoose.connect('mongodb://localhost/RAIDinLyon', {
     useNewUrlParser: true
 })
-const db = mongoose.connection
+const db = mongoose.connection */
 
 //Options CORS
 const corsOptions = {
@@ -27,8 +39,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+//Get All Items
 app.get('/', function (req, res) {
-    res.send('Please use /api/enigmes or /api/markers or /api/equipe')
+    res.send('Please use /api/enigmes or /api/markers or /api/equipes')
 })
 
 app.get('/api/enigmes', function (req, res) {
@@ -38,7 +51,11 @@ app.get('/api/enigmes', function (req, res) {
         }
         res.json(enigmes)
     })
+    /*     Enigme.find()
+        .sort({ _id: 1 })
+        .then(enigmes => res.json(enigmes)) */
 })
+
 
 app.get('/api/markers', function (req, res) {
     Marker.getMarkers(function (err, markers) {
@@ -49,14 +66,6 @@ app.get('/api/markers', function (req, res) {
     })
 })
 
-app.get('/api/equipe', function (req, res) {
-    Equipe.getEquipe(function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        res.json(equipe)
-    })
-})
 
 // proposition string
 function comparaison(trueAnswer, toTestAnswer) {
@@ -122,7 +131,7 @@ app.delete('/api/enigmes/:_id', function (req, res) {
 
 app.get('/api/enigmes/:_id', function (req, res) {
     let _id = new ObjectId(req.params._id)
-    Enigme.find({ _id}, function (err, items) {
+    Enigme.find({ _id }, function (err, items) {
         if (err) {
             throw err
         }
@@ -134,23 +143,9 @@ app.get('/api/enigmes/:_id', function (req, res) {
 /*
 EQUIPE
 */
-app.post('/api/equipe/:_id', function (req, res) {
-    let id = req.params._id
-    Equipe.getEquipeById(id, function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        const compar = comparaison(equipe.reponse, req.body.proposition)
-        if (compar.status) res.json(compar)
-        else res.json(compar)
-    })
 
-})
-
-app.post('/api/equipe', function (req, res) {
-    var equipe = req.body
-    console.log(req.body)
-    Equipe.addEquipe(equipe, function (err, equipe) {
+app.get('/api/equipes', function (req, res) {
+    Equipe.getEquipe(function (err, equipe) {
         if (err) {
             throw err
         }
@@ -158,7 +153,7 @@ app.post('/api/equipe', function (req, res) {
     })
 })
 
-app.put('/api/equipe/:_id', function (req, res) {
+app.put('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
     var equipe = req.body
     Equipe.updateEquipe(id, equipe, {}, function (err, equipe) {
@@ -169,7 +164,32 @@ app.put('/api/equipe/:_id', function (req, res) {
     })
 })
 
-app.delete('/api/equipe/:_id', function (req, res) {
+app.post('/api/equipes/:_id', function (req, res) {
+    let id = req.params._id
+    Equipe.getEquipeById(id, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        const compar = comparaison(equipe.reponse, req.body.proposition)
+        if (compar.status) res.json(compar)
+        else res.json(compar)
+    })
+})
+
+app.post('/api/equipes', function (req, res) {
+    var equipe = req.body
+    console.log(req.body)
+    Equipe.addEquipe(equipe, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+
+
+app.delete('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
     Equipe.removeEquipe(id, function (err, equipe) {
         if (err) {
@@ -179,10 +199,10 @@ app.delete('/api/equipe/:_id', function (req, res) {
     })
 })
 
-app.get('/api/equipe/:nom', (req, res) => {
-    let nom = req.params.nom
-    Equipe.find(nom, (err, items) => {
-        if (err) res.status(500).send(error)
+app.get('/api/equipe/:_id', (req, res) => {
+    let id= ObjectId(req.params._id)
+    Equipe.find({_id:id}, (err, items) => {
+        if (err) res.status(500).send(err)
 
         res.status(200).json(items);
     });
@@ -190,6 +210,36 @@ app.get('/api/equipe/:nom', (req, res) => {
 
 
 
+
+app.get('/api/administrateurs', function (req, res) {
+    Administrateur.getAdministrateurs(function (err, administrateurs) {
+        if (err) {
+            throw err
+        }
+        res.json(administrateurs)
+    })
+})
+
+app.post('/api/administrateurs', function (req, res) {
+    var administrateur = req.body
+    console.log(req.body)
+    Administrateur.addAdministrateur(administrateur, function (err, administrateur) {
+        if (err) {
+            throw err
+        }
+        res.json(administrateur)
+    })
+})
+
+app.delete('/api/administrateurs/:_id', function (req, res) {
+    var id = req.params._id
+    Administrateur.removeAdministrateur(id, function (err, administrateur) {
+        if (err) {
+            throw err
+        }
+        res.json(administrateur)
+    })
+})
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -17,10 +17,12 @@ export default class ListEquipes extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/equipe/')
+        axios.get('http://localhost:5000/api/equipes/')
             .then(response => {
+                
                 this.setState({
                     equipe: response.data
+                    
                 })
             })
             .catch(error => {
@@ -34,7 +36,7 @@ export default class ListEquipes extends React.Component {
                 <BrowserRouter>
                     <Breadcrumb>
                         <ListGroup>
-                            <NavLink to={`/equipe/${equipe.nom}`} onClick={this.forceUpdate} className="navlink">
+                            <NavLink to={`/Admin/equipe/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
                                 <ListGroupItem active>
                                     <ListGroupItemHeading>{equipe.nom}</ListGroupItemHeading>
                                     <ListGroupItemText>
@@ -63,14 +65,20 @@ export default class ListEquipes extends React.Component {
             })
     }
 
+    addTeam = e => {
+        e.preventDefault()
+        window.location.href = 'AddTeam';
+    }
+
     render() {
         return (
             <div>
                 <h1 className="titre"> Liste des Equipes </h1>
                     {this.EquipeList()}
                         <Card body>
-                            <NavLink to='AddTeam' onClick={this.forceUpdate}>
-                            <Button> Nouvelle Equipe </Button>
+                            <NavLink to='AddEquipes' onClick={this.forceUpdate}>
+                            <Button onClick={this.addTeam}> Nouvelle Equipe </Button>
+                            <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
                             </NavLink>
                         </Card>
             </div>

@@ -15,7 +15,10 @@ import SessionPage from './Components/Admin/SessionPage';
 import Listequipes from './Components/Admin/ListEquipes';
 import Addsession from './Components/Admin/Addsession';
 import QrCodeScan from './Components/Admin/QrCodeScan';
+import ListAdmin from './Components/Admin/ListAdmin';
 import UnEnigme from './Components/Admin/UnEnigme';
+import uneTeam from './Components/Admin/uneTeam';
+
 
 
 export default class App extends Component {
@@ -27,7 +30,7 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/EnigmePage" component={EnigmePage} />
+            <Route path="/EnigmePage/:_id" component={EnigmePage} />
             <Route path="/MapPage/" component={MapPage} />
 
             <Route exact path="/Admin" component={Connexion} />
@@ -35,13 +38,17 @@ export default class App extends Component {
             <Route path="/Admin/AdminComptes" component={AdminComptes} />
             <Route path="/Admin/Classement" component={Classement} />
             <Route path="/Admin/ListEnigmes" component={ListEnigmes} />
+            <Route path="/Admin/ListAdmin" component={ListAdmin} />
             <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
             <Route path="/Admin/ListTeam" component={Listequipes} />
             <Route path="/Admin/SessionPage" component={SessionPage} />
             <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
             <Route path='/Admin/Addsession' component={Addsession} />
             <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
-            <Route path="/enigmes/:id" component={UnEnigme} />/>
+            <Route path="/Admin/enigmes/:_id" component={UnEnigme} />
+            <Route path="/Admin/equipe/:_id" component={uneTeam} />
+            
+
           </Switch>
         </BrowserRouter>
 

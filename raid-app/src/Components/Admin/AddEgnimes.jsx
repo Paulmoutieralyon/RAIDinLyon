@@ -1,7 +1,8 @@
-
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
+import {NavLink} from 'react-router-dom';
+
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ export default class AddEgnimes extends React.Component {
 
 
     /* _________________________________
-                Reponses
+    Reponses
     _________________________________ */
 
     /* Ajout de la réponse */
@@ -67,7 +68,7 @@ export default class AddEgnimes extends React.Component {
 
 
     /* ________________________________
-                INDICES
+    INDICES
     _________________________________ */
 
 
@@ -92,8 +93,8 @@ export default class AddEgnimes extends React.Component {
     }
 
     /* ________________________________
-            LOCALISATION
-_________________________________ */
+    LOCALISATION
+    _________________________________ */
 
     modifyLat = (e) => {
         const newLat = this.state.coordonnees.slice()
@@ -111,7 +112,6 @@ _________________________________ */
             info: e.target.value
         })
     }
-
     /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
     submit = () => {
         axios({
@@ -144,6 +144,13 @@ _________________________________ */
             <div>
 
                 <h3>Création d'une énigme </h3>
+                <FormGroup>
+                    <Label for="exampleFile">Image</Label>
+                    <Input type="file" name="file" id="exampleFile" />
+                    <FormText color="muted">
+                        Importer une image pour cette session
+</FormText>
+                </FormGroup>
                 <FormGroup>
                     <Label for="exampleEmail">URL d'une image d'illustration</Label>
                     <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyImage} />
@@ -208,8 +215,11 @@ _________________________________ */
 
                 <Card body>
                     <Button onClick={this.submit}>Enregistrer les modifications</Button>
+
                 </Card>
+                <NavLink to="/Admin/Addsession"><Button>Retour</Button></NavLink>
             </div>
         );
     }
 }
+

@@ -10,6 +10,8 @@ var equipeSchema = mangoose.Schema({
     participants: Array,
     telephone : String,
     h_fin : Number,
+    repondues: Array,
+    markers: Array
 }, {collection: 'equipe' });
 
 var Equipe = module.exports = mangoose.model ('Equipe', equipeSchema)

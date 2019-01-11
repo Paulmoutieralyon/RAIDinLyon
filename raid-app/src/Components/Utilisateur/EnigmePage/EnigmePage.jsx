@@ -4,7 +4,6 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { displayEnigmeAction, enigmeValidation } from '../../../Actions/displayEnigmeAction.js'
-import { addPoint, removePoint } from '../../../Actions/Utilisateur/pointManagement_action.jsx'
 import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { AvForm, AvField } from 'availity-reactstrap-validation'
@@ -12,7 +11,6 @@ import { NavLink } from 'react-router-dom'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import './EnigmePage.css'
 import info from './info.1.png'
-import Pierrephilosophale from './Pierrephilosophale.jpeg'
 import Faux from './faux.png'
 import Vrai from './vrai.png'
 import Vide from './Vide.png'
@@ -32,7 +30,6 @@ export class EnigmePage extends React.Component {
             visibilite: "visible",
             continuer: null,
             isContinue: false,
-
             markernumber: null,
             //Les états qu'on l'on fetchera
             question: null,
@@ -42,96 +39,84 @@ export class EnigmePage extends React.Component {
             indices: null,
             info: null,
             img: "./Pierrephilosophale.jpeg",
+            //Stockage reponse utilisateur
+            repondues: []
         };
-        this.toggle = this.toggle.bind(this);
         this.data = null
+        this.page = this.props.match.params._id
     }
 
+    //Fetch et stockage des données de l'énigme en state //
     componentDidMount = () => {
-        /* fetch("http://localhost:5000/api/enigmes")
-            .then(laPetiteReponse => {
-                return laPetiteReponse.json()
-            })
+
+        axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
             .then(data => {
-                this.setState({
-                    question: data[0].question,
-                    titre: data[0].titre,
-                    texte: data[0].enonce,
-                    reponse: data[0].reponse,
-                    indices: data[0].indices,
-                    info: data[0].info,
-                    img: data[0].img,
-                })
-            }) */
-        fetch("http://localhost:5000/api/enigmes")
-            .then(laPetiteReponse => {
-                return laPetiteReponse.json()
-            })
-            .then(data => {
-                this.data = data
+                this.data = data.data[0]
 
                 this.setState({
-                    id: data[this.props.display].id,
-                    question: data[this.props.display].question,
-                    titre: data[this.props.display].titre,
-                    texte: data[this.props.display].texte,
-                    reponse: data[this.props.display].reponse,
-                    indices: data[this.props.display].indices,
-                    info: data[this.props.display].info,
-                    img: data[this.props.display].img,
-                })
-
-                this.setState({
+                    id: this.data._id,
+                    check:this.data.check,
+                    question: this.data.question,
+                    titre: this.data.titre,
+                    texte: this.data.texte,
+                    reponse: this.data.reponse,
+                    enonce: this.data.enonce,
+                    indices: this.data.indices,
+                    info: this.data.info,
+                    img: this.data.img,
                     isFloat: true
                 })
             })
-
-
+            .catch(error => {
+                throw (error);
+            })
     }
 
-    toggle() {
+    toggle = () => {
         this.setState({
             modal: !this.state.modal
         });
     }
 
+    //Gestion des clics sur les indices //
     displayIndices = () => {
         this.setState({ indiceNumber: this.state.indiceNumber + 1 })
-
-
         if (this.state.indiceNumber === 0) {
-            this.setState({ indice: this.props.enigme[this.props.display].indices[0] })
+            this.setState({ indice: this.state.indices[0] })
         }
         if (this.state.indiceNumber === 1) {
-            this.setState({ indice: this.props.enigme[this.props.display].indices[1] })
+            this.setState({ indice: this.state.indices[1] })
         }
         if (this.state.indiceNumber === 2) {
-            this.setState({ indice: this.props.enigme[this.props.display].indices[2] })
+            this.setState({ indice: this.state.indices[2] })
         }
     };
 
+    //Stockage de la proposition de réponse pour comparaison//
     isProposing = (e) => {
         this.setState({
             proposition: e.target.value
         });
     }
 
+    //Gestion de la bonne ou mauvaise réponse//
     ReponseManagement = () => {
-        console.log("hello")
-        axios.post('http://localhost:5000/api/enigmes/' + this.state.id, {
+        axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
             proposition: this.state.proposition,
-
         })
             .then(response => {
 
                 if (response.data.status === true) {
-                    this.props.addPoints()
                     this.props.goodTitle()
-                    this.props.enigmeValidation(this.props.display)
                     setTimeout(() => {
                         this.props.actualTitle()
                     }, 8000);
+
+                    const repondues = this.state.repondues.slice()
+                    repondues[0] = this.state.id //Stockage de l'ID de la réponse dans un tableau
+
                     this.setState({
+                        repondues: repondues,
                         isContinue: true,
                         isResTrue: true,
                         final: Vrai,
@@ -139,14 +124,16 @@ export class EnigmePage extends React.Component {
                     })
 
                 } else {
-                    this.props.removePoints()
                     this.props.badTitle()
-                    console.log("2")
                     setTimeout(() => {
                         this.props.actualTitle()
                     }, 8000);
 
+                    const repondues = this.state.repondues.slice()
+                    repondues[0] = this.state.id //Stockage de l'ID de la réponse dans un tableau
+
                     this.setState({
+                        repondues: repondues,
                         isResTrue: false,
                         final: Faux
                     })
@@ -161,7 +148,24 @@ export class EnigmePage extends React.Component {
     }
 
 
-    /*  handleclick = (e) =>{
+    //Enregistrement de l'ID de l'enigme repondue dans le BDD - Ca ne fonctionne pas//
+    saveResp = () => {
+        console.log(this.state.repondues[0])
+        axios.put(`http://localhost:5000/api/equipes/5c34c834c9f9f928fd7b1ada`, {
+            repondues: this.state.repondues[0]
+        })
+            .then(function (response) {
+                console.log("L'envoi a fonctionné", response);
+            })
+            .catch(function (error) {
+                console.log("L'envoi n'a PAS fonctionné", error);
+            });
+    }
+
+    /*  
+    
+    
+    handleclick = (e) =>{
           this.setState({compteurcontinue: this.state.compteurcontinue +1})
           if(this.state.compteurcontinue === 2) console.log("un mot")
       }*/
@@ -175,15 +179,15 @@ export class EnigmePage extends React.Component {
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
-                    <ModalBody className='modaltexte'>{this.props.enigme.info}</ModalBody>
+                    <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
                 </Modal>
                 <p className="points">{this.props.points} pts</p>
-                <img className="Illustration" src={require(`${this.props.enigme[this.props.display].img}`)} alt='' />
-                <p className="Titre">{this.props.enigme[this.props.display].enonce}</p>
+                <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
+                <p className="Titre">{this.state.enonce}</p>
                 <p className="BodyText">{this.state.texte}</p>
 
                 <AvForm className="reponse" onSubmit={this.isTrue}>
-                    <h3 className="TitreQuestion">{this.props.enigme[this.props.display].question}</h3>
+                    <h3 className="TitreQuestion">{this.state.question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
                         {(this.state.isResTrue) ? <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
@@ -193,7 +197,7 @@ export class EnigmePage extends React.Component {
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
                     {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
-                        <NavLink to="/MapPage"><button className="buttonContinuer">Continuer</button></NavLink>
+                        <NavLink to="/MapPage"><button className="buttonContinuer" onClick={this.saveResp}>Continuer</button></NavLink>
                         :
                         null}
                 </AvForm>
@@ -203,12 +207,8 @@ export class EnigmePage extends React.Component {
     }
 }
 
-
-
 const mapStateToProps = state => ({
-    points: state.pointManagement.points,
     title: state.titleManagement.title,
-
     enigme: state.reducerMongoEnigmes.enigme,
     display: state.reducerMongoEnigmes.display,
     check: state.reducerMongoEnigmes.check
@@ -216,15 +216,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        addPoints: bindActionCreators(addPoint, dispatch),
-        removePoints: bindActionCreators(removePoint, dispatch),
         goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
         actualTitle: bindActionCreators(actualTitle, dispatch),
         displayEnigmeAction: bindActionCreators(displayEnigmeAction, dispatch),
         enigmeValidation: bindActionCreators(enigmeValidation, dispatch),
         enigmesFetch: bindActionCreators(enigmesFetch, dispatch)
-
     }
 };
 
