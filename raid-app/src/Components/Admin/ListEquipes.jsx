@@ -78,7 +78,7 @@ export default class ListEquipes extends React.Component {
                         <Card body>
                             <NavLink to='AddEquipes' onClick={this.forceUpdate}>
                             <Button onClick={this.addTeam}> Nouvelle Equipe </Button>
-                            <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
+                            <NavLink to = "/Admin/SessionPage"><Button>Retour</Button></NavLink>
                             </NavLink>
                         </Card>
             </div>
