@@ -100,7 +100,7 @@ export default class AddTeam extends React.Component {
 
                 <FormGroup>
                     <Label for="exampleEmail">Titre de l'équipe</Label>
-                    <Input type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
+                    <Input required type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
                 </FormGroup>
 
                 <FormGroup>

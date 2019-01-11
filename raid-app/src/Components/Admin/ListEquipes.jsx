@@ -54,7 +54,7 @@ export default class ListEquipes extends React.Component {
         axios.delete(`http://localhost:5000/api/equipe/${equipeid}`)
             .then(response => {
                 console.log(response)
-                if (response.status === 2000) {
+                if (response.status === 200) {
                     const tab = this.state.equipe.slice()
                     delete tab[index]
                     this.setState({ equipe: tab })
@@ -69,7 +69,7 @@ export default class ListEquipes extends React.Component {
                 <h1 className="titre"> Liste des Equipes </h1>
                     {this.EquipeList()}
                         <Card body>
-                            <NavLink to='AddEquipes' onClick={this.forceUpdate}>
+                            <NavLink to='AddTeam' onClick={this.forceUpdate}>
                             <Button> Nouvelle Equipe </Button>
                             </NavLink>
                         </Card>

@@ -104,7 +104,9 @@ class MapPage extends React.Component {
                                             </Marker>}
                                     </div>
                                 )}
-                            </div> : null}
+                            </div>
+                            :
+                            null}
                         <Marker icon={iconBlack} position={this.props.currentPosition}>
                             <Circle
                                 center={this.props.currentPosition}
