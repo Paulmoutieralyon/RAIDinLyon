@@ -5,11 +5,22 @@ var mangoose = require('mongoose')
 var equipeSchema = mangoose.Schema({
     score: Number,
     nom: String,
-    email: String,
-    token : String,
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    token: String,
     participants: Array,
-    telephone : String,
-    h_fin : Number,
+    telephone: String,
+    h_fin: Number,
+    date: {
+        type: Date,
+        defaul: Date.now
+    }
 }, {collection: 'equipe' });
 
 var Equipe = module.exports = mangoose.model ('Equipe', equipeSchema)

@@ -170,7 +170,7 @@ export class EnigmePage extends React.Component {
         //console.log(this.props.check)
         return (
             <div class="EnigmePageContainer">
-                <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
+                <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
@@ -193,7 +193,7 @@ export class EnigmePage extends React.Component {
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
                     {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
-                        <NavLink to="/MapPage"><button className="buttonContinuer">Continuer</button></NavLink>
+                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer">Continuer</button></NavLink>
                         :
                         null}
                 </AvForm>

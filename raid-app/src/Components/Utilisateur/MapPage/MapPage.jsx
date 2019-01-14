@@ -34,11 +34,17 @@ class MapPage extends React.Component {
             nameMap: "tu es proche",
             loaded: true,
             countAnswer: 0,
-            isOpen: false
+            isOpen: false,
+            isLoading: true,
         }
         this.tab = []
 
     }
+
+    componentWillMount() {
+        console.log(window.localStorage.getItem("token"))
+    }
+
     toggle = id => {
         this.setState({
             modal: id
@@ -86,7 +92,7 @@ class MapPage extends React.Component {
     }
 
     render() {
-        console.log("render",this.props.enigme)
+        console.log("render", this.props.enigme)
         return (
             <div className="mapPageContainer">
                 <Navbar light expand="md">
@@ -132,7 +138,7 @@ class MapPage extends React.Component {
                                                             <p>{this.props.enigme[i].titre}</p>
                                                         </ModalHeader>
                                                         <ModalBody className="modaltexte">
-                                                            <NavLink to="/EnigmePage">
+                                                            <NavLink to={`/EnigmePage/${window.localStorage.getItem("id")}/${window.localStorage.getItem("id")}`}>
                                                                 {" "}
                                                                 <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
                                                             </NavLink>
