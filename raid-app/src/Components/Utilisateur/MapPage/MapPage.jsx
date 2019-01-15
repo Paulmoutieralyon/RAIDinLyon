@@ -55,6 +55,7 @@ class MapPage extends React.Component {
         setInterval(() => this.tick(), 1000)
 
     }
+
     toggle =() =>  {
         console.log('jeryy')
         this.setState({
@@ -68,11 +69,11 @@ class MapPage extends React.Component {
         });
     };
     
-    
-       // coundown timer
-       componentWillMount() {
+    // coundown timer
+    componentWillMount() {
         this.getTimeUntil(this.state.deadline);
     }
+
     leading0(num) {
         return num < 0 ? '0' + num : num;
         
@@ -160,7 +161,7 @@ class MapPage extends React.Component {
     }
 
     render() {
-        console.log("render",this.props.enigme)
+        console.log("render", this.props.enigme)
         return (
             <div className="mapPageContainer">
                 <Navbar light expand="md">
@@ -219,7 +220,7 @@ class MapPage extends React.Component {
                                                             <p>{this.props.enigme[i].titre}</p>
                                                         </ModalHeader>
                                                         <ModalBody className="modaltexte">
-                                                            <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}`}>
+                                                            <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
                                                                 {" "}
                                                                 <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
                                                             </NavLink>

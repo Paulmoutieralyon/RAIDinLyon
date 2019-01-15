@@ -28,6 +28,7 @@ export class EnigmePage extends React.Component {
             modalLooser: false,
             indice: null,
             indiceNumber: 0,
+            score: 5,
             visibilite: "visible",
             continuer: null,
             isContinue: false,
@@ -40,20 +41,17 @@ export class EnigmePage extends React.Component {
             indices: null,
             info: null,
             img: "./Pierrephilosophale.jpeg",
-            //Stockage reponse utilisateur
-            repondues: []
         };
         this.data = null
-        this.page = this.props.match.params._id
+        this.enigme = this.props.match.params._id
+        this.user=this.props.match.params.id
     }
 
     //Fetch et stockage des données de l'énigme en state //
     componentDidMount = () => {
-
-        axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
+        axios.get(`http://localhost:5000/api/enigmes/${this.enigme}`)
             .then(data => {
                 this.data = data.data[0]
-
                 this.setState({
                     id: this.data._id,
                     check: this.data.check,
@@ -83,13 +81,20 @@ export class EnigmePage extends React.Component {
     displayIndices = () => {
         this.setState({ indiceNumber: this.state.indiceNumber + 1 })
         if (this.state.indiceNumber === 0) {
-            this.setState({ indice: this.state.indices[0] })
+            this.setState({
+                indice: this.state.indices[0],
+                score: 4
+            })
         }
         if (this.state.indiceNumber === 1) {
-            this.setState({ indice: this.state.indices[1] })
+            this.setState({ 
+                indice: this.state.indices[1],
+                score: 3 })
         }
         if (this.state.indiceNumber === 2) {
-            this.setState({ indice: this.state.indices[2] })
+            this.setState({ 
+                indice: this.state.indices[2],
+                score: 1 })
         }
         if (this.state.indiceNumber === 3) {
             this.setState({
@@ -112,18 +117,13 @@ export class EnigmePage extends React.Component {
             proposition: this.state.proposition,
         })
             .then(response => {
-
                 if (response.data.status === true) {
                     this.props.goodTitle()
                     setTimeout(() => {
                         this.props.actualTitle()
                     }, 8000);
 
-                    const repondues = this.state.repondues.slice()
-                    repondues[0] = this.state.id //Stockage de l'ID de la réponse dans un tableau
-
                     this.setState({
-                        repondues: repondues,
                         isContinue: true,
                         isResTrue: true,
                         final: Vrai,
@@ -137,11 +137,7 @@ export class EnigmePage extends React.Component {
                         this.props.actualTitle()
                     }, 8000);
 
-                    const repondues = this.state.repondues.slice()
-                    repondues[0] = this.state.id //Stockage de l'ID de la réponse dans un tableau
-
                     this.setState({
-                        repondues: repondues,
                         isResTrue: false,
                         final: Faux,
                         
@@ -153,15 +149,14 @@ export class EnigmePage extends React.Component {
                 console.log(error);
             });
 
-
+            this.saveResp()
     }
 
 
-    //Enregistrement de l'ID de l'enigme repondue dans le BDD - Ca ne fonctionne pas//
+    //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
-        console.log(this.state.repondues[0])
-        axios.put(`http://localhost:5000/api/equipes/5c34c834c9f9f928fd7b1ada`, {
-            repondues: this.state.repondues[0]
+        axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
+            score: this.state.score
         })
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);
@@ -184,7 +179,7 @@ export class EnigmePage extends React.Component {
         return (
 
             <div class="EnigmePageContainer">
-                <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
+                <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
@@ -209,25 +204,8 @@ export class EnigmePage extends React.Component {
 
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
-                    {(this.state.indiceNumber > 2) ?
-                        <div>
-                            <Modal isOpen={this.state.modalLooser} className={this.props.className}>
-                                <ModalHeader>Bien essayé...</ModalHeader>
-                                <ModalBody>Vous avez utilisez les 3 indices, cela signifie que l'énigme est désormais bloquée, et est comptée comme fausse pour votre équipe, cela impactera votre score.</ModalBody>
-                                <NavLink to="/MapPage"><button className="buttonContinuer" onClick={this.saveResp}>Retourner à la carte</button></NavLink>
-                            </Modal>
-                        </div>
-                        :
-                        null}
-
-                    {(this.state.isContinue === true) ?
-                        <div>
-                            <Modal isOpen={this.state.modalWinner} className={this.props.className}>
-                                <ModalHeader>Bravo !!</ModalHeader>
-                                <ModalBody>Vous avez réussi cette énigme, rendez-vous à la prochaine énigme.</ModalBody>
-                                <NavLink to="/MapPage"><button className="buttonContinuer" onClick={this.saveResp}>Retourner sur la carte</button></NavLink>
-                            </Modal>
-                        </div>
+                    {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
+                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer">Continuer</button></NavLink>
                         :
                         null}
                 </AvForm>

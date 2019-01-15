@@ -11,10 +11,17 @@
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
     },
     "dependencies": {
+        "bcrypt-nodejs": "0.0.3",
         "cors": "^2.8.5",
         "express": "^4.16.4",
+        "generate-password": "^1.4.1",
+        "jsonwebtoken": "^8.4.0",
         "mongoose": "^5.3.14",
+        "morgan": "^1.9.1",
         "nodemon": "^1.18.8",
+        "passport": "^0.4.0",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0",
         "qrcode-reader": "^1.0.4",
         "react-icons": "^3.3.0",
         "react-qr-reader": "^2.1.2",
