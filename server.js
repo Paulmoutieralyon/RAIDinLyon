@@ -25,6 +25,7 @@ Marker = require("./models/marker")
 Administrateur = require("./models/administrateur")
 Equipe = require("./models/equipe")
 
+mongoose.set('useFindAndModify', false);
 /* //Connect to Mongoose
 mongoose.connect('mongodb://localhost/RAIDinLyon', {
     useNewUrlParser: true
@@ -111,13 +112,26 @@ app.post('/api/enigmes', function (req, res) {
 app.put('/api/enigmes/:_id', function (req, res) {
     var id = req.params._id
     var enigme = req.body
-    Enigme.updateEnigme(id, enigme, {}, function (err, enigme) {
+    console.log('greg', enigme)
+    Enigme.updateEnigme(id, {
+        $set: {
+            titre: enigme.titre,
+            question: enigme.question,
+            enonce: enigme.enonce,
+            indices: [enigme.indices[0], enigme.indices[1], enigme.indices[2]],
+            info: enigme.info,
+            coordonnee:[enigme.coordonnee[0], enigme.coordonnee[1]],
+            img: enigme.img,
+            reponse:enigme.reponse
+        }
+    }, (err, result) => {
         if (err) {
             throw err
         }
         res.json(enigme)
     })
 })
+
 
 app.delete('/api/enigmes/:_id', function (req, res) {
     var id = req.params._id
@@ -200,8 +214,8 @@ app.delete('/api/equipes/:_id', function (req, res) {
 })
 
 app.get('/api/equipe/:_id', (req, res) => {
-    let id= ObjectId(req.params._id)
-    Equipe.find({_id:id}, (err, items) => {
+    let id = ObjectId(req.params._id)
+    Equipe.find({ _id: id }, (err, items) => {
         if (err) res.status(500).send(err)
 
         res.status(200).json(items);

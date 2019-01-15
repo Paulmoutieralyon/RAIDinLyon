@@ -24,9 +24,11 @@ export default class AddTeam extends React.Component {
 
     /* Modification du mail*/
     modifyEmail = (e) => {
+        
         this.setState({
             email: e.target.value
         })
+        console.log(this.state.email)
     }
 
     /* Modification du phone*/
@@ -74,7 +76,7 @@ export default class AddTeam extends React.Component {
             method: 'post',
             url: 'http://localhost:5000/api/equipes',
             data: {
-                sscore: 0,
+                score: 0,
                 nom: this.state.nom,
                 email: this.state.email,
                 token: null,
@@ -95,7 +97,6 @@ export default class AddTeam extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div>
 
