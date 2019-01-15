@@ -31,7 +31,7 @@ export default class App extends Component {
           {window.localStorage.getItem("token") ?
             <Switch>
               <Route exact path="/" component={HomePage} />
-              <Route path="/EnigmePage/:_id" component={EnigmePage} />
+              <Route path="/EnigmePage/:_id/:_id" component={EnigmePage} />
               <Route path="/MapPage/:_id" component={MapPage} />
               <Route exact path="/Admin" component={Connexion} />
               <Route path="/Admin/AddTeam" component={AddTeam} />
@@ -45,7 +45,7 @@ export default class App extends Component {
               <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
               <Route path='/Admin/Addsession' component={Addsession} />
               <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
-              <Route path="/enigmes/:id" component={UnEnigme} />
+              <Route path="/enigmes/:_id" component={UnEnigme} />
               <Route path="/equipe/:_id" component={uneTeam} />
             </Switch>
             :
