@@ -8,7 +8,7 @@ import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/t
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { AvForm, AvField } from 'availity-reactstrap-validation'
 import { NavLink } from 'react-router-dom'
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import './EnigmePage.css'
 import info from './info.1.png'
 import Faux from './faux.png'
@@ -24,7 +24,8 @@ export class EnigmePage extends React.Component {
             proposition: "",
             isResTrue: false,
             final: Vide,
-            modal: false,
+            modalWinner: false,
+            modalLooser: false,
             indice: null,
             indiceNumber: 0,
             visibilite: "visible",
@@ -55,7 +56,7 @@ export class EnigmePage extends React.Component {
 
                 this.setState({
                     id: this.data._id,
-                    check:this.data.check,
+                    check: this.data.check,
                     question: this.data.question,
                     titre: this.data.titre,
                     texte: this.data.texte,
@@ -90,6 +91,12 @@ export class EnigmePage extends React.Component {
         if (this.state.indiceNumber === 2) {
             this.setState({ indice: this.state.indices[2] })
         }
+        if (this.state.indiceNumber === 3) {
+            this.setState({
+                modalLooser: !this.state.modalLooser
+            })
+            console.log("HEY GROS CON, TA MODALE")
+        }
     };
 
     //Stockage de la proposition de réponse pour comparaison//
@@ -120,7 +127,8 @@ export class EnigmePage extends React.Component {
                         isContinue: true,
                         isResTrue: true,
                         final: Vrai,
-                        visibilite: "pasvisible"
+                        visibilite: "pasvisible",
+                        modalWinner: !this.state.modalWinner
                     })
 
                 } else {
@@ -135,7 +143,8 @@ export class EnigmePage extends React.Component {
                     this.setState({
                         repondues: repondues,
                         isResTrue: false,
-                        final: Faux
+                        final: Faux,
+                        
                     })
                 }
                 console.log(response);
@@ -173,6 +182,7 @@ export class EnigmePage extends React.Component {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
+
             <div class="EnigmePageContainer">
                 <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
@@ -190,14 +200,34 @@ export class EnigmePage extends React.Component {
                     <h3 className="TitreQuestion">{this.state.question}</h3>
                     <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                     <div className="validationContainer">
-                        {(this.state.isResTrue) ? <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
-                            : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
+                        {(this.state.isResTrue) ?
+                            <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
+                            :
+                            <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
                         <img className="final" src={this.state.final} alt='' />
                     </div>
+
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
-                    {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
-                        <NavLink to="/MapPage"><button className="buttonContinuer" onClick={this.saveResp}>Continuer</button></NavLink>
+                    {(this.state.indiceNumber > 2) ?
+                        <div>
+                            <Modal isOpen={this.state.modalLooser} className={this.props.className}>
+                                <ModalHeader>Bien essayé...</ModalHeader>
+                                <ModalBody>Vous avez utilisez les 3 indices, cela signifie que l'énigme est désormais bloquée, et est comptée comme fausse pour votre équipe, cela impactera votre score.</ModalBody>
+                                <NavLink to="/MapPage"><button className="buttonContinuer" onClick={this.saveResp}>Retourner à la carte</button></NavLink>
+                            </Modal>
+                        </div>
+                        :
+                        null}
+
+                    {(this.state.isContinue === true) ?
+                        <div>
+                            <Modal isOpen={this.state.modalWinner} className={this.props.className}>
+                                <ModalHeader>Bravo !!</ModalHeader>
+                                <ModalBody>Vous avez réussi cette énigme, rendez-vous à la prochaine énigme.</ModalBody>
+                                <NavLink to="/MapPage"><button className="buttonContinuer" onClick={this.saveResp}>Retourner sur la carte</button></NavLink>
+                            </Modal>
+                        </div>
                         :
                         null}
                 </AvForm>
