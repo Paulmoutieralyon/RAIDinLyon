@@ -54,6 +54,7 @@ module.exports.addEquipe = function (equipe, callback) {
 module.exports.updateEquipe = function (_id, update,callback) {
     Equipe.findOneAndUpdate(_id, update,callback)       
 }
+// Update equipes au progres du jeu
 
 // Delete Equipe
 module.exports.removeEquipe = function (id, callback) {
