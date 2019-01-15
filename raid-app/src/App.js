@@ -31,7 +31,7 @@ export default class App extends Component {
           {window.localStorage.getItem("token") ?
             <Switch>
               <Route exact path="/" component={HomePage} />
-              <Route path="/EnigmePage/:_id/:_id" component={EnigmePage} />
+              <Route path="/EnigmePage/:_id/:id" component={EnigmePage} />
               <Route path="/MapPage/:_id" component={MapPage} />
               <Route exact path="/Admin" component={Connexion} />
               <Route path="/Admin/AddTeam" component={AddTeam} />

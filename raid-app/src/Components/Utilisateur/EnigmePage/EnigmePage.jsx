@@ -48,11 +48,10 @@ export class EnigmePage extends React.Component {
 
     //Fetch et stockage des données de l'énigme en state //
     componentDidMount = () => {
-
         axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
             .then(data => {
                 this.data = data.data[0]
-
+                console.log(data.data[0])
                 this.setState({
                     id: this.data._id,
                     check:this.data.check,
