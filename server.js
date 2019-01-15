@@ -317,6 +317,17 @@ app.get('/api/equipes', function (req, res) {
     })
 })
 
+app.put('/api/equipes/:_id', function (req, res) {
+    var id = req.params._id
+    var equipe = req.body
+    Equipe.updateEquipe(id, equipe, {}, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
 app.post('/api/equipes/:_id', function (req, res) {
     let id = req.params._id
     Equipe.getEquipeById(id, function (err, equipe) {
@@ -341,16 +352,6 @@ app.post('/api/equipes', function (req, res) {
 })
 
 
-app.put('/api/equipes/:_id', function (req, res) {
-    var id = req.params._id
-    var equipe = req.body
-    Equipe.updateEquipe(id, equipe, {}, function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        res.json(equipe)
-    })
-})
 
 app.delete('/api/equipes/:_id', function (req, res) {
     var id = req.params._id

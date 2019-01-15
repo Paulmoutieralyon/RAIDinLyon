@@ -15,12 +15,19 @@ var equipeSchema = mangoose.Schema({
     },
     token: String,
     participants: Array,
+<<<<<<< HEAD
     telephone: String,
     h_fin: Number,
     date: {
         type: Date,
         defaul: Date.now
     }
+=======
+    telephone : String,
+    h_fin : Number,
+    repondues: Array,
+    markers: Array
+>>>>>>> dev
 }, {collection: 'equipe' });
 
 var Equipe = module.exports = mangoose.model ('Equipe', equipeSchema)

@@ -47,6 +47,9 @@ export default class SessionPage extends React.Component {
                 <Button>Session 1</Button>
                 <Button>Session 2</Button>
                 <NavLink to= "/Admin/Addsession"><Button >Ajouter une session</Button></NavLink>
+                <NavLink to = "/Admin/ListEnigmes" ><Button>List Enigmes</Button></NavLink>
+                <NavLink to = "/Admin/ListTeam" ><Button>List Equipes</Button></NavLink>
+                <NavLink to = "/Admin/ListSessionPage"><Button>Retour</Button></NavLink>
             </div>
         );
     }

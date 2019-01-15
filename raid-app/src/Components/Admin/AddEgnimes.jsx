@@ -1,6 +1,8 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
+import {NavLink} from 'react-router-dom';
+
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {
@@ -213,7 +215,9 @@ export default class AddEgnimes extends React.Component {
 
                 <Card body>
                     <Button onClick={this.submit}>Enregistrer les modifications</Button>
+
                 </Card>
+                <NavLink to="/Admin/Addsession"><Button>Retour</Button></NavLink>
             </div>
         );
     }
