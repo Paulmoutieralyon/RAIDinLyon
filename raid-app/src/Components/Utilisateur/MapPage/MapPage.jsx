@@ -40,7 +40,10 @@ class MapPage extends React.Component {
             countAnswer: 0,
             isOpen: false,
             isOpenT: false,
-            deadline: '10/01/2019',
+            deadline: 'January, 15, 2019, 18:00:00', // Choix : date et heure de fin
+            hourEnd: '0',
+            minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
+            secEnd: '0',
             hours: 0,
             minutes: 0,
             seconds: 0,
@@ -97,9 +100,10 @@ class MapPage extends React.Component {
     tick = () => {
         this.getTimeUntil(this.state.deadline);
         
-        const counterEnd = this.state.deadline + '  ' + '8' + ':' + '39' + ':' + '0';
+        const counterEnd = this.state.deadline + '  ' + this.state.hourEnd + ':' + this.state.minEnd + ':' + this.state.secEnd;
         let counterCheckEnd = this.state.deadline + '  ' + this.state.hours + ':' + this.state.minutes + ':' + this.state.seconds;
        
+        console.log(counterCheckEnd)
         console.log(counterCheckEnd + ' Compare à : ' + counterEnd);
         if( counterCheckEnd === counterEnd ){
             console.warn('end game');
@@ -171,7 +175,7 @@ class MapPage extends React.Component {
                         <Col> {this.leading0(this.state.minutes)}M</Col>
                         <Col>{this.leading0(this.state.seconds)}S</Col>
                     </Row>
-                    <Modal isOpenT={this.state.modal} toggle={this.toggle}>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>La session est terminer</ModalHeader> 
                     <ModalBody>Bravo à vous la session est terminer veillez rejoindre le dernier points sur la map pour les résultats. Soyez fier de vous !</ModalBody>
                     <ModalFooter>
