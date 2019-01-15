@@ -147,7 +147,11 @@ export class EnigmePage extends React.Component {
     //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
-            score: this.state.score
+            score: this.state.score,
+            _idQuestion: this.enigme,
+            check:null,
+            succeed:null, 
+            gain:this.state.score
         })
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);
