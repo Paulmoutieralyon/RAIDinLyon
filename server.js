@@ -38,10 +38,11 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use(express.static(__dirname + "/public"));
 
 //Get All Items
 app.get('/', function (req, res) {
-    res.send('Please use /api/enigmes or /api/markers or /api/equipe')
+    res.send('/public')
 })
 
 app.get('/api/enigmes', function (req, res) {
@@ -66,14 +67,6 @@ app.get('/api/markers', function (req, res) {
     })
 })
 
-app.get('/api/equipe', function (req, res) {
-    Equipe.getEquipe(function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        res.json(equipe)
-    })
-})
 
 // proposition string
 function comparaison(trueAnswer, toTestAnswer) {
@@ -151,23 +144,9 @@ app.get('/api/enigmes/:_id', function (req, res) {
 /*
 EQUIPE
 */
-app.post('/api/equipe/:_id', function (req, res) {
-    let id = req.params._id
-    Equipe.getEquipeById(id, function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        const compar = comparaison(equipe.reponse, req.body.proposition)
-        if (compar.status) res.json(compar)
-        else res.json(compar)
-    })
 
-})
-
-app.post('/api/equipe', function (req, res) {
-    var equipe = req.body
-    console.log(req.body)
-    Equipe.addEquipe(equipe, function (err, equipe) {
+app.get('/api/equipes', function (req, res) {
+    Equipe.getEquipe(function (err, equipe) {
         if (err) {
             throw err
         }
@@ -175,7 +154,7 @@ app.post('/api/equipe', function (req, res) {
     })
 })
 
-app.put('/api/equipe/:_id', function (req, res) {
+app.put('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
     var equipe = req.body
     Equipe.updateEquipe(id, equipe, {}, function (err, equipe) {
@@ -186,7 +165,32 @@ app.put('/api/equipe/:_id', function (req, res) {
     })
 })
 
-app.delete('/api/equipe/:_id', function (req, res) {
+app.post('/api/equipes/:_id', function (req, res) {
+    let id = req.params._id
+    Equipe.getEquipeById(id, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        const compar = comparaison(equipe.reponse, req.body.proposition)
+        if (compar.status) res.json(compar)
+        else res.json(compar)
+    })
+})
+
+app.post('/api/equipes', function (req, res) {
+    var equipe = req.body
+    console.log(req.body)
+    Equipe.addEquipe(equipe, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+
+
+app.delete('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
     Equipe.removeEquipe(id, function (err, equipe) {
         if (err) {
@@ -218,9 +222,9 @@ app.get('/api/administrateurs', function (req, res) {
 })
 
 app.post('/api/administrateurs', function (req, res) {
-    var enigme = req.body
+    var administrateur = req.body
     console.log(req.body)
-    Administrateur.addAdministrateur(enigme, function (err, administrateur) {
+    Administrateur.addAdministrateur(administrateur, function (err, administrateur) {
         if (err) {
             throw err
         }

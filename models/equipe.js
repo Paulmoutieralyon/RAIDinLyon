@@ -3,7 +3,6 @@ var mangoose = require('mongoose')
 // Equipe Schema
 
 var equipeSchema = mangoose.Schema({
-    _id: mangoose.Schema.Types.ObjectId,
     score: Number,
     nom: String,
     email: String,
@@ -11,6 +10,8 @@ var equipeSchema = mangoose.Schema({
     participants: Array,
     telephone : String,
     h_fin : Number,
+    repondues: Array,
+    markers: Array
 }, {collection: 'equipe' });
 
 var Equipe = module.exports = mangoose.model ('Equipe', equipeSchema)

@@ -25,6 +25,7 @@ export default class HomePage extends React.Component {
             <div className="bodyHome">
                 <div className='allinfo'>
                     <img className='Infologo'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
+                    
                         <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                             <ModalHeader toggle={this.toggle}>Règle du jeu de piste</ModalHeader>
                             <ModalBody className='modaltexte'>
