@@ -301,7 +301,7 @@ app.get('/api/equipes', function (req, res) {
     })
 })
 
-//Update score
+//Update score & progression dans le jeu
 app.put('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
     var equipe = req.body
@@ -309,6 +309,14 @@ app.put('/api/equipes/:_id', function (req, res) {
     Equipe.updateEquipe(id, {
         $inc: {
             score: equipe.score,
+        },
+        $addToSet: {
+            enigmes: {
+                _idQuestion : equipe.idquestion,
+                check : equipe.check,
+                succeed : equipe.succeed,
+                gain : equipe.gain
+            }
         }
     }, (err, result) => {
         if (err) {
@@ -317,6 +325,7 @@ app.put('/api/equipes/:_id', function (req, res) {
         res.json(equipe)
     })
 })
+
 
 
 app.post('/api/equipes/:_id', function (req, res) {
