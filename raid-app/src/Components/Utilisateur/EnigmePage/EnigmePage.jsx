@@ -48,11 +48,10 @@ export class EnigmePage extends React.Component {
 
     //Fetch et stockage des données de l'énigme en state //
     componentDidMount = () => {
-
         axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
             .then(data => {
                 this.data = data.data[0]
-
+                console.log(data.data[0])
                 this.setState({
                     id: this.data._id,
                     check:this.data.check,
@@ -174,7 +173,7 @@ export class EnigmePage extends React.Component {
         //console.log(this.props.check)
         return (
             <div class="EnigmePageContainer">
-                <NavLink to="/MapPage"><button className="ButtonBack"> Retour </button></NavLink>
+                <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="ButtonBack"> Retour </button></NavLink>
                 {/*<img className="bontonInfo" src={Info} alt="" />*/}
                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
@@ -197,7 +196,7 @@ export class EnigmePage extends React.Component {
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
                     {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
-                        <NavLink to="/MapPage"><button className="buttonContinuer" onClick={this.saveResp}>Continuer</button></NavLink>
+                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer" onClick={this.saveResp}>Continuer</button></NavLink>
                         :
                         null}
                 </AvForm>

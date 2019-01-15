@@ -5,16 +5,26 @@ var mangoose = require('mongoose')
 var equipeSchema = mangoose.Schema({
     score: Number,
     nom: String,
-    email: String,
-    token : String,
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    token: String,
     participants: Array,
-    telephone : String,
-    h_fin : Number,
-    repondues: Array,
+    telephone: String,
+    h_fin: Number,
+    date: {
+        type: Date,
+        defaul: Date.now
+    },
     markers: Array
-}, {collection: 'equipe' });
+}, { collection: 'equipe' });
 
-var Equipe = module.exports = mangoose.model ('Equipe', equipeSchema)
+var Equipe = module.exports = mangoose.model('Equipe', equipeSchema)
 
 // Get Equipe
 module.exports.getEquipe = function (callback, limit) {
@@ -22,8 +32,8 @@ module.exports.getEquipe = function (callback, limit) {
 }
 
 // Get EquipeId
-module.exports.getEquipeById = function (id,callback) {
-    Equipe.findOne({id},callback)
+module.exports.getEquipeById = function (id, callback) {
+    Equipe.findOne({ id }, callback)
 }
 
 
