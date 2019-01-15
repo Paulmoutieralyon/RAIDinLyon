@@ -6,24 +6,23 @@ import './UnEnigme.css';
 const axios = require('axios');
 
 
-
 export default class UnEnigme extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            enigmes: null,
-            tomodify: false,
-
+            button: "invisible",
             collapse: false,
             coordonnees: [],
             titre: null,
             enonce: null,
+            question: null,
             nouvellerep: null,
-            responses: null,
+            reponse: null,
             nouvelindice: null,
             indices: [],
             info: null,
-            image: null
+            image: null,
+            id: null
         }
         this.page = this.props.match.params._id;
         this.addResp = [];
@@ -35,40 +34,46 @@ export default class UnEnigme extends Component {
     componentDidMount() {
         axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
             .then(response => {
+                console.log(response)
                 this.setState({
-                    enigmes: response.data
+                    id: response.data[0]._id,
+                    titre: response.data[0].titre,
+                    image: response.data[0].img,
+                    enonce: response.data[0].enonce,
+                    question: response.data[0].question,
+                    indices: response.data[0].indices,
+                    reponse: response.data[0].reponse,
+                    coordonnees: response.data[0].coordonnee,
+                    info: response.data[0].info
                 })
-            })
-    }
-
-    changeInput = (e) => {
-        this.setState({
-            tomodify: !this.state.tomodify
-        })
-        console.log(e)
+            });
     }
 
     modifyImage = (e) => {
         this.setState({
-            image: e.target.value
+            image: e.target.value,
+            button: "visible"
         })
     }
 
     modifyTitle = (value) => {
         this.setState({
-            titre: value
+            titre: value,
+            button: "visible"
         })
     }
 
     modifyAnnouncement = (value) => {
         this.setState({
-            enonce: value
+            enonce: value,
+            button: "visible"
         })
     }
 
     modifyQuestion = (value) => {
         this.setState({
-            question: value
+            question: value,
+            button: "visible"
         })
     }
     /* _________________________________
@@ -77,7 +82,8 @@ export default class UnEnigme extends Component {
 
     addResponse = (value) => {
         this.setState({
-            responses: value
+            responses: value,
+            button: "visible"
         })
     }
     /* ________________________________
@@ -87,17 +93,17 @@ export default class UnEnigme extends Component {
     add1Clue = (value) => {
         const indices = this.state.indices.slice()
         indices[0] = value
-        this.setState({ indices: indices })
+        this.setState({ indices: indices, button: "visible" })
     }
     add2Clue = (value) => {
         const indices = this.state.indices.slice()
         indices[1] = value
-        this.setState({ indices: indices })
+        this.setState({ indices: indices, button: "visible" })
     }
     add3Clue = (value) => {
         const indices = this.state.indices.slice()
         indices[2] = value
-        this.setState({ indices: indices })
+        this.setState({ indices: indices, button: "visible" })
     }
 
     /* ________________________________
@@ -107,16 +113,17 @@ export default class UnEnigme extends Component {
     modifyLat = (value) => {
         const newLat = this.state.coordonnees.slice()
         newLat[0] = value
-        this.setState({ coordonnees: newLat })
+        this.setState({ coordonnees: newLat, button: "visible" })
     }
     modifyLong = (value) => {
         const newLong = this.state.coordonnees.slice()
         newLong[1] = value
-        this.setState({ coordonnees: newLong })
+        this.setState({ coordonnees: newLong, button: "visible" })
     }
     modifyInfo = (value) => {
         this.setState({
-            info: value
+            info: value,
+            button: "visible"
         })
     }
 
@@ -131,7 +138,7 @@ export default class UnEnigme extends Component {
                 info: this.state.info,
                 coordonnee: [this.state.coordonnees[0], this.state.coordonnees[1]],
                 img: this.state.image,
-                reponse: this.state.responses,
+                reponse: this.state.reponse,
             })
             .then(function (response) {
                 console.log(response);
@@ -143,17 +150,20 @@ export default class UnEnigme extends Component {
 
 
     render() {
-        { console.log(this.state.titre) }
         return (
             <div>
-                {this.state.enigmes ?
+                
+                {this.state.titre ?
                     <div>
+                        <Alert color="dark">
+                        Id de l'énigme : {this.state.id}
+                        </Alert>
                         <Alert color="dark">
                             Titre :
                             <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].titre}
+                                value={this.state.titre}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -167,19 +177,26 @@ export default class UnEnigme extends Component {
                         </Alert>
 
                         <Alert color="dark">
-                            Image utilisée : {this.state.enigmes[0].img}
-                           
-
-                            <FormGroup>
-                                <Label >Image : </Label>
-                                <Input onChange={this.modifyImage} />
-                            </FormGroup>
+                            Image utilisée (Ne fonctionne pas pour l'instant): <Editable
+                                name="username"
+                                dataType="image"
+                                value={this.state.img}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyImage(value)
+                                    }
+                                }
+                                }
+                            />
                         </Alert>
                         <Alert color="dark">
                             Énoncé : <Editable
                                 name="username"
                                 dataType="textarea"
-                                value={this.state.enigmes[0].enonce}
+                                value={this.state.enonce}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -196,7 +213,7 @@ export default class UnEnigme extends Component {
                             Question : <Editable
                                 name="username"
                                 dataType="textarea"
-                                value={this.state.enigmes[0].question}
+                                value={this.state.question}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -213,7 +230,7 @@ export default class UnEnigme extends Component {
                         <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].indices[0]}
+                                value={this.state.indices[0]}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -227,7 +244,7 @@ export default class UnEnigme extends Component {
                             <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].indices[1]}
+                                value={this.state.indices[1]}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -241,7 +258,7 @@ export default class UnEnigme extends Component {
                             <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].indices[2]}
+                                value={this.state.indices[2]}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -254,10 +271,11 @@ export default class UnEnigme extends Component {
                             />
                         </Alert>
                         <Alert color="dark">
+                            Réponse :
                             <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].reponse}
+                                value={this.state.reponse}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -269,13 +287,12 @@ export default class UnEnigme extends Component {
                                 }
                             />
                         </Alert>
-                        <h3>Informations géographiques :</h3>
+                        <h3>Informations géographiques du lieu :</h3>
                         <Alert color="dark">
-                            Coordonnées :
-                            Lattitude <Editable
+                            Lattitude : <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].coordonnee[0]}
+                                value={this.state.coordonnees[0]}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -286,11 +303,11 @@ export default class UnEnigme extends Component {
                                 }
                                 }
                             />
-                            ; Longitude -
+                            Longitude :
                             <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].coordonnee[1]}
+                                value={this.state.coordonnees[1]}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -307,7 +324,7 @@ export default class UnEnigme extends Component {
                             <Editable
                                 name="username"
                                 dataType="text"
-                                value={this.state.enigmes[0].info}
+                                value={this.state.info}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -322,6 +339,7 @@ export default class UnEnigme extends Component {
                     </div>
                     : null}
                 <NavLink to='/Admin/ListEnigmes'>
+                    <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
                     <Button>Retour</Button>
                 </NavLink>
             </div>
@@ -332,4 +350,3 @@ export default class UnEnigme extends Component {
 }
 
 
-   

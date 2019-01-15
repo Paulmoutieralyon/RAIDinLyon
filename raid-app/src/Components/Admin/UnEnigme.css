@@ -1,3 +1,4 @@
 .invisible {
+    position:absolute;
     display: none
 }
