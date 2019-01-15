@@ -14,15 +14,15 @@ export default class ListSessionPage extends React.Component {
     render() {
         return (
             <div class='containerListSessionPage'>
-                <h1>Sessions</h1>
+                <h1>Session</h1>
                 <Breadcrumb>
-                    <BreadcrumbItem active>Session 1</BreadcrumbItem>
+                    <NavLink to="/Admin/SessionPage"><BreadcrumbItem active><Button>Sur les traces de Nicolas flamel</Button></BreadcrumbItem></NavLink>
                     <Toggle />
                 </Breadcrumb>
  
 
                 <Card body>
-                    <NavLink to = "/Admin/SessionPage"><Button>Nouvelle session</Button></NavLink>
+                    <NavLink to = "/Admin/Addsession"><Button>Modifier</Button></NavLink>
                 </Card>
                 <NavLink to = "/Admin/"><Button>Retour</Button></NavLink>
 

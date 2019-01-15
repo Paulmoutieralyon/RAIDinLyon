@@ -13,16 +13,16 @@ export default class Classement extends React.Component {
       <div>
         <h1>Classement</h1>
         <FormGroup>
-          <Label for="exampleSelect">Selectionnez le type de tri</Label>
+          <Label for="exampleSelect">Selectionnez le type de Classement</Label>
           <Input type="select" name="select" id="exampleSelect">
-            <option>Tri de la mort qui tue</option>
-            <option>Tri du meilleur perdant</option>
-            <option>Tri du tri</option>
-            <option>Tri du tri pour le tri du tri</option>
+            <option>Par points</option>
+            <option>Par temps</option>
+            <option>Par indices</option>
+            
           </Input>
         </FormGroup>
         <Button>Réinitialiser</Button>
-        <NavLink to = "/Admin/Addsession"><Button>Retour</Button></NavLink>
+        <NavLink to = "/Admin/SessionPage"><Button>Retour</Button></NavLink>
       </div>
     );
   }
