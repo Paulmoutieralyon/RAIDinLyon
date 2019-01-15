@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Alert, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
+import { Button, Alert, Input, FormGroup, Label, FormText } from 'reactstrap';
+import Editable from 'react-x-editable';
 import { NavLink } from 'react-router-dom';
 import './UnEnigme.css';
-import axios from 'axios'
-import pen from './modifiable.png';
+const axios = require('axios');
+
 
 
 export default class UnEnigme extends Component {
@@ -11,9 +12,9 @@ export default class UnEnigme extends Component {
         super(props);
         this.state = {
             enigmes: null,
-            invisible: "visible",
-            visible: "invisible",
+            tomodify: false,
 
+            collapse: false,
             coordonnees: [],
             titre: null,
             enonce: null,
@@ -22,8 +23,7 @@ export default class UnEnigme extends Component {
             nouvelindice: null,
             indices: [],
             info: null,
-            image: null,
-
+            image: null
         }
         this.page = this.props.match.params._id;
         this.addResp = [];
@@ -41,95 +41,82 @@ export default class UnEnigme extends Component {
             })
     }
 
+    changeInput = (e) => {
+        this.setState({
+            tomodify: !this.state.tomodify
+        })
+        console.log(e)
+    }
 
-    /* Ajout d'une image */
     modifyImage = (e) => {
         this.setState({
-            image: e.target.value,
-            invisible: "invisible",
-            visible: "visible"
+            image: e.target.value
         })
     }
 
-    /* Modification du titre*/
-    modifyTitle = (e) => {
+    modifyTitle = (value) => {
         this.setState({
-            titre: e.target.value,
-            invisible: "invisible",
-            visible: "visible"
+            titre: value
         })
     }
-    /* Modification de l'énnonce */
-    modifyAnnouncement = (e) => {
+
+    modifyAnnouncement = (value) => {
         this.setState({
-            enonce: e.target.value
+            enonce: value
         })
     }
 
-    /* Modification de la question */
-    modifyQuestion = (e) => {
+    modifyQuestion = (value) => {
         this.setState({
-            question: e.target.value
+            question: value
         })
     }
-
-
     /* _________________________________
-    Reponses
+    MODIFICATION REPONSES
     _________________________________ */
 
-    /* Ajout de la réponse */
-    addResponse = (e) => {
+    addResponse = (value) => {
         this.setState({
-            responses: e.target.value
+            responses: value
         })
-        console.log(this.state.responses)
     }
-
-
     /* ________________________________
-    INDICES
+    MODIFICATION INDICES
     _________________________________ */
 
-
-    /* Ajout des indices */
-    add1Clue = (e) => {
+    add1Clue = (value) => {
         const indices = this.state.indices.slice()
-        indices[0] = e.target.value
-        this.setState({ indices: indices })
-
-    }
-
-    add2Clue = (e) => {
-        const indices = this.state.indices.slice()
-        indices[1] = e.target.value
+        indices[0] = value
         this.setState({ indices: indices })
     }
-
-    add3Clue = (e) => {
+    add2Clue = (value) => {
         const indices = this.state.indices.slice()
-        indices[2] = e.target.value
+        indices[1] = value
+        this.setState({ indices: indices })
+    }
+    add3Clue = (value) => {
+        const indices = this.state.indices.slice()
+        indices[2] = value
         this.setState({ indices: indices })
     }
 
     /* ________________________________
-    LOCALISATION
+    MODIFICATION LOCALISATION
     _________________________________ */
 
-    modifyLat = (e) => {
+    modifyLat = (value) => {
         const newLat = this.state.coordonnees.slice()
-        newLat[0] = e.target.value
+        newLat[0] = value
         this.setState({ coordonnees: newLat })
     }
-    modifyLong = (e) => {
+    modifyLong = (value) => {
         const newLong = this.state.coordonnees.slice()
-        newLong[1] = e.target.value
+        newLong[1] = value
         this.setState({ coordonnees: newLong })
     }
-
-    modifyInfo = (e) => {
+    modifyInfo = (value) => {
         this.setState({
-            info: e.target.value
+            info: value
         })
     }
 
@@ -156,83 +143,193 @@ export default class UnEnigme extends Component {
 
 
     render() {
-
+        { console.log(this.state.titre) }
         return (
             <div>
-                {this.toModify}
                 {this.state.enigmes ?
-                    < div>
+                    <div>
                         <Alert color="dark">
-                            <a href="#" className="alert-link"> Titre de l'énigme : </a> <b className={this.state.invisible}>{this.state.enigmes[0].titre}</b>
-                            <Input className={this.state.visible} type="text" name="titre" id="titreennigme" defaultValue={this.state.enigmes[0].titre} onChange={this.modifyTitle} />
-                            <img src={pen} />
-                        </Alert>
-                        <Alert color="dark">
-                            <a href="#" className="alert-link"> Image utilisée : </a> <b className={this.state.invisible}>{this.state.enigmes[0].img}</b>
-                            <img src={pen} />
-                        </Alert>
-                        <Alert color="dark">
-                            <a href="#" className="alert-link"> Énoncé : </a> <b className={this.state.invisible}>{this.state.enigmes[0].enonce}</b>
-                            <Input className={this.state.visible} type="text" name="text" id="exampleText" defaultValue={this.state.enigmes[0].enonce} onChange={this.modifyAnnouncement} />
-                            <img src={pen} />
-                        </Alert>
-                        <Alert color="dark">
-                            <a href="#" className="alert-link">Question : </a> <b className={this.state.invisible}>{this.state.enigmes[0].question}</b>
-                            <Input className={this.state.visible} type="text" name="text" id="exampleText" defaultValue={this.state.enigmes[0].question} onChange={this.modifyQuestion} />
-                            <img src={pen} />
-                        </Alert>
-                        <Alert color="dark">
-                            Indices : <b className={this.state.invisible}>{this.state.enigmes[0].indices}</b>
-                            <Input
-                                defaultValue={this.state.enigmes[0].indices[0]}
-                                className={this.state.visible}
-                                type="text"
-                                name="indice"
-                                onChange={this.add1Clue}
+                            Titre :
+                            <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].titre}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyTitle(value)
+                                    }
+                                }
+                                }
                             />
-                            <Input
-                                defaultValue={this.state.enigmes[0].indices[1]}
-                                className={this.state.visible}
-                                type="text"
-                                name="indice"
-                                onChange={this.add2Clue}
-                            />
-                            <Input
-                                defaultValue={this.state.enigmes[0].indices[2]}
-                                className={this.state.visible}
-                                type="text"
-                                name="indice"
-                                onChange={this.add3Clue}
-                            />
-                        </Alert>
-                        <Alert color="dark">
-                            Réponse : <b className={this.state.invisible}>{this.state.enigmes[0].reponse}</b>
-                            <Input className={this.state.visible} defaultValue={this.state.enigmes[0].reponse} type="text" name="text" id="exampleText" onChange={this.addResponse} />
-
                         </Alert>
 
+                        <Alert color="dark">
+                            Image utilisée : {this.state.enigmes[0].img}
+                           
+
+                            <FormGroup>
+                                <Label >Image : </Label>
+                                <Input onChange={this.modifyImage} />
+                            </FormGroup>
+                        </Alert>
+                        <Alert color="dark">
+                            Énoncé : <Editable
+                                name="username"
+                                dataType="textarea"
+                                value={this.state.enigmes[0].enonce}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyAnnouncement(value)
+                                    }
+                                }
+                                }
+                            />
+
+                        </Alert>
+                        <Alert color="dark">
+                            Question : <Editable
+                                name="username"
+                                dataType="textarea"
+                                value={this.state.enigmes[0].question}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyQuestion(value)
+                                    }
+                                }
+                                }
+                            />
+                        </Alert>
+                        <Alert color="dark">
+                            Indices :
+                        <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].indices[0]}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.add1Clue(value)
+                                    }
+                                }
+                                }
+                            />
+                            <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].indices[1]}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.add2Clue(value)
+                                    }
+                                }
+                                }
+                            />
+                            <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].indices[2]}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.add3Clue(value)
+                                    }
+                                }
+                                }
+                            />
+                        </Alert>
+                        <Alert color="dark">
+                            <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].reponse}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.addResponse(value)
+                                    }
+                                }
+                                }
+                            />
+                        </Alert>
                         <h3>Informations géographiques :</h3>
                         <Alert color="dark">
                             Coordonnées :
-                         Lattitude : - <b className={this.state.invisible}>{this.state.enigmes[0].coordonnee[0]}</b> <Input className={this.state.visible} defaultValue={this.state.enigmes[0].coordonnee[0]} type="text" name="titre" id="titreennigme" onChange={this.modifyLat} />;
-                         Longitude - <b className={this.state.invisible}>{this.state.enigmes[0].coordonnee[1]}</b> <Input className={this.state.visible} defaultValue={this.state.enigmes[0].coordonnee[1]} type="text" name="titre" id="titreennigme" onChange={this.modifyLong} />
+                            Lattitude <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].coordonnee[0]}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyLat(value)
+                                    }
+                                }
+                                }
+                            />
+                            ; Longitude -
+                            <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].coordonnee[1]}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyLong(value)
+                                    }
+                                }
+                                }
+                            />
                         </Alert>
                         <Alert color="dark">
-                            Précautions sur le lieu : <b className={this.state.invisible}>{this.state.enigmes[0].info}</b>
-                            <Input className={this.state.visible} defaultvalue={this.state.enigmes[0].info} type="text" name="titre" id="titreennigme" onChange={this.modifyInfo} />
+                            Précautions sur le lieu :
+                            <Editable
+                                name="username"
+                                dataType="text"
+                                value={this.state.enigmes[0].info}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyInfo(value)
+                                    }
+                                }
+                                }
+                            />
                         </Alert>
                     </div>
-                    : null
-                }
+                    : null}
                 <NavLink to='/Admin/ListEnigmes'>
                     <Button>Retour</Button>
                 </NavLink>
-                <Button onClick={this.toModify} className={this.state.invisible}>Modifier</Button>
-                <Button onClick={this.sendModifications} className={this.state.visible}>Valider les modifications</Button>
-            </div >
+            </div>
 
 
         );
     }
 }
 
+
+   
