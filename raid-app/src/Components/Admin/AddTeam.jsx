@@ -137,7 +137,7 @@ export default class AddTeam extends React.Component {
                 <CardFooter>
                     <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
                 </CardFooter>
-                <NavLink to="/Admin/Addsession"><Button>Retour</Button></NavLink>
+                <NavLink to="/Admin/ListTeam"><Button>Retour</Button></NavLink>
 
             </div>
         );
