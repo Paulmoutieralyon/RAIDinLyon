@@ -188,22 +188,6 @@ app.use(/* '/api',  */apiRoutes);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Get All Items
 /* app.get('/', function (req, res) {
     res.send('Please use /api/enigmes or /api/markers or /api/equipes')
@@ -317,16 +301,23 @@ app.get('/api/equipes', function (req, res) {
     })
 })
 
+//Update score
 app.put('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
     var equipe = req.body
-    Equipe.updateEquipe(id, equipe, {}, function (err, equipe) {
+    console.log(equipe)
+    Equipe.updateEquipe(id, {
+        $inc: {
+            score: equipe.score,
+        }
+    }, (err, result) => {
         if (err) {
             throw err
         }
         res.json(equipe)
     })
 })
+
 
 app.post('/api/equipes/:_id', function (req, res) {
     let id = req.params._id

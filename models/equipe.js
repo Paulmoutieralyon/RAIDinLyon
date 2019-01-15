@@ -13,6 +13,14 @@ var equipeSchema = mangoose.Schema({
         type: String,
         required: true,
     },
+    enigmes:[
+        {
+            _idQuestion: mangoose.Schema.ObjectId,
+            check: Boolean,
+            succeed: Boolean,
+            gain:Number
+        }
+    ],
     token: String,
     participants: Array,
     telephone: String,
@@ -43,12 +51,8 @@ module.exports.addEquipe = function (equipe, callback) {
 }
 
 // Update Equipe
-module.exports.updateEquipe = function (id, equipe, options, callback) {
-    var query = { _id: id }
-    var update = {
-        name: equipe.name
-    }
-    Equipe.findOneAndUpdate(query, update, options, callback)
+module.exports.updateEquipe = function (_id, update,callback) {
+    Equipe.findOneAndUpdate(_id, update,callback)       
 }
 
 // Delete Equipe

@@ -42,15 +42,15 @@ export class EnigmePage extends React.Component {
             img: "./Pierrephilosophale.jpeg",
         };
         this.data = null
-        this.page = this.props.match.params._id
+        this.enigme = this.props.match.params._id
+        this.user=this.props.match.params.id
     }
 
     //Fetch et stockage des données de l'énigme en state //
     componentDidMount = () => {
-        axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
+        axios.get(`http://localhost:5000/api/enigmes/${this.enigme}`)
             .then(data => {
                 this.data = data.data[0]
-                console.log(data.data[0])
                 this.setState({
                     id: this.data._id,
                     check: this.data.check,
@@ -140,14 +140,14 @@ export class EnigmePage extends React.Component {
                 console.log(error);
             });
 
-
+            this.saveResp()
     }
 
 
     //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
-        axios.put(`http://localhost:5000/api/equipes/5c34c834c9f9f928fd7b1ada`, {
-            
+        axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
+            score: this.state.score
         })
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);
@@ -192,7 +192,7 @@ export class EnigmePage extends React.Component {
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
                     {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
-                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer" onClick={this.saveResp}>Continuer</button></NavLink>
+                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer">Continuer</button></NavLink>
                         :
                         null}
                 </AvForm>
