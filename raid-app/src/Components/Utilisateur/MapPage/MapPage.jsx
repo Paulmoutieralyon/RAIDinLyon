@@ -50,29 +50,40 @@ class MapPage extends React.Component {
             seconds: 0,
             timeoff: false,
             modal: false,
-            interval: function() {
+            modalTimer: false,
+            modalMarker: false,
+            interval: function () {
+
             }
         };
-        this.user = this.props.match.params.id
-        this.data = null
+
         this.tab = []
         setInterval(() => this.tick(), 1000)
 
     }
 
-    toggle =() =>  {
-        console.log('jeryy')
+    toggleTimer = () => {
+        
         this.setState({
-          modal: !this.state.modal
+            modalTimer: !this.state.modalTimer
         });
-      }
-    
+    }
+
+
+    allToggle = () => {
+        this.setState({
+            modalMarker: !this.state.modalMarker
+        })
+        this.toggleTimer()
+        
+    }
+
     toggle = id => {
         this.setState({
             modal: id
         });
     };
-    
+
     // coundown timer
     componentWillMount() {
         this.getTimeUntil(this.state.deadline);
@@ -88,7 +99,7 @@ class MapPage extends React.Component {
 
     leading0(num) {
         return num < 0 ? '0' + num : num;
-        
+
     }
 
     componentDidMount() {
@@ -109,20 +120,15 @@ class MapPage extends React.Component {
 
     tick = () => {
         this.getTimeUntil(this.state.deadline);
-        
+
         const counterEnd = this.state.deadline + '  ' + this.state.hourEnd + ':' + this.state.minEnd + ':' + this.state.secEnd;
         let counterCheckEnd = this.state.deadline + '  ' + this.state.hours + ':' + this.state.minutes + ':' + this.state.seconds;
-       
-        /* console.log(counterCheckEnd)
-        console.log(counterCheckEnd + ' Compare à : ' + counterEnd); */
-        if( counterCheckEnd === counterEnd ){
-            console.warn('end game');
-                this.setState({
-                  modal: !this.state.modal
-                  
-                });
-                console.log('hehhuhruhe')
-              
+
+        
+        if (counterCheckEnd === counterEnd) {
+            
+            this.toggleTimer()
+
         }
     }
 
@@ -174,7 +180,7 @@ class MapPage extends React.Component {
     }
 
     render() {
-       /*  console.log("render", this.props.enigme) */
+        
         return (
             <div className="mapPageContainer">
                 <Navbar light expand="md">
@@ -185,18 +191,22 @@ class MapPage extends React.Component {
                         <Col> {this.leading0(this.state.minutes)}min</Col>
                         <Col>{this.leading0(this.state.seconds)}s</Col>
                     </Row>
-                    <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>La session est terminer</ModalHeader> 
-                    <ModalBody>Bravo à vous la session est terminer veillez rejoindre le dernier points sur la map pour les résultats. Soyez fier de vous !</ModalBody>
-                    <ModalFooter>
-                    <Button color="primary" onClick={this.toggle}>Allez</Button>
-                    
-                    </ModalFooter>
-                    </Modal>
+
                     <NavbarToggler onClick={this.toggleHead}>
                         <FaCompass style={{ color: '#c6c6c6' }} />
                     </NavbarToggler>
                 </Navbar>
+                <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
+          <ModalHeader toggle={this.toggleTimer}>Session Terminer</ModalHeader>
+          <ModalBody>
+              Bravo à Vous, les épreuves sont terminer dirigez-vous vers le point final pour le classement. Soyez content de vous !
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
+            
+          </ModalFooter>
+        </Modal>
+        
                 <ul className="menuList">
                     <li id='pts'>{this.props.points} pts</li>
                     <li>Accueil</li>
@@ -216,7 +226,7 @@ class MapPage extends React.Component {
                                 <div>
                                     {this.props.enigme.map((x, i) =>
                                         <div>
-                                            {this.state.countAnswer === this.props.enigme.length ?
+                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
                                                 <Marker position={[45.758473, 4.859238]}>
                                                     <Popup>
                                                         <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>

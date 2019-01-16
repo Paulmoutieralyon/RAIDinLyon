@@ -312,10 +312,10 @@ app.put('/api/equipes/:_id', function (req, res) {
         },
         $addToSet: {
             enigmes: {
-                _idQuestion : equipe.idquestion,
                 check : equipe.check,
                 succeed : equipe.succeed,
-                gain : equipe.gain
+                gain : equipe.gain,
+                idquestion: equipe.idquestion,
             }
         }
     }, (err, result) => {

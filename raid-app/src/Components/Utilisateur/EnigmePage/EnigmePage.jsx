@@ -194,10 +194,10 @@ export class EnigmePage extends React.Component {
         
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
             score: this.state.score,
-            _idQuestion: this.enigme,
-            check: this.state.check,
-            succeed: this.state.succeed,
-            gain: this.state.score
+            idquestion:this.state.id,
+            check:null,
+            succeed:null, 
+            gain:this.state.score
         })
         
             .then(function (response) {
