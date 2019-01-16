@@ -1,4 +1,6 @@
-import { Button } from 'reactstrap';
+
+import { Breadcrumb, BreadcrumbItem, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import Toggle from "react-toggle-component";
 import React from 'react';
 import './SessionPage.css';
 import {NavLink} from 'react-router-dom';
@@ -43,11 +45,17 @@ export default class SessionPage extends React.Component {
     render() {
         return (
             <div className='containerSessionPage'>
-                <h1>Mes Sessions</h1>
-                <Button>Session 1</Button>
-                <Button>Session 2</Button>
-                <NavLink to= "/Admin/Addsession"><Button >Ajouter une session</Button></NavLink>
-                <NavLink to = "/Admin/ListSessionPage"><Button>Retour</Button></NavLink>
+                <h1>Sur les traces de Nicolas Flamel</h1>
+              
+                <NavLink to = "/Admin/ListEnigmes" ><Button>List Enigmes</Button></NavLink>
+                <NavLink to = "/Admin/ListTeam" ><Button>List Equipes</Button></NavLink>
+                <NavLink to = "/Admin/Classement" ><Button>Classement</Button></NavLink>
+                <NavLink to = "/Admin/"><Button>Retour</Button></NavLink>
+
+                <Breadcrumb>
+                    <BreadcrumbItem active>Actif</BreadcrumbItem>
+                    <Toggle />
+                </Breadcrumb>
             </div>
         );
     }

@@ -23,7 +23,7 @@ export default class AdminComptes extends React.Component {
                     <Input />
                 </InputGroup>
 
-                <NavLink to = "/Admin/ListSessionPage"><Button color="secondary" size="lg">Connexion</Button></NavLink>
+                <NavLink to = "/Admin/SessionPage"><Button color="secondary" size="lg">Connexion</Button></NavLink>
             </div >
         );
     }

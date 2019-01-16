@@ -343,8 +343,6 @@ export default class UnEnigme extends Component {
                     <Button>Retour</Button>
                 </NavLink>
             </div>
-
-
         );
     }
 }

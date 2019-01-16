@@ -104,7 +104,7 @@ export default class AddTeam extends React.Component {
 
                 <FormGroup>
                     <Label for="exampleEmail">Titre de l'équipe</Label>
-                    <Input type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
+                    <Input required type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
                 </FormGroup>
 
                 <FormGroup>
@@ -138,7 +138,7 @@ export default class AddTeam extends React.Component {
                 <CardFooter>
                     <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
                 </CardFooter>
-                <NavLink to="/Admin/Addsession"><Button>Retour</Button></NavLink>
+                <NavLink to="/Admin/ListTeam"><Button>Retour</Button></NavLink>
 
             </div>
         );

@@ -217,7 +217,7 @@ export default class AddEgnimes extends React.Component {
                     <Button onClick={this.submit}>Enregistrer les modifications</Button>
 
                 </Card>
-                <NavLink to="/Admin/Addsession"><Button>Retour</Button></NavLink>
+                <NavLink to="/Admin/ListEnigmes"><Button>Retour</Button></NavLink>
             </div>
         );
     }
