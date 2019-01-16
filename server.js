@@ -326,7 +326,6 @@ app.put('/api/equipes/:_id', function (req, res) {
             email: equipe.email,
             telephone: equipe.telephone,
             participants: equipe.participants.toString(),
-            token: equipe.token,
             h_fin: equipe.h_fin,
 
         },
