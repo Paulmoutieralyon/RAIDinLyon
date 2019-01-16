@@ -40,13 +40,17 @@ export class EnigmePage extends React.Component {
             indices: null,
             info: null,
             img: "./Pierrephilosophale.jpeg",
+
+            //Affichage du score 
+            scoregeneral:null
         };
         this.data = null
+        this.scoreg=null
         this.enigme = this.props.match.params._id
         this.user=this.props.match.params.id
     }
 
-    //Fetch et stockage des données de l'énigme en state //
+    //Fetch et stockage des données de l'énigme en state + stockage du score du joueur //
     componentDidMount = () => {
         axios.get(`http://localhost:5000/api/enigmes/${this.enigme}`)
             .then(data => {
@@ -63,6 +67,16 @@ export class EnigmePage extends React.Component {
                     info: this.data.info,
                     img: this.data.img,
                     isFloat: true
+                })
+            })
+            .catch(error => {
+                throw (error);
+            })
+            axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+            .then(data => {
+                this.scoreg = data.data[0]
+                this.setState({
+                   scoregeneral:this.scoreg.score
                 })
             })
             .catch(error => {
@@ -180,7 +194,7 @@ export class EnigmePage extends React.Component {
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
                     <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
                 </Modal>
-                <p className="points">{this.props.points} pts</p>
+                <p className="points">{this.state.scoregeneral} pts</p>
                 <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
                 <p className="Titre">{this.state.enonce}</p>
                 <p className="BodyText">{this.state.texte}</p>
