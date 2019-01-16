@@ -2,12 +2,14 @@ import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
 import {
     Container,
     Modal,
     ModalHeader,
     ModalFooter,
     ModalBody,
+    NavLink,
     Navbar,
     NavbarToggler,
     NavbarBrand,
@@ -16,6 +18,7 @@ import {
     Col
 } from "reactstrap"
 import './MapPage/MapPage.css'
+import './Header.css'
 import { FaCompass } from 'react-icons/fa'
 import { slideHeader } from '../../Actions/Utilisateur/headerActions'
 
@@ -28,7 +31,7 @@ export class Header extends React.Component {
             countAnswer: 0,
             isOpen: false,
             isOpenT: false,
-            deadline: 'January, 15, 2019, 18:00:00', // Choix : date et heure de fin
+            deadline: 'January, 19, 2019, 18:00:00', // Choix : date et heure de fin
             hourEnd: '0',
             minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
             secEnd: '0',
@@ -98,11 +101,11 @@ export class Header extends React.Component {
     }
 
     render() {
-        //console.log(this.state.hours)
         return (
-            <div>
+            <div className='headerContainer'>
                 <Navbar light expand="md">
-                    <NavbarBrand href="../../"> Raid In Lyon </NavbarBrand><div className="count_title" >Fin :</div>
+                    <NavbarBrand tag={Link} to={`{MapPage/${window.localStorage.getItem('id')}}`}> Raid In Lyon </NavbarBrand>
+                    <div className="count_title" >Fin :</div>
                     <Container className="d-none d-md-block">{this.props.title}</Container>
                     <Row>
                         <Col> {this.leading0(this.state.hours)}H</Col>
@@ -124,11 +127,11 @@ export class Header extends React.Component {
                 </Navbar>
                 <ul className="menuList">
                     <li id='pts'>{this.props.points} pts</li>
-                    <li>Accueil</li>
-                    <li>Qui sommes-nous</li>
-                    <li>Mentions légales / CGU</li>
-                    <li>Nos partenaires</li>
-                    <li>Contactez-nous</li>
+                    <Link style={{ textDecoration: 'none' }} to={`/`}><li>Accueil</li></Link>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Qui sommes-nous</li></a>
+                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Mentions légales / CGU</li></Link>
+                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Nos partenaires</li></Link>
+                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Contactez-nous</li></Link>
                 </ul>
             </div>
         )

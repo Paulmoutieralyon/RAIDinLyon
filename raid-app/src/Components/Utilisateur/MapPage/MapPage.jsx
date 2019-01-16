@@ -48,6 +48,7 @@ class MapPage extends React.Component {
             }
         };
         this.tab = []
+        setInterval(() => this.props.getPosition(), 10000)
     }
 
     toggle = id => {
@@ -98,7 +99,7 @@ class MapPage extends React.Component {
 
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">
-                        <Map className="map" center={[45.767383, 4.831571]} zoom={this.props.zoom}>
+                        <Map className="map" center={this.props.currentPosition} zoom={this.props.zoom} zoomControl={false}>
                             <TileLayer
                                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
