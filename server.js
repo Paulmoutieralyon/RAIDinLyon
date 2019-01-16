@@ -320,8 +320,15 @@ app.put('/api/equipes/:_id', function (req, res) {
     var equipe = req.body
     console.log(equipe)
     Equipe.updateEquipe(id, {
-        $inc: {
+        $set: {
             score: equipe.score,
+            nom: equipe.nom,
+            email: equipe.email,
+            telephone: equipe.telephone,
+            participants: equipe.participants.toString(),
+            token: equipe.token,
+            h_fin: equipe.h_fin,
+
         },
         $addToSet: {
             enigmes: {
