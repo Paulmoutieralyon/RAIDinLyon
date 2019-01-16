@@ -96,7 +96,7 @@ class MapPage extends React.Component {
             <div className="mapPageContainer">
                 <Header/>
 
-                <div id='blockMap' className={this.state.isOpen ? 'slideOut' : 'slideIn'}>
+                <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">
                         <Map className="map" center={[45.767383, 4.831571]} zoom={this.props.zoom}>
                             <TileLayer
@@ -165,10 +165,14 @@ const mapStateToProps = state => ({
     lng1: state.reducerMapPage.lng1,
     eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
+    
     title: state.titleManagement.title,
+    
     enigme: state.reducerMongoEnigmes.enigme,
     check: state.reducerMongoEnigmes.check,
     points: state.pointManagement.points,
+
+    isSliderOpen: state.reducerHeader.isSliderOpen,
 })
 
 const iconYou = new L.Icon({

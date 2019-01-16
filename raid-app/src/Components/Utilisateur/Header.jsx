@@ -17,6 +17,7 @@ import {
 } from "reactstrap"
 import './MapPage/MapPage.css'
 import { FaCompass } from 'react-icons/fa'
+import { slideHeader } from '../../Actions/Utilisateur/headerActions'
 
 export class Header extends React.Component {
     constructor(props) {
@@ -38,6 +39,7 @@ export class Header extends React.Component {
             modal: false,
             modalTimer: false,
             modalMarker: false,
+            testValue: 13,
             interval: function () {
 
             }
@@ -63,7 +65,6 @@ export class Header extends React.Component {
         });
     }
 
-
     allToggle = () => {
         this.setState({
             modalMarker: !this.state.modalMarker
@@ -82,14 +83,15 @@ export class Header extends React.Component {
     }
 
     getTimeUntil(deadL) {
-        const time = Date.parse(deadL) - Date.parse(new Date());
+        const time = Date.parse(deadL) - Date.parse(new Date())
         if (time < 0) {
-            this.setState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            this.setState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
         } else {
-            const seconds = Math.floor((time / 1000) % 60);
-            const minutes = Math.floor((time / 1000 / 60) % 60);
-            const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
-            this.setState({ hours, minutes, seconds });
+            const seconds = Math.floor((time / 1000) % 60)
+            const minutes = Math.floor((time / 1000 / 60) % 60)
+            const hours = Math.floor((time / (1000 * 60 * 60)) % 24)
+            //this.setState({ hours, minutes, seconds })
+            console.log(seconds, minutes, hours)
         }
     }
 
@@ -100,25 +102,22 @@ export class Header extends React.Component {
         if (counterCheckEnd === counterEnd) {
             this.toggleTimer()
         }
-    }
-
-    toggleHead = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
+        //console.log(this.state.hours,this.state.minutes,this.state.seconds)
     }
 
     render() {
+        //console.log(this.leading0(this.state.hours),this.leading0(this.state.minutes),this.leading0(this.state.seconds))
+        console.log(this.state.hours, this.state.minutes, this.state.seconds, this.state.testValue)
         return (
             <div>
                 <Navbar light expand="md">
                     <NavbarBrand href="../../"> Raid In Lyon </NavbarBrand><div className="count_title" >Fin :</div>
                     <Container className="d-none d-md-block">{this.props.title}</Container>
-{/*                     <Row>
+                    <Row>
                         <Col> {this.leading0(this.state.hours)}H</Col>
                         <Col> {this.leading0(this.state.minutes)}M</Col>
                         <Col>{this.leading0(this.state.seconds)}S</Col>
-                    </Row> */}
+                    </Row>
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
                         <ModalHeader toggle={this.toggleTimer}>Session Terminer</ModalHeader>
                         <ModalBody>
@@ -128,7 +127,7 @@ export class Header extends React.Component {
                             <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
                         </ModalFooter>
                     </Modal>
-                    <NavbarToggler onClick={this.toggleHead}>
+                    <NavbarToggler onClick={this.props.slideHeader}>
                         <FaCompass style={{ color: '#c6c6c6' }} />
                     </NavbarToggler>
                 </Navbar>
@@ -147,12 +146,12 @@ export class Header extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getPosition: bindActionCreators(getPosition, dispatch),
+        slideHeader: bindActionCreators(slideHeader, dispatch),
     }
 }
 
 const mapStateToProps = state => ({
-    zoom: state.reducerMapPage.zoom,
+    isSliderOpen: state.reducerHeader.isSliderOpen,
 })
 
 export default connect(
