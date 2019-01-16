@@ -15,7 +15,6 @@ export default class uneTeam extends Component {
             participants: null,
             email: null,
             score: null,
-            token: null,
             h_fin: null,
             id: null,
 
@@ -35,7 +34,6 @@ export default class uneTeam extends Component {
                     email: response.data[0].email,
                     participants: response.data[0].participants.toString(),
                     telephone: response.data[0].telephone,
-                    token: response.data[0].token,
                     h_fin: response.data[0].h_fin,
                 })
             });
@@ -138,8 +136,6 @@ export default class uneTeam extends Component {
                             />
                         </Alert>
 
-
-                        <h4> Token :  {this.state.token}</h4>
 
                         <Alert color="dark">
                             Participants : <Editable
