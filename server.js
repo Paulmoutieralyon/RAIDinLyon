@@ -259,13 +259,26 @@ app.post('/api/enigmes', function (req, res) {
 app.put('/api/enigmes/:_id', function (req, res) {
     var id = req.params._id
     var enigme = req.body
-    Enigme.updateEnigme(id, enigme, {}, function (err, enigme) {
+    console.log('greg', enigme)
+    Enigme.updateEnigme(id, {
+        $set: {
+            titre: enigme.titre,
+            question: enigme.question,
+            enonce: enigme.enonce,
+            indices: [enigme.indices[0], enigme.indices[1], enigme.indices[2]],
+            info: enigme.info,
+            coordonnee:[enigme.coordonnee[0], enigme.coordonnee[1]],
+            img: enigme.img,
+            reponse:enigme.reponse
+        }
+    }, (err, result) => {
         if (err) {
             throw err
         }
         res.json(enigme)
     })
 })
+
 
 app.delete('/api/enigmes/:_id', function (req, res) {
     var id = req.params._id
