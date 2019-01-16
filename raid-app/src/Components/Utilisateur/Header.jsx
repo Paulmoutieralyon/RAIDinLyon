@@ -56,7 +56,7 @@ export class Header extends React.Component {
     }
 
     componentDidMount() {
-        setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
+        //setInterval(() => this.getTimeUntil(Date.parse(this.state.deadline)), 1000);
     }
 
     toggleTimer = () => {
@@ -72,26 +72,19 @@ export class Header extends React.Component {
         this.toggleTimer()
     }
 
-    toggle = id => {
-        this.setState({
-            modal: id
-        })
-    }
-
     leading0(num) {
         return num < 0 ? '0' + num : num;
     }
 
     getTimeUntil(deadL) {
-        const time = Date.parse(deadL) - Date.parse(new Date())
+        const time = Date.parse(deadL) - Date.parse(new Date());
         if (time < 0) {
-            this.setState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+            this.setState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         } else {
-            const seconds = Math.floor((time / 1000) % 60)
-            const minutes = Math.floor((time / 1000 / 60) % 60)
-            const hours = Math.floor((time / (1000 * 60 * 60)) % 24)
-            //this.setState({ hours, minutes, seconds })
-            console.log(seconds, minutes, hours)
+            const seconds = Math.floor((time / 1000) % 60);
+            const minutes = Math.floor((time / 1000 / 60) % 60);
+            const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
+            this.setState({ hours, minutes, seconds });
         }
     }
 
@@ -102,12 +95,10 @@ export class Header extends React.Component {
         if (counterCheckEnd === counterEnd) {
             this.toggleTimer()
         }
-        //console.log(this.state.hours,this.state.minutes,this.state.seconds)
     }
 
     render() {
-        //console.log(this.leading0(this.state.hours),this.leading0(this.state.minutes),this.leading0(this.state.seconds))
-        console.log(this.state.hours, this.state.minutes, this.state.seconds, this.state.testValue)
+        //console.log(this.state.hours)
         return (
             <div>
                 <Navbar light expand="md">
