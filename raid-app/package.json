@@ -26,6 +26,7 @@
     "react-toggle": "^4.0.2",
     "react-toggle-component": "^1.0.4",
     "react-transition-group": "^2.5.2",
+    "react-x-editable": "0.0.10-beta",
     "reactstrap": "^6.5.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
