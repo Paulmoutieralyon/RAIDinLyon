@@ -4,11 +4,11 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { displayEnigmeAction, enigmeValidation } from '../../../Actions/displayEnigmeAction.js'
-import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
+//import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { AvForm, AvField } from 'availity-reactstrap-validation'
 import { NavLink } from 'react-router-dom'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { FormFeedback, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import './EnigmePage.css'
 import info from './info.1.png'
 import Faux from './faux.png'
@@ -24,6 +24,7 @@ export class EnigmePage extends React.Component {
             proposition: "",
             isResTrue: false,
             final: Vide,
+            modal: false,
             modalWinner: false,
             modalLooser: false,
             indice: null,
@@ -41,10 +42,16 @@ export class EnigmePage extends React.Component {
             indices: null,
             info: null,
             img: "./Pierrephilosophale.jpeg",
+            //equipes
+            check: null,
+            succeed: null,
+
         };
         this.data = null
         this.enigme = this.props.match.params._id
-        this.user=this.props.match.params.id
+        this.user = this.props.match.params.id
+        /* this.check = null
+        this.succeed = null */
     }
 
     //Fetch et stockage des données de l'énigme en state //
@@ -71,11 +78,24 @@ export class EnigmePage extends React.Component {
             })
     }
 
+
     toggle = () => {
         this.setState({
             modal: !this.state.modal
         });
     }
+    toggleWinner = () => {
+        this.setState({
+            modalWinner: !this.state.modalWinner
+        });
+    }
+    toggleLooser = () => {
+        this.setState({
+            modalLooser: !this.state.modalLooser
+        });
+    }
+
+
 
     //Gestion des clics sur les indices //
     displayIndices = () => {
@@ -87,20 +107,22 @@ export class EnigmePage extends React.Component {
             })
         }
         if (this.state.indiceNumber === 1) {
-            this.setState({ 
+            this.setState({
                 indice: this.state.indices[1],
-                score: 3 })
+                score: 3
+            })
         }
         if (this.state.indiceNumber === 2) {
-            this.setState({ 
+            this.setState({
                 indice: this.state.indices[2],
-                score: 1 })
+                score: 1
+            })
         }
         if (this.state.indiceNumber === 3) {
             this.setState({
                 modalLooser: !this.state.modalLooser
             })
-            console.log("HEY GROS CON, TA MODALE")
+            console.log("momo ldino")
         }
     };
 
@@ -109,6 +131,7 @@ export class EnigmePage extends React.Component {
         this.setState({
             proposition: e.target.value
         });
+        console.log("HEY ",this.state.proposition)
     }
 
     //Gestion de la bonne ou mauvaise réponse//
@@ -118,50 +141,65 @@ export class EnigmePage extends React.Component {
         })
             .then(response => {
                 if (response.data.status === true) {
-                    this.props.goodTitle()
-                    setTimeout(() => {
+                    
+                    //this.props.goodTitle()
+                    /* setTimeout(() => {
                         this.props.actualTitle()
-                    }, 8000);
+                    }, 8000); */
 
                     this.setState({
                         isContinue: true,
                         isResTrue: true,
                         final: Vrai,
                         visibilite: "pasvisible",
-                        modalWinner: !this.state.modalWinner
+                        modalWinner: !this.state.modalWinner,
+                        ///////////
+                        succeed: true,
+                        check: true,
                     })
+                    //on change l'état de l'énigme
+                    /* this.succeed = true
+                    this.check = true
+                    console.log("SuXES ?: ", this.succeed) */
+
 
                 } else {
-                    this.props.badTitle()
+                    /* this.props.badTitle()
                     setTimeout(() => {
                         this.props.actualTitle()
-                    }, 8000);
+                    }, 8000); */
 
                     this.setState({
                         isResTrue: false,
                         final: Faux,
-                        
+                        succeed: false,
+                        check: true
                     })
+                    //on change l'état de l'énigme
+                    //this.succeed = false
+                    //this.check = true
                 }
                 console.log(response);
+                
             })
             .catch(function (error) {
                 console.log(error);
             });
-
-            this.saveResp()
+        this.saveResp()
     }
 
 
     //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
+        
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
             score: this.state.score,
             _idQuestion: this.enigme,
-            check:null,
-            succeed:null, 
-            gain:this.state.score
+            check: this.state.check,
+            succeed: this.state.succeed,
+            gain: this.state.score
         })
+        
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);
             })
@@ -208,10 +246,30 @@ export class EnigmePage extends React.Component {
 
                     <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
-                    {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
+                    {/*  {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
                         <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer">Continuer</button></NavLink>
                         :
-                        null}
+                        null} */}
+                    {(this.state.isContinue) ?
+                        <Modal className='Modale' isOpen={this.state.modalWinner} toggle={this.toggleWinner}>
+                            <ModalHeader toggle={this.toggleWinner}>Bravo ! </ModalHeader>
+                            <ModalBody className='modaltexte'>Vous venez de répondre juste, rendez-vous à la prochaine énigme.</ModalBody>
+                            <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="success" className="buttonContinuer">Retourner sur la carte</Button></NavLink>
+                            <ModalFooter></ModalFooter>
+                        </Modal>
+                        :
+                        (this.state.indiceNumber > 3) ?
+                            <Modal className='Modale' isOpen={this.state.modalLooser} toggle={this.toggleLooser}>
+                                <ModalHeader toggle={this.toggleLooser}>Bien tenté... </ModalHeader>
+                                <ModalBody className='modaltexte'>Malheureusement vous avez puisé tout le stock d'indice pour cette énigme, vous n'avez plus qu'à vous rendre à une nouvelle énigme pour retenter
+                                votre chance. Cela va impacter votre score.
+                                votre score</ModalBody>
+                                <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="danger" className="buttonContinuer">Retourner sur la carte</Button></NavLink>
+                                <ModalFooter></ModalFooter>
+                            </Modal>
+                            :
+                            null}
+
                 </AvForm>
             </div>
 
@@ -220,7 +278,7 @@ export class EnigmePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    title: state.titleManagement.title,
+    //title: state.titleManagement.title,
     enigme: state.reducerMongoEnigmes.enigme,
     display: state.reducerMongoEnigmes.display,
     check: state.reducerMongoEnigmes.check
@@ -228,9 +286,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        goodTitle: bindActionCreators(goodTitle, dispatch),
+        /* goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
-        actualTitle: bindActionCreators(actualTitle, dispatch),
+        actualTitle: bindActionCreators(actualTitle, dispatch), */
         displayEnigmeAction: bindActionCreators(displayEnigmeAction, dispatch),
         enigmeValidation: bindActionCreators(enigmeValidation, dispatch),
         enigmesFetch: bindActionCreators(enigmesFetch, dispatch)

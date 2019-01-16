@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
-import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
+//import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
 import './MapPage.css'
 import L from 'leaflet'
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
@@ -30,6 +30,7 @@ import {
     DropdownItem
 } from "reactstrap";
 import { FaCompass } from 'react-icons/fa';
+import axios from 'axios'
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -50,10 +51,10 @@ class MapPage extends React.Component {
             timeoff: false,
             modal: false,
             interval: function() {
-
             }
         };
-        
+        this.user = this.props.match.params.id
+        this.data = null
         this.tab = []
         setInterval(() => this.tick(), 1000)
 
@@ -75,6 +76,14 @@ class MapPage extends React.Component {
     // coundown timer
     componentWillMount() {
         this.getTimeUntil(this.state.deadline);
+        axios.get(`http://localhost:5000/api/equipes`)
+            .then(data => {
+                this.data = data.data[0]
+                console.log('TEMA CA POTO: ',this.data)
+            })
+            .catch(error => {
+                throw (error);
+            })
     }
 
     leading0(num) {
@@ -104,8 +113,8 @@ class MapPage extends React.Component {
         const counterEnd = this.state.deadline + '  ' + this.state.hourEnd + ':' + this.state.minEnd + ':' + this.state.secEnd;
         let counterCheckEnd = this.state.deadline + '  ' + this.state.hours + ':' + this.state.minutes + ':' + this.state.seconds;
        
-        console.log(counterCheckEnd)
-        console.log(counterCheckEnd + ' Compare à : ' + counterEnd);
+        /* console.log(counterCheckEnd)
+        console.log(counterCheckEnd + ' Compare à : ' + counterEnd); */
         if( counterCheckEnd === counterEnd ){
             console.warn('end game');
                 this.setState({
@@ -165,16 +174,16 @@ class MapPage extends React.Component {
     }
 
     render() {
-        console.log("render", this.props.enigme)
+       /*  console.log("render", this.props.enigme) */
         return (
             <div className="mapPageContainer">
                 <Navbar light expand="md">
                     <NavbarBrand href="../../"> Raid In Lyon </NavbarBrand><div className="count_title" >Fin :</div>
-                    <Container className="d-none d-md-block">{this.props.title}</Container>
+                    {/* <Container className="d-none d-md-block">{this.props.title}</Container> */}
                     <Row>
-                        <Col> {this.leading0(this.state.hours)}H</Col>
-                        <Col> {this.leading0(this.state.minutes)}M</Col>
-                        <Col>{this.leading0(this.state.seconds)}S</Col>
+                        <Col> {this.leading0(this.state.hours)}h </Col>
+                        <Col> {this.leading0(this.state.minutes)}min</Col>
+                        <Col>{this.leading0(this.state.seconds)}s</Col>
                     </Row>
                     <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>La session est terminer</ModalHeader> 
@@ -252,9 +261,9 @@ const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
         enigmesFetch: bindActionCreators(enigmesFetch, dispatch),
-        goodTitle: bindActionCreators(goodTitle, dispatch),
+        /* goodTitle: bindActionCreators(goodTitle, dispatch),
         badTitle: bindActionCreators(badTitle, dispatch),
-        actualTitle: bindActionCreators(actualTitle, dispatch),
+        actualTitle: bindActionCreators(actualTitle, dispatch), */
         displayEnigmeAction: bindActionCreators(displayEnigmeAction, dispatch)
     }
 }
@@ -265,7 +274,7 @@ const mapStateToProps = state => ({
     lng1: state.reducerMapPage.lng1,
     eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
-    title: state.titleManagement.title,
+    /* title: state.titleManagement.title, */
     enigme: state.reducerMongoEnigmes.enigme,
     check: state.reducerMongoEnigmes.check,
     points: state.pointManagement.points,
