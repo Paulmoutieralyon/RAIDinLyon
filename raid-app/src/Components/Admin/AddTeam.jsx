@@ -1,7 +1,8 @@
 import React from 'react';
-import { Row, Col, Breadcrumb, CardFooter, BreadcrumbItem, Collapse, Button, CardBody, Card, InputGroup, InputGroupAddon, Input, Label, FormGroup } from 'reactstrap';
+import { CardFooter, Button, Input, Label, FormGroup } from 'reactstrap';
 import axios from 'axios'
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import generator from 'generate-password'
 
 
 export default class AddTeam extends React.Component {
@@ -24,7 +25,7 @@ export default class AddTeam extends React.Component {
 
     /* Modification du mail*/
     modifyEmail = (e) => {
-        
+
         this.setState({
             email: e.target.value
         })
@@ -72,6 +73,11 @@ export default class AddTeam extends React.Component {
 
     /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
     submitTeam = () => {
+        const password = generator.generate({
+            length: 5,
+            numbers: true,
+            uppercase: false
+        });
         axios({
             method: 'post',
             url: 'http://localhost:5000/api/equipes',
@@ -79,6 +85,7 @@ export default class AddTeam extends React.Component {
                 score: 0,
                 nom: this.state.nom,
                 email: this.state.email,
+                password: password,
                 token: null,
                 participants: this.state.participants,
                 telephone: this.state.telephone,
@@ -86,11 +93,11 @@ export default class AddTeam extends React.Component {
             }
         })
             .then(function (response) {
-                console.log("YES",response);
+                console.log("YES", response);
                 return <div>Ajout de l'équipe avec succès</div>
             })
             .catch(function (error) {
-                console.log("MERDE",error);
+                console.log("MERDE", error);
             });
         //window.location.href = 'ListTeam';
         //console.log("DONEEEEEEEEEEEEEEEEEEEEE")
@@ -121,18 +128,18 @@ export default class AddTeam extends React.Component {
                     <Label for="exampleEmail">Participants</Label><br />
                     {this.state.participants.map((participants, index) => (
                         <span key={index}>
-                                    <Input
-                                        type="text"
-                                        size="2"
-                                        onChange={this.handleText(index)}
-                                        value={participants}
-                                    />
-                                    <button onClick={this.handleDelete(index)}>supprimer</button>
-                             <hr />
+                            <Input
+                                type="text"
+                                size="2"
+                                onChange={this.handleText(index)}
+                                value={participants}
+                            />
+                            <button onClick={this.handleDelete(index)}>supprimer</button>
+                            <hr />
                         </span>
                     ))}
                     <Button onClick={this.addParticipants}>Add New participants</Button>
-                  
+
                 </FormGroup>
 
                 <CardFooter>
