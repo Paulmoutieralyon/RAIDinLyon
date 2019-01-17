@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt-nodejs')
 const jwt = require('jsonwebtoken')
 const morgan = require('morgan');
 
-// Mongoose connexion to Mlab server with variable as ID ans Password
+// Mongoose connexion to Mlab server with constiable as ID ans Password
 const userID = require('./keys').userID
 const userPass = require('./keys').userPass
 
@@ -23,7 +23,7 @@ mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwi
 //Options CORS
 const corsOptions = {
     // origin: 'http://example.com',
-    // optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    // optionsSuccessStatus: 200 // some legacy browsers (IE11, constious SmartTVs) choke on 204
 }
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -84,7 +84,7 @@ app.post('/login', (req, res) => {
 // configuration =========
 // =======================
 // used to create, sign, and verify tokens
-app.set('superSecret', process.env.SECRET_KEY); // secret variable
+app.set('superSecret', process.env.SECRET_KEY); // secret constiable
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));
@@ -246,7 +246,7 @@ app.post('/api/enigmes/:_id', function (req, res) {
 })
 
 app.post('/api/enigmes', function (req, res) {
-    var enigme = req.body
+    const enigme = req.body
     console.log(req.body)
     Enigme.addEnigme(enigme, function (err, enigme) {
         if (err) {
@@ -257,8 +257,8 @@ app.post('/api/enigmes', function (req, res) {
 })
 
 app.put('/api/enigmes/:_id', function (req, res) {
-    var id = req.params._id
-    var enigme = req.body
+    const id = req.params._id
+    const enigme = req.body
     console.log('greg', enigme)
     Enigme.updateEnigme(id, {
         $set: {
@@ -267,9 +267,9 @@ app.put('/api/enigmes/:_id', function (req, res) {
             enonce: enigme.enonce,
             indices: [enigme.indices[0], enigme.indices[1], enigme.indices[2]],
             info: enigme.info,
-            coordonnee:[enigme.coordonnee[0], enigme.coordonnee[1]],
+            coordonnee: [enigme.coordonnee[0], enigme.coordonnee[1]],
             img: enigme.img,
-            reponse:enigme.reponse
+            reponse: enigme.reponse
         }
     }, (err, result) => {
         if (err) {
@@ -281,7 +281,7 @@ app.put('/api/enigmes/:_id', function (req, res) {
 
 
 app.delete('/api/enigmes/:_id', function (req, res) {
-    var id = req.params._id
+    const id = req.params._id
     Enigme.removeEnigme(id, function (err, enigme) {
         if (err) {
             throw err
@@ -316,8 +316,8 @@ app.get('/api/equipes', function (req, res) {
 
 //Update score & progression dans le jeu
 app.put('/api/equipes/:_id', function (req, res) {
-    var id = req.params._id
-    var equipe = req.body
+    const id = req.params._id
+    const equipe = req.body
     console.log(equipe)
     Equipe.updateEquipe(id, {
         $set: {
@@ -331,9 +331,9 @@ app.put('/api/equipes/:_id', function (req, res) {
         },
         $addToSet: {
             enigmes: {
-                check : equipe.check,
-                succeed : equipe.succeed,
-                gain : equipe.gain,
+                check: equipe.check,
+                succeed: equipe.succeed,
+                gain: equipe.gain,
                 idquestion: equipe.idquestion,
             }
         }
@@ -360,7 +360,7 @@ app.post('/api/equipes/:_id', function (req, res) {
 })
 
 app.post('/api/equipes', function (req, res) {
-    var equipe = req.body
+    const equipe = req.body
     console.log(req.body)
     Equipe.addEquipe(equipe, function (err, equipe) {
         if (err) {
@@ -373,7 +373,7 @@ app.post('/api/equipes', function (req, res) {
 
 
 app.delete('/api/equipes/:_id', function (req, res) {
-    var id = req.params._id
+    const id = req.params._id
     Equipe.removeEquipe(id, function (err, equipe) {
         if (err) {
             throw err
@@ -404,7 +404,7 @@ app.get('/api/administrateurs', function (req, res) {
 })
 
 app.post('/api/administrateurs', function (req, res) {
-    var administrateur = req.body
+    const administrateur = req.body
     console.log(req.body)
     Administrateur.addAdministrateur(administrateur, function (err, administrateur) {
         if (err) {
@@ -415,7 +415,7 @@ app.post('/api/administrateurs', function (req, res) {
 })
 
 app.delete('/api/administrateurs/:_id', function (req, res) {
-    var id = req.params._id
+    const id = req.params._id
     Administrateur.removeAdministrateur(id, function (err, administrateur) {
         if (err) {
             throw err
