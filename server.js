@@ -259,13 +259,26 @@ app.post('/api/enigmes', function (req, res) {
 app.put('/api/enigmes/:_id', function (req, res) {
     var id = req.params._id
     var enigme = req.body
-    Enigme.updateEnigme(id, enigme, {}, function (err, enigme) {
+    console.log('greg', enigme)
+    Enigme.updateEnigme(id, {
+        $set: {
+            titre: enigme.titre,
+            question: enigme.question,
+            enonce: enigme.enonce,
+            indices: [enigme.indices[0], enigme.indices[1], enigme.indices[2]],
+            info: enigme.info,
+            coordonnee:[enigme.coordonnee[0], enigme.coordonnee[1]],
+            img: enigme.img,
+            reponse:enigme.reponse
+        }
+    }, (err, result) => {
         if (err) {
             throw err
         }
         res.json(enigme)
     })
 })
+
 
 app.delete('/api/enigmes/:_id', function (req, res) {
     var id = req.params._id
@@ -307,15 +320,21 @@ app.put('/api/equipes/:_id', function (req, res) {
     var equipe = req.body
     console.log(equipe)
     Equipe.updateEquipe(id, {
-        $inc: {
+        $set: {
             score: equipe.score,
+            nom: equipe.nom,
+            email: equipe.email,
+            telephone: equipe.telephone,
+            participants: equipe.participants.toString(),
+            h_fin: equipe.h_fin,
+
         },
         $addToSet: {
             enigmes: {
-                _idQuestion : equipe.idquestion,
                 check : equipe.check,
                 succeed : equipe.succeed,
-                gain : equipe.gain
+                gain : equipe.gain,
+                idquestion: equipe.idquestion,
             }
         }
     }, (err, result) => {

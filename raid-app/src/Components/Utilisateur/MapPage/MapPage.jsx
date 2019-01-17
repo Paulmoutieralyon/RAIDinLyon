@@ -40,6 +40,13 @@ class MapPage extends React.Component {
             loaded: true,
             countAnswer: 0,
             isOpenT: false,
+            deadline: 'January, 16, 2019, 18:00:00', // Choix : date et heure de fin
+            hourEnd: '0',
+            minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
+            secEnd: '0',
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
             timeoff: false,
             modal: false,
             modalMarker: false,

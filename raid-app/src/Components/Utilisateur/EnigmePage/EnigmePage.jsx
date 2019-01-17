@@ -42,13 +42,17 @@ export class EnigmePage extends React.Component {
             indices: null,
             info: null,
             img: "./Pierrephilosophale.jpeg",
+
+            //Affichage du score 
+            scoregeneral:null
         };
         this.data = null
+        this.scoreg=null
         this.enigme = this.props.match.params._id
         this.user = this.props.match.params.id
     }
 
-    //Fetch et stockage des données de l'énigme en state //
+    //Fetch et stockage des données de l'énigme en state + stockage du score du joueur //
     componentDidMount = () => {
         axios.get(`http://localhost:5000/api/enigmes/${this.enigme}`)
             .then(data => {
@@ -65,6 +69,16 @@ export class EnigmePage extends React.Component {
                     info: this.data.info,
                     img: this.data.img,
                     isFloat: true
+                })
+            })
+            .catch(error => {
+                throw (error);
+            })
+            axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+            .then(data => {
+                this.scoreg = data.data[0]
+                this.setState({
+                   scoregeneral:this.scoreg.score
                 })
             })
             .catch(error => {
@@ -152,10 +166,10 @@ export class EnigmePage extends React.Component {
     saveResp = () => {
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
             score: this.state.score,
-            _idQuestion: this.enigme,
-            check: null,
-            succeed: null,
-            gain: this.state.score
+            idquestion:this.state.id,
+            check:null,
+            succeed:null, 
+            gain:this.state.score
         })
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);

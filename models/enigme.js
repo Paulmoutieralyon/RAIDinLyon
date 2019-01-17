@@ -4,14 +4,14 @@ var mangoose = require('mongoose');
 var enigmeSchema = mangoose.Schema({
     _id: mangoose.Schema.Types.ObjectId,
     id: String,
-    titre : String,
-    question : String,
-    enonce : String,
+    titre: String,
+    question: String,
+    enonce: String,
     indices: Array,
     info: String,
-    coordonnee : Array,
-    img : String,
-    reponse : String,
+    coordonnee: Array,
+    img: String,
+    reponse: String,
 }, { collection: 'enigme' });
 
 var Enigme = module.exports = mangoose.model('Enigme', enigmeSchema)
@@ -22,8 +22,8 @@ module.exports.getEnigmes = function (callback, limit) {
 }
 
 // Get EnigmesId
-module.exports.getEnigmeById = function (_id,callback) {
-    Enigme.findOne({_id},callback)
+module.exports.getEnigmeById = function (_id, callback) {
+    Enigme.findOne({ _id }, callback)
 }
 
 
@@ -33,12 +33,9 @@ module.exports.addEnigme = function (enigme, callback) {
 }
 
 // Update Enigme
-module.exports.updateEnigme = function (id, enigme, options, callback) {
-    var query = { _id: id }
-    var update = {
-        name: enigme.name
-    }
-    Enigme.findOneAndUpdate(query, update, options, callback)
+module.exports.updateEnigme = function (_id, update,callback) {
+    Enigme.findOneAndUpdate(_id, update,callback)
+       
 }
 
 // Delete Enigme

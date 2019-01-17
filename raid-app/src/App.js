@@ -19,12 +19,10 @@ import ListAdmin from './Components/Admin/ListAdmin';
 import UnEnigme from './Components/Admin/UnEnigme';
 import uneTeam from './Components/Admin/uneTeam';
 
-
-
 export default class App extends Component {
 
   render() {
-     console.log(window.localStorage.getItem("token"),"ok")
+    console.log(window.localStorage.getItem("token"), "ok")
     return (
       <div className="App">
         <BrowserRouter>
@@ -45,12 +43,26 @@ export default class App extends Component {
               <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
               <Route path='/Admin/Addsession' component={Addsession} />
               <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
-              <Route path="/enigmes/:_id" component={UnEnigme} />
-              <Route path="/equipe/:_id" component={uneTeam} />
+              <Route path="/Admin/enigmes/:_id" component={UnEnigme} />
+              <Route path="/Admin/equipe/:_id" component={uneTeam} />
             </Switch>
             :
             <Switch>
               <Route exact path="/" component={HomePage} />
+              <Route exact path="/Admin" component={Connexion} />
+              <Route path="/Admin/AddTeam" component={AddTeam} />
+              <Route path="/Admin/AdminComptes" component={AdminComptes} />
+              <Route path="/Admin/Classement" component={Classement} />
+              <Route path="/Admin/ListEnigmes" component={ListEnigmes} />
+              <Route path="/Admin/ListAdmin" component={ListAdmin} />
+              <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
+              <Route path="/Admin/ListTeam" component={Listequipes} />
+              <Route path="/Admin/SessionPage" component={SessionPage} />
+              <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
+              <Route path='/Admin/Addsession' component={Addsession} />
+              <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
+              <Route path="/Admin/enigmes/:_id" component={UnEnigme} />
+              <Route path="/Admin/equipe/:_id" component={uneTeam} />
             </Switch>
           }
         </BrowserRouter>
