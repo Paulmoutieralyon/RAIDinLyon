@@ -15,6 +15,8 @@ import Faux from './faux.png'
 import Vrai from './vrai.png'
 import Vide from './Vide.png'
 import './InfosModalEgnime.css'
+import Header from '../Header'
+import '../MapPage/MapPage.css'
 
 export class EnigmePage extends React.Component {
     constructor(props) {
@@ -47,7 +49,7 @@ export class EnigmePage extends React.Component {
         this.data = null
         this.scoreg=null
         this.enigme = this.props.match.params._id
-        this.user=this.props.match.params.id
+        this.user = this.props.match.params.id
     }
 
     //Fetch et stockage des données de l'énigme en state + stockage du score du joueur //
@@ -100,14 +102,16 @@ export class EnigmePage extends React.Component {
             })
         }
         if (this.state.indiceNumber === 1) {
-            this.setState({ 
+            this.setState({
                 indice: this.state.indices[1],
-                score: 3 })
+                score: 3
+            })
         }
         if (this.state.indiceNumber === 2) {
-            this.setState({ 
+            this.setState({
                 indice: this.state.indices[2],
-                score: 1 })
+                score: 1
+            })
         }
     };
 
@@ -154,7 +158,7 @@ export class EnigmePage extends React.Component {
                 console.log(error);
             });
 
-            this.saveResp()
+        this.saveResp()
     }
 
 
@@ -183,37 +187,34 @@ export class EnigmePage extends React.Component {
           if(this.state.compteurcontinue === 2) console.log("un mot")
       }*/
     render() {
+        console.log(this.props.isSliderOpen)
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
             <div class="EnigmePageContainer">
-                <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="ButtonBack"> Retour </button></NavLink>
-                {/*<img className="bontonInfo" src={Info} alt="" />*/}
-                <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
+                <Header />
+                {/*                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
                     <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
-                </Modal>
-                <p className="points">{this.state.scoregeneral} pts</p>
-                <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
-                <p className="Titre">{this.state.enonce}</p>
-                <p className="BodyText">{this.state.texte}</p>
+                </Modal> */}
+                <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
+                    <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
+                    <p className="Titre">{this.state.enonce}</p>
+                    <p className="BodyText">{this.state.texte}</p>
 
-                <AvForm className="reponse" onSubmit={this.isTrue}>
-                    <h3 className="TitreQuestion">{this.state.question}</h3>
-                    <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
-                    <div className="validationContainer">
-                        {(this.state.isResTrue) ? <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
-                            : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
-                        <img className="final" src={this.state.final} alt='' />
-                    </div>
-                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
-                    <div className="Textindices">{this.state.indice}</div>
-                    {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
-                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer">Continuer</button></NavLink>
-                        :
-                        null}
-                </AvForm>
+                    <AvForm className="reponse" onSubmit={this.isTrue}>
+                        <h3 className="TitreQuestion">{this.state.question}</h3>
+                        <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                        <div className="validationContainer">
+                            {(this.state.isResTrue || this.state.indiceNumber > 3) ? <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="primary" type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
+                                : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
+                            <img className="final" src={this.state.final} alt='' />
+                        </div>
+                        <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                        <div className="Textindices">{this.state.indice}</div>
+                    </AvForm>
+                </div>
             </div>
 
         );
@@ -224,7 +225,9 @@ const mapStateToProps = state => ({
     title: state.titleManagement.title,
     enigme: state.reducerMongoEnigmes.enigme,
     display: state.reducerMongoEnigmes.display,
-    check: state.reducerMongoEnigmes.check
+    check: state.reducerMongoEnigmes.check,
+
+    isSliderOpen: state.reducerHeader.isSliderOpen,
 })
 
 const mapDispatchToProps = dispatch => {
