@@ -35,6 +35,7 @@ Enigme = require("./models/enigme")
 Marker = require("./models/marker")
 Administrateur = require("./models/administrateur")
 Equipe = require("./models/equipe")
+Session = require("./models/session")
 
 process.env.SECRET_KEY = 'secret'
 
@@ -392,7 +393,7 @@ app.get('/api/equipe/:_id', (req, res) => {
 });
 
 
-
+//ADMINISTRATEURS
 
 app.get('/api/administrateurs', function (req, res) {
     Administrateur.getAdministrateurs(function (err, administrateurs) {
@@ -421,6 +422,44 @@ app.delete('/api/administrateurs/:_id', function (req, res) {
             throw err
         }
         res.json(administrateur)
+    })
+})
+
+// SESSIONS //
+
+app.get('/api/session', function (req, res) {
+    Session.getSession(function (err, session) {
+        if (err) {
+            throw err
+        }
+        res.json(session)
+    })
+})
+
+app.put('/api/session', function (req, res) {
+    var id = req.body._id
+    var session = req.body
+    Session.updateSession(id, {
+        nom: session.nom,
+        deadline: session.deadline
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(session)
+    })
+})
+
+app.put('/api/session/activation', function (req, res) {
+    var id = req.body._id
+    var session = req.body
+    Session.updateSession(id, {
+        isactivate: session.isactivate
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(session)
     })
 })
 
