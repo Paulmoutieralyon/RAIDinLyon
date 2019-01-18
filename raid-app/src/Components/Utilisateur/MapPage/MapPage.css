@@ -1,8 +1,117 @@
-.map{
-    height: 500px;
-    margin-top: 150px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border-radius: 6px;
-    border: 2px solid black;
+html, body {
+    margin: 0px;
+    height: 100%;
 }
+
+.mapPageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.middle {
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0px;
+    background-color: orange;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+}
+
+.map {
+    flex-grow: 1;
+    z-index: 10;
+    height: 90vh;
+    height: 100vh;
+}
+
+.points {
+    font-size: 7vmin;
+    position: absolute;
+    right: 5vw;
+    top: 0px;
+}
+
+.navbar {
+    padding: 0.8em !important;
+    background-color: rgb(70, 70, 70);
+    color: white;
+    height: 50px;
+    z-index: 999999999999999
+}
+
+.navbar a {
+    color: orange !important;
+}
+
+#blockMap {
+    height: 100%;
+    box-shadow: 1.2px 0px rgb(83, 83, 83);
+    transform: translateX(-40vw);
+    transition: transform 300ms ease-in;
+}
+
+#blockMap.slideIn {
+    transform: translateX(0);
+}
+
+#blockMap.slideOut {
+    transform: translateX(-40vw);
+}
+
+.ProximitéMessage {
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    background: orange;
+    opacity: 0.9;
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+}
+
+.TitreMapePage {
+    font-size: 1em;
+    text-align: center;
+    padding: 1em;
+}
+
+.leaflet-popup-content-wrapper {
+    text-align: center !important;
+    border-radius: 0px !important;
+}
+
+input, button, select, optgroup, textarea {
+    border: none;
+    color: white;
+    font-size: 12px;
+    /*     box-shadow: -3px -3px 0px #ca9307; */
+    background: rgb(75, 73, 73);
+    background-size: 100%;
+    border: 1px double orange;
+}
+
+.modal-content {
+    border-color: black;
+    margin-top: 22vh
+}
+
+.menuList {
+    font-size: 0.7em;
+    position: fixed;
+    right: 10px;
+    top: 90px;
+    list-style: none;
+    line-height: 3;
+    color: white;
+    text-decoration: none;
+}
+
+.menuList #pts {
+    font-size: 2em;
+    color: orange;
+}
+
