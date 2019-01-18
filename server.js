@@ -317,24 +317,18 @@ app.get('/api/equipes', function (req, res) {
 
 //Update score & progression dans le jeu
 app.put('/api/equipes/:_id', function (req, res) {
-    const id = req.params._id
-    const equipe = req.body
+    var id = req.params._id
+    var equipe = req.body
     console.log(equipe)
     Equipe.updateEquipe(id, {
-        $set: {
+        $inc: {
             score: equipe.score,
-            nom: equipe.nom,
-            email: equipe.email,
-            telephone: equipe.telephone,
-            participants: equipe.participants.toString(),
-            h_fin: equipe.h_fin,
-
         },
         $addToSet: {
             enigmes: {
-                check: equipe.check,
-                succeed: equipe.succeed,
-                gain: equipe.gain,
+                check : equipe.check,
+                succeed : equipe.succeed,
+                gain : equipe.gain,
                 idquestion: equipe.idquestion,
             }
         }
@@ -345,8 +339,6 @@ app.put('/api/equipes/:_id', function (req, res) {
         res.json(equipe)
     })
 })
-
-
 
 app.post('/api/equipes/:_id', function (req, res) {
     let id = req.params._id
