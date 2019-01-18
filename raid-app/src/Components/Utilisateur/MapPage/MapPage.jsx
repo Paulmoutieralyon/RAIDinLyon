@@ -58,6 +58,7 @@ class MapPage extends React.Component {
         setInterval(() => this.props.getPosition(), 10000)
     }
 
+
     toggle = id => {
         this.setState({
             modal: id
