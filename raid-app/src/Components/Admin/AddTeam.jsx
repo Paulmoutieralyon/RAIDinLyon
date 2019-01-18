@@ -99,8 +99,7 @@ export default class AddTeam extends React.Component {
             .catch(function (error) {
                 console.log("MERDE", error);
             });
-        //window.location.href = 'ListTeam';
-        //console.log("DONEEEEEEEEEEEEEEEEEEEEE")
+            window.location.href = 'ListTeam';
     }
 
     render() {
