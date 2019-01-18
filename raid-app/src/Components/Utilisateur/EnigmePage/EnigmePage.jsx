@@ -34,6 +34,7 @@ export class EnigmePage extends React.Component {
             continuer: null,
             isContinue: false,
             markernumber: null,
+            numClickValidate: 0,
             //Les états qu'on l'on fetchera
             question: null,
             titre: null,
@@ -43,8 +44,8 @@ export class EnigmePage extends React.Component {
             info: null,
             img: "./Pierrephilosophale.jpeg",
             //equipes
-            check: null,
-            succeed: null,
+            check: false,
+            succeed: false,
 
         };
         this.data = null
@@ -84,18 +85,6 @@ export class EnigmePage extends React.Component {
             modal: !this.state.modal
         });
     }
-    toggleWinner = () => {
-        this.setState({
-            modalWinner: !this.state.modalWinner
-        });
-    }
-    toggleLooser = () => {
-        this.setState({
-            modalLooser: !this.state.modalLooser
-        });
-    }
-
-
 
     //Gestion des clics sur les indices //
     displayIndices = () => {
@@ -120,86 +109,82 @@ export class EnigmePage extends React.Component {
         }
         if (this.state.indiceNumber === 3) {
             this.setState({
-                modalLooser: !this.state.modalLooser
+                check: true
             })
-            console.log("momo ldino")
         }
     };
+
 
     //Stockage de la proposition de réponse pour comparaison//
     isProposing = (e) => {
         this.setState({
             proposition: e.target.value
         });
-        console.log("HEY ",this.state.proposition)
     }
 
     //Gestion de la bonne ou mauvaise réponse//
-    ReponseManagement = () => {
-        axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
+    async ReponseManagement() {
+        /* this.setState({
+            numClickValidate: this.state.numClickValidate + 1
+        }) */
+        await axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
             proposition: this.state.proposition,
         })
             .then(response => {
                 if (response.data.status === true) {
-                    
-                    //this.props.goodTitle()
-                    /* setTimeout(() => {
-                        this.props.actualTitle()
-                    }, 8000); */
-
                     this.setState({
                         isContinue: true,
                         isResTrue: true,
                         final: Vrai,
                         visibilite: "pasvisible",
-                        modalWinner: !this.state.modalWinner,
                         ///////////
                         succeed: true,
                         check: true,
                     })
-                    //on change l'état de l'énigme
-                    /* this.succeed = true
-                    this.check = true
-                    console.log("SuXES ?: ", this.succeed) */
-
-
-                } else {
-                    /* this.props.badTitle()
-                    setTimeout(() => {
-                        this.props.actualTitle()
-                    }, 8000); */
-
+                }
+                else if (this.state.indiceNumber > 3 || (this.state.numClickValidate >= 2 && this.state.isResTrue === false)) {
                     this.setState({
                         isResTrue: false,
                         final: Faux,
                         succeed: false,
-                        check: true
+                        check: true,
                     })
-                    //on change l'état de l'énigme
-                    //this.succeed = false
-                    //this.check = true
                 }
-                console.log(response);
+
                 
+                else {
+                    this.setState({
+                        isResTrue: false,
+                       // final: Faux,
+                    })
+                }
+                this.setState({
+                    check: true,
+                    numClickValidate: this.state.numClickValidate + 1
+                })
+
             })
             .catch(function (error) {
                 console.log(error);
             });
-        this.saveResp()
+        //await this.saveResp()
     }
+
+    //fonction pour bouton continuer
+    responseContinue
 
 
     //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
-        
+
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
             score: this.state.score,
-            idquestion:this.state.id,
-            check:null,
-            succeed:null, 
-            gain:this.state.score
+            idquestion: this.state.id,
+            check: this.state.check,
+            succeed: this.state.succeed,
+            gain: this.state.score
         })
-        
+
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);
             })
@@ -218,6 +203,7 @@ export class EnigmePage extends React.Component {
     render() {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
+        console.log("nb indices: ", this.state.indiceNumber, "& succeed: ", this.state.succeed, "& numValid: ", this.state.numClickValidate)
         return (
 
             <div class="EnigmePageContainer">
@@ -235,7 +221,7 @@ export class EnigmePage extends React.Component {
 
                 <AvForm className="reponse" onSubmit={this.isTrue}>
                     <h3 className="TitreQuestion">{this.state.question}</h3>
-                    <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                    <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} required />
                     <div className="validationContainer">
                         {(this.state.isResTrue) ?
                             <Button color="primary" type="button" className={this.state.visibilite}>Valider</Button>
@@ -244,32 +230,12 @@ export class EnigmePage extends React.Component {
                         <img className="final" src={this.state.final} alt='' />
                     </div>
 
-                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indices</Button><br></br>
                     <div className="Textindices">{this.state.indice}</div>
-                    {/*  {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
-                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><button className="buttonContinuer">Continuer</button></NavLink>
+                    {(this.state.isContinue === true || this.state.indiceNumber > 3) ?
+                        <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button onClick={() => { this.saveResp() }} color="info" className="buttonContinuer">Continuer</Button></NavLink>
                         :
-                        null} */}
-                    {(this.state.isContinue) ?
-                        <Modal className='Modale' isOpen={this.state.modalWinner} toggle={this.toggleWinner}>
-                            <ModalHeader toggle={this.toggleWinner}>Bravo ! </ModalHeader>
-                            <ModalBody className='modaltexte'>Vous venez de répondre juste, rendez-vous à la prochaine énigme.</ModalBody>
-                            <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="success" className="buttonContinuer">Retourner sur la carte</Button></NavLink>
-                            <ModalFooter></ModalFooter>
-                        </Modal>
-                        :
-                        (this.state.indiceNumber > 3) ?
-                            <Modal className='Modale' isOpen={this.state.modalLooser} toggle={this.toggleLooser}>
-                                <ModalHeader toggle={this.toggleLooser}>Bien tenté... </ModalHeader>
-                                <ModalBody className='modaltexte'>Malheureusement vous avez puisé tout le stock d'indice pour cette énigme, vous n'avez plus qu'à vous rendre à une nouvelle énigme pour retenter
-                                votre chance. Cela va impacter votre score.
-                                votre score</ModalBody>
-                                <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="danger" className="buttonContinuer">Retourner sur la carte</Button></NavLink>
-                                <ModalFooter></ModalFooter>
-                            </Modal>
-                            :
-                            null}
-
+                        null}
                 </AvForm>
             </div>
 

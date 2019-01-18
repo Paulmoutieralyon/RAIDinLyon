@@ -26,6 +26,7 @@
         "qrcode-reader": "^1.0.4",
         "react-icons": "^3.3.0",
         "react-qr-reader": "^2.1.2",
+        "react-x-editable": "0.0.10-beta",
         "string-similarity": "^3.0.0"
     },
     "devDependencies": {

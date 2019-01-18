@@ -29,7 +29,7 @@ import {
     DropdownMenu,
     DropdownItem
 } from "reactstrap";
-import { FaCompass } from 'react-icons/fa';
+import { FaCompass, FaLastfmSquare } from 'react-icons/fa';
 import axios from 'axios'
 
 class MapPage extends React.Component {
@@ -38,6 +38,8 @@ class MapPage extends React.Component {
         this.state = {
             nameMap: "tu es proche",
             loaded: true,
+            loadedEnigmeEquipe: false,
+            idemID: false,
             countAnswer: 0,
             isOpen: false,
             isOpenT: false,
@@ -54,16 +56,22 @@ class MapPage extends React.Component {
             modalMarker: false,
             interval: function () {
 
-            }
+            },
+            ////////axios equipes
+            idquestion: "",
+            check: false,
+            succeed: false
         };
 
+        this.data = null
+        this.user = this.props.match.params._id
         this.tab = []
         setInterval(() => this.tick(), 1000)
+        this.user = this.props.match.params.id
 
     }
 
     toggleTimer = () => {
-        
         this.setState({
             modalTimer: !this.state.modalTimer
         });
@@ -75,7 +83,6 @@ class MapPage extends React.Component {
             modalMarker: !this.state.modalMarker
         })
         this.toggleTimer()
-        
     }
 
     toggle = id => {
@@ -85,16 +92,25 @@ class MapPage extends React.Component {
     };
 
     // coundown timer
-    componentWillMount() {
-        this.getTimeUntil(this.state.deadline);
-        axios.get(`http://localhost:5000/api/equipes`)
+    async componentWillMount() {
+        await this.getTimeUntil(this.state.deadline);
+        console.log(this.props.match.params._id)
+        await axios.get(`http://localhost:5000/api/equipe/${window.localStorage.getItem("id")}`)
             .then(data => {
-                this.data = data.data[0]
-                console.log('TEMA CA POTO: ',this.data)
+                this.data = data.data[0].enigmes
+                //console.log("DATA: ", data.data[0].enigmes)
+                //console.log("OoOoO: ", this.data)
+                if (this.data !== null) {
+                    this.setState({
+                        loadedEnigmeEquipe: true
+                    })
+                }
             })
             .catch(error => {
                 throw (error);
             })
+        await console.log("this.data", this.data)
+        await console.log("this.props.enigme", this.props.enigme)
     }
 
     leading0(num) {
@@ -104,6 +120,8 @@ class MapPage extends React.Component {
 
     componentDidMount() {
         setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
+
+
     }
 
     getTimeUntil(deadL) {
@@ -124,9 +142,9 @@ class MapPage extends React.Component {
         const counterEnd = this.state.deadline + '  ' + this.state.hourEnd + ':' + this.state.minEnd + ':' + this.state.secEnd;
         let counterCheckEnd = this.state.deadline + '  ' + this.state.hours + ':' + this.state.minutes + ':' + this.state.seconds;
 
-        
+
         if (counterCheckEnd === counterEnd) {
-            
+
             this.toggleTimer()
 
         }
@@ -180,7 +198,10 @@ class MapPage extends React.Component {
     }
 
     render() {
-        
+        //console.log("HEYYYYYYYYYYY", this.data, "& enigme: ", this.props.enigme, "LOADED", this.state.loadedEnigmeEquipe)
+        // console.log("SEIGNEUR", this.props.enigmes)
+        /* console.log("this.data", this.data)
+        console.log("this.props.enigme", this.props.enigme) */
         return (
             <div className="mapPageContainer">
                 <Navbar light expand="md">
@@ -197,16 +218,16 @@ class MapPage extends React.Component {
                     </NavbarToggler>
                 </Navbar>
                 <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
-          <ModalHeader toggle={this.toggleTimer}>Session Terminer</ModalHeader>
-          <ModalBody>
-              Bravo à Vous, les épreuves sont terminer dirigez-vous vers le point final pour le classement. Soyez content de vous !
+                    <ModalHeader toggle={this.toggleTimer}>Session Terminer</ModalHeader>
+                    <ModalBody>
+                        Bravo à Vous, les épreuves sont terminer dirigez-vous vers le point final pour le classement. Soyez content de vous !
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
-            
-          </ModalFooter>
-        </Modal>
-        
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
+
+                    </ModalFooter>
+                </Modal>
+
                 <ul className="menuList">
                     <li id='pts'>{this.props.points} pts</li>
                     <li>Accueil</li>
@@ -222,37 +243,79 @@ class MapPage extends React.Component {
                                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
                             />
-                            {this.state.loaded ?
+                            {/*  */}
+
+                            {this.state.loadedEnigmeEquipe ?
                                 <div>
-                                    {this.props.enigme.map((x, i) =>
+                                    {this.state.loaded ?
                                         <div>
-                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
-                                                <Marker position={[45.758473, 4.859238]}>
-                                                    <Popup>
-                                                        <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
-                                                    </Popup>
-                                                </Marker>
-                                                :
-                                                <Marker position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
-                                                    <Modal
-                                                        className="Modale-content"
-                                                        isOpen={this.state.modal === i}
-                                                        toggle={this.toggle}
-                                                    >
-                                                        <ModalHeader toggle={this.toggle}>
-                                                            <p>{this.props.enigme[i].titre}</p>
-                                                        </ModalHeader>
-                                                        <ModalBody className="modaltexte">
-                                                            <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
-                                                                {" "}
-                                                                <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
-                                                            </NavLink>
-                                                        </ModalBody>
-                                                    </Modal>
-                                                </Marker>}
+                                            {this.props.enigme.map((x, i) =>
+                                                <div>
+                                                    {this.data.map((y, j) =>
+                                                        <div>
+                                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
+                                                                <Marker position={[45.758473, 4.859238]}>
+                                                                    <Popup>
+                                                                        <p>Félicitation, tu as répondu à toutes les énigmes !<br />Rends-toi ici, un cadeau t'attend</p>
+                                                                    </Popup>
+                                                                </Marker>
+                                                                :
+                                                                <div>
+                                                                    {(this.data[j].idquestion === this.props.enigme[i].id && this.data[j].succeed === true) ?
+                                                                        <Marker icon={iconGreen} position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
+                                                                            <Modal
+                                                                                className="Modale-content"
+                                                                                isOpen={this.state.modal === i}
+                                                                                toggle={this.toggle}
+                                                                            >
+                                                                                <ModalHeader toggle={this.toggle}>
+                                                                                    <p>{this.props.enigme[i].titre}</p>
+                                                                                </ModalHeader>
+                                                                                <ModalBody className="modaltexte">
+                                                                                    <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
+                                                                                        {" "}
+                                                                                        <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                                                    </NavLink>
+                                                                                </ModalBody>
+                                                                            </Modal>
+                                                                        </Marker>
+
+                                                                        :
+
+                                                                        <Marker position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
+                                                                            <Modal
+                                                                                className="Modale-content"
+                                                                                isOpen={this.state.modal === i}
+                                                                                toggle={this.toggle}
+                                                                            >
+                                                                                <ModalHeader toggle={this.toggle}>
+                                                                                    <p>{this.props.enigme[i].titre}</p>
+                                                                                </ModalHeader>
+                                                                                <ModalBody className="modaltexte">
+                                                                                    <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
+                                                                                        {" "}
+                                                                                        <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                                                    </NavLink>
+                                                                                </ModalBody>
+                                                                            </Modal>
+                                                                        </Marker>
+                                                                    }
+                                                                </div>
+
+
+                                                            }
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div> : null}
+                                        :
+                                        null}
+                                </div>
+                                :
+                                null}
+                            {/*  */}
+
                             <Marker icon={iconYou} position={this.props.currentPosition}>
                                 <Circle
                                     center={this.props.currentPosition}
