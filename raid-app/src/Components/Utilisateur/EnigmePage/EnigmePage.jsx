@@ -44,10 +44,10 @@ export class EnigmePage extends React.Component {
             img: "./Pierrephilosophale.jpeg",
 
             //Affichage du score 
-            scoregeneral:null
+            scoregeneral: null
         };
         this.data = null
-        this.scoreg=null
+        this.scoreg = null
         this.enigme = this.props.match.params._id
         this.user = this.props.match.params.id
     }
@@ -74,11 +74,11 @@ export class EnigmePage extends React.Component {
             .catch(error => {
                 throw (error);
             })
-            axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+        axios.get(`http://localhost:5000/api/equipe/${this.user}`)
             .then(data => {
                 this.scoreg = data.data[0]
                 this.setState({
-                   scoregeneral:this.scoreg.score
+                    scoregeneral: this.scoreg.score
                 })
             })
             .catch(error => {
@@ -166,10 +166,10 @@ export class EnigmePage extends React.Component {
     saveResp = () => {
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
             score: this.state.score,
-            idquestion:this.state.id,
-            check:null,
-            succeed:null, 
-            gain:this.state.score
+            idquestion: this.state.id,
+            check: null,
+            succeed: null,
+            gain: this.state.score
         })
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);
@@ -199,7 +199,7 @@ export class EnigmePage extends React.Component {
                     <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
                 </Modal> */}
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
-                    <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
+                    {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
                     <p className="Titre">{this.state.enonce}</p>
                     <p className="BodyText">{this.state.texte}</p>
 
