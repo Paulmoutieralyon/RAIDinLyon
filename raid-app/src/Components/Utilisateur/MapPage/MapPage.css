@@ -107,6 +107,7 @@ input, button, select, optgroup, textarea {
     list-style: none;
     line-height: 3;
     color: white;
+    text-decoration: none;
 }
 
 .menuList #pts {

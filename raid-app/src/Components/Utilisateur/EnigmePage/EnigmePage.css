@@ -1,7 +1,11 @@
 .EnigmePageContainer {
     width: 100vw;
-    padding: 1em !important;
     color: white;
+    background: rgb(75, 73, 73);
+}
+
+#blockMap {
+    background: rgb(75, 73, 73);
 }
 
 .bontonInfo {
