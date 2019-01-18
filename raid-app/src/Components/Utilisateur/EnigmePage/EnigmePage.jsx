@@ -140,6 +140,7 @@ export class EnigmePage extends React.Component {
                         final: Vrai,
                         visibilite: "pasvisible"
                     })
+                    this.saveResp()
 
                 } else {
                     this.props.badTitle()
@@ -158,7 +159,6 @@ export class EnigmePage extends React.Component {
                 console.log(error);
             });
 
-        this.saveResp()
     }
 
 
