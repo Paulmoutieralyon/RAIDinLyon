@@ -139,7 +139,7 @@ export default class AddEgnimes extends React.Component {
     }
 
     render() {
-        console.log(this.state.indices)
+        //console.log(this.state.indices)
         return (
             <div>
 
