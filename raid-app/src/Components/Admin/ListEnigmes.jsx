@@ -33,7 +33,9 @@ export default class ListSessionPage extends React.Component {
 
 
     EnigmesList = () => {
+        
         return this.state.enigmes.map((enigme, i) => {
+            
             return (
                 <Breadcrumb>
                     <ListGroup>

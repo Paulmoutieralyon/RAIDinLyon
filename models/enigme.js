@@ -2,7 +2,6 @@ var mangoose = require('mongoose');
 
 //Enigme Schema
 var enigmeSchema = mangoose.Schema({
-    _id: mangoose.Schema.Types.ObjectId,
     id: String,
     titre: String,
     question: String,
