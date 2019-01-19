@@ -166,7 +166,7 @@ export class EnigmePage extends React.Component {
     saveResp = () => {
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
             score: this.state.score,
-            idquestion: this.state.id,
+            _idQuestion: this.state.id,
             check: null,
             succeed: null,
             gain: this.state.score
