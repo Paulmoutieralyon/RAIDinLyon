@@ -194,22 +194,12 @@ app.use(/* '/api',  */apiRoutes);
 
 
 app.use(cors(corsOptions))
-// app.use(express.static(__dirname + "/public"));
-
-//Serve static assets if in production
-// if(process.env.NODE_ENV=== 'production'){
-//     //Set static folder
-//     app.use(express.static('raid-app/build'))
-
-//     app.get('*', (req,res)=>{
-//         res.sendFile(path.reseolve(_dirname, 'client', 'build', 'index.html'))
-//     })
-// }
+app.use(express.static(__dirname + "/public"));
 
 //Get All Items
-// app.get('/', function (req, res) {
-//     res.send('/public')
-// })
+app.get('/', function (req, res) {
+    res.send('/public')
+})
 
 app.get('/api/enigmes', function (req, res) {
     Enigme.getEnigmes(function (err, enigmes) {
