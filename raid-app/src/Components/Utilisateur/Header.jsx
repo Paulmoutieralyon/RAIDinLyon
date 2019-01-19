@@ -43,6 +43,7 @@ export class Header extends React.Component {
             modalTimer: false,
             modalMarker: false,
             testValue: 13,
+            score: null,
             interval: function () {
 
             }
@@ -59,7 +60,15 @@ export class Header extends React.Component {
     }
 
     componentDidMount() {
-        //setInterval(() => this.getTimeUntil(Date.parse(this.state.deadline)), 1000);
+        axios.get(`http://localhost:5000/api/equipe/${window.localStorage.getItem('id')}`)
+            .then(data => {
+                this.setState({
+                    score: data.data[0].score
+                })
+            })
+            .catch(error => {
+                throw (error);
+            })
     }
 
     toggleTimer = () => {
@@ -126,7 +135,7 @@ export class Header extends React.Component {
                     </NavbarToggler>
                 </Navbar>
                 <ul className="menuList">
-                    <li id='pts'>{this.props.points} pts</li>
+                    <li id='pts'>{this.state.score} pts</li>
                     <Link style={{ textDecoration: 'none' }} to={`/`}><li>Accueil</li></Link>
                     <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Qui sommes-nous</li></a>
                     <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Mentions légales / CGU</li></Link>
