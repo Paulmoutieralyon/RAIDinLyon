@@ -9,10 +9,13 @@ const ObjectId = require('mongodb').ObjectID;
 const bcrypt = require('bcrypt-nodejs')
 const jwt = require('jsonwebtoken')
 const morgan = require('morgan');
+const path = require('path')
 
-// Mongoose connexion to Mlab server with constiable as ID ans Password
-const userID = require('./keys').userID
-const userPass = require('./keys').userPass
+// Mongoose connexion to Mlab server with variable as ID ans Password
+// const userID = require('./Keys').userID
+// const userPass = require('./Keys').userPass
+const userID = process.env.userID;
+const userPass = process.env.userPass;
 
 mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwild`, {
     useNewUrlParser: true
@@ -20,7 +23,6 @@ mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwi
     .then(() => console.log('MongoDB Connected WOAW'))
     .catch(err => console.log("Error :", err, "IT DOESNT FUCKING WORK"))
 
-mongoose.set('useFindAndModify', false);
 //Options CORS
 const corsOptions = {
     // origin: 'http://example.com',
@@ -174,12 +176,12 @@ apiRoutes.use(function (req, res, next) {
 }); */
 
 // route to show a random message 
-apiRoutes.get('/', function (req, res) {
+apiRoutes.get('/api', function (req, res) {
     res.json({ message: 'Hi guys' });
 });
 
 // route to return all users 
-apiRoutes.get('/users', function (req, res) {
+apiRoutes.get('/api/users', function (req, res) {
     Equipe.findOne({
         //email: req.body.email
     })
@@ -190,10 +192,24 @@ app.use(/* '/api',  */apiRoutes);
 
 
 
+
+app.use(cors(corsOptions))
+// app.use(express.static(__dirname + "/public"));
+
+//Serve static assets if in production
+// if(process.env.NODE_ENV=== 'production'){
+//     //Set static folder
+//     app.use(express.static('raid-app/build'))
+
+//     app.get('*', (req,res)=>{
+//         res.sendFile(path.reseolve(_dirname, 'client', 'build', 'index.html'))
+//     })
+// }
+
 //Get All Items
-/* app.get('/', function (req, res) {
-    res.send('Please use /api/enigmes or /api/markers or /api/equipes')
-}) */
+// app.get('/', function (req, res) {
+//     res.send('/public')
+// })
 
 app.get('/api/enigmes', function (req, res) {
     Enigme.getEnigmes(function (err, enigmes) {
@@ -318,19 +334,25 @@ app.get('/api/equipes', function (req, res) {
 
 //Update score & progression dans le jeu
 app.put('/api/equipes/:_id', function (req, res) {
-    var id = req.params._id
-    var equipe = req.body
+    const id = req.params._id
+    const equipe = req.body
     console.log(equipe)
     Equipe.updateEquipe(id, {
-        $inc: {
+        $set: {
             score: equipe.score,
+            nom: equipe.nom,
+            email: equipe.email,
+            telephone: equipe.telephone,
+            participants: equipe.participants.toString(),
+            h_fin: equipe.h_fin,
+
         },
         $addToSet: {
             enigmes: {
                 check: equipe.check,
                 succeed: equipe.succeed,
                 gain: equipe.gain,
-                idquestion: equipe._idQuestion,
+                idquestion: equipe.idquestion,
             }
         }
     }, (err, result) => {
@@ -340,6 +362,8 @@ app.put('/api/equipes/:_id', function (req, res) {
         res.json(equipe)
     })
 })
+
+
 
 app.post('/api/equipes/:_id', function (req, res) {
     let id = req.params._id
@@ -456,5 +480,13 @@ app.put('/api/session/activation', function (req, res) {
     })
 })
 
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, '/public/index.html'), (err)=> {
+      if (err) {
+        res.status(500).send(err)
+      }
+    })
+  })
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+
+app.listen(port, () => console.log(`Listening on port ${port}`))
