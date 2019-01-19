@@ -20,6 +20,7 @@ mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwi
     .then(() => console.log('MongoDB Connected WOAW'))
     .catch(err => console.log("Error :", err, "IT DOESNT FUCKING WORK"))
 
+mongoose.set('useFindAndModify', false);
 //Options CORS
 const corsOptions = {
     // origin: 'http://example.com',
@@ -326,10 +327,10 @@ app.put('/api/equipes/:_id', function (req, res) {
         },
         $addToSet: {
             enigmes: {
-                check : equipe.check,
-                succeed : equipe.succeed,
-                gain : equipe.gain,
-                idquestion: equipe.idquestion,
+                check: equipe.check,
+                succeed: equipe.succeed,
+                gain: equipe.gain,
+                idquestion: equipe._idQuestion,
             }
         }
     }, (err, result) => {
