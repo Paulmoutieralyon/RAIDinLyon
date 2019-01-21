@@ -3,7 +3,7 @@ import './ListEnigmes.css'
 import { BrowserRouter, NavLink } from 'react-router-dom';
 import { Breadcrumb, Card, Button, Modal, ModalHeader, ModalBody, ModalFooter, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 import axios from 'axios';
-import trash from './trash.jpg'
+import trash from './trash.png'
 import "react-toggle-component/styles.css"
 
 export default class ListSessionPage extends React.Component {
