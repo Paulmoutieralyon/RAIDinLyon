@@ -27,7 +27,8 @@ var equipeSchema = mangoose.Schema({
         type: Date,
         defaul: Date.now
     },
-    markers: Array
+    markers: Array,
+    h_fin:String
 }, { collection: 'equipe' });
 
 var Equipe = module.exports = mangoose.model('Equipe', equipeSchema)
