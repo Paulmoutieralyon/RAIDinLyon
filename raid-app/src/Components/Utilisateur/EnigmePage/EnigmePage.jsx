@@ -100,19 +100,19 @@ export class EnigmePage extends React.Component {
         if (this.state.indiceNumber === 0) {
             this.setState({
                 indice: this.state.indices[0],
-                score: 4
+                agagner: Math.ceil(this.state.agagner/1.3)
             })
         }
         if (this.state.indiceNumber === 1) {
             this.setState({
                 indice: this.state.indices[1],
-                score: 3
+                agagner: Math.ceil(this.state.agagner/2)
             })
         }
         if (this.state.indiceNumber === 2) {
             this.setState({
                 indice: this.state.indices[2],
-                score: 1
+                agagner: Math.ceil(this.state.agagner/3)
             })
         }
     };
@@ -189,7 +189,7 @@ export class EnigmePage extends React.Component {
           if(this.state.compteurcontinue === 2) console.log("un mot")
       }*/
     render() {
-        console.log(this.state.agagner)
+        console.log(this.state.agagner + this.state.score)
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
