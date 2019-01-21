@@ -316,6 +316,29 @@ app.get('/api/equipes', function (req, res) {
     })
 })
 
+// Update team infos dans le coter Admin
+app.put('/api/equipes/donnees/:_id', function (req, res) {
+    const id = req.params._id
+    const equipe = req.body
+    console.log('Hello la team marche', equipe)
+    Equipe.updateInfoEquipe(id, {
+        $set: {
+            score: equipe.score,
+            nom: equipe.nom,
+            email: equipe.email,
+            telephone: equipe.telephone,
+            participants: equipe.participants.toString(),
+            h_fin: equipe.h_fin,
+
+        }
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
 //Update score & progression dans le jeu
 app.put('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
