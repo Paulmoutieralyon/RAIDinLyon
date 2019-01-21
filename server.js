@@ -320,25 +320,28 @@ app.get('/api/equipes', function (req, res) {
 app.put('/api/equipes/:_id', function (req, res) {
     var id = req.params._id
     var equipe = req.body
-    console.log(equipe)
-    Equipe.updateEquipe(id, {
-        $inc: {
-            score: equipe.score,
-        },
-        $addToSet: {
-            enigmes: {
-                check: equipe.check,
-                succeed: equipe.succeed,
-                gain: equipe.gain,
-                idquestion: equipe._idQuestion,
+    console.log(req.params._id)
+    Equipe.updateEquipe(
+        { _id },
+        {
+            $inc: {
+                score: equipe.score,
+            },
+            $addToSet: {
+                enigmes: {
+                    check: equipe.check,
+                    succeed: equipe.succeed,
+                    gain: equipe.gain,
+                    idquestion: equipe._idQuestion,
+                }
             }
-        }
-    }, (err, result) => {
-        if (err) {
-            throw err
-        }
-        res.json(equipe)
-    })
+        },
+        (err, result) => {
+            if (err) {
+                throw err
+            }
+            res.json(equipe)
+        })
 })
 
 app.post('/api/equipes/:_id', function (req, res) {
