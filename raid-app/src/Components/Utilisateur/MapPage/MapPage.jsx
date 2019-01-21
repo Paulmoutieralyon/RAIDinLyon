@@ -31,6 +31,7 @@ import {
 } from "reactstrap";
 import { FaCompass } from 'react-icons/fa';
 import Header from '../Header'
+import axios from 'axios'
 
 class MapPage extends React.Component {
     constructor(props) {
@@ -50,12 +51,14 @@ class MapPage extends React.Component {
             timeoff: false,
             modal: false,
             modalMarker: false,
+            succeed: false,
+            loadedEnigmeEquipe: false,
             interval: function () {
 
             }
         };
         this.tab = []
-        setInterval(() => this.props.getPosition(), 10000)
+        //setInterval(() => this.props.getPosition(), 10000)
     }
 
 
@@ -70,6 +73,44 @@ class MapPage extends React.Component {
         await this.props.enigmesFetch()
         // this.setState({ loaded: true })
         this.areAllAnswersTrue()
+        /* await axios.get(`http://localhost:5000/api/equipe/${window.localStorage.getItem("id")}`)
+            .then(data => {
+                if (data.data.length > 0) {
+                    this.data = data.data[0].enigmes
+                    //console.log("DATA: ", data.data[0].enigmes)
+                    //console.log("OoOoO: ", this.data)
+                    if (this.data.length > 0) {
+                        this.setState({
+                            loadedEnigmeEquipe: true
+                        })
+                    }
+                }
+            })
+            .catch(error => {
+                throw (error);
+            }) */
+    }
+
+    async componentWillMount() {
+        console.log(this.props.match.params._id)
+        await axios.get(`http://localhost:5000/api/equipe/${window.localStorage.getItem("id")}`)
+            .then(data => {
+                console.log("KARABA: ", data)
+                if (data.data.length > 0) {
+                    this.data = data.data[0].enigmes
+                    //console.log("DATA: ", data.data[0].enigmes)
+                    //console.log("OoOoO: ", this.data)
+                    if (this.data.length > 0) {
+                        this.setState({
+                            loadedEnigmeEquipe: true
+                        })
+                    }
+                }
+                
+            })
+            .catch(error => {
+                throw (error);
+            })
     }
 
     areAllAnswersTrue = () => {
@@ -100,6 +141,8 @@ class MapPage extends React.Component {
     }
 
     render() {
+        console.log("thisData: ", this.data)
+        console.log("propsEnigme: ", this.props.enigme)
 
         return (
             <div className="mapPageContainer">
@@ -123,26 +166,62 @@ class MapPage extends React.Component {
                                                     </Popup>
                                                 </Marker>
                                                 :
-                                                <Marker position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
-                                                    <Modal
-                                                        className="Modale-content"
-                                                        isOpen={this.state.modal === i}
-                                                        toggle={this.toggle}
-                                                    >
-                                                        <ModalHeader toggle={this.toggle}>
-                                                            <p>{this.props.enigme[i].titre}</p>
-                                                        </ModalHeader>
-                                                        <ModalBody className="modaltexte">
-                                                            <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
-                                                                {" "}
-                                                                <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
-                                                            </NavLink>
-                                                        </ModalBody>
-                                                    </Modal>
-                                                </Marker>}
+                                                <div>
+                                                    {/* {1 ?
+                                                        <div> */}
+                                                            {/*{this.data.map((y, j) =>  {
+                                                                console.log("Yosomaryty = ", y, "Jojujziu = ",j);
+                                                                return 
+                                                                <div>
+                                                                    {this.data[j].succeed ?*/
+
+                                                                        <Marker icon={iconGreen} position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
+                                                                            <Modal
+                                                                                className="Modale-content"
+                                                                                isOpen={this.state.modal === i}
+                                                                                toggle={this.toggle}
+                                                                            >
+                                                                                <ModalHeader toggle={this.toggle}>
+                                                                                    <p>{this.props.enigme[i].titre}</p>
+                                                                                </ModalHeader>
+                                                                                <ModalBody className="modaltexte">
+                                                                                    <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
+                                                                                        {" "}
+                                                                                        <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                                                    </NavLink>
+                                                                                </ModalBody>
+                                                                            </Modal>
+                                                                        </Marker>
+                                                                        /*:
+                                                                        <Marker icon={iconBlack} position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
+                                                                            <Modal
+                                                                                className="Modale-content"
+                                                                                isOpen={this.state.modal === i}
+                                                                                toggle={this.toggle}
+                                                                            >
+                                                                                <ModalHeader toggle={this.toggle}>
+                                                                                    <p>{this.props.enigme[i].titre}</p>
+                                                                                </ModalHeader>
+                                                                                <ModalBody className="modaltexte">
+                                                                                    <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
+                                                                                        {" "}
+                                                                                        <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                                                    </NavLink>
+                                                                                </ModalBody>
+                                                                            </Modal>
+                                                                        </Marker>}
+                                                                </div>
+                                                                 } 
+                                                            )}
+                                                         </div>
+                                                        :
+                                                        null} */}
+                                                </div>}
                                         </div>
                                     )}
-                                </div> : null}
+                                </div>
+                                :
+                                null}
                             <Marker icon={iconYou} position={this.props.currentPosition}>
                                 <Circle
                                     center={this.props.currentPosition}

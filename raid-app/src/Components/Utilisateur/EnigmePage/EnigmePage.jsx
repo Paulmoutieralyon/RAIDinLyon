@@ -40,7 +40,12 @@ export class EnigmePage extends React.Component {
             reponse: null,
             indices: null,
             info: null,
+            check: null,
+            succeed: null,
+            numClickValidate: 0,
             img: "./Pierrephilosophale.jpeg",
+            isLoaded: false,
+
 
             //Affichage du score 
             scoregeneral: null
@@ -77,8 +82,20 @@ export class EnigmePage extends React.Component {
             .then(data => {
                 this.scoreg = data.data[0]
                 this.setState({
-                    scoregeneral: this.scoreg.score
+                    isLoaded: true,
                 })
+
+                if (data.data[0].enigmes.length > 0) {
+                    for (let i = 0; i < data.data[0].enigmes.length; i++) {
+                        if (data.data[0].enigmes[i].idquestion === this.enigme) {
+                            this.setState({
+                                scoregeneral: this.scoreg.score,
+                                succeed: data.data[0].enigmes[i].succeed,
+                                check: data.data[0].enigmes[i].check,
+                            })
+                        }
+                    }
+                }
             })
             .catch(error => {
                 throw (error);
@@ -137,11 +154,12 @@ export class EnigmePage extends React.Component {
                         isContinue: true,
                         isResTrue: true,
                         final: Vrai,
-                        visibilite: "pasvisible"
+                        visibilite: "pasvisible",
+                        succeed: true,
                     })
                     this.saveResp()
 
-                } else {
+                } else if (this.state.indiceNumber > 3 || (this.state.numClickValidate >= 2 && this.state.isResTrue === false)) {
                     this.props.badTitle()
                     setTimeout(() => {
                         this.props.actualTitle()
@@ -149,10 +167,21 @@ export class EnigmePage extends React.Component {
 
                     this.setState({
                         isResTrue: false,
-                        final: Faux
+                        final: Faux,
+                        succeed: false,
+                    })
+                }
+                else {
+                    this.setState({
+                        isResTrue: false,
+                        // final: Faux,
                     })
                 }
                 console.log(response);
+                this.setState({
+                    check: true,
+                    numClickValidate: this.state.numClickValidate + 1
+                })
             })
             .catch(function (error) {
                 console.log(error);
@@ -166,8 +195,8 @@ export class EnigmePage extends React.Component {
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
             score: this.state.score,
             _idQuestion: this.state.id,
-            check: null,
-            succeed: null,
+            check: this.state.check,
+            succeed: this.state.succeed,
             gain: this.state.score
         })
             .then(function (response) {
@@ -178,42 +207,35 @@ export class EnigmePage extends React.Component {
             });
     }
 
-    /*  
-    
-    
-    handleclick = (e) =>{
-          this.setState({compteurcontinue: this.state.compteurcontinue +1})
-          if(this.state.compteurcontinue === 2) console.log("un mot")
-      }*/
     render() {
-        console.log(this.props.isSliderOpen)
-        //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
-        //console.log(this.props.check)
+        /* console.log("OUIII",this.state.isLoaded)
+        console.log("succeed: ", this.state.succeed,"INDICES: ",this.state.indiceNumber,"isRESTRue: ", this.state.isResTrue) */
+
         return (
             <div class="EnigmePageContainer">
                 <Header />
-                {/*                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
-                <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
-                    <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
-                </Modal> */}
-                <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
-                    {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
-                    <p className="Titre">{this.state.enonce}</p>
-                    <p className="BodyText">{this.state.texte}</p>
+                {this.state.isLoaded ?
+                    <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
+                        {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
+                        <p className="Titre">{this.state.enonce}</p>
+                        <p className="BodyText">{this.state.texte}</p>
 
-                    <AvForm className="reponse" onSubmit={this.isTrue}>
-                        <h3 className="TitreQuestion">{this.state.question}</h3>
-                        <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
-                        <div className="validationContainer">
-                            {(this.state.isResTrue || this.state.indiceNumber > 3) ? <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="primary" type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
-                                : <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
-                            <img className="final" src={this.state.final} alt='' />
-                        </div>
-                        <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
-                        <div className="Textindices">{this.state.indice}</div>
-                    </AvForm>
-                </div>
+                        <AvForm className="reponse" onSubmit={this.isTrue}>
+                            <h3 className="TitreQuestion">{this.state.question}</h3>
+                            <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                            <div className="validationContainer">
+                                {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed) ?
+                                    <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="primary" type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
+                                    :
+                                    <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
+                                <img className="final" src={this.state.final} alt='' />
+                            </div>
+                            <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                            <div className="Textindices">{this.state.indice}</div>
+                        </AvForm>
+                    </div>
+                    :
+                    null}
             </div>
 
         );
