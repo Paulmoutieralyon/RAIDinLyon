@@ -261,7 +261,6 @@ app.post('/api/enigmes', function (req, res) {
 app.put('/api/enigmes/:_id', function (req, res) {
     const id = req.params._id
     const enigme = req.body
-    console.log('greg', enigme)
     Enigme.updateEnigme(id, {
         $set: {
             titre: enigme.titre,
@@ -315,7 +314,6 @@ app.get('/api/equipes', function (req, res) {
         res.json(equipe)
     })
 })
-
 // Update team infos dans le coter Admin	
 app.put('/api/equipes/donnees/:_id', function (req, res) {	
     const id = req.params._id	
@@ -327,7 +325,7 @@ app.put('/api/equipes/donnees/:_id', function (req, res) {
             nom: equipe.nom,	
             email: equipe.email,	
             telephone: equipe.telephone,	
-            participants: equipe.participants.toString(),	
+            participants: equipe.participants,	
             h_fin: equipe.h_fin,	
 
          }	
@@ -337,7 +335,7 @@ app.put('/api/equipes/donnees/:_id', function (req, res) {
         }	
         res.json(equipe)	
     })	
-})	
+})
 
 app.post('/api/equipes/:_id', function (req, res) {
     let id = req.params._id
