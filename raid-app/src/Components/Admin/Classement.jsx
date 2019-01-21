@@ -1,28 +1,58 @@
 
 import React from 'react';
-import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import {NavLink} from 'react-router-dom'
+import { Button, FormGroup, Label, Input, Breadcrumb, ListGroup } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+const axios = require('axios');
 export default class Classement extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      classement: [],
+    };
   }
 
+  saveChoice = (e) => {
+    if (e.target.value === "points") {
+      axios.get(`http://localhost:5000/api/equipes/byscore`)
+        .then(response => {
+          this.setState({
+            classement: response.data
+          })
+          this.renderResult()
+        })
+    }
+  }
+
+  renderResult = () => {
+    return this.state.classement.map((classement, index) => {
+      return (
+        <div>
+          <Breadcrumb>
+            <ListGroup>
+              {classement.nom} : {classement.score} points
+            </ListGroup>
+          </Breadcrumb>
+        </div>
+      )
+    }
+    )
+  }
   render() {
     return (
       <div>
         <h1>Classement</h1>
         <FormGroup>
           <Label for="exampleSelect">Selectionnez le type de Classement</Label>
-          <Input type="select" name="select" id="exampleSelect">
-            <option>Par points</option>
-            <option>Par temps</option>
-            <option>Par indices</option>
-            
+          <Input type="select" name="tri" id="tri" onChange={this.saveChoice}>
+            <option value="temps" name="par temps">Par temps</option>
+            <option value="indices" name="par temps">Par indices</option>
+            <option value="points" name="par temps">Par points</option>
           </Input>
         </FormGroup>
-        <Button>Réinitialiser</Button>
-        <NavLink to = "/Admin/SessionPage"><Button>Retour</Button></NavLink>
+
+        {this.renderResult()}
+
+        <NavLink to="/Admin/SessionPage"><Button>Retour</Button></NavLink>
       </div>
     );
   }
