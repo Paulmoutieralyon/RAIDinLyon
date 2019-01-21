@@ -4,9 +4,12 @@ import Toggle from "react-toggle-component";
 import Editable from 'react-x-editable';
 import React from 'react';
 import './SessionPage.css';
+import DatePicker from 'react-datepicker'
 import { NavLink } from 'react-router-dom';
-import axios from 'axios'
-
+import Moment from 'react-moment';
+import axios from 'axios';
+import "react-datepicker/dist/react-datepicker.css";
+const moment = require('moment');
 
 export default class SessionPage extends React.Component {
     constructor(props) {
@@ -16,8 +19,18 @@ export default class SessionPage extends React.Component {
             nom: null,
             deadline: null,
             etat: null,
-            checked: null
+            checked: null,
+            startDate: new Date(),
+            visible: "visible",
+            invisible: "invisible"
         };
+    }
+
+    handleChange = (date) => {
+        this.setState({
+            startDate: date
+        });
+        console.log(this.state.startDate)
     }
 
     componentDidMount() {
@@ -61,7 +74,7 @@ export default class SessionPage extends React.Component {
         await this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
         await axios.put(`http://localhost:5000/api/session/activation`,
             {
-                _id:this.state.idsession,
+                _id: this.state.idsession,
                 isactivate: this.state.checked
             })
             .then(function (response) {
@@ -72,11 +85,35 @@ export default class SessionPage extends React.Component {
             });
     }
 
+    modify = (e) => {
+        this.setState({
+            visible: "invisible",
+            invisible: "visible"
+        })
+    }
 
+    submit = () => {
+        let momentDate = moment(this.state.startDate).format("MMMM, DD, YYYY, H:mm:ss")
+        axios.put(`http://localhost:5000/api/session`,
+            {
+                id: this.state.score,
+                deadline: momentDate
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
+        this.setState({
+            visible: "visible",
+            invisible: "invisible"
+        })
+        
+    }
 
     render() {
-        console.log(this.state.checked)
         return (
             <div className='containerSessionPage'>
                 <Editable
@@ -105,6 +142,19 @@ export default class SessionPage extends React.Component {
                         checked={this.state.checked}
                         onToggle={value => this.modifyActivation(value)} />
                 </Breadcrumb>
+                <p>Fin de la partie le :</p> <p className={this.state.visible}><Moment date={this.state.startDate} format="MMMM, DD, YYYY, H:mm:ss" /></p>
+                <Button className={this.state.visible} onClick={this.modify}>Modifier la date</Button>
+                <Button className={this.state.invisible} onClick={this.submit}>Enregistrer les modification</Button>
+                <DatePicker
+                    className={this.state.invisible}
+                    selected={this.state.startDate}
+                    onChange={this.handleChange}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="MM, yyyy, dd h:mm aa"
+                    timeCaption="time"
+                />
             </div>
         );
     }
