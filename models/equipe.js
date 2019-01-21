@@ -53,6 +53,11 @@ module.exports.updateEquipe = function (_id, update,callback) {
     Equipe.findByIdAndUpdate(_id, update,callback)       
 }
 
+// Update Equipe info
+module.exports.updateInfoEquipe = function(_id, update, callback) {
+    Equipe.findOneAndUpdate(_id, update, callback)
+}
+
 // Delete Equipe
 module.exports.removeEquipe = function (id, callback) {
     var query = { _id: id }

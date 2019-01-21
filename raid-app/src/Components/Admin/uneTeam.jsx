@@ -8,7 +8,7 @@ export default class uneTeam extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            equipe:null,
+            equipe: null,
             button: "invisible",
             nom: null,
             telephone: null,
@@ -68,22 +68,22 @@ export default class uneTeam extends Component {
     }
 
     sendModifications = () => {
-        axios.put (`http://localhost:5000/api/equipes/${this.page}`,
-        {
-           // equipe: response.data
-            score: this.state.score,
-            nom: this.state.nom,
-            email: this.state.email,
-            participants: this.state.participants.toString(),
-            telephone: this.state.telephone,
-            h_fin: this.state.h_fin,
-        })
-        .then(function ( response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        axios.put(`http://localhost:5000/api/equipes/donnees/${this.page}`,
+            {
+                // equipe: response.data
+                score: this.state.score,
+                nom: this.state.nom,
+                email: this.state.email,
+                participants: this.state.participants.toString(),
+                telephone: this.state.telephone,
+                h_fin: this.state.h_fin,
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
 
@@ -171,12 +171,12 @@ export default class uneTeam extends Component {
                         </Alert>
 
 
-                      <h4> H de Fin : {this.state.h_fin}</h4>
+                        <h4> H de Fin : {this.state.h_fin}</h4>
                     </div>
-        : null}
+                    : null}
 
                 <NavLink to='/Admin/ListTeam'>
-                <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                    <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
                     <Button>Retour</Button>
                 </NavLink>
             </div>
