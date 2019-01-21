@@ -12,7 +12,7 @@ export default class uneTeam extends Component {
             button: "invisible",
             nom: null,
             telephone: null,
-            participants: null,
+            participants: [],
             email: null,
             score: null,
             h_fin: null,
@@ -32,11 +32,12 @@ export default class uneTeam extends Component {
                     score: response.data[0].score,
                     nom: response.data[0].nom,
                     email: response.data[0].email,
-                    participants: response.data[0].participants.toString(),
+                    participants: response.data[0].participants,
                     telephone: response.data[0].telephone,
                     h_fin: response.data[0].h_fin,
                 })
             });
+            console.log(this.state.participants)
     }
 
     modifyNom = (value) => {
@@ -54,8 +55,9 @@ export default class uneTeam extends Component {
     }
 
     modifyParticipants = (value) => {
+        let valeur = value.split()
         this.setState({
-            participants: value,
+            participants : valeur,
             button: "visible"
         })
     }
@@ -74,7 +76,7 @@ export default class uneTeam extends Component {
                 score: this.state.score,
                 nom: this.state.nom,
                 email: this.state.email,
-                participants: this.state.participants.toString(),
+                participants: this.state.participants,
                 telephone: this.state.telephone,
                 h_fin: this.state.h_fin,
             })
@@ -89,6 +91,7 @@ export default class uneTeam extends Component {
 
 
     render() {
+        console.log(this.state.participants)
         return (
             <div>
 
@@ -141,7 +144,7 @@ export default class uneTeam extends Component {
                             Participants : <Editable
                                 name="Participants"
                                 dataType="textarea"
-                                value={this.state.participants.toString()}
+                                value={this.state.participants}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
