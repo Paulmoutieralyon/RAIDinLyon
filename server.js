@@ -318,9 +318,9 @@ app.get('/api/equipes', function (req, res) {
 
 //Update score & progression dans le jeu
 app.put('/api/equipes/:_id', function (req, res) {
-    var id = req.params._id
-    var equipe = req.body
-    console.log(equipe)
+    let id = req.params._id
+    let equipe = req.body
+    console.log(equipe._idQuestion)
     Equipe.updateEquipe(id, {
         $inc: {
             score: equipe.score,
