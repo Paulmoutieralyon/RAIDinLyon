@@ -32,7 +32,7 @@ export default class UnEnigme extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
+        axios.get(`/api/enigmes/${this.page}`)
             .then(response => {
                 console.log(response)
                 this.setState({
@@ -129,7 +129,7 @@ export default class UnEnigme extends Component {
 
 
     sendModifications = () => {
-        axios.put(`http://localhost:5000/api/enigmes/${this.page}`,
+        axios.put(`/api/enigmes/${this.page}`,
             {
                 titre: this.state.titre,
                 question: this.state.question,

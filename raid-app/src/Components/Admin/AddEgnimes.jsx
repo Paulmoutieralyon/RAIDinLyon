@@ -116,7 +116,7 @@ export default class AddEgnimes extends React.Component {
     submit = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/api/enigmes',
+            url: '/api/enigmes',
             data: {
                 titre: this.state.titre,
                 question: this.state.question,

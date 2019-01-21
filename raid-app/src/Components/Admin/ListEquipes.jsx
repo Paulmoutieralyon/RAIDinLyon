@@ -20,7 +20,7 @@ export default class ListEquipes extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/equipes/')
+        axios.get('/api/equipes/')
             .then(response => {
 
                 this.setState({
@@ -83,7 +83,7 @@ export default class ListEquipes extends React.Component {
     }
 
     Delete = (equipeid, index) => {
-        axios.delete(`http://localhost:5000/api/equipes/${equipeid}`)
+        axios.delete(`/api/equipes/${equipeid}`)
             .then(response => {
                 console.log(response)
                 if (response.status === 200) {

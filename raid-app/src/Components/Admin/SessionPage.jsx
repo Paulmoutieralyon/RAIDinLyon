@@ -21,7 +21,7 @@ export default class SessionPage extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/session')
+        axios.get('/api/session')
             .then(response => {
                 console.log(response.data[0])
                 this.setState({
@@ -41,7 +41,7 @@ export default class SessionPage extends React.Component {
         await this.setState({
             nom: value
         })
-        await axios.put(`http://localhost:5000/api/session`,
+        await axios.put(`/api/session`,
             {
                 _id: this.state.idsession,
                 nom: this.state.nom
@@ -59,7 +59,7 @@ export default class SessionPage extends React.Component {
             checked: value
         })
         await this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
-        await axios.put(`http://localhost:5000/api/session/activation`,
+        await axios.put(`/api/session/activation`,
             {
                 _id:this.state.idsession,
                 isactivate: this.state.checked

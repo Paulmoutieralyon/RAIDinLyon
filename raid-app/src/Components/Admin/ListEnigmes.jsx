@@ -19,7 +19,7 @@ export default class ListSessionPage extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/enigmes/')
+        axios.get('/api/enigmes/')
             .then(response => {
                 this.setState({
                     enigmes: response.data
@@ -82,7 +82,7 @@ export default class ListSessionPage extends React.Component {
 
 // Fonction de suppressions de l'énigme en base et en front //
     Delete = (enigmeid, index) => {
-        axios.delete(`http://localhost:5000/api/enigmes/${enigmeid}`)
+        axios.delete(`/api/enigmes/${enigmeid}`)
             .then(response => {
                 if (response.status === 200) {
                     const tab = this.state.enigmes.slice()

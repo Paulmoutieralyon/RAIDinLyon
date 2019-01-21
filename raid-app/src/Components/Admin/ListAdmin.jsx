@@ -16,7 +16,7 @@ export default class ListAdmin extends React.Component {
 
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/administrateurs/')
+        axios.get('/api/administrateurs/')
             .then(response => {
                 this.setState({
                     admin: response.data
@@ -49,7 +49,7 @@ export default class ListAdmin extends React.Component {
     }
 
     Delete = (administrateurid, index) => {
-        axios.delete(`http://localhost:5000/api/administrateurs/${administrateurid}`)
+        axios.delete(`/api/administrateurs/${administrateurid}`)
             .then(response => {
                 console.log(response)
                 if (response.status === 200) {
