@@ -42,12 +42,13 @@ export class EnigmePage extends React.Component {
             indices: null,
             info: null,
             img: "./Pierrephilosophale.jpeg",
+            agagner:null,
 
             //Affichage du score 
-            scoregeneral:null
+            scoregeneral: null
         };
         this.data = null
-        this.scoreg=null
+        this.scoreg = null
         this.enigme = this.props.match.params._id
         this.user = this.props.match.params.id
     }
@@ -68,17 +69,18 @@ export class EnigmePage extends React.Component {
                     indices: this.data.indices,
                     info: this.data.info,
                     img: this.data.img,
-                    isFloat: true
+                    isFloat: true,
+                    agagner: this.data.agagner
                 })
             })
             .catch(error => {
                 throw (error);
             })
-            axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+        axios.get(`http://localhost:5000/api/equipe/${this.user}`)
             .then(data => {
                 this.scoreg = data.data[0]
                 this.setState({
-                   scoregeneral:this.scoreg.score
+                    scoregeneral: this.scoreg.score
                 })
             })
             .catch(error => {
@@ -140,6 +142,7 @@ export class EnigmePage extends React.Component {
                         final: Vrai,
                         visibilite: "pasvisible"
                     })
+                    this.saveResp()
 
                 } else {
                     this.props.badTitle()
@@ -158,18 +161,17 @@ export class EnigmePage extends React.Component {
                 console.log(error);
             });
 
-        this.saveResp()
     }
 
 
     //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
-            score: this.state.score,
-            idquestion:this.state.id,
-            check:null,
-            succeed:null, 
-            gain:this.state.score
+            score: this.state.agagner,
+            _idQuestion: this.state.id,
+            check: null,
+            succeed: null,
+            gain: this.state.agagner
         })
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);
@@ -187,7 +189,7 @@ export class EnigmePage extends React.Component {
           if(this.state.compteurcontinue === 2) console.log("un mot")
       }*/
     render() {
-        console.log(this.props.isSliderOpen)
+        console.log(this.state.agagner)
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
@@ -199,7 +201,7 @@ export class EnigmePage extends React.Component {
                     <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
                 </Modal> */}
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
-                    <img className="Illustration" src={require(`${this.state.img}`)} alt='' />
+                    {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
                     <p className="Titre">{this.state.enonce}</p>
                     <p className="BodyText">{this.state.texte}</p>
 

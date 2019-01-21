@@ -104,7 +104,7 @@ export class Header extends React.Component {
         return (
             <div className='headerContainer'>
                 <Navbar light expand="md">
-                    <NavbarBrand tag={Link} to={`{MapPage/${window.localStorage.getItem('id')}}`}> Raid In Lyon </NavbarBrand>
+                    <NavbarBrand><Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link></NavbarBrand>
                     <div className="count_title" >Fin :</div>
                     <Container className="d-none d-md-block">{this.props.title}</Container>
                     <Row>
