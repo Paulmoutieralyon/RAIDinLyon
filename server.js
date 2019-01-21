@@ -316,30 +316,6 @@ app.get('/api/equipes', function (req, res) {
     })
 })
 
-//Update score & progression dans le jeu
-app.put('/api/equipes/:_id', function (req, res) {
-    let id = req.params._id
-    let equipe = req.body
-    console.log(equipe._idQuestion)
-    Equipe.updateEquipe(id, {
-        $inc: {
-            score: equipe.score,
-        },
-        $addToSet: {
-            enigmes: {
-                check: equipe.check,
-                succeed: equipe.succeed,
-                gain: equipe.gain,
-                idquestion: equipe._idQuestion,
-            }
-        }
-    }, (err, result) => {
-        if (err) {
-            throw err
-        }
-        res.json(equipe)
-    })
-})
 
 app.post('/api/equipes/:_id', function (req, res) {
     let id = req.params._id
@@ -386,6 +362,40 @@ app.get('/api/equipe/:_id', (req, res) => {
 });
 
 
+//Classement des equipes par ordre décroissant de score
+app.get('/api/equipes/byscore', function (req, res) {
+    Equipe.getRank([{ $sort: { score: -1 } }], (err, rank) => {
+        if (err) {
+            throw err
+        }
+        res.json(rank)
+    })
+})
+
+//Update score & progression dans le jeu
+app.put('/api/equipes/:_id', function (req, res) {
+    let id = req.params._id
+    let equipe = req.body
+    console.log(equipe._idQuestion)
+    Equipe.updateEquipe(id, {
+        $inc: {
+            score: equipe.score,
+        },
+        $addToSet: {
+            enigmes: {
+                check: equipe.check,
+                succeed: equipe.succeed,
+                gain: equipe.gain,
+                idquestion: equipe._idQuestion,
+            }
+        }
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
 //ADMINISTRATEURS
 
 app.get('/api/administrateurs', function (req, res) {
