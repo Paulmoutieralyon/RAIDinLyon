@@ -395,7 +395,7 @@ app.get('/api/session', function (req, res) {
 
 //Modification d'une session
 app.put('/api/session', function (req, res) {
-    var id = req.body._id
+    var id = req.body.id
     var session = req.body
     Session.updateSession(id, {
         nom: session.nom,

@@ -31,7 +31,7 @@ export class Header extends React.Component {
             countAnswer: 0,
             isOpen: false,
             isOpenT: false,
-            deadline: 'January, 19, 2019, 18:00:00', // Choix : date et heure de fin
+            deadline: null, // Choix : date et heure de fin
             hourEnd: '0',
             minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
             secEnd: '0',
@@ -59,7 +59,12 @@ export class Header extends React.Component {
     }
 
     componentDidMount() {
-        //setInterval(() => this.getTimeUntil(Date.parse(this.state.deadline)), 1000);
+        axios.get(`http://localhost:5000/api/session`)
+            .then(response => {
+                this.setState({
+                    deadline: response.data[0].deadline
+                })
+            });
     }
 
     toggleTimer = () => {
