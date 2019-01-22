@@ -37,7 +37,7 @@ export default class HomePage extends React.Component {
     submitLogin = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/authenticate',
+            url: 'http://localhost:5000/authenticateUser',
             data: {
                 email: this.state.email,
                 password: this.state.password,

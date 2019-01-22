@@ -55,15 +55,13 @@ const apiRoutes = express.Router();
 
 
 /*
-AUTHENTIFICATION
+AUTHENTIFICATION USER
 */
-// route to authenticate a user (POST http://localhost:5000/api/authenticate)
-apiRoutes.post('/authenticate', function (req, res) {
+apiRoutes.post('/authenticateUser', function (req, res) {
     // find the user
     Equipe.findOne({
         email: req.body.email
     }, function (err, user) {
-        console.log("is it ok ?")
         if (err) throw err;
 
         if (!user) {
@@ -99,6 +97,58 @@ apiRoutes.post('/authenticate', function (req, res) {
     })
 });
 
+/*FIN AUTHENTIFICATION USER*/
+
+
+/*
+AUTHENTIFICATION ADMIN
+*/
+apiRoutes.post('/authenticateAdmin', function (req, res) {
+    // find the user
+    console.log("PUTE",req.body)
+    console.log("SALOPE",req.body.email)
+    Administrateur.findOne({
+        email: req.body.email
+    }, function (err, admin) {
+        console.log("is it ok ?", admin, admin.password, admin.email)
+        if (err) throw err;
+
+        if (!admin) {
+            res.json({ success: false, message: 'Authentication failed. Admin not found.' });
+        } else if (admin) {
+
+            // check if password matches
+            if (admin.password != req.body.password) {
+                console.log("LA VIE DE MA MERE",admin.password, req.body.password)
+                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+            } else {
+
+                // if user is found and password is right
+                // create a token with only our given payload
+                // we don't want to pass in the entire user since that has the password
+                const payload = {
+                    email: admin.email
+                };
+                const token = jwt.sign(payload, app.get('superSecret'), {
+                    expiresIn: 1440 // expires in 24 hours
+                });
+                const id = admin._id
+
+                // return the information including token as JSON
+                res.json({
+                    success: true,
+                    message: 'Enjoy your token!',
+                    token: token,
+                    id: id
+                });
+            }
+        }
+
+    })
+});
+
+/*FIN AUTHENTIFICATION ADMIN*/
+
 // route to show a random message 
 apiRoutes.get('/', function (req, res) {
     res.json({ message: 'Hi guys' });
@@ -114,7 +164,6 @@ apiRoutes.get('/users', function (req, res) {
 // apply the routes to our application with the prefix /api
 app.use(/* '/api',  */apiRoutes);
 
-/*FIN AUTHENTIFICATION*/
 
 
 
@@ -275,26 +324,26 @@ app.get('/api/equipe/:_id', (req, res) => {
 });
 
 // Modification des informations d'une équipe en fonction de son ID
-app.put('/api/equipes/donnees/:_id', function (req, res) {	
-    const id = req.params._id	
-    const equipe = req.body	
-    console.log('Hello la team marche', equipe)	
-    Equipe.updateInfoEquipe(id, {	
-        $set: {	
-            score: equipe.score,	
-            nom: equipe.nom,	
-            email: equipe.email,	
-            telephone: equipe.telephone,	
-            participants: equipe.participants,	
-            h_fin: equipe.h_fin,	
+app.put('/api/equipes/donnees/:_id', function (req, res) {
+    const id = req.params._id
+    const equipe = req.body
+    console.log('Hello la team marche', equipe)
+    Equipe.updateInfoEquipe(id, {
+        $set: {
+            score: equipe.score,
+            nom: equipe.nom,
+            email: equipe.email,
+            telephone: equipe.telephone,
+            participants: equipe.participants,
+            h_fin: equipe.h_fin,
 
-         }	
-    }, (err, result) => {	
-        if (err) {	
-            throw err	
-        }	
-        res.json(equipe)	
-    })	
+        }
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
 })
 
 // Comparaison de la réponse de l'utilisateur avec la réponse de l'énigme
