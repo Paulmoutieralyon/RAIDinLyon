@@ -11,6 +11,7 @@ var enigmeSchema = mangoose.Schema({
     coordonnee: Array,
     img: String,
     reponse: String,
+    agagner: Number
 }, { collection: 'enigme' });
 
 var Enigme = module.exports = mangoose.model('Enigme', enigmeSchema)
