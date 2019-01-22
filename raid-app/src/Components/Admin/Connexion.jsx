@@ -14,6 +14,10 @@ export default class AdminComptes extends React.Component {
         }
     }
 
+    componentDidMount() {
+        localStorage.clear()
+    }
+
     modifyEmail = (e) => {
         this.setState({
             email: e.target.value
@@ -37,10 +41,10 @@ export default class AdminComptes extends React.Component {
         })
             .then(function (response) {
                 console.log(response);
-                if (response.data.email === true) {
+                if (response.data.success === true) {
                     window.localStorage.setItem("tokenAdmin", response.data.token)
                     window.localStorage.setItem("idAdmin", response.data.id)
-                    window.location.href = `SessionPage/${response.data.id}`
+                    window.location.href = `Admin/SessionPage/${response.data.id}`
                 } else alert("Formulaire érroné")
             })
             .catch(function (error) {

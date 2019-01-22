@@ -57,12 +57,12 @@ export default class App extends Component {
               <Route path="/Admin/ListAdmin/:_id" component={ListAdmin} />
               <Route path="/Admin/ListSessionPage/:_id" component={ListSessionPage} />
               <Route path="/Admin/ListTeam/:_id" component={Listequipes} />
-              <Route path="/Admin/SessionPage" component={SessionPage} />
+              <Route path="/Admin/SessionPage/:_id" component={SessionPage} />
               <Route path="/Admin/AddEgnimes/:_id" component={AddEgnimes} />
               <Route path='/Admin/Addsession/:_id' component={Addsession} />
               <Route path='/Admin/QrCodeScan/:_id' component={QrCodeScan} />
-              <Route path="/Admin/enigmes/:_id" component={UnEnigme} />
-              <Route path="/Admin/equipe/:_id" component={uneTeam} />
+              <Route path="/Admin/enigmes/:_id/:id" component={UnEnigme} />
+              <Route path="/Admin/equipe/:_id/:id" component={uneTeam} />
             </Switch>
           }
         </BrowserRouter>

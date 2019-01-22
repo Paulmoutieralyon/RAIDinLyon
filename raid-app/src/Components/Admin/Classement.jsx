@@ -51,7 +51,7 @@ export default class Classement extends React.Component {
 
         {this.renderResult()}
 
-        <NavLink to="/Admin/SessionPage"><Button>Retour</Button></NavLink>
+        <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
       </div>
     );
   }

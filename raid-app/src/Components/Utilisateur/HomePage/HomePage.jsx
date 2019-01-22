@@ -44,7 +44,7 @@ export default class HomePage extends React.Component {
             }
         })
             .then(function (response) {
-                console.log(response);
+                console.log(response)
                 if (response.data.success === true) {
                     window.localStorage.setItem("token", response.data.token)
                     window.localStorage.setItem("id", response.data.id)

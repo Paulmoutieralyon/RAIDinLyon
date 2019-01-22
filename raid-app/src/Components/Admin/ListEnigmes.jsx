@@ -33,9 +33,9 @@ export default class ListSessionPage extends React.Component {
 
 
     EnigmesList = () => {
-        
+
         return this.state.enigmes.map((enigme, i) => {
-            
+
             return (
                 <Breadcrumb>
                     <ListGroup>
@@ -53,7 +53,7 @@ export default class ListSessionPage extends React.Component {
         })
     }
 
-// Fonctions qui gèrent l'ouverture de la modale de sureté //
+    // Fonctions qui gèrent l'ouverture de la modale de sureté //
     willDelete = (enigmeid, index) => {
         this.setState({
             modal: !this.state.modal,
@@ -62,7 +62,7 @@ export default class ListSessionPage extends React.Component {
         })
     }
 
-// Modale de sureté //
+    // Modale de sureté //
     deleteValidation = () => {
         const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
         return (
@@ -73,24 +73,24 @@ export default class ListSessionPage extends React.Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={() => this.Delete(this.state.idenigme, this.state.index)}>Confirmer</Button>{' '}
-                        <Button color="secondary" onClick={() => this.setState({ modal :!this.state.modal})}>Annuler</Button>
+                        <Button color="secondary" onClick={() => this.setState({ modal: !this.state.modal })}>Annuler</Button>
                     </ModalFooter>
                 </Modal>
             </div>
         );
     }
 
-// Fonction de suppressions de l'énigme en base et en front //
+    // Fonction de suppressions de l'énigme en base et en front //
     Delete = (enigmeid, index) => {
         axios.delete(`http://localhost:5000/api/enigmes/${enigmeid}`)
             .then(response => {
                 if (response.status === 200) {
                     const tab = this.state.enigmes.slice()
                     delete tab[index]
-                    this.setState({ 
+                    this.setState({
                         enigmes: tab,
                         modal: !this.state.modal
-                     })
+                    })
                     console.log(this.state.enigmes)
                 }
             })
@@ -103,15 +103,14 @@ export default class ListSessionPage extends React.Component {
                 <h1>Énigmes</h1>
                 {this.EnigmesList()}
                 {this.deleteValidation()}
-
                 < Card body >
-                    <NavLink to='/Admin/AddEgnimes' onClick={this.forceUpdate}>
+                    <NavLink to={`/Admin/AddEgnimes/${window.localStorage.getItem('idAdmin')}`} onClick={this.forceUpdate}>
                         <Button>Nouvelle énigme</Button>
-
                     </NavLink>
-                    <NavLink to = "/Admin/SessionPage"><Button>Retour</Button></NavLink>
+                    <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}>
+                        <Button>Retour</Button>
+                    </NavLink>
                 </Card >
-
             </div >
         );
     }

@@ -67,7 +67,7 @@ export default class AddEgnimes extends React.Component {
     }
 
     /* Ajout des points pour cette enigme */
-    addPoints= (e) => {
+    addPoints = (e) => {
         this.setState({
             points: e.target.value
         })
@@ -225,12 +225,10 @@ export default class AddEgnimes extends React.Component {
                     <Label for="exampleEmail">Règles du lieu</Label>
                     <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyInfo} />
                 </FormGroup>
-
                 <Card body>
                     <Button onClick={this.submit}>Enregistrer les modifications</Button>
-
                 </Card>
-                <NavLink to="/Admin/ListEnigmes"><Button>Retour</Button></NavLink>
+                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
             </div>
         );
     }
