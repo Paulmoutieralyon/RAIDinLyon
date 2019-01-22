@@ -3,7 +3,7 @@ import './ListEquipes.css'
 import { BrowserRouter, NavLink } from 'react-router-dom';
 import { Modal, ModalBody, ModalFooter, Breadcrumb, Card, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 import axios from 'axios';
-import trash from './trash.jpg'
+import trash from './trash.png'
 
 import "react-toggle-component/styles.css"
 

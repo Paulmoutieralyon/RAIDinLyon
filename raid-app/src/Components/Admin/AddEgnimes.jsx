@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 export default class AddEgnimes extends React.Component {
@@ -17,7 +17,8 @@ export default class AddEgnimes extends React.Component {
             nouvelindice: null,
             indices: [],
             info: null,
-            image: null
+            image: null,
+            points: null
         };
         this.addResp = [];
         this.Clue1 = null;
@@ -55,7 +56,7 @@ export default class AddEgnimes extends React.Component {
 
 
     /* _________________________________
-    Reponses
+    Reponses et points
     _________________________________ */
 
     /* Ajout de la réponse */
@@ -63,7 +64,13 @@ export default class AddEgnimes extends React.Component {
         this.setState({
             responses: e.target.value
         })
-        console.log(this.state.responses)
+    }
+
+    /* Ajout des points pour cette enigme */
+    addPoints= (e) => {
+        this.setState({
+            points: e.target.value
+        })
     }
 
 
@@ -126,6 +133,7 @@ export default class AddEgnimes extends React.Component {
                 coordonnee: this.state.coordonnees,
                 img: this.state.image,
                 reponse: this.state.responses,
+                agagner: this.state.points,
             }
         })
             .then(function (response) {
@@ -139,7 +147,7 @@ export default class AddEgnimes extends React.Component {
     }
 
     render() {
-        //console.log(this.state.indices)
+        console.log(this.state.points)
         return (
             <div>
 
@@ -174,6 +182,11 @@ export default class AddEgnimes extends React.Component {
                 <FormGroup>
                     <Label for="exampleText">Réponse</Label>
                     <Input type="textarea" name="text" id="exampleText" onChange={this.addResponse} />
+                </FormGroup>
+
+                <FormGroup>
+                    <Label for="exampleText">Points à gagner pour cette énigme</Label>
+                    <Input type="text" name="text" id="exampleText" onChange={this.addPoints} />
                 </FormGroup>
 
                 <FormGroup>

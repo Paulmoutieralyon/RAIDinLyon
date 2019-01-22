@@ -1,2 +1,2 @@
-{"participants":["Paul"], "markers":[],"score":0,"nom":"equipe une","email":"equipeune@une.fr","password": "pr72r", "token":null,"telephone":"0898989898","h_fin":null, "enigmes":[{"_idQuestion" : null, "check":false, "succeed":false, "gain":0}]}
-{"participants":["lolo"],"markers":[], "score":0,"nom":"equipe deux","email":"equipedeux@deux.fr", "password": "9qjda", "token":null,"telephone":"098575768","h_fin":null, "enigmes":[{"_idQuestion" : null, "check":false, "succeed":false, "gain":0}]}
+{"participants":["Paul"], "markers":[],"score":0,"nom":"equipe une","email":"equipeune@une.fr","password": "pr72r", "telephone":"0898989898", "enigmes":[{"_idQuestion" : null, "check":false, "succeed":false, "gain":0}]}
+{"participants":["lolo"],"markers":[], "score":0,"nom":"equipe deux","email":"equipedeux@deux.fr", "password": "9qjda", "telephone":"098575768", "enigmes":[{"_idQuestion" : null, "check":false, "succeed":false, "gain":0}]}
