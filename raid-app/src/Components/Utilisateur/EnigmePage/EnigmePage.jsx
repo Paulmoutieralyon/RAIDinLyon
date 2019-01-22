@@ -224,7 +224,7 @@ export class EnigmePage extends React.Component {
                             <h3 className="TitreQuestion">{this.state.question}</h3>
                             <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                             <div className="validationContainer">
-                                {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed) ?
+                                {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed || !this.state.succeed ) ?
                                     <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="primary" type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
                                     :
                                     <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
