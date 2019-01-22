@@ -83,11 +83,11 @@ export class Header extends React.Component {
         });
     }
 
-    allToggle = () => {
-        this.setState({
-            modalMarker: !this.state.modalMarker
-        })
+    allToggle = (event) => {
+        
+        const {dataCallback} = this.props
         this.toggleTimer()
+        dataCallback(!this.state.modalMarker) // callback pour appler la function modalmarker
     }
 
     leading0(num) {
@@ -113,9 +113,11 @@ export class Header extends React.Component {
         if (counterCheckEnd === counterEnd) {
             this.toggleTimer()
         }
+    
     }
 
     render() {
+        const {post} = this.props
         return (
             <div className='headerContainer'>
                 <Navbar light expand="md">
