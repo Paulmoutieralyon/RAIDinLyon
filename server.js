@@ -9,14 +9,15 @@ const ObjectId = require('mongodb').ObjectID;
 const bcrypt = require('bcrypt-nodejs')
 const jwt = require('jsonwebtoken')
 const morgan = require('morgan');
-
+const multer = require('multer');
+const fs = require('fs');
 // Mongoose connexion to Mlab server with constiable as ID ans Password
 const userID = require('./keys').userID
 const userPass = require('./keys').userPass
 
 mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwild`, {
-    useNewUrlParser: true
-})
+        useNewUrlParser: true
+    })
     .then(() => console.log('MongoDB Connected WOAW'))
     .catch(err => console.log("Error :", err, "IT DOESNT FUCKING WORK"))
 
@@ -27,7 +28,25 @@ const corsOptions = {
     // optionsSuccessStatus: 200 // some legacy browsers (IE11, constious SmartTVs) choke on 204
 }
 
-app.use(bodyParser.urlencoded({ extended: false }));
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        let path = `./raid-app/src/tmp/storage`;
+
+        fs.existsSync(path) || fs.mkdirSync(path);
+        cb(null, path);
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({
+    storage
+});
+
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 app.use(cors(corsOptions))
@@ -40,6 +59,48 @@ Session = require("./models/session")
 
 process.env.SECRET_KEY = 'secret'
 
+/* //login
+app.post('/login', (req, res) => {
+    Equipe.findOne({
+        email: req.body.email
+    })
+        .then(equipe => {
+            const hPass = bcrypt.hashSync(equipe.password, bcrypt.genSaltSync(10), null)
+            //console.log(req.body.password, equipe.password, hPass, "merci")
+            if (equipe) {
+                //console.log(req.body.email, equipe)
+                if (bcrypt.compareSync(req.body.password, hPass)) {
+                    // Passwords match
+                    const payload = {
+                        _id: equipe._id,
+                        email: equipe.email,
+                    }
+                    let token = jwt.sign(payload, process.env.SECRET_KEY, {
+                        expiresIn: 1440
+                    })
+                    res.send(token)
+                } else {
+                    // Passwords don't watch
+                    res.json({ error: 'Equipe does not exist 2' })
+                }
+            } else {
+                res.json({ error: 'Equipe does not exist 1' })
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+}) */
+
+
+
+
+
+
+
+
+
+
 // =======================
 // configuration =========
 // =======================
@@ -49,14 +110,15 @@ app.set('superSecret', process.env.SECRET_KEY); // secret constiable
 // use morgan to log requests to the console
 app.use(morgan('dev'));
 
+// =======================
 // routes ================
+// =======================
+
+// API ROUTES -------------------
+
 // get an instance of the router for api routes
 const apiRoutes = express.Router();
 
-
-/*
-AUTHENTIFICATION
-*/
 // route to authenticate a user (POST http://localhost:5000/api/authenticate)
 apiRoutes.post('/authenticate', function (req, res) {
     // find the user
@@ -67,12 +129,18 @@ apiRoutes.post('/authenticate', function (req, res) {
         if (err) throw err;
 
         if (!user) {
-            res.json({ success: false, message: 'Authentication failed. User not found.' });
+            res.json({
+                success: false,
+                message: 'Authentication failed. User not found.'
+            });
         } else if (user) {
 
             // check if password matches
             if (user.password != req.body.password) {
-                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+                res.json({
+                    success: false,
+                    message: 'Authentication failed. Wrong password.'
+                });
             } else {
 
                 // if user is found and password is right
@@ -99,26 +167,69 @@ apiRoutes.post('/authenticate', function (req, res) {
     })
 });
 
+/* // route middleware to verify a token
+apiRoutes.use(function (req, res, next) {
+    // check header or url parameters or post parameters for token
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    window.localStorage.getItem("token")
+    // decode token
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, app.get('superSecret'), function (err, decoded) {
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded; next();
+            }
+        });
+    } else {
+        // if there is no token
+        // return an error
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+    }
+}); */
+
 // route to show a random message 
 apiRoutes.get('/', function (req, res) {
-    res.json({ message: 'Hi guys' });
+    res.json({
+        message: 'Hi guys'
+    });
 });
 
 // route to return all users 
 apiRoutes.get('/users', function (req, res) {
     Equipe.findOne({
-        //email: req.body.email
-    })
+            //email: req.body.email
+        })
         .then(equipe => res.json(equipe))
 });
 // apply the routes to our application with the prefix /api
-app.use(/* '/api',  */apiRoutes);
-
-/*FIN AUTHENTIFICATION*/
+app.use( /* '/api',  */ apiRoutes);
 
 
 
-//Récupération des marqueurs de position
+//Get All Items
+/* app.get('/', function (req, res) {
+    res.send('Please use /api/enigmes or /api/markers or /api/equipes')
+}) */
+
+app.get('/api/enigmes', function (req, res) {
+    Enigme.getEnigmes(function (err, enigmes) {
+        if (err) {
+            throw err
+        }
+        res.json(enigmes)
+    })
+    /*     Enigme.find()
+        .sort({ _id: 1 })
+        .then(enigmes => res.json(enigmes)) */
+})
+
+
 app.get('/api/markers', function (req, res) {
     Marker.getMarkers(function (err, markers) {
         if (err) {
@@ -129,7 +240,7 @@ app.get('/api/markers', function (req, res) {
 })
 
 
-// Comparaison des réponses de l'utilisateur avec la réponse officielle de l'énigme
+// proposition string
 function comparaison(trueAnswer, toTestAnswer) {
     console.log(trueAnswer, toTestAnswer)
     let similarity = stringSimilarity.compareTwoStrings(trueAnswer, toTestAnswer);
@@ -142,32 +253,9 @@ function comparaison(trueAnswer, toTestAnswer) {
         status
     }
 }
-
 /*
 ENIGMES
 */
-
-// Création d'une énigme
-app.post('/api/enigmes', function (req, res) {
-    const enigme = req.body
-    console.log(req.body)
-    Enigme.addEnigme(enigme, function (err, enigme) {
-        if (err) {
-            throw err
-        }
-        res.json(enigme)
-    })
-})
-
-//Récupération des énigmes
-app.get('/api/enigmes', function (req, res) {
-    Enigme.getEnigmes(function (err, enigmes) {
-        if (err) {
-            throw err
-        }
-        res.json(enigmes)
-    })
-})
 
 app.post('/api/enigmes/:_id', function (req, res) {
     let id = req.params._id
@@ -181,10 +269,38 @@ app.post('/api/enigmes/:_id', function (req, res) {
     })
 })
 
-// Mise a jour d'une énigme en fonction de son ID
+app.post('/api/image', upload.single('image'), async (req, res) => {
+    console.log(req.file.path)
+    const image = req.body.path
+    Enigme.addEnigme(path, function (err, path) {
+        try {
+            res.end();
+        } catch (err) {
+            res.sendStatus(400);
+        }
+    })
+})
+
+
+app.post('/api/enigmes',
+    upload.single('image'),
+    function (req, res) {
+        const enigme = { ...req.body,
+            img:req.file.path
+        }
+        console.log(enigme)
+        Enigme.addEnigme(enigme, function (err, enigme) {
+            if (err) {
+                throw err
+            }
+            res.json(enigme)
+        })
+    })
+
 app.put('/api/enigmes/:_id', function (req, res) {
     const id = req.params._id
     const enigme = req.body
+    console.log('greg', enigme)
     Enigme.updateEnigme(id, {
         $set: {
             titre: enigme.titre,
@@ -193,7 +309,7 @@ app.put('/api/enigmes/:_id', function (req, res) {
             indices: [enigme.indices[0], enigme.indices[1], enigme.indices[2]],
             info: enigme.info,
             coordonnee: [enigme.coordonnee[0], enigme.coordonnee[1]],
-            img: enigme.img,
+            img: this.path,
             reponse: enigme.reponse
         }
     }, (err, result) => {
@@ -204,7 +320,7 @@ app.put('/api/enigmes/:_id', function (req, res) {
     })
 })
 
-// Suppression d'une énigme en fonction de son ID
+
 app.delete('/api/enigmes/:_id', function (req, res) {
     const id = req.params._id
     Enigme.removeEnigme(id, function (err, enigme) {
@@ -215,10 +331,11 @@ app.delete('/api/enigmes/:_id', function (req, res) {
     })
 })
 
-// Récuperation d'une énigme en fonction de son ID
 app.get('/api/enigmes/:_id', function (req, res) {
     let _id = new ObjectId(req.params._id)
-    Enigme.find({ _id }, function (err, items) {
+    Enigme.find({
+        _id
+    }, function (err, items) {
         if (err) {
             throw err
         }
@@ -228,33 +345,9 @@ app.get('/api/enigmes/:_id', function (req, res) {
 
 
 /*
-EQUIPES
+EQUIPE
 */
 
-// Création d'un équipe
-app.post('/api/equipes', function (req, res) {
-    const equipe = req.body
-    console.log(req.body)
-    Equipe.addEquipe(equipe, function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        res.json(equipe)
-    })
-})
-
-// Suppression d'un équipe grace a son ID
-app.delete('/api/equipes/:_id', function (req, res) {
-    const id = req.params._id
-    Equipe.removeEquipe(id, function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        res.json(equipe)
-    })
-})
-
-//Récupération des équipes
 app.get('/api/equipes', function (req, res) {
     Equipe.getEquipe(function (err, equipe) {
         if (err) {
@@ -264,53 +357,7 @@ app.get('/api/equipes', function (req, res) {
     })
 })
 
-// Récupération d'un équipe grâce a son ID
-app.get('/api/equipe/:_id', (req, res) => {
-    let id = ObjectId(req.params._id)
-    Equipe.find({ _id: id }, (err, items) => {
-        if (err) res.status(500).send(err)
-
-        res.status(200).json(items);
-    });
-});
-
-// Modification des informations d'une équipe en fonction de son ID
-app.put('/api/equipes/donnees/:_id', function (req, res) {	
-    const id = req.params._id	
-    const equipe = req.body	
-    console.log('Hello la team marche', equipe)	
-    Equipe.updateInfoEquipe(id, {	
-        $set: {	
-            score: equipe.score,	
-            nom: equipe.nom,	
-            email: equipe.email,	
-            telephone: equipe.telephone,	
-            participants: equipe.participants,	
-            h_fin: equipe.h_fin,	
-
-         }	
-    }, (err, result) => {	
-        if (err) {	
-            throw err	
-        }	
-        res.json(equipe)	
-    })	
-})
-
-// Comparaison de la réponse de l'utilisateur avec la réponse de l'énigme
-app.post('/api/equipes/:_id', function (req, res) {
-    let id = req.params._id
-    Equipe.getEquipeById(id, function (err, equipe) {
-        if (err) {
-            throw err
-        }
-        const compar = comparaison(equipe.reponse, req.body.proposition)
-        if (compar.status) res.json(compar)
-        else res.json(compar)
-    })
-})
-
-//Mise a jour du score d'une équipe & progression dans le jeu
+//Update score & progression dans le jeu
 app.put('/api/equipes/:_id', function (req, res) {
     let id = req.params._id
     let equipe = req.body
@@ -335,20 +382,55 @@ app.put('/api/equipes/:_id', function (req, res) {
     })
 })
 
-//Classement des equipes par ordre décroissant de score
-app.get('/api/equipes/byscore', function (req, res) {
-    Equipe.getRank([{ $sort: { score: -1 } }], (err, rank) => {
+app.post('/api/equipes/:_id', function (req, res) {
+    let id = req.params._id
+    Equipe.getEquipeById(id, function (err, equipe) {
         if (err) {
             throw err
         }
-        res.json(rank)
+        const compar = comparaison(equipe.reponse, req.body.proposition)
+        if (compar.status) res.json(compar)
+        else res.json(compar)
     })
 })
 
+app.post('/api/equipes', function (req, res) {
+    const equipe = req.body
+    console.log(req.body)
+    Equipe.addEquipe(equipe, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+
+
+app.delete('/api/equipes/:_id', function (req, res) {
+    const id = req.params._id
+    Equipe.removeEquipe(id, function (err, equipe) {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+app.get('/api/equipe/:_id', (req, res) => {
+    let id = ObjectId(req.params._id)
+    Equipe.find({
+        _id: id
+    }, (err, items) => {
+        if (err) res.status(500).send(err)
+
+        res.status(200).json(items);
+    });
+});
+
+
 //ADMINISTRATEURS
 
-
-//Récupération des administrateurs
 app.get('/api/administrateurs', function (req, res) {
     Administrateur.getAdministrateurs(function (err, administrateurs) {
         if (err) {
@@ -358,7 +440,6 @@ app.get('/api/administrateurs', function (req, res) {
     })
 })
 
-//Création d'un administrateur
 app.post('/api/administrateurs', function (req, res) {
     const administrateur = req.body
     console.log(req.body)
@@ -370,7 +451,6 @@ app.post('/api/administrateurs', function (req, res) {
     })
 })
 
-//Suppression d'un administrateur
 app.delete('/api/administrateurs/:_id', function (req, res) {
     const id = req.params._id
     Administrateur.removeAdministrateur(id, function (err, administrateur) {
@@ -383,7 +463,6 @@ app.delete('/api/administrateurs/:_id', function (req, res) {
 
 // SESSIONS //
 
-//Récupération des sessions
 app.get('/api/session', function (req, res) {
     Session.getSession(function (err, session) {
         if (err) {
@@ -393,9 +472,8 @@ app.get('/api/session', function (req, res) {
     })
 })
 
-//Modification d'une session
 app.put('/api/session', function (req, res) {
-    var id = req.body.id
+    var id = req.body._id
     var session = req.body
     Session.updateSession(id, {
         nom: session.nom,
@@ -408,7 +486,6 @@ app.put('/api/session', function (req, res) {
     })
 })
 
-//Modification de l'activation d'une session
 app.put('/api/session/activation', function (req, res) {
     var id = req.body._id
     var session = req.body
@@ -421,6 +498,9 @@ app.put('/api/session/activation', function (req, res) {
         res.json(session)
     })
 })
+
+
+//...
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
