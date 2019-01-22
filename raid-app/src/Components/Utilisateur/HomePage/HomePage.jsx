@@ -107,7 +107,6 @@ export default class HomePage extends React.Component {
 
                     <img className="LogoImg" src={logo} alt='homelogo' />
                     {/*                         <h1 className="TitreSession"> BIENVENUE <br /> A <br />RaidInLyon</h1> */}
-                    <NavLink to="../../MapPage"><button className="Button1">Lancer la Partie</button></NavLink>
                 </div>
             </div>
 
