@@ -157,7 +157,7 @@ export default class AddEgnimes extends React.Component {
                     <Input type="file" name="file" id="exampleFile" />
                     <FormText color="muted">
                         Importer une image pour cette session
-</FormText>
+                    </FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label for="exampleEmail">URL d'une image d'illustration</Label>
