@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
-import { NavLink } from 'react-router-dom';
-import { Redirect } from 'react-router-dom'
+import { NavLink, BrowserRouter } from 'react-router-dom';
+import { Route, Redirect } from 'react-router';
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {
@@ -147,6 +147,7 @@ export default class AddEgnimes extends React.Component {
             info: e.target.value
         })
     }
+
     /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
     submit = (e) => {
         e.preventDefault()
@@ -171,8 +172,12 @@ export default class AddEgnimes extends React.Component {
             data
         })
             .then(function (response) {
-                console.log(response);
-            })
+                console.log(response)
+                if (response.status === 200) {
+                    window.location.href = 'ListEnigmes';
+                }
+            }
+            )
             .catch(function (error) {
                 console.log(error);
             });

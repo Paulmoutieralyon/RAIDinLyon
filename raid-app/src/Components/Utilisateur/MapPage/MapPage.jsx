@@ -6,6 +6,7 @@ import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
 import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
 import './MapPage.css'
 import L from 'leaflet'
+import axios from 'axios'
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js'
@@ -49,12 +50,16 @@ class MapPage extends React.Component {
             seconds: 0,
             timeoff: false,
             modal: false,
+            scoreuser:null,
+            pointrencontre: [1,4],
+            activationsession: null,
             modalMarker: false,
             interval: function () {
 
             }
         };
         this.tab = []
+        this.user = this.props.match.params._id
         setInterval(() => this.props.getPosition(), 10000)
     }
 
@@ -70,6 +75,27 @@ class MapPage extends React.Component {
         await this.props.enigmesFetch()
         // this.setState({ loaded: true })
         this.areAllAnswersTrue()
+        axios.get('http://localhost:5000/api/session')
+            .then(response => {
+                this.setState({
+                    pointrencontre: response.data[0].pointrencontre,
+                    activationsession: response.data[0].isactivate
+                })
+                console.log(this.state.pointrencontre)
+            })
+            .catch(error => {
+                throw (error);
+            });
+        axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+            .then(data => {
+                let score = data.data[0]
+                this.setState({
+                    scoreuser: score.score
+                })
+            })
+            .catch(error => {
+                throw (error);
+            })
     }
 
     allToggle = () => {
@@ -112,11 +138,11 @@ class MapPage extends React.Component {
     }
 
     render() {
-
         return (
             <div className="mapPageContainer">
                 <Header
                 dataCallback={this.handleModalCallback}
+                scoreuser={this.state.scoreuser} 
                 />
 
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
@@ -130,7 +156,7 @@ class MapPage extends React.Component {
                                 <div>
                                      {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ? 
                                      
-                                        <Marker position={[45.758473, 4.859238]}>
+                                        <Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
                                             <Popup>
                                                 <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
                                             </Popup>
@@ -191,9 +217,9 @@ const mapStateToProps = state => ({
     lng1: state.reducerMapPage.lng1,
     eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
-    
+
     title: state.titleManagement.title,
-    
+
     enigme: state.reducerMongoEnigmes.enigme,
     check: state.reducerMongoEnigmes.check,
     points: state.pointManagement.points,

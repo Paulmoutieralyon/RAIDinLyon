@@ -37,12 +37,12 @@ export class EnigmePage extends React.Component {
             //Les états qu'on l'on fetchera
             question: null,
             titre: null,
-            texte: null,
+            enonce: null,
             reponse: null,
             indices: null,
             info: null,
             img: "./Pierrephilosophale.jpeg",
-            agagner:null,
+            agagner: null,
 
             //Affichage du score 
             scoregeneral: null
@@ -63,7 +63,6 @@ export class EnigmePage extends React.Component {
                     check: this.data.check,
                     question: this.data.question,
                     titre: this.data.titre,
-                    texte: this.data.texte,
                     reponse: this.data.reponse,
                     enonce: this.data.enonce,
                     indices: this.data.indices,
@@ -100,19 +99,19 @@ export class EnigmePage extends React.Component {
         if (this.state.indiceNumber === 0) {
             this.setState({
                 indice: this.state.indices[0],
-                agagner: Math.ceil(this.state.agagner/1.3)
+                agagner: Math.ceil(this.state.agagner / 1.3)
             })
         }
         if (this.state.indiceNumber === 1) {
             this.setState({
                 indice: this.state.indices[1],
-                agagner: Math.ceil(this.state.agagner/2)
+                agagner: Math.ceil(this.state.agagner / 2)
             })
         }
         if (this.state.indiceNumber === 2) {
             this.setState({
                 indice: this.state.indices[2],
-                agagner: Math.ceil(this.state.agagner/3)
+                agagner: Math.ceil(this.state.agagner / 3)
             })
         }
     };
@@ -194,7 +193,7 @@ export class EnigmePage extends React.Component {
         //console.log(this.props.check)
         return (
             <div class="EnigmePageContainer">
-                <Header />
+                <Header scoreuser={this.state.scoregeneral}/>
                 {/*                 <img className='Infologoegnime' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
                 <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Petites règles dans ce lieu </ModalHeader>
@@ -202,8 +201,8 @@ export class EnigmePage extends React.Component {
                 </Modal> */}
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
-                    <p className="Titre">{this.state.enonce}</p>
-                    <p className="BodyText">{this.state.texte}</p>
+                    <h3 className="Titre">{this.state.titre}</h3>
+                    <p >{this.state.enonce}</p>
 
                     <AvForm className="reponse" onSubmit={this.isTrue}>
                         <h3 className="TitreQuestion">{this.state.question}</h3>
