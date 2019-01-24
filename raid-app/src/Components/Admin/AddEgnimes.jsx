@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
-import { NavLink } from 'react-router-dom';
-
+import { NavLink, BrowserRouter } from 'react-router-dom';
+import { Route, Redirect } from 'react-router';
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {
@@ -67,7 +67,7 @@ export default class AddEgnimes extends React.Component {
     }
 
     /* Ajout des points pour cette enigme */
-    addPoints= (e) => {
+    addPoints = (e) => {
         this.setState({
             points: e.target.value
         })
@@ -119,6 +119,7 @@ export default class AddEgnimes extends React.Component {
             info: e.target.value
         })
     }
+
     /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
     submit = () => {
         axios({
@@ -137,12 +138,16 @@ export default class AddEgnimes extends React.Component {
             }
         })
             .then(function (response) {
-                console.log(response);
-            })
+                console.log(response)
+                if (response.status === 200) {
+                    window.location.href = 'ListEnigmes';
+                }
+            }
+            )
             .catch(function (error) {
                 console.log(error);
             });
-        window.location.href = 'ListEnigmes';
+
 
     }
 
@@ -231,6 +236,7 @@ export default class AddEgnimes extends React.Component {
 
                 </Card>
                 <NavLink to="/Admin/ListEnigmes"><Button>Retour</Button></NavLink>
+                {this.submit}
             </div>
         );
     }

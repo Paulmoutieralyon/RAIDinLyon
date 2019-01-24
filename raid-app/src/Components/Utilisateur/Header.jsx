@@ -46,8 +46,9 @@ export class Header extends React.Component {
             interval: function () {
 
             }
+            
         };
-
+        //this.user = this.props.match.params.id
         this.tab = []
         setInterval(() => this.tick(), 1000)
 
@@ -118,9 +119,9 @@ export class Header extends React.Component {
                         <Col>{this.leading0(this.state.seconds)}S</Col>
                     </Row>
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
-                        <ModalHeader toggle={this.toggleTimer}>Session Terminer</ModalHeader>
+                        <ModalHeader toggle={this.toggleTimer}>Session Terminée</ModalHeader>
                         <ModalBody>
-                            Bravo à Vous, les épreuves sont terminer dirigez-vous vers le point final pour le classement. Soyez content de vous !
+                            Bravo à Vous, les épreuves sont terminées, dirigez-vous vers le point final pour le classement. Soyez content de vous !
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
@@ -131,7 +132,7 @@ export class Header extends React.Component {
                     </NavbarToggler>
                 </Navbar>
                 <ul className="menuList">
-                    <li id='pts'>{this.props.points} pts</li>
+                    <li id='pts'>{this.props.scoreuser} pts</li>
                     <Link style={{ textDecoration: 'none' }} to={`/`}><li>Accueil</li></Link>
                     <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Qui sommes-nous</li></a>
                     <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Mentions légales / CGU</li></Link>
@@ -151,6 +152,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => ({
     isSliderOpen: state.reducerHeader.isSliderOpen,
+    points: state.pointManagement.points,
 })
 
 export default connect(

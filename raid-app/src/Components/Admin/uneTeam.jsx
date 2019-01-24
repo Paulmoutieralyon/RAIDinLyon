@@ -11,6 +11,7 @@ export default class uneTeam extends Component {
             equipe: null,
             button: "invisible",
             nom: null,
+            password: null,
             telephone: null,
             participants: [],
             email: null,
@@ -30,6 +31,7 @@ export default class uneTeam extends Component {
                     equipe: response.data,
                     id: response.data[0]._id,
                     score: response.data[0].score,
+                    password: response.data[0].password,
                     nom: response.data[0].nom,
                     email: response.data[0].email,
                     participants: response.data[0].participants,
@@ -102,7 +104,14 @@ export default class uneTeam extends Component {
                         </Alert>
 
                         <Alert color="dark">
+                            Mot de passe : {this.state.password}
+                        </Alert>
+
+                        <Alert color="dark">
                             Score : {this.state.score}
+                        </Alert>
+                        <Alert color="dark">
+                            Heure de fin de parcours : {this.state.h_fin}
                         </Alert>
                         <Alert color="dark">
                             Nom :
@@ -172,9 +181,6 @@ export default class uneTeam extends Component {
                                 }
                             />
                         </Alert>
-
-
-                        <h4> H de Fin : {this.state.h_fin}</h4>
                     </div>
                     : null}
 

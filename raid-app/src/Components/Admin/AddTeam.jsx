@@ -91,13 +91,14 @@ export default class AddTeam extends React.Component {
             }
         })
             .then(function (response) {
-                console.log("YES", response);
-                return <div>Ajout de l'équipe avec succès</div>
+                if (response.status === 200) {
+                    window.location.href = 'ListTeam'
+                }
             })
             .catch(function (error) {
                 console.log("MERDE", error);
             });
-            window.location.href = 'ListTeam';
+        ;
     }
 
     render() {

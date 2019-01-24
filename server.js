@@ -275,26 +275,26 @@ app.get('/api/equipe/:_id', (req, res) => {
 });
 
 // Modification des informations d'une équipe en fonction de son ID
-app.put('/api/equipes/donnees/:_id', function (req, res) {	
-    const id = req.params._id	
-    const equipe = req.body	
-    console.log('Hello la team marche', equipe)	
-    Equipe.updateInfoEquipe(id, {	
-        $set: {	
-            score: equipe.score,	
-            nom: equipe.nom,	
-            email: equipe.email,	
-            telephone: equipe.telephone,	
-            participants: equipe.participants,	
-            h_fin: equipe.h_fin,	
+app.put('/api/equipes/donnees/:_id', function (req, res) {
+    const id = req.params._id
+    const equipe = req.body
+    console.log('Hello la team marche', equipe)
+    Equipe.updateInfoEquipe(id, {
+        $set: {
+            score: equipe.score,
+            nom: equipe.nom,
+            email: equipe.email,
+            telephone: equipe.telephone,
+            participants: equipe.participants,
+            h_fin: equipe.h_fin,
 
-         }	
-    }, (err, result) => {	
-        if (err) {	
-            throw err	
-        }	
-        res.json(equipe)	
-    })	
+        }
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
 })
 
 // Comparaison de la réponse de l'utilisateur avec la réponse de l'énigme
@@ -324,7 +324,7 @@ app.put('/api/equipes/:_id', function (req, res) {
                 check: equipe.check,
                 succeed: equipe.succeed,
                 gain: equipe.gain,
-                idquestion: equipe._idQuestion,
+                _idQuestion: equipe._idQuestion,
             }
         }
     }, (err, result) => {
@@ -393,13 +393,26 @@ app.get('/api/session', function (req, res) {
     })
 })
 
-//Modification d'une session
-app.put('/api/session', function (req, res) {
-    var id = req.body.id
+//Modification de la deadline d'une session
+app.put('/api/session/modifydeadline', function (req, res) {
+    const id = req.params._id
+    var session = req.body
+    Session.updateSession(id, {
+        deadline: session.deadline,
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(session)
+    })
+})
+
+//Modification du titre d'une session
+app.put('/api/session/modifytitle', function (req, res) {
+    const id = req.params._id
     var session = req.body
     Session.updateSession(id, {
         nom: session.nom,
-        deadline: session.deadline
     }, (err, result) => {
         if (err) {
             throw err
@@ -410,10 +423,25 @@ app.put('/api/session', function (req, res) {
 
 //Modification de l'activation d'une session
 app.put('/api/session/activation', function (req, res) {
-    var id = req.body._id
+    const id = req.params._id
     var session = req.body
     Session.updateSession(id, {
         isactivate: session.isactivate
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(session)
+    })
+})
+
+//Modification du point de rencontre de fin de session
+app.put('/api/session/meetingpoint', function (req, res) {
+    const id = req.params._id
+    var session = req.body
+    console.log(session.pointrencontre)
+    Session.updateSession(id, {
+        pointrencontre: session.pointrencontre
     }, (err, result) => {
         if (err) {
             throw err
