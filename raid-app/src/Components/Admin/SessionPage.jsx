@@ -20,6 +20,7 @@ export default class SessionPage extends React.Component {
             deadline: null,
             etat: null,
             checked: null,
+            pointrencontre: ["Vide", "Vide"],
             startDate: new Date(),
             visible: "visible",
             invisible: "invisible"
@@ -41,7 +42,8 @@ export default class SessionPage extends React.Component {
                     idsession: response.data[0]._id,
                     nom: response.data[0].nom,
                     deadline: response.data[0].deadline,
-                    checked: response.data[0].isactivate
+                    checked: response.data[0].isactivate,
+                    pointrencontre: response.data[0].pointrencontre
                 })
             })
             .catch(error => {
@@ -54,9 +56,8 @@ export default class SessionPage extends React.Component {
         await this.setState({
             nom: value
         })
-        await axios.put(`http://localhost:5000/api/session`,
+        await axios.put(`http://localhost:5000/api/session/modifytitle`,
             {
-                _id: this.state.idsession,
                 nom: this.state.nom
             })
             .then(function (response) {
@@ -74,7 +75,6 @@ export default class SessionPage extends React.Component {
         await this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
         await axios.put(`http://localhost:5000/api/session/activation`,
             {
-                _id: this.state.idsession,
                 isactivate: this.state.checked
             })
             .then(function (response) {
@@ -92,11 +92,48 @@ export default class SessionPage extends React.Component {
         })
     }
 
+    async modifyLattitude(value) {
+        const newLat = this.state.pointrencontre.slice()
+        newLat[0] = value
+        await this.setState({
+            pointrencontre: newLat
+        })
+        console.log(this.state.pointrencontre)
+        await axios.put(`http://localhost:5000/api/session/meetingpoint`,
+            {
+                pointrencontre: this.state.pointrencontre
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    async modifyLongitude(value) {
+        const newLat = this.state.pointrencontre.slice()
+        newLat[1] = value
+        await this.setState({
+            pointrencontre: newLat
+        })
+        console.log(this.state.pointrencontre)
+        await axios.put(`http://localhost:5000/api/session/meetingpoint`,
+            {
+                pointrencontre: this.state.pointrencontre
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     submit = () => {
         let momentDate = moment(this.state.startDate).format("MMMM, DD, YYYY, H:mm:ss")
-        axios.put(`http://localhost:5000/api/session`,
+        axios.put(`http://localhost:5000/api/session/modifydeadline`,
             {
-                id: this.state.score,
                 deadline: momentDate
             })
             .then(function (response) {
@@ -110,7 +147,7 @@ export default class SessionPage extends React.Component {
             visible: "visible",
             invisible: "invisible"
         })
-        
+
     }
 
     render() {
@@ -130,10 +167,10 @@ export default class SessionPage extends React.Component {
                     }
                     }
                 />
-                <NavLink to="/Admin/ListEnigmes" ><Button>List Enigmes</Button></NavLink>
-                <NavLink to="/Admin/ListTeam" ><Button>List Equipes</Button></NavLink>
-                <NavLink to="/Admin/Classement" ><Button>Classement</Button></NavLink>
-                <NavLink to="/Admin/"><Button>Retour</Button></NavLink>
+                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`} ><Button>List Enigmes</Button></NavLink>
+                <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`} ><Button>List Equipes</Button></NavLink>
+                <NavLink to={`/Admin/Classement/${window.localStorage.getItem('idAdmin')}`} ><Button>Classement</Button></NavLink>
+                <NavLink to={`/Admin`}><Button>Retour</Button></NavLink>
 
                 <Breadcrumb>
                     <BreadcrumbItem active>Session {this.state.etat}</BreadcrumbItem>
@@ -154,6 +191,37 @@ export default class SessionPage extends React.Component {
                     timeIntervals={15}
                     dateFormat="MM, yyyy, dd h:mm aa"
                     timeCaption="time"
+                />
+                <p>Lieu de rendez-vous en fin de partie :</p>
+                <p>Lattitude:</p>
+                <Editable
+                    name="username"
+                    dataType="text"
+                    value={this.state.pointrencontre[0]}
+                    validate={(value) => {
+                        if (!value) {
+                            return 'Required';
+                        }
+                        else {
+                            this.modifyLattitude(value)
+                        }
+                    }
+                    }
+                />
+                <p>Longitude:</p>
+                <Editable
+                    name="username"
+                    dataType="text"
+                    value={this.state.pointrencontre[1]}
+                    validate={(value) => {
+                        if (!value) {
+                            return 'Required';
+                        }
+                        else {
+                            this.modifyLongitude(value)
+                        }
+                    }
+                    }
                 />
             </div>
         );

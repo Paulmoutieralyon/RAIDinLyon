@@ -3,7 +3,7 @@ const mangoose = require('mongoose')
 //Administrateurs Schema
 const administrateurSchema = mangoose.Schema({
     email: String,
-    mdp: String
+    password: String
 }, { collection: 'administrateur' });
 
 const Administrateur = module.exports = mangoose.model('Administrateur', administrateurSchema)

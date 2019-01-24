@@ -34,7 +34,7 @@ module.exports.addEnigme = function (enigme, callback) {
 
 // Update Enigme
 module.exports.updateEnigme = function (_id, update,callback) {
-    Enigme.findOneAndUpdate(_id, update,callback)
+    Enigme.findByIdAndUpdate(_id, update,callback)
        
 }
 

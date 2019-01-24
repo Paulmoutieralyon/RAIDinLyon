@@ -114,15 +114,16 @@ function validateform(email) {
                     telephone: this.state.telephone,
                 }
             })
-                .then(function (response) {
-                    console.log("YES", response);
-                    return <div>Ajout de l'équipe avec succès</div>
-                })
-                .catch(function (error) {
-                    console.log("MERDE", error);
-                });
-            window.location.href = 'ListTeam';
-        }
+            .then(function (response) {
+                if (response.status === 200) {
+                    window.location.href = 'ListTeam'
+                }
+            })
+            .catch(function (error) {
+                console.log("MERDE", error);
+            });
+        ;
+    }
 
         render() {
             const { errors } = this.state;
@@ -196,9 +197,12 @@ function validateform(email) {
                     <CardFooter>
                         <Button onClick={this.submitTeam} noValidate>Enregistrer les modifications</Button>
                     </CardFooter>
-                    <NavLink to="/Admin/ListTeam"><Button>Retour</Button></NavLink>
+                    <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
 
                 </div>
             );
         }
     }
+
+    
+
