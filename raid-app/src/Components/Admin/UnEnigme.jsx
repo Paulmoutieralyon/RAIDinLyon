@@ -35,6 +35,7 @@ export default class UnEnigme extends Component {
         axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
             .then(response => {
                 console.log(response)
+                console.log('ok', response.data[0].indices)
                 this.setState({
                     id: response.data[0]._id,
                     titre: response.data[0].titre,
@@ -46,7 +47,8 @@ export default class UnEnigme extends Component {
                     coordonnees: response.data[0].coordonnee,
                     info: response.data[0].info
                 })
-            });
+            })
+            .then(console.log('ok', this.state.indices))
     }
 
     modifyImage = (e) => {
