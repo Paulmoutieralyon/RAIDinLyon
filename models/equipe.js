@@ -8,6 +8,7 @@ var equipeSchema = mangoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -30,6 +31,13 @@ var equipeSchema = mangoose.Schema({
     markers: Array,
     h_fin:String
 }, { collection: 'equipe' });
+equipeSchema.post('save', function(error, doc, next) {
+    if (error.name === 'MongoError' && error.code === 11000) {
+      console.log('here was a duplicate key error')
+    } else {
+      next();
+    }
+  });
 
 var Equipe = module.exports = mangoose.model('Equipe', equipeSchema)
 
@@ -37,6 +45,7 @@ var Equipe = module.exports = mangoose.model('Equipe', equipeSchema)
 module.exports.getEquipe = function (callback, limit) {
     Equipe.find(callback).limit(limit)
 }
+
 
 // Get EquipeId
 module.exports.getEquipeById = function (id, callback) {
