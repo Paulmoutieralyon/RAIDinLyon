@@ -43,6 +43,7 @@ export class EnigmePage extends React.Component {
             info: null,
             img: "./Pierrephilosophale.jpeg",
             agagner:null,
+            image: null,
 
             //Affichage du score 
             scoregeneral: null
@@ -201,7 +202,7 @@ export class EnigmePage extends React.Component {
                     <ModalBody className='modaltexte'>{this.state.info}</ModalBody>
                 </Modal> */}
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
-                    {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
+                    {this.state.image ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
                     <p className="Titre">{this.state.enonce}</p>
                     <p className="BodyText">{this.state.texte}</p>
 
