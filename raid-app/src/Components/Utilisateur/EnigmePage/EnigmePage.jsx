@@ -35,7 +35,7 @@ export class EnigmePage extends React.Component {
             //Les états qu'on l'on fetchera
             question: null,
             titre: null,
-            texte: null,
+            enonce: null,
             reponse: null,
             indices: null,
             info: null,
@@ -64,7 +64,6 @@ export class EnigmePage extends React.Component {
                     check: this.data.check,
                     question: this.data.question,
                     titre: this.data.titre,
-                    texte: this.data.texte,
                     reponse: this.data.reponse,
                     enonce: this.data.enonce,
                     indices: this.data.indices,
@@ -247,12 +246,12 @@ export class EnigmePage extends React.Component {
         //console.log(this.props.check)
         return (
             <div class="EnigmePageContainer">
-                <Header />
+                <Header scoreuser={this.state.scoregeneral} />
                 {this.state.isLoaded ?
                     <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                         {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
-                        <p className="Titre">{this.state.enonce}</p>
-                        <p className="BodyText">{this.state.texte}</p>
+                        <h3 className="Titre">{this.state.titre}</h3>
+                        <p >{this.state.enonce}</p>
 
                         <AvForm className="reponse" onSubmit={this.isTrue}>
                             <h3 className="TitreQuestion">{this.state.question}</h3>
@@ -275,7 +274,7 @@ export class EnigmePage extends React.Component {
                             :
                             null}
                         <br />
-                        {this.state.numClickValidate === 2 ?
+                        {this.state.numClickValidate === 2 && !this.state.isResTrue ?
                             <div className="TitreQuestion"><i>
                                 Attention il ne vous reste plus qu'une tentative !!
                                 </i></div>
