@@ -43,6 +43,7 @@ export class Header extends React.Component {
             modalTimer: false,
             modalMarker: false,
             testValue: 13,
+            score: null,
             interval: function () {
 
             }
@@ -60,6 +61,15 @@ export class Header extends React.Component {
     }
 
     componentDidMount() {
+        axios.get(`http://localhost:5000/api/equipe/${window.localStorage.getItem('id')}`)
+            .then(data => {
+                this.setState({
+                    score: data.data[0].score
+                })
+            })
+            .catch(error => {
+                throw (error);
+            })
         axios.get(`http://localhost:5000/api/session`)
             .then(response => {
                 this.setState({
@@ -74,11 +84,11 @@ export class Header extends React.Component {
         });
     }
 
-    allToggle = () => {
-        this.setState({
-            modalMarker: !this.state.modalMarker
-        })
+    allToggle = (event) => {
+        
+        const {dataCallback} = this.props
         this.toggleTimer()
+        dataCallback(!this.state.modalMarker) // callback pour appler la function modalmarker
     }
 
     leading0(num) {
@@ -104,9 +114,11 @@ export class Header extends React.Component {
         if (counterCheckEnd === counterEnd) {
             this.toggleTimer()
         }
+    
     }
 
     render() {
+        const {post} = this.props
         return (
             <div className='headerContainer'>
                 <Navbar light expand="md">
