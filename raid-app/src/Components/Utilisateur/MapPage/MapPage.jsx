@@ -197,7 +197,7 @@ class MapPage extends React.Component {
                                     {this.props.enigme.map((x, i) =>
                                         <div>
 
-                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker || this.props.isSliderOpen ?
+                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
                                                 <div>
                                                     {this.saveEndTime()}
                                                     < Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
