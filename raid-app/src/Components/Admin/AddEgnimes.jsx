@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
-import { NavLink } from 'react-router-dom';
+import { NavLink, BrowserRouter } from 'react-router-dom';
+import { Route, Redirect } from 'react-router';
 
 export default class AddEgnimes extends React.Component {
     constructor(props) {
@@ -25,7 +26,7 @@ export default class AddEgnimes extends React.Component {
         this.Clue3 = null;
         this.fileInput = React.createRef();
     }
-        /*Chargement de l'image*/
+    /*Chargement de l'image*/
 
     submitFile = (event) => {
         event.preventDefault();
@@ -43,17 +44,17 @@ export default class AddEgnimes extends React.Component {
             .then(result => {
                 console.log(result)
             })
-            this.submit();
+        this.submit();
     }
 
     /* Ajout d'une image */
     modifyImage = (e) => {
-         this.setState({
+        this.setState({
             image: e.target.value
-         })
-     }
+        })
+    }
 
-     addImg = (e) => {
+    addImg = (e) => {
         this.setState({
             responses: e.target.value
         })
@@ -61,7 +62,7 @@ export default class AddEgnimes extends React.Component {
     }
 
 
-    
+
 
     /* Modification du titre*/
     modifyTitle = (e) => {
@@ -93,7 +94,13 @@ export default class AddEgnimes extends React.Component {
         this.setState({
             responses: e.target.value
         })
-        console.log(this.state.responses)
+    }
+
+    /* Ajout des points pour cette enigme */
+    addPoints = (e) => {
+        this.setState({
+            points: e.target.value
+        })
     }
 
 
@@ -107,7 +114,6 @@ export default class AddEgnimes extends React.Component {
         const indices = this.state.indices.slice()
         indices[0] = e.target.value
         this.setState({ indices: indices })
-
     }
 
     add2Clue = (e) => {
@@ -128,53 +134,67 @@ export default class AddEgnimes extends React.Component {
 
     modifyLat = (e) => {
         const newLat = this.state.coordonnees.slice()
-        newLat[0] = e.target.value
+        newLat[0] = parseFloat(e.target.value)
         this.setState({ coordonnees: newLat })
     }
     modifyLong = (e) => {
         const newLong = this.state.coordonnees.slice()
-        newLong[1] = e.target.value
+        newLong[1] = parseFloat(e.target.value)
         this.setState({ coordonnees: newLong })
     }
-
     modifyInfo = (e) => {
         this.setState({
             info: e.target.value
         })
     }
+
     /* Soumissions de l'énigme - Stockage de celle ci en base de donnée */
     submit = (e) => {
         e.preventDefault()
         console.log(this.fileInput)
         const data = new FormData();
-        Object.entries({
+        console.log(this.state.coordonnees)
+        // Object.entries({
+        //     titre: this.state.titre,
+        //     question: this.state.question,
+        //     enonce: this.state.enonce,
+        //     indices: this.state.indices,
+        //     info: this.state.info,
+        //     img: this.state.image,
+        //     reponse: this.state.responses,
+        // }).map(entry => {
+        //     data.append(entry[0], entry[1]);
+        // })
+        // data.append('indices', JSON.stringify(this.state.indices))
+        // data.append('coordonnee', JSON.stringify(this.state.coordonnees))
+        data.append('image', this.fileInput.current.files[0])
+        data.append('body',JSON.stringify({
                 titre: this.state.titre,
                 question: this.state.question,
                 enonce: this.state.enonce,
                 indices: this.state.indices,
                 info: this.state.info,
-                coordonnee: this.state.coordonnees,
                 img: this.state.image,
                 reponse: this.state.responses,
-            }).map(entry => data.append(entry[0], entry[1]));
+                coordonnee :this.state.coordonnees
+            }))
 
-        // data.append()
-        data.append('image', this.fileInput.current.files[0]);
-
-       
         axios({
             method: 'post',
             url: 'http://localhost:5000/api/enigmes',
             data
         })
             .then(function (response) {
-                console.log(response);
-            })
+                console.log(response)
+                if (response.status === 200) {
+                    //window.location.href = 'ListEnigmes';
+                }
+            }
+            )
             .catch(function (error) {
                 console.log(error);
             });
-        window.location.href = 'ListEnigmes';
-
+        //window.location.href = 'ListEnigmes';
     }
 
     /*onChange = (e) => {
@@ -206,7 +226,7 @@ export default class AddEgnimes extends React.Component {
     //         })
     // }
 
-    
+
 
     render() {
         //console.log(this.state.indices)
@@ -299,9 +319,8 @@ export default class AddEgnimes extends React.Component {
 
                 <Card body>
                     <Button onClick={this.submit}>Enregistrer les modifications</Button>
-
                 </Card>
-                <NavLink to="/Admin/ListEnigmes"><Button>Retour</Button></NavLink>
+                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
             </div>
         );
     }

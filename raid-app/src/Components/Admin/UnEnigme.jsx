@@ -24,7 +24,7 @@ export default class UnEnigme extends Component {
             image: null,
             id: null
         }
-        this.page = this.props.match.params._id;
+        this.page = this.props.match.params.id;
         this.addResp = [];
         this.Clue1 = null;
         this.Clue2 = null;
@@ -35,6 +35,7 @@ export default class UnEnigme extends Component {
         axios.get(`http://localhost:5000/api/enigmes/${this.page}`)
             .then(response => {
                 console.log(response)
+                console.log('ok', response.data[0].indices)
                 this.setState({
                     id: response.data[0]._id,
                     titre: response.data[0].titre,
@@ -46,7 +47,8 @@ export default class UnEnigme extends Component {
                     coordonnees: response.data[0].coordonnee,
                     info: response.data[0].info
                 })
-            });
+            })
+            .then(console.log('ok', this.state.indices))
     }
 
     modifyImage = (e) => {
@@ -152,11 +154,11 @@ export default class UnEnigme extends Component {
     render() {
         return (
             <div>
-                
+
                 {this.state.titre ?
                     <div>
                         <Alert color="dark">
-                        Id de l'énigme : {this.state.id}
+                            Id de l'énigme : {this.state.id}
                         </Alert>
                         <Alert color="dark">
                             Titre :
@@ -338,8 +340,8 @@ export default class UnEnigme extends Component {
                         </Alert>
                     </div>
                     : null}
-                <NavLink to='/Admin/ListEnigmes'>
-                    <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
                     <Button>Retour</Button>
                 </NavLink>
             </div>
