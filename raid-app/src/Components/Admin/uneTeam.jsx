@@ -19,7 +19,7 @@ export default class uneTeam extends Component {
             id: null,
 
         }
-        this.page = this.props.match.params._id
+        this.page = this.props.match.params.id
     }
 
     componentDidMount() {
@@ -37,7 +37,7 @@ export default class uneTeam extends Component {
                     h_fin: response.data[0].h_fin,
                 })
             });
-            console.log(this.state.participants)
+        console.log(this.state.participants)
     }
 
     modifyNom = (value) => {
@@ -57,7 +57,7 @@ export default class uneTeam extends Component {
     modifyParticipants = (value) => {
         let valeur = value.split()
         this.setState({
-            participants : valeur,
+            participants: valeur,
             button: "visible"
         })
     }
@@ -178,7 +178,7 @@ export default class uneTeam extends Component {
                     </div>
                     : null}
 
-                <NavLink to='/Admin/ListTeam'>
+                <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}>
                     <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
                     <Button>Retour</Button>
                 </NavLink>

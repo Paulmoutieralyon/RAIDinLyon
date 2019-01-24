@@ -110,7 +110,7 @@ export default class SessionPage extends React.Component {
             visible: "visible",
             invisible: "invisible"
         })
-        
+
     }
 
     render() {
@@ -130,10 +130,10 @@ export default class SessionPage extends React.Component {
                     }
                     }
                 />
-                <NavLink to="/Admin/ListEnigmes" ><Button>List Enigmes</Button></NavLink>
-                <NavLink to="/Admin/ListTeam" ><Button>List Equipes</Button></NavLink>
-                <NavLink to="/Admin/Classement" ><Button>Classement</Button></NavLink>
-                <NavLink to="/Admin/"><Button>Retour</Button></NavLink>
+                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`} ><Button>List Enigmes</Button></NavLink>
+                <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`} ><Button>List Equipes</Button></NavLink>
+                <NavLink to={`/Admin/Classement/${window.localStorage.getItem('idAdmin')}`} ><Button>Classement</Button></NavLink>
+                <NavLink to={`/Admin`}><Button>Retour</Button></NavLink>
 
                 <Breadcrumb>
                     <BreadcrumbItem active>Session {this.state.etat}</BreadcrumbItem>

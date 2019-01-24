@@ -16,8 +16,8 @@ const userID = require('./keys').userID
 const userPass = require('./keys').userPass
 
 mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwild`, {
-        useNewUrlParser: true
-    })
+    useNewUrlParser: true
+})
     .then(() => console.log('MongoDB Connected WOAW'))
     .catch(err => console.log("Error :", err, "IT DOESNT FUCKING WORK"))
 
@@ -119,13 +119,15 @@ app.use(morgan('dev'));
 // get an instance of the router for api routes
 const apiRoutes = express.Router();
 
-// route to authenticate a user (POST http://localhost:5000/api/authenticate)
-apiRoutes.post('/authenticate', function (req, res) {
+
+/*
+AUTHENTIFICATION USER
+*/
+apiRoutes.post('/authenticateUser', function (req, res) {
     // find the user
     Equipe.findOne({
         email: req.body.email
     }, function (err, user) {
-        console.log("is it ok ?")
         if (err) throw err;
 
         if (!user) {
@@ -167,31 +169,53 @@ apiRoutes.post('/authenticate', function (req, res) {
     })
 });
 
-/* // route middleware to verify a token
-apiRoutes.use(function (req, res, next) {
-    // check header or url parameters or post parameters for token
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
-    window.localStorage.getItem("token")
-    // decode token
-    if (token) {
-        // verifies secret and checks exp
-        jwt.verify(token, app.get('superSecret'), function (err, decoded) {
-            if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
+/*FIN AUTHENTIFICATION USER*/
+
+
+/*
+AUTHENTIFICATION ADMIN
+*/
+apiRoutes.post('/authenticateAdmin', function (req, res) {
+    // find the user
+    Administrateur.findOne({
+        email: req.body.email
+    }, function (err, user) {
+        if (err) throw err;
+
+        if (!user) {
+            res.json({ success: false, message: 'Authentication failed. User not found.' });
+        } else if (user) {
+
+            // check if password matches
+            if (user.password != req.body.password) {
+                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
             } else {
-                // if everything is good, save to request for use in other routes
-                req.decoded = decoded; next();
+
+                // if user is found and password is right
+                // create a token with only our given payload
+                // we don't want to pass in the entire user since that has the password
+                const payload = {
+                    email: user.email
+                };
+                const token = jwt.sign(payload, app.get('superSecret'), {
+                    expiresIn: 1440 // expires in 24 hours
+                });
+                const id = user._id
+
+                // return the information including token as JSON
+                res.json({
+                    success: true,
+                    message: 'Enjoy your token!',
+                    token: token,
+                    id: id
+                });
             }
-        });
-    } else {
-        // if there is no token
-        // return an error
-        return res.status(403).send({
-            success: false,
-            message: 'No token provided.'
-        });
-    }
-}); */
+        }
+
+    })
+});
+
+/*FIN AUTHENTIFICATION ADMIN*/
 
 // route to show a random message 
 apiRoutes.get('/', function (req, res) {
@@ -203,8 +227,8 @@ apiRoutes.get('/', function (req, res) {
 // route to return all users 
 apiRoutes.get('/users', function (req, res) {
     Equipe.findOne({
-            //email: req.body.email
-        })
+        //email: req.body.email
+    })
         .then(equipe => res.json(equipe))
 });
 // apply the routes to our application with the prefix /api
@@ -285,8 +309,9 @@ app.post('/api/image', upload.single('image'), async (req, res) => {
 app.post('/api/enigmes',
     upload.single('image'),
     function (req, res) {
-        const enigme = { ...req.body,
-            img:req.file.path
+        const enigme = {
+            ...req.body,
+            img: req.file.path
         }
         console.log(enigme)
         Enigme.addEnigme(enigme, function (err, enigme) {
@@ -382,6 +407,40 @@ app.put('/api/equipes/:_id', function (req, res) {
     })
 })
 
+// Récupération d'un équipe grâce a son ID
+app.get('/api/equipe/:_id', (req, res) => {
+    let id = ObjectId(req.params._id)
+    Equipe.find({ _id: id }, (err, items) => {
+        if (err) res.status(500).send(err)
+
+        res.status(200).json(items);
+    });
+});
+
+// Modification des informations d'une équipe en fonction de son ID
+app.put('/api/equipes/donnees/:_id', function (req, res) {
+    const id = req.params._id
+    const equipe = req.body
+    console.log('Hello la team marche', equipe)
+    Equipe.updateInfoEquipe(id, {
+        $set: {
+            score: equipe.score,
+            nom: equipe.nom,
+            email: equipe.email,
+            telephone: equipe.telephone,
+            participants: equipe.participants,
+            h_fin: equipe.h_fin,
+
+        }
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
+// Comparaison de la réponse de l'utilisateur avec la réponse de l'énigme
 app.post('/api/equipes/:_id', function (req, res) {
     let id = req.params._id
     Equipe.getEquipeById(id, function (err, equipe) {
