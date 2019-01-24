@@ -9,6 +9,7 @@ import axios from 'axios'
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js'
+import moment from 'moment'
 import {
     Container,
     Collapse,
@@ -163,6 +164,19 @@ class MapPage extends React.Component {
         this.setState({ modalMarker: modalMarkerState })
     }
 
+    saveEndTime = () => {
+        axios.put(`http://localhost:5000/api/equipes/donnees/${window.localStorage.getItem('id')}`, {
+            h_fin: moment().format()
+        })
+            .then(function (response) {
+                console.log("L'envoi a fonctionné", response);
+            })
+            .catch(function (error) {
+                console.log("L'envoi n'a PAS fonctionné", error);
+            });
+    }
+
+
     render() {
         return (
             <div className="mapPageContainer">
@@ -182,13 +196,16 @@ class MapPage extends React.Component {
                                 <div>
                                     {this.props.enigme.map((x, i) =>
                                         <div>
-                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
 
-                                                <Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
-                                                    <Popup>
-                                                        <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
-                                                    </Popup>
-                                                </Marker>
+                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
+                                                <div>
+                                                    {this.saveEndTime()}
+                                                    < Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
+                                                        <Popup>
+                                                            <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
+                                                        </Popup>
+                                                    </Marker>
+                                                </div>
                                                 :
                                                 <Marker
                                                     icon={this.selectColorIcon(this.props.enigme[i]._id, this.data)}

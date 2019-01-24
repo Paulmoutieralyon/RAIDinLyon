@@ -3,7 +3,21 @@ import { Button, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
 import { NavLink, BrowserRouter } from 'react-router-dom';
 import { Route, Redirect } from 'react-router';
+import ReactDOM from "react-dom";
 
+function validateform(enonce, lat, long){
+    const errors = [];
+    if (enonce.length === 0) {
+        errors.push("L'ennonce doit être remplis");
+    }
+    if (lat.length === 0) {
+        errors.push("La Latitude doit être remplis");
+    }
+    if (long.length === 0) {
+        errors.push("La longitude doit être remplis");
+    }
+    return errors;
+}
 export default class AddEgnimes extends React.Component {
     constructor(props) {
         super(props);
@@ -16,6 +30,7 @@ export default class AddEgnimes extends React.Component {
             responses: null,
             nouvelindice: null,
             indices: [],
+            errors: [],
             info: null,
             image: null,
             selectedFile: null,
@@ -40,6 +55,8 @@ export default class AddEgnimes extends React.Component {
             }
         };
         console.log('up', data)
+
+
         axios.post('http://localhost:5000/api/image', data, config)
             .then(result => {
                 console.log(result)
@@ -179,6 +196,16 @@ export default class AddEgnimes extends React.Component {
                 coordonnee :this.state.coordonnees
             }))
 
+
+        const enonce = ReactDOM.findDOMNode(this._enonceInput).value;
+        const lat = ReactDOM.findDOMNode(this._latInput).value;
+        const long = ReactDOM.findDOMNode(this._longInput).value;
+
+        const errors = validateform (enonce, lat, long);
+        if (errors.length > 0) {
+            this.setState({errors});
+            return
+        }
         axios({
             method: 'post',
             url: 'http://localhost:5000/api/enigmes',
@@ -229,6 +256,7 @@ export default class AddEgnimes extends React.Component {
 
 
     render() {
+        const { errors } = this.state;
         //console.log(this.state.indices)
         const token = localStorage.getItem('token');
         return (
@@ -251,7 +279,7 @@ export default class AddEgnimes extends React.Component {
                     <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyImage} />
                 </FormGroup>*/}
                 <form>
-                    <FormGroup>
+                    <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
                         <Label for="exampleFile">File</Label>
                         <input type="file" name="file" id="exampleFile" ref={this.fileInput} />
                         <FormText color="muted">
@@ -266,11 +294,14 @@ export default class AddEgnimes extends React.Component {
 
                     <FormGroup>
                         <Label for="exampleText">Énoncé</Label>
-                        <Input type="textarea" name="text" id="exampleText" onChange={this.modifyAnnouncement} />
+                        <Input type="textarea" name="text" id="exampleText" 
+                        ref={enonceInput => (this._enonceInput = enonceInput)}
+                        onChange={this.modifyAnnouncement} />
                     </FormGroup>
 
                     <FormGroup>
                         <Label for="exampleText">Question</Label>
+                        <small className="obligatoire"> (*obligatoire)</small>
                         <Input type="textarea" name="text" id="exampleText" onChange={this.modifyQuestion} />
                     </FormGroup>
 
@@ -305,11 +336,17 @@ export default class AddEgnimes extends React.Component {
                     <h3>Localisation</h3>
                     <FormGroup>
                         <Label for="exampleEmail">Lattitude</Label>
-                        <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyLat} />
+                        <small className="obligatoire"> (*obligatoire)</small>
+                        <Input type="titre" name="titre" id="titreennigme" 
+                        ref={latInput => (this._latInput = latInput)}
+                        onChange={this.modifyLat} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="exampleEmail">Longitude</Label>
-                        <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyLong} />
+                        <small className="obligatoire"> (*obligatoire)</small>
+                        <Input type="titre" name="titre" 
+                        ref={longInput => (this._longInput = longInput)}
+                        id="titreennigme" onChange={this.modifyLong} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="exampleEmail">Règles du lieu</Label>

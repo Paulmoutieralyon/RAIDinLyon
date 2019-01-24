@@ -403,6 +403,7 @@ app.get('/api/equipe/:_id', (req, res) => {
     });
 });
 
+
 // Modification des informations d'une équipe en fonction de son ID
 app.put('/api/equipes/donnees/:_id', function (req, res) {
     const id = req.params._id
@@ -416,7 +417,6 @@ app.put('/api/equipes/donnees/:_id', function (req, res) {
             telephone: equipe.telephone,
             participants: equipe.participants,
             h_fin: equipe.h_fin,
-
         }
     }, (err, result) => {
         if (err) {
