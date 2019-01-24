@@ -86,10 +86,8 @@ export default class AddTeam extends React.Component {
                 nom: this.state.nom,
                 email: this.state.email,
                 password: password,
-                token: null,
                 participants: this.state.participants,
                 telephone: this.state.telephone,
-                h_fin: 0,
             }
         })
             .then(function (response) {

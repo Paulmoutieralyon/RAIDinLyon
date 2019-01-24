@@ -3,7 +3,6 @@ import reducerEnigmePage from './Utilisateur/EnigmePage/reducerEnigmePage'
 import reducerHomePage from './Utilisateur/HomePage/reducerHomePage'
 import pointManagement from './Utilisateur/HomePage/pointManagement'
 import reducerMapPage from './Utilisateur/MapPage/reducerMapPage'
-import titleManagement from './Utilisateur/MapPage/titleManagement'
 import reducerHeader from './Utilisateur/reducerHeader'
 
 import reducerMongoAdministrateur from './reducerMongoAdministrateur'
@@ -18,7 +17,6 @@ const allReducers = combineReducers({
     reducerHomePage: reducerHomePage,
     pointManagement: pointManagement,
     reducerMapPage: reducerMapPage,
-    titleManagement: titleManagement,
 
     reducerMongoAdministrateur: reducerMongoAdministrateur,
     reducerMongoEnigmes: reducerMongoEnigmes,

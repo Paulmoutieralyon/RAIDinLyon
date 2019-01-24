@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
-import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
 import './MapPage.css'
 import L from 'leaflet'
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
@@ -41,9 +40,9 @@ class MapPage extends React.Component {
             loaded: true,
             countAnswer: 0,
             isOpenT: false,
-            deadline: 'January, 16, 2019, 18:00:00', // Choix : date et heure de fin
+            //deadline: 'January, 16, 2019, 18:00:00', // Choix : date et heure de fin
             hourEnd: '0',
-            minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
+            minEnd: '1', // Choix : temps de fin (ex : fin 30min avant 13h ) 
             secEnd: '0',
             hours: 0,
             minutes: 0,
@@ -99,32 +98,13 @@ class MapPage extends React.Component {
             })
     }
 
-    /* async componentWillMount() {
-        console.log(this.props.match.params._id)
-        await axios.get(`http://localhost:5000/api/equipe/${window.localStorage.getItem("id")}`)
-            .then(data => {
-                console.log("KARABA: ", data)
-                if (data.data.length >= 0) {
-                    this.data = data.data[0].enigmes
-                    if (this.data === []) {
-                        this.setState({
-                            loadedEnigmeEquipe: false
-                        })
-                    } else {
-                        this.setState({
-                            loadedEnigmeEquipe: true
-                        })
-                    }
-                    //console.log("DATA: ", data.data[0].enigmes)
-                    //console.log("OoOoO: ", this.data) 
-
-                }
-
-            })
-            .catch(error => {
-                throw (error);
-            })
-    } */
+    allToggle = () => {
+        console.log('tous ca ne mrche')
+        this.setState({
+            modalMarker: !this.state.modalMarker
+        })
+        this.toggleTimer()
+    }
 
     areAllAnswersTrue = () => {
         for (let i = 0; i < this.props.enigme.length; i++) {
@@ -153,15 +133,18 @@ class MapPage extends React.Component {
         return (degrees * Math.PI) / 180;
     }
     selectColorIcon(questionId, allQuestionAnswered) {
-        if(!allQuestionAnswered) return iconBlack;
-
-        const questionAnwered = allQuestionAnswered.find(question => questionId ===question.idquestion);
-        if(questionAnwered)
+        if (!allQuestionAnswered) return iconBlack;
+        const questionAnwered = allQuestionAnswered.find(question => questionId === question._idQuestion);
+        if (questionAnwered)
             if (questionAnwered.succeed) return iconGreen
             else return iconRed
         else
             return iconBlack
     }
+    handleModalCallback = (modalMarkerState) => {
+        this.setState({ modalMarker: modalMarkerState })
+    }
+
     render() {
         console.log("thisData: ", this.data)
         console.log("propsEnigme: ", this.props.enigme)
@@ -169,7 +152,9 @@ class MapPage extends React.Component {
 
         return (
             <div className="mapPageContainer">
-                <Header />
+                <Header
+                    dataCallback={this.handleModalCallback}
+                />
 
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">
@@ -183,16 +168,17 @@ class MapPage extends React.Component {
                                     {this.props.enigme.map((x, i) =>
                                         <div>
                                             {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
+
                                                 <Marker position={[45.758473, 4.859238]}>
                                                     <Popup>
                                                         <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
                                                     </Popup>
                                                 </Marker>
                                                 :
-                                                <Marker 
-                                                icon={this.selectColorIcon(this.props.enigme[i]._id, this.data)} 
-                                                position={this.props.enigme[i].coordonnee.map(Number)} 
-                                                onClick={() => this.toggle(i)}
+                                                <Marker
+                                                    icon={this.selectColorIcon(this.props.enigme[i]._id, this.data)}
+                                                    position={this.props.enigme[i].coordonnee.map(Number)}
+                                                    onClick={() => this.toggle(i)}
                                                 >
                                                     <Modal
                                                         className="Modale-content"
@@ -211,7 +197,7 @@ class MapPage extends React.Component {
                                                     </Modal>
                                                 </Marker>
                                             }
-                                            </div>
+                                        </div>
                                     )}
                                 </div>
                                 :
@@ -234,9 +220,6 @@ const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
         enigmesFetch: bindActionCreators(enigmesFetch, dispatch),
-        goodTitle: bindActionCreators(goodTitle, dispatch),
-        badTitle: bindActionCreators(badTitle, dispatch),
-        actualTitle: bindActionCreators(actualTitle, dispatch),
         displayEnigmeAction: bindActionCreators(displayEnigmeAction, dispatch)
     }
 }
@@ -247,13 +230,9 @@ const mapStateToProps = state => ({
     lng1: state.reducerMapPage.lng1,
     eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
-
-    title: state.titleManagement.title,
-
     enigme: state.reducerMongoEnigmes.enigme,
     check: state.reducerMongoEnigmes.check,
     points: state.pointManagement.points,
-
     isSliderOpen: state.reducerHeader.isSliderOpen,
 })
 
