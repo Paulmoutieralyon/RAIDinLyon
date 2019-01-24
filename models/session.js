@@ -5,7 +5,7 @@ var sessionSchema = mangoose.Schema({
     _id: mangoose.Schema.Types.ObjectId,
     nom:String,
     isactivate:Boolean,
-    deadline:Date
+    deadline:String
 }, { collection: 'session' });
 
 var Session = module.exports = mangoose.model('Session', sessionSchema)
