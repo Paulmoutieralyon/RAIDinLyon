@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
 import axios from 'axios'
 import { NavLink } from 'react-router-dom';
+import  { Redirect } from 'react-router-dom'
 
 
 export default class AddEgnimes extends React.Component {
@@ -143,6 +144,7 @@ export default class AddEgnimes extends React.Component {
                 console.log(error);
             });
         window.location.href = 'ListEnigmes';
+        return <Redirect to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`} />
 
     }
 

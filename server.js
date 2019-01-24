@@ -105,8 +105,8 @@ AUTHENTIFICATION ADMIN
 */
 apiRoutes.post('/authenticateAdmin', function (req, res) {
     // find the user
-    console.log("PUTE",req.body)
-    console.log("SALOPE",req.body.email)
+    console.log("1",req.body)
+    console.log("2",req.body.email,req.body.password)
     Administrateur.findOne({
         email: req.body.email
     }, function (err, admin) {
