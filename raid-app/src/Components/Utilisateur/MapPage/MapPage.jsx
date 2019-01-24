@@ -51,7 +51,7 @@ class MapPage extends React.Component {
             timeoff: false,
             modal: false,
             scoreuser:null,
-            pointrencontre: [],
+            pointrencontre: [1,4],
             activationsession: null,
             modalMarker: false,
             interval: function () {
@@ -81,6 +81,7 @@ class MapPage extends React.Component {
                     pointrencontre: response.data[0].pointrencontre,
                     activationsession: response.data[0].isactivate
                 })
+                console.log(this.state.pointrencontre)
             })
             .catch(error => {
                 throw (error);
