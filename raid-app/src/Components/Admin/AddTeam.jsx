@@ -1,16 +1,30 @@
 import React from 'react';
 import { CardFooter, Button, Input, Label, FormGroup } from 'reactstrap';
-import axios from 'axios'
+import axios from 'axios';
+import ReactDOM from "react-dom";
 import { NavLink } from 'react-router-dom';
 import generator from 'generate-password'
 
-
+function validateform(email) {
+    const errors = [];
+    if (email.length === 0) {
+        errors.push("Email doit être remplis");
+    }
+    if (email.split("").filter(x => x === "@").length !== 1) {
+        errors.push("Email should contain a @");
+    }
+    if (email.indexOf(".") === -1) {
+        errors.push("Email should contain at least one dot");
+      }
+        return errors;
+    }
 export default class AddTeam extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nom: null,
             participants: [],
+            errors: [],
             email: null,
             telephone: null
         };
@@ -78,6 +92,13 @@ export default class AddTeam extends React.Component {
             numbers: true,
             uppercase: false
         });
+        const email = ReactDOM.findDOMNode(this._emailInput).value;
+
+            const errors = validateform (email);
+            if (errors.length > 0) {
+                this.setState({errors});
+                return
+            }
         axios({
             method: 'post',
             url: 'http://localhost:5000/api/equipes',
@@ -102,19 +123,23 @@ export default class AddTeam extends React.Component {
     }
 
     render() {
+        const { errors } = this.state;
         return (
             <div>
 
                 <h3>Création d'une équipe </h3>
 
-                <FormGroup>
+                <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
                     <Label for="exampleEmail">Titre de l'équipe</Label>
                     <Input required type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
                 </FormGroup>
 
                 <FormGroup>
                     <Label for="exampleEmail">E-mail de l'équipe</Label>
-                    <Input type="email" name="email" id="emailequipe" onChange={this.modifyEmail} />
+                    <small className="obligatoire"> (*obligatoire)</small>
+                    <Input type="email" name="email" id="emailequipe" 
+                    ref={emailInput => (this._emailInput = emailInput)}
+                    onChange={this.modifyEmail} />
                 </FormGroup>
 
                 <FormGroup>
