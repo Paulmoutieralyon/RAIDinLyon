@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
-import { goodTitle, badTitle, actualTitle } from '../../../Actions/Utilisateur/titleManagement_action.jsx'
 import './MapPage.css'
 import L from 'leaflet'
 import axios from 'axios'
@@ -50,10 +49,13 @@ class MapPage extends React.Component {
             seconds: 0,
             timeoff: false,
             modal: false,
-            scoreuser:null,
-            pointrencontre: [1,4],
+            scoreuser: null,
+            pointrencontre: [1, 4],
             activationsession: null,
             modalMarker: false,
+            succeed: false,
+            loadedEnigmeEquipe: false,
+            isSuccess: false,
             interval: function () {
 
             }
@@ -88,10 +90,26 @@ class MapPage extends React.Component {
             });
         axios.get(`http://localhost:5000/api/equipe/${this.user}`)
             .then(data => {
+                console.log("HALLO :", this.user)
                 let score = data.data[0]
                 this.setState({
                     scoreuser: score.score
                 })
+                if (data.data.length >= 0) {
+                    this.data = data.data[0].enigmes
+                    if (this.data === []) {
+                        this.setState({
+                            loadedEnigmeEquipe: false
+                        })
+                    } else {
+                        this.setState({
+                            loadedEnigmeEquipe: true
+                        })
+                    }
+                    //console.log("DATA: ", data.data[0].enigmes)
+                    //console.log("OoOoO: ", this.data) 
+
+                }
             })
             .catch(error => {
                 throw (error);
@@ -132,17 +150,25 @@ class MapPage extends React.Component {
     toRadian(degrees) {
         return (degrees * Math.PI) / 180;
     }
-
+    selectColorIcon(questionId, allQuestionAnswered) {
+        if (!allQuestionAnswered) return iconBlack;
+        const questionAnwered = allQuestionAnswered.find(question => questionId === question._idQuestion);
+        if (questionAnwered)
+            if (questionAnwered.succeed) return iconGreen
+            else return iconRed
+        else
+            return iconBlack
+    }
     handleModalCallback = (modalMarkerState) => {
-        this.setState({ modalMarker: modalMarkerState})
+        this.setState({ modalMarker: modalMarkerState })
     }
 
     render() {
         return (
             <div className="mapPageContainer">
                 <Header
-                dataCallback={this.handleModalCallback}
-                scoreuser={this.state.scoreuser} 
+                    dataCallback={this.handleModalCallback}
+                    scoreuser={this.state.scoreuser}
                 />
 
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
@@ -154,38 +180,44 @@ class MapPage extends React.Component {
                             />
                             {this.state.loaded ?
                                 <div>
-                                     {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ? 
-                                     
-                                        <Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
-                                            <Popup>
-                                                <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
-                                            </Popup>
-                                        </Marker>
-                                        :
+                                    {this.props.enigme.map((x, i) =>
                                         <div>
-                                        {this.props.enigme.map((x, i) =>
-                                            
-                                                    <Marker position={this.props.enigme[i].coordonnee.map(Number)} onClick={() => this.toggle(i)}>
-                                                        <Modal
-                                                            className="Modale-content"
-                                                            isOpen={this.state.modal === i}
-                                                            toggle={this.toggle}
-                                                        >
-                                                            <ModalHeader toggle={this.toggle}>
-                                                                <p>{this.props.enigme[i].titre}</p>
-                                                            </ModalHeader>
-                                                            <ModalBody className="modaltexte">
-                                                                <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
-                                                                    {" "}
-                                                                    <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
-                                                                </NavLink>
-                                                            </ModalBody>
-                                                        </Modal>
-                                                    </Marker>
-                                        )}
+                                            {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
+
+                                                <Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
+                                                    <Popup>
+                                                        <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
+                                                    </Popup>
+                                                </Marker>
+                                                :
+                                                <Marker
+                                                    icon={this.selectColorIcon(this.props.enigme[i]._id, this.data)}
+                                                    position={this.props.enigme[i].coordonnee.map(Number)}
+                                                    onClick={() => this.toggle(i)}
+                                                >
+                                                    <Modal
+                                                        className="Modale-content"
+                                                        isOpen={this.state.modal === i}
+                                                        toggle={this.toggle}
+                                                    >
+                                                        <ModalHeader toggle={this.toggle}>
+                                                            <p>{this.props.enigme[i].titre}</p>
+                                                        </ModalHeader>
+                                                        <ModalBody className="modaltexte">
+                                                            <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
+                                                                {" "}
+                                                                <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                            </NavLink>
+                                                        </ModalBody>
+                                                    </Modal>
+                                                </Marker>
+                                            }
                                         </div>
-                                     }
-                                </div> : null}
+                                    )}
+
+                                </div>
+                                :
+                                null}
                             <Marker icon={iconYou} position={this.props.currentPosition}>
                                 <Circle
                                     center={this.props.currentPosition}
@@ -204,9 +236,6 @@ const mapDispatchToProps = dispatch => {
     return {
         getPosition: bindActionCreators(getPosition, dispatch),
         enigmesFetch: bindActionCreators(enigmesFetch, dispatch),
-        goodTitle: bindActionCreators(goodTitle, dispatch),
-        badTitle: bindActionCreators(badTitle, dispatch),
-        actualTitle: bindActionCreators(actualTitle, dispatch),
         displayEnigmeAction: bindActionCreators(displayEnigmeAction, dispatch)
     }
 }
@@ -217,13 +246,9 @@ const mapStateToProps = state => ({
     lng1: state.reducerMapPage.lng1,
     eg1: state.reducerMapPage.eg1,
     currentPosition: state.reducerMapPage.currentPosition,
-
-    title: state.titleManagement.title,
-
     enigme: state.reducerMongoEnigmes.enigme,
     check: state.reducerMongoEnigmes.check,
     points: state.pointManagement.points,
-
     isSliderOpen: state.reducerHeader.isSliderOpen,
 })
 
