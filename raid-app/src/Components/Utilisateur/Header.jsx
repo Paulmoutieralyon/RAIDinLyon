@@ -9,7 +9,6 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody,
-    NavLink,
     Navbar,
     NavbarToggler,
     NavbarBrand,
@@ -19,7 +18,7 @@ import {
 } from "reactstrap"
 import './MapPage/MapPage.css'
 import './Header.css'
-import { FaCompass } from 'react-icons/fa'
+import { FaBars } from 'react-icons/fa'
 import { slideHeader } from '../../Actions/Utilisateur/headerActions'
 
 export class Header extends React.Component {
@@ -140,7 +139,7 @@ export class Header extends React.Component {
                         </ModalFooter>
                     </Modal>
                     <NavbarToggler onClick={this.props.slideHeader}>
-                        <FaCompass style={{ color: '#c6c6c6' }} />
+                        <FaBars style={{ color: '#c6c6c6' }} />
                     </NavbarToggler>
                 </Navbar>
                 <ul className="menuList">
