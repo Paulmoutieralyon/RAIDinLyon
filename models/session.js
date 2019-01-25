@@ -6,6 +6,7 @@ var sessionSchema = mangoose.Schema({
     nom:String,
     isactivate:Boolean,
     deadline:String,
+    activetimer:Boolean,
     pointrencontre:Array,
 }, { collection: 'session' });
 
