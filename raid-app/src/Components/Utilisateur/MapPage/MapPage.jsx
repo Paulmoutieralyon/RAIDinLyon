@@ -11,26 +11,10 @@ import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js'
 import moment from 'moment'
 import {
-    Container,
-    Collapse,
     Modal,
     ModalHeader,
-    ModalFooter,
-    ModalBody,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Button,
-    Row,
-    Col,
-    Nav,
-    NavItem,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
-} from "reactstrap";
-import { FaCompass } from 'react-icons/fa';
+    ModalBody
+} from "reactstrap"
 import Header from '../Header'
 
 class MapPage extends React.Component {
