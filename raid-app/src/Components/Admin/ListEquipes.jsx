@@ -3,7 +3,7 @@ import './ListEquipes.css'
 import { BrowserRouter, NavLink } from 'react-router-dom';
 import { Modal, ModalBody, ModalFooter, Breadcrumb, Card, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 import axios from 'axios';
-import trash from './trash.jpg'
+import trash from './trash.png'
 
 import "react-toggle-component/styles.css"
 
@@ -27,6 +27,7 @@ export default class ListEquipes extends React.Component {
                     equipe: response.data
 
                 })
+                console.log(response.data)
             })
             .catch(error => {
                 throw (error);
@@ -39,7 +40,7 @@ export default class ListEquipes extends React.Component {
                 <BrowserRouter>
                     <Breadcrumb>
                         <ListGroup>
-                            <NavLink to={`/Admin/equipe/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
+                            <NavLink to={`/Admin/equipe/${window.localStorage.getItem('idAdmin')}/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
                                 <ListGroupItem active>
                                     <ListGroupItemHeading>{equipe.nom}</ListGroupItemHeading>
                                     <ListGroupItemText>
@@ -110,9 +111,11 @@ export default class ListEquipes extends React.Component {
                 {this.EquipeList()}
                 {this.deleteValidation()}
                 <Card body>
-                    <NavLink to='AddEquipes' onClick={this.forceUpdate}>
-                        <Button onClick={this.addTeam}> Nouvelle Equipe </Button>
-                        <NavLink to="/Admin/SessionPage"><Button>Retour</Button></NavLink>
+                    <NavLink to={`/Admin/AddTeam/${window.localStorage.getItem('idAdmin')}`} onClick={this.forceUpdate}>
+                        <Button> Nouvelle Equipe </Button>
+                    </NavLink>
+                    <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}>
+                        <Button>Retour</Button>
                     </NavLink>
                 </Card>
             </div>

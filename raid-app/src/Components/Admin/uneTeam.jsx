@@ -8,18 +8,19 @@ export default class uneTeam extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            equipe:null,
+            equipe: null,
             button: "invisible",
             nom: null,
+            password: null,
             telephone: null,
-            participants: null,
+            participants: [],
             email: null,
             score: null,
             h_fin: null,
             id: null,
 
         }
-        this.page = this.props.match.params._id
+        this.page = this.props.match.params.id
     }
 
     componentDidMount() {
@@ -30,13 +31,15 @@ export default class uneTeam extends Component {
                     equipe: response.data,
                     id: response.data[0]._id,
                     score: response.data[0].score,
+                    password: response.data[0].password,
                     nom: response.data[0].nom,
                     email: response.data[0].email,
-                    participants: response.data[0].participants.toString(),
+                    participants: response.data[0].participants,
                     telephone: response.data[0].telephone,
                     h_fin: response.data[0].h_fin,
                 })
             });
+        console.log(this.state.participants)
     }
 
     modifyNom = (value) => {
@@ -54,8 +57,9 @@ export default class uneTeam extends Component {
     }
 
     modifyParticipants = (value) => {
+        let valeur = value.split()
         this.setState({
-            participants: value,
+            participants: valeur,
             button: "visible"
         })
     }
@@ -84,11 +88,28 @@ export default class uneTeam extends Component {
         .catch(function (error) {
             console.log(error);
         });
+        axios.put(`/api/equipes/donnees/${this.page}`,
+            {
+                // equipe: response.data
+                score: this.state.score,
+                nom: this.state.nom,
+                email: this.state.email,
+                participants: this.state.participants,
+                telephone: this.state.telephone,
+                h_fin: this.state.h_fin,
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
 
 
     render() {
+        console.log(this.state.participants)
         return (
             <div>
 
@@ -99,7 +120,14 @@ export default class uneTeam extends Component {
                         </Alert>
 
                         <Alert color="dark">
+                            Mot de passe : {this.state.password}
+                        </Alert>
+
+                        <Alert color="dark">
                             Score : {this.state.score}
+                        </Alert>
+                        <Alert color="dark">
+                            Heure de fin de parcours : {this.state.h_fin}
                         </Alert>
                         <Alert color="dark">
                             Nom :
@@ -141,7 +169,7 @@ export default class uneTeam extends Component {
                             Participants : <Editable
                                 name="Participants"
                                 dataType="textarea"
-                                value={this.state.participants.toString()}
+                                value={this.state.participants}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
@@ -169,14 +197,11 @@ export default class uneTeam extends Component {
                                 }
                             />
                         </Alert>
-
-
-                      <h4> H de Fin : {this.state.h_fin}</h4>
                     </div>
-        : null}
+                    : null}
 
-                <NavLink to='/Admin/ListTeam'>
-                <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}>
+                    <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
                     <Button>Retour</Button>
                 </NavLink>
             </div>

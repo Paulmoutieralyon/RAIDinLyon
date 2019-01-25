@@ -29,12 +29,13 @@ export default class AddTeam extends React.Component {
 
     /* Soumissions d'administrateur' - Stockage de celui ci en base de donnée */
     submit = () => {
+        console.log('oui',this.state.email,this.state.mdp)
         axios({
             method: 'post',
             url: '/api/administrateurs',
             data: {
                 email: this.state.email,
-                mdp: this.state.mdp,
+                password: this.state.mdp,
             }
         })
             .then(function (response) {

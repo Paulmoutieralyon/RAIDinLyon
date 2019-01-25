@@ -5,7 +5,8 @@ var sessionSchema = mangoose.Schema({
     _id: mangoose.Schema.Types.ObjectId,
     nom:String,
     isactivate:Boolean,
-    deadline:Date
+    deadline:String,
+    pointrencontre:Array,
 }, { collection: 'session' });
 
 var Session = module.exports = mangoose.model('Session', sessionSchema)
@@ -16,7 +17,7 @@ module.exports.getSession = function (callback, limit) {
 }
 
 // Update Session
-module.exports.updateSession = function (_id, update,callback) {
-    Session.findOneAndUpdate(_id, update,callback)
+module.exports.updateSession = function (id, update,callback) {
+    Session.findOneAndUpdate(id, update,callback)
        
 }

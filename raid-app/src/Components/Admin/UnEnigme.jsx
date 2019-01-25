@@ -24,7 +24,7 @@ export default class UnEnigme extends Component {
             image: null,
             id: null
         }
-        this.page = this.props.match.params._id;
+        this.page = this.props.match.params.id;
         this.addResp = [];
         this.Clue1 = null;
         this.Clue2 = null;
@@ -35,10 +35,11 @@ export default class UnEnigme extends Component {
         axios.get(`/api/enigmes/${this.page}`)
             .then(response => {
                 console.log(response)
+                console.log('ok', response.data[0].indices)
                 this.setState({
                     id: response.data[0]._id,
                     titre: response.data[0].titre,
-                    image: response.data[0].img,
+                    img: response.data[0].img,
                     enonce: response.data[0].enonce,
                     question: response.data[0].question,
                     indices: response.data[0].indices,
@@ -46,12 +47,13 @@ export default class UnEnigme extends Component {
                     coordonnees: response.data[0].coordonnee,
                     info: response.data[0].info
                 })
-            });
+            })
+            .then(console.log('ok', this.state.indices))
     }
 
-    modifyImage = (e) => {
+    modifyImage = (value) => {
         this.setState({
-            image: e.target.value,
+            img: value,
             button: "visible"
         })
     }
@@ -129,6 +131,7 @@ export default class UnEnigme extends Component {
 
 
     sendModifications = () => {
+        console.log(this.state)
         axios.put(`/api/enigmes/${this.page}`,
             {
                 titre: this.state.titre,
@@ -137,7 +140,7 @@ export default class UnEnigme extends Component {
                 indices: [this.state.indices[0], this.state.indices[1], this.state.indices[2]],
                 info: this.state.info,
                 coordonnee: [this.state.coordonnees[0], this.state.coordonnees[1]],
-                img: this.state.image,
+                img: this.state.img,
                 reponse: this.state.reponse,
             })
             .then(function (response) {
@@ -152,11 +155,11 @@ export default class UnEnigme extends Component {
     render() {
         return (
             <div>
-                
+
                 {this.state.titre ?
                     <div>
                         <Alert color="dark">
-                        Id de l'énigme : {this.state.id}
+                            Id de l'énigme : {this.state.id}
                         </Alert>
                         <Alert color="dark">
                             Titre :
@@ -179,7 +182,7 @@ export default class UnEnigme extends Component {
                         <Alert color="dark">
                             Image utilisée (Ne fonctionne pas pour l'instant): <Editable
                                 name="username"
-                                dataType="image"
+                                dataType="text"
                                 value={this.state.img}
                                 validate={(value) => {
                                     if (!value) {
@@ -338,8 +341,8 @@ export default class UnEnigme extends Component {
                         </Alert>
                     </div>
                     : null}
-                <NavLink to='/Admin/ListEnigmes'>
-                    <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
                     <Button>Retour</Button>
                 </NavLink>
             </div>

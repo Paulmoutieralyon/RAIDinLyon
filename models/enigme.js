@@ -11,6 +11,7 @@ var enigmeSchema = mangoose.Schema({
     coordonnee: Array,
     img: String,
     reponse: String,
+    agagner: Number
 }, { collection: 'enigme' });
 
 var Enigme = module.exports = mangoose.model('Enigme', enigmeSchema)
@@ -33,7 +34,7 @@ module.exports.addEnigme = function (enigme, callback) {
 
 // Update Enigme
 module.exports.updateEnigme = function (_id, update,callback) {
-    Enigme.findOneAndUpdate(_id, update,callback)
+    Enigme.findByIdAndUpdate(_id, update,callback)
        
 }
 
