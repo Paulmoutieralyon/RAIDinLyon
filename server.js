@@ -309,8 +309,9 @@ app.post('/api/image', upload.single('image'), async (req, res) => {
 app.post('/api/enigmes',
     upload.single('image'),
     function (req, res) {
+        console.log(JSON.parse(req.body.body))
         const enigme = {
-            ...req.body,
+            ...JSON.parse(req.body.body),
             img: req.file.path
         }
         console.log(enigme)
@@ -334,7 +335,7 @@ app.put('/api/enigmes/:_id', function (req, res) {
             indices: [enigme.indices[0], enigme.indices[1], enigme.indices[2]],
             info: enigme.info,
             coordonnee: [enigme.coordonnee[0], enigme.coordonnee[1]],
-            img: this.path,
+            img: enigme.img,
             reponse: enigme.reponse
         }
     }, (err, result) => {
@@ -368,6 +369,9 @@ app.get('/api/enigmes/:_id', function (req, res) {
     })
 });
 
+app.get('/api/image', (req,res)=>{
+    res.sendFile(__dirname+'/'+req.query.img)
+})
 
 /*
 EQUIPE
