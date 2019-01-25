@@ -15,6 +15,7 @@ import Vide from './Vide.png'
 import './InfosModalEgnime.css'
 import Header from '../Header'
 import '../MapPage/MapPage.css'
+import { timingSafeEqual } from 'crypto';
 
 export class EnigmePage extends React.Component {
     constructor(props) {
@@ -219,6 +220,8 @@ export class EnigmePage extends React.Component {
     }
 
 
+
+
     //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
         axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
@@ -236,8 +239,16 @@ export class EnigmePage extends React.Component {
             });
     }
 
+    selectColorIcon = () => {
+        if (this.state.succeed === null) return "warning"
+        else if (this.state.succeed === false) return "danger"
+        else if (this.state.succeed) return "success"
+    }
+
     render() {
-        console.log("gain:", this.state)
+        console.log("gain:", this.state.agagner)
+        console.log(this.state.numClickValidate)
+        let tentatives = this.state.numClickValidate - 3
         //console.log("score:", this.state.score) 
         //console.log(this.state.agagner + this.state.score)
         //console.log('indices', this.state.indiceNumber)
@@ -245,7 +256,7 @@ export class EnigmePage extends React.Component {
         //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
         //console.log(this.props.check)
         return (
-            <div class="EnigmePageContainer">
+            <div className="EnigmePageContainer">
                 <Header scoreuser={this.state.scoregeneral} />
                 {this.state.isLoaded ?
                     <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
@@ -257,13 +268,19 @@ export class EnigmePage extends React.Component {
                             <h3 className="TitreQuestion">{this.state.question}</h3>
                             <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                             <div className="validationContainer">
+                                <div style={{ textAlign: "center" }}><p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p></div>
                                 {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed || this.state.succeed === false) ?
-                                    <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="primary" type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
+                                    <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color={this.selectColorIcon(this.state.succeed)} type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
                                     :
-                                    <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
+                                    <Button color={this.selectColorIcon(this.state.succeed)} onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
                                 <img className="final" src={this.state.final} alt='' />
                             </div>
-                            <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                            {this.state.succeed === false || this.state.succeed ?
+                                null
+                                :
+                                <div>
+                                    <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                                </div>}
                             <div className="Textindices">{this.state.indice}</div>
                         </AvForm>
                         <br />
