@@ -39,7 +39,7 @@ export default class UnEnigme extends Component {
                 this.setState({
                     id: response.data[0]._id,
                     titre: response.data[0].titre,
-                    image: response.data[0].img,
+                    img: response.data[0].img,
                     enonce: response.data[0].enonce,
                     question: response.data[0].question,
                     indices: response.data[0].indices,
@@ -51,9 +51,9 @@ export default class UnEnigme extends Component {
             .then(console.log('ok', this.state.indices))
     }
 
-    modifyImage = (e) => {
+    modifyImage = (value) => {
         this.setState({
-            image: e.target.value,
+            img: value,
             button: "visible"
         })
     }
@@ -131,6 +131,7 @@ export default class UnEnigme extends Component {
 
 
     sendModifications = () => {
+        console.log(this.state)
         axios.put(`http://localhost:5000/api/enigmes/${this.page}`,
             {
                 titre: this.state.titre,
@@ -139,7 +140,7 @@ export default class UnEnigme extends Component {
                 indices: [this.state.indices[0], this.state.indices[1], this.state.indices[2]],
                 info: this.state.info,
                 coordonnee: [this.state.coordonnees[0], this.state.coordonnees[1]],
-                img: this.state.image,
+                img: this.state.img,
                 reponse: this.state.reponse,
             })
             .then(function (response) {
@@ -181,7 +182,7 @@ export default class UnEnigme extends Component {
                         <Alert color="dark">
                             Image utilisée (Ne fonctionne pas pour l'instant): <Editable
                                 name="username"
-                                dataType="image"
+                                dataType="text"
                                 value={this.state.img}
                                 validate={(value) => {
                                     if (!value) {
