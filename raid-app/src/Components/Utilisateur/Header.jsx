@@ -26,6 +26,7 @@ export class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            timeractivation: null,
             nameMap: "tu es proche",
             loaded: true,
             countAnswer: 0,
@@ -47,7 +48,7 @@ export class Header extends React.Component {
             interval: function () {
 
             }
-            
+
         };
         //this.user = this.props.match.params.id
         this.tab = []
@@ -73,7 +74,8 @@ export class Header extends React.Component {
         axios.get(`http://localhost:5000/api/session`)
             .then(response => {
                 this.setState({
-                    deadline: response.data[0].deadline
+                    deadline: response.data[0].deadline,
+                    timeractivation: response.data[0].activetimer
                 })
             });
     }
@@ -85,8 +87,8 @@ export class Header extends React.Component {
     }
 
     allToggle = (event) => {
-        
-        const {dataCallback} = this.props
+
+        const { dataCallback } = this.props
         this.toggleTimer()
         dataCallback(!this.state.modalMarker) // callback pour appler la function modalmarker
     }
@@ -114,22 +116,27 @@ export class Header extends React.Component {
         if (counterCheckEnd === counterEnd) {
             this.toggleTimer()
         }
-    
+
     }
 
     render() {
-        const {post} = this.props
+        const { post } = this.props
         return (
             <div className='headerContainer'>
                 <Navbar light expand="md">
                     <NavbarBrand><Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link></NavbarBrand>
-                    <div className="count_title" >Fin :</div>
-                    <Container className="d-none d-md-block">{this.props.title}</Container>
-                    <Row>
-                        <Col> {this.leading0(this.state.hours)}H</Col>
-                        <Col> {this.leading0(this.state.minutes)}M</Col>
-                        <Col>{this.leading0(this.state.seconds)}S</Col>
-                    </Row>
+
+                    {this.state.timeractivation ?
+                        <div>
+                            <div className="count_title" >Fin :</div>
+                            <Container className="d-none d-md-block">{this.props.title}</Container>
+
+                            <Row>
+                                <Col> {this.leading0(this.state.hours)}H</Col>
+                                <Col> {this.leading0(this.state.minutes)}M</Col>
+                                <Col>{this.leading0(this.state.seconds)}S</Col>
+                            </Row>
+                        </div> : null}
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
                         <ModalHeader toggle={this.toggleTimer}>Session Terminée</ModalHeader>
                         <ModalBody>
