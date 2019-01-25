@@ -151,12 +151,12 @@ export default class AddEgnimes extends React.Component {
 
     modifyLat = (e) => {
         const newLat = this.state.coordonnees.slice()
-        newLat[0] = e.target.value
+        newLat[0] = parseFloat(e.target.value)
         this.setState({ coordonnees: newLat })
     }
     modifyLong = (e) => {
         const newLong = this.state.coordonnees.slice()
-        newLong[1] = e.target.value
+        newLong[1] = parseFloat(e.target.value)
         this.setState({ coordonnees: newLong })
     }
     modifyInfo = (e) => {
@@ -170,19 +170,32 @@ export default class AddEgnimes extends React.Component {
         e.preventDefault()
         console.log(this.fileInput)
         const data = new FormData();
-        Object.entries({
-            titre: this.state.titre,
-            question: this.state.question,
-            enonce: this.state.enonce,
-            indices: this.state.indices,
-            info: this.state.info,
-            coordonnee: this.state.coordonnees,
-            img: this.state.image,
-            reponse: this.state.responses,
-        }).map(entry => data.append(entry[0], entry[1]))
-
-        // data.append()
+        console.log(this.state.coordonnees)
+        // Object.entries({
+        //     titre: this.state.titre,
+        //     question: this.state.question,
+        //     enonce: this.state.enonce,
+        //     indices: this.state.indices,
+        //     info: this.state.info,
+        //     img: this.state.image,
+        //     reponse: this.state.responses,
+        // }).map(entry => {
+        //     data.append(entry[0], entry[1]);
+        // })
+        // data.append('indices', JSON.stringify(this.state.indices))
+        // data.append('coordonnee', JSON.stringify(this.state.coordonnees))
         data.append('image', this.fileInput.current.files[0])
+        data.append('body',JSON.stringify({
+                titre: this.state.titre,
+                question: this.state.question,
+                enonce: this.state.enonce,
+                indices: this.state.indices,
+                info: this.state.info,
+                img: this.state.image,
+                reponse: this.state.responses,
+                coordonnee :this.state.coordonnees
+            }))
+
 
         const enonce = ReactDOM.findDOMNode(this._enonceInput).value;
         const lat = ReactDOM.findDOMNode(this._latInput).value;
@@ -201,7 +214,7 @@ export default class AddEgnimes extends React.Component {
             .then(function (response) {
                 console.log(response)
                 if (response.status === 200) {
-                    window.location.href = 'ListEnigmes';
+                    //window.location.href = 'ListEnigmes';
                 }
             }
             )
