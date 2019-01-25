@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 // Chemin 
 import HomePage from './Components/Utilisateur/HomePage/HomePage';
+import HomePageRedirect from './Components/Utilisateur/HomePage/HomePageRedirect';
 import EnigmePage from './Components/Utilisateur/EnigmePage/EnigmePage';
 import MapPage from './Components/Utilisateur/MapPage/MapPage';
 import AddEgnimes from './Components/Admin/AddEgnimes';
@@ -18,51 +19,71 @@ import QrCodeScan from './Components/Admin/QrCodeScan';
 import ListAdmin from './Components/Admin/ListAdmin';
 import UnEnigme from './Components/Admin/UnEnigme';
 import uneTeam from './Components/Admin/uneTeam';
+import axios from 'axios';
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activation: null,
+      componentsession: null
+    };
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5000/api/session')
+      .then(response => {
+        this.setState({
+          componentsession: response.data[0].isactivate
+        })
+      })
+      .catch(error => {
+        throw (error);
+      });
+  }
 
   render() {
+    console.log(this.state.componentsession)
     console.log(window.localStorage.getItem("token"), "ok")
     return (
       <div className="App">
         <BrowserRouter>
-          {window.localStorage.getItem("token") ?
+          {this.state.componentsession ?
+
+            window.localStorage.getItem("token") ?
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/EnigmePage/:_id/:id" component={EnigmePage} />
+                <Route path="/MapPage/:_id" component={MapPage} />
+              </Switch>
+              :
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+              </Switch>
+
+            : <Route exact path="/" component={HomePageRedirect} />}
+        </BrowserRouter>
+        <BrowserRouter>
+          {window.localStorage.getItem("tokenAdmin") ?
             <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/EnigmePage/:_id/:id" component={EnigmePage} />
-              <Route path="/MapPage/:_id" component={MapPage} />
               <Route exact path="/Admin" component={Connexion} />
-              <Route path="/Admin/AddTeam" component={AddTeam} />
-              <Route path="/Admin/AdminComptes" component={AdminComptes} />
-              <Route path="/Admin/Classement" component={Classement} />
-              <Route path="/Admin/ListEnigmes" component={ListEnigmes} />
-              <Route path="/Admin/ListAdmin" component={ListAdmin} />
-              <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
-              <Route path="/Admin/ListTeam" component={Listequipes} />
-              <Route path="/Admin/SessionPage" component={SessionPage} />
-              <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
-              <Route path='/Admin/Addsession' component={Addsession} />
-              <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
+              <Route path="/Admin/AddTeam/:_id" component={AddTeam} />
+              <Route path="/Admin/AdminComptes/:_id" component={AdminComptes} />
+              <Route path="/Admin/Classement/:_id" component={Classement} />
+              <Route path="/Admin/ListEnigmes/:_id" component={ListEnigmes} />
+              <Route path="/Admin/ListAdmin/:_id" component={ListAdmin} />
+              <Route path="/Admin/ListSessionPage/:_id" component={ListSessionPage} />
+              <Route path="/Admin/ListTeam/:_id" component={Listequipes} />
+              <Route path="/Admin/SessionPage/:_id" component={SessionPage} />
+              <Route path="/Admin/AddEgnimes/:_id" component={AddEgnimes} />
+              <Route path='/Admin/Addsession/:_id' component={Addsession} />
+              <Route path='/Admin/QrCodeScan/:_id' component={QrCodeScan} />
               <Route path="/Admin/enigmes/:_id" component={UnEnigme} />
               <Route path="/Admin/equipe/:_id" component={uneTeam} />
             </Switch>
             :
             <Switch>
-              <Route exact path="/" component={HomePage} />
               <Route exact path="/Admin" component={Connexion} />
-              <Route path="/Admin/AddTeam" component={AddTeam} />
-              <Route path="/Admin/AdminComptes" component={AdminComptes} />
-              <Route path="/Admin/Classement" component={Classement} />
-              <Route path="/Admin/ListEnigmes" component={ListEnigmes} />
-              <Route path="/Admin/ListAdmin" component={ListAdmin} />
-              <Route path="/Admin/ListSessionPage" component={ListSessionPage} />
-              <Route path="/Admin/ListTeam" component={Listequipes} />
-              <Route path="/Admin/SessionPage" component={SessionPage} />
-              <Route path="/Admin/AddEgnimes" component={AddEgnimes} />
-              <Route path='/Admin/Addsession' component={Addsession} />
-              <Route path='/Admin/QrCodeScan' component={QrCodeScan} />
-              <Route path="/Admin/enigmes/:_id" component={UnEnigme} />
-              <Route path="/Admin/equipe/:_id" component={uneTeam} />
             </Switch>
           }
         </BrowserRouter>

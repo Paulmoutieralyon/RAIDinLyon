@@ -37,14 +37,14 @@ export default class HomePage extends React.Component {
     submitLogin = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/authenticate',
+            url: 'http://localhost:5000/authenticateUser',
             data: {
                 email: this.state.email,
                 password: this.state.password,
             }
         })
             .then(function (response) {
-                console.log(response);
+                console.log(response)
                 if (response.data.success === true) {
                     window.localStorage.setItem("token", response.data.token)
                     window.localStorage.setItem("id", response.data.id)
