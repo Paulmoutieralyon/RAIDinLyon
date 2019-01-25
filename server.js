@@ -309,8 +309,9 @@ app.post('/api/image', upload.single('image'), async (req, res) => {
 app.post('/api/enigmes',
     upload.single('image'),
     function (req, res) {
+        console.log(JSON.parse(req.body.body))
         const enigme = {
-            ...req.body,
+            ...JSON.parse(req.body.body),
             img: req.file.path
         }
         console.log(enigme)
@@ -334,7 +335,7 @@ app.put('/api/enigmes/:_id', function (req, res) {
             indices: [enigme.indices[0], enigme.indices[1], enigme.indices[2]],
             info: enigme.info,
             coordonnee: [enigme.coordonnee[0], enigme.coordonnee[1]],
-            img: this.path,
+            img: enigme.img,
             reponse: enigme.reponse
         }
     }, (err, result) => {
@@ -368,6 +369,9 @@ app.get('/api/enigmes/:_id', function (req, res) {
     })
 });
 
+app.get('/api/image', (req,res)=>{
+    res.sendFile(__dirname+'/'+req.query.img)
+})
 
 /*
 EQUIPE
@@ -402,6 +406,7 @@ app.get('/api/equipe/:_id', (req, res) => {
     });
 });
 
+
 // Modification des informations d'une équipe en fonction de son ID
 app.put('/api/equipes/donnees/:_id', function (req, res) {
     const id = req.params._id
@@ -415,7 +420,6 @@ app.put('/api/equipes/donnees/:_id', function (req, res) {
             telephone: equipe.telephone,
             participants: equipe.participants,
             h_fin: equipe.h_fin,
-
         }
     }, (err, result) => {
         if (err) {

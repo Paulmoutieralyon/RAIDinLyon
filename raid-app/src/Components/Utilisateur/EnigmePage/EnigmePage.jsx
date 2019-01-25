@@ -237,7 +237,7 @@ export class EnigmePage extends React.Component {
     }
 
     render() {
-        console.log("gain:", this.state.agagner)
+        console.log("gain:", this.state)
         //console.log("score:", this.state.score) 
         //console.log(this.state.agagner + this.state.score)
         //console.log('indices', this.state.indiceNumber)
@@ -249,7 +249,7 @@ export class EnigmePage extends React.Component {
                 <Header scoreuser={this.state.scoregeneral} />
                 {this.state.isLoaded ?
                     <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
-                        {this.state.img ? <img className="Illustration" src={require(`${this.state.img}`)} alt='' /> : null}
+                        {this.state.img ? <img className="Illustration" src={`/api/image?img=${this.state.img}`} alt='' /> : null}
                         <h3 className="Titre">{this.state.titre}</h3>
                         <p >{this.state.enonce}</p>
 
