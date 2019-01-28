@@ -44,6 +44,7 @@ export default class AddEgnimes extends React.Component {
         this.Clue2 = null;
         this.Clue3 = null;
         this.fileInput = React.createRef();
+        this.idAdmin = this.props.match.params._id
     }
     /*Chargement de l'image*/
 
@@ -219,14 +220,15 @@ export default class AddEgnimes extends React.Component {
             .then(function (response) {
                 console.log(response)
                 if (response.status === 200) {
+
                     window.location.href = `/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`
+
                 }
             }
             )
             .catch(function (error) {
                 console.log(error);
             });
-        //window.location.href = 'ListEnigmes';
     }
 
     /*onChange = (e) => {

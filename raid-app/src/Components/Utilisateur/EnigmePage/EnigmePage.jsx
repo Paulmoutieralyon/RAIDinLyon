@@ -237,7 +237,7 @@ export class EnigmePage extends React.Component {
     }
 
     render() {
-        console.log("gain:", this.state)
+        console.log("gain:", this.state.agagner)
         //console.log("score:", this.state.score) 
         //console.log(this.state.agagner + this.state.score)
         //console.log('indices', this.state.indiceNumber)
