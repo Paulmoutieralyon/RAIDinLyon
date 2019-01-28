@@ -77,6 +77,11 @@ export class EnigmePage extends React.Component {
                     isFloat: true,
                     agagner: this.data.agagner
                 })
+                if(!this.state.indices[0]){
+                    this.setState({
+                        disableIndice: true
+                    })
+                }
             })
             .catch(error => {
                 throw (error);

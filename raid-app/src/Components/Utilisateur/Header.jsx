@@ -33,7 +33,7 @@ export class Header extends React.Component {
             isOpenT: false,
             deadline: null, // Choix : date et heure de fin
             hourEnd: '0',
-            minEnd: '1', // Choix : temps de fin (ex : fin 30min avant 13h ) 
+            minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
             secEnd: '0',
             hours: 0,
             minutes: 0,
