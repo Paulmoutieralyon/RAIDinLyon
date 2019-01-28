@@ -77,8 +77,15 @@ export class EnigmePage extends React.Component {
                     img: this.data.img,
                     isFloat: true,
                     agagner: this.data.agagner,
-                    baseagagner:this.data.agagner
+                    baseagagner: this.data.agagner
                 })
+                if (this.state.indices[0]) {
+                    if (!this.state.indices[0]) {
+                        this.setState({
+                            disableIndice: true
+                        })
+                    }
+                }
             })
             .catch(error => {
                 throw (error);
@@ -91,12 +98,12 @@ export class EnigmePage extends React.Component {
                 })
 
                 if (data.data[0].enigmes.length > 0) {
-                    console.log("UNO")
+                    //console.log("UNO")
                     for (let i = 0; i < data.data[0].enigmes.length; i++) {
-                        console.log("DOS", "idQuestion: ", data.data[0].enigmes[i]._idQuestion)
-                        console.log("this.enigme", this.enigme)
+                        /* console.log("DOS", "idQuestion: ", data.data[0].enigmes[i]._idQuestion)
+                        console.log("this.enigme", this.enigme) */
                         if (data.data[0].enigmes[i]._idQuestion === this.enigme) {
-                            console.log("TRES")
+                            //console.log("TRES")
                             this.setState({
                                 scoregeneral: this.scoreg.score,
                                 succeed: data.data[0].enigmes[i].succeed,
@@ -189,8 +196,7 @@ export class EnigmePage extends React.Component {
             proposition: this.state.proposition,
         })
             .then(response => {
-                console.log(response.data.status)
-                console.log("INDICENUMBER", this.state.indiceNumber)
+                //console.log(response.data.status)
                 if (response.data.status === true) {
                     this.setState({
                         isContinue: true,
@@ -209,10 +215,11 @@ export class EnigmePage extends React.Component {
                     })
                     this.saveResp()
 
-                } else if (this.state.indiceNumber >= 2 || (this.state.numClickValidate >= 3 && this.state.isResTrue === false)) {
+                } else if (this.state.numClickValidate >= 3 && this.state.isResTrue === false) {
                     this.setState({
                         isResTrue: false,
                         succeed: false,
+                        agagner: 0,
                     })
                     this.saveResp()
 
@@ -260,7 +267,11 @@ export class EnigmePage extends React.Component {
     }
 
     render() {
+        console.log("indiceNumber", this.state.indiceNumber)
+        console.log("succeed", this.state.succeed)
         console.log("gain:", this.state.agagner)
+        console.log("Numclick:", this.state.numClickValidate)
+        console.log("reponse: ", this.state.reponse)
         let tentatives = this.state.numClickValidate - 3
         return (
             <div className="EnigmePageContainer">
@@ -273,7 +284,12 @@ export class EnigmePage extends React.Component {
 
                         <AvForm className="reponse" onSubmit={this.isTrue}>
                             <h3 className="TitreQuestion">{this.state.question}</h3>
-                            <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                            <br />
+                            {this.state.succeed || this.state.succeed === false ?
+                                <p style={{ fontSize: '3vh', color: '#ffbb34', textAlign: 'center' }}>réponse: <strong>{this.state.reponse}</strong></p>
+                                :
+                                <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                            }
                             <div className="validationContainer">
                                 {this.state.succeed || this.state.succeed === false ?
                                     null
@@ -282,7 +298,7 @@ export class EnigmePage extends React.Component {
                                         <p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p>
                                     </div>
                                 }
-                                {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed || this.state.succeed === false) ?
+                                {(this.state.isResTrue || this.state.succeed || this.state.succeed === false) ?
                                     <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color={this.selectColorIcon(this.state.succeed)} type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
                                     :
                                     <Button color={this.selectColorIcon(this.state.succeed)} onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
@@ -293,14 +309,18 @@ export class EnigmePage extends React.Component {
                                 <div>
                                     {this.state.disableIndice || this.state.indices[0] === null ?
                                         <div>
-                                            <Button disabled type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                                            <Button disabled type="button" onClick={this.displayIndices} className="bonton2" >indices épuisés</Button><br></br>
                                         </div>
                                         :
                                         <div>
                                             <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                                         </div>}
                                 </div>}
-                            <div className="Textindices">{this.state.indice}</div>
+                            {this.state.succeed || this.state.succeed === false ?
+                                null
+                                :
+                                <div className="Textindices">{this.state.indice}</div>
+                            }
                         </AvForm>
                         <br />
                         {this.state.indiceNumber === 2 && this.state.indices[2] ?
