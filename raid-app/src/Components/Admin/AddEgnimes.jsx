@@ -219,7 +219,7 @@ export default class AddEgnimes extends React.Component {
             .then(function (response) {
                 console.log(response)
                 if (response.status === 200) {
-                    //window.location.href = 'ListEnigmes';
+                    window.location.href = `/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`
                 }
             }
             )

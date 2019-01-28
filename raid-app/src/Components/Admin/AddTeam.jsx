@@ -114,7 +114,8 @@ export default class AddTeam extends React.Component {
         })
             .then(function (response) {
                 if (response.status === 200) {
-                    window.location.href = 'ListTeam'
+                    console.log(response.status + "hello")
+                    window.location.href = `/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`
                 }
             })
             .catch(function (error) {
