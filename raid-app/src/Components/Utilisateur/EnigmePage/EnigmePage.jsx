@@ -45,6 +45,7 @@ export class EnigmePage extends React.Component {
             img: "./Pierrephilosophale.jpeg",
             isLoaded: false,
             agagner: null,
+            baseagagner: null,
             //Affichage du score 
             scoregeneral: null
         };
@@ -70,7 +71,8 @@ export class EnigmePage extends React.Component {
                     info: this.data.info,
                     img: this.data.img,
                     isFloat: true,
-                    agagner: this.data.agagner
+                    agagner: this.data.agagner,
+                    baseagagner:this.data.agagner
                 })
             })
             .catch(error => {
@@ -118,7 +120,7 @@ export class EnigmePage extends React.Component {
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
                     indice: this.state.indices[0],
-                    agagner: Math.ceil(this.state.agagner / 1.3)
+                    agagner: Math.ceil(this.state.baseagagner / 1.3)
                 })
             }
             console.log("indice 1:", this.state.indices[0])
@@ -130,7 +132,7 @@ export class EnigmePage extends React.Component {
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
                     indice: this.state.indices[1],
-                    agagner: Math.ceil(this.state.agagner / 2)
+                    agagner: Math.ceil(this.state.baseagagner / 2)
                 })
             }
             console.log("indice 2:", this.state.indices[1])
@@ -143,7 +145,7 @@ export class EnigmePage extends React.Component {
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
                     indice: this.state.indices[2],
-                    agagner: Math.ceil(this.state.agagner / 3)
+                    agagner: Math.ceil(this.state.baseagagner / 3)
                 })
             }
             console.log("indice 3:", this.state.indices[2])
