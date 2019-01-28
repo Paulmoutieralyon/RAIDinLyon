@@ -278,6 +278,12 @@ export class EnigmePage extends React.Component {
                 <Header scoreuser={this.state.scoregeneral} />
                 {this.state.isLoaded ?
                     <div style={{ padding: '5vw' }} id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
+                        {this.state.numClickValidate === 2 && !this.state.isResTrue && !this.state.succeed ?
+                            < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
+                                Attention il ne vous reste plus qu'une tentative.
+                            </Alert>
+                            :
+                            null}
                         {this.state.img ? <img className="Illustration" src={`/api/image?img=${this.state.img}`} alt='' /> : null}
                         <h2 className="Titre">{this.state.titre}</h2>
                         <p >{this.state.enonce}</p>
@@ -327,13 +333,6 @@ export class EnigmePage extends React.Component {
                             <div className="TitreQuestion"><i>
                                 Attention il ne vous reste plus qu'un indice !!
                                 </i></div>
-                            :
-                            null}
-                        <br />
-                        {this.state.numClickValidate === 2 && !this.state.isResTrue && !this.state.succeed ?
-                            < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
-                                Attention il ne vous reste plus qu'une tentative.
-                            </Alert>
                             :
                             null}
                     </div>
