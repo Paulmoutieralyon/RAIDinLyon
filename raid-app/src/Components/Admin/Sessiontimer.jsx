@@ -4,13 +4,14 @@ import Toggle from "react-toggle-component"
 import { InputGroup, InputGroupAddon, Input, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import logo from './logo_tinyplanet_orange.png'
 import './Connexion.css'
+import './SessionPage.css'
 
 
 export default class AdminComptes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            timerchecked: null,
+            timerchecked: true,
             timeretat: "desactivée",
         }
     }
@@ -31,12 +32,12 @@ export default class AdminComptes extends React.Component {
     }
 
 
-    async modifyTimerActivation(value) {
-        await this.setState({
-            timerchecked: value
+    modifyTimerActivation=()=> {
+        this.setState({
+            timerchecked: !this.state.timerchecked
         })
-        await this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
-        await axios.put('http://localhost:5000/api/session/timeractivation',
+        this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
+        axios.put('http://localhost:5000/api/session/timeractivation',
             {
                 activetimer: this.state.timerchecked
             })
@@ -49,18 +50,12 @@ export default class AdminComptes extends React.Component {
     }
 
     render() {
-        console.log(this.state.timerchecked)
         return (
-
-            <Breadcrumb>
-                <BreadcrumbItem>Timer : {this.state.timeretat}</BreadcrumbItem>
-                <Toggle
-                    name="timer"
-                    mode="switch"
-                    checked={this.state.timerchecked}
-                    onToggle={value => this.modifyTimerActivation(value)} />
-            </Breadcrumb>
-
-        );
+            <div className="toggleBlock">
+                <Button className="togglerButton" onClick={this.modifyTimerActivation}>
+                    <div className="togglerButtonText">Timer : {this.state.timeretat}</div>
+                </Button>
+            </div>
+        )
     }
 }

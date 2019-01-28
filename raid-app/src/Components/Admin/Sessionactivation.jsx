@@ -1,21 +1,23 @@
 import React from 'react'
 import axios from 'axios'
 import Toggle from "react-toggle-component"
-import { InputGroup, InputGroupAddon, Input, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+import { Button } from 'reactstrap'
 import logo from './logo_tinyplanet_orange.png'
 import './Connexion.css'
+import './SessionPage.css'
 
 
 export default class AdminComptes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            checked: null,
+            checked: true,
             etat: "désactivée"
         }
     }
 
     componentDidMount() {
+        this.modifyActivation()
         axios.get('http://localhost:5000/api/session')
             .then(response => {
                 console.log(response.data[0])
@@ -30,12 +32,12 @@ export default class AdminComptes extends React.Component {
         this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
     }
 
-    async modifyActivation(value) {
-        await this.setState({
-            checked: value
+    modifyActivation = () => {
+        this.setState({
+            checked: !this.state.checked
         })
-        await this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
-        await axios.put(`http://localhost:5000/api/session/activation`,
+        this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
+        axios.put(`http://localhost:5000/api/session/activation`,
             {
                 isactivate: this.state.checked
             })
@@ -49,16 +51,11 @@ export default class AdminComptes extends React.Component {
 
     render() {
         return (
-
-            <Breadcrumb>
-                <BreadcrumbItem >Session {this.state.etat}</BreadcrumbItem>
-                <Toggle
-                    name="activation"
-                    mode="switch"
-                    checked={this.state.checked}
-                    onToggle={value => this.modifyActivation(value)} />
-            </Breadcrumb>
-
-        );
+            <div className="toggleBlock">
+                <Button className="togglerButton" onClick={this.modifyActivation} >
+                    <div className="togglerButtonText">Session {this.state.etat}</div>
+                </Button>
+            </div>
+        )
     }
 }
