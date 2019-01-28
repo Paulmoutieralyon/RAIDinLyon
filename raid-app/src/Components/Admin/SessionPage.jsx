@@ -39,7 +39,6 @@ export default class SessionPage extends React.Component {
     componentDidMount() {
         axios.get('http://localhost:5000/api/session')
             .then(response => {
-                console.log(response.data[0])
                 this.setState({
                     idsession: response.data[0]._id,
                     nom: response.data[0].nom,
