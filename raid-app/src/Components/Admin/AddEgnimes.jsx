@@ -4,8 +4,9 @@ import axios from 'axios'
 import { NavLink, BrowserRouter } from 'react-router-dom';
 import { Route, Redirect } from 'react-router';
 import ReactDOM from "react-dom";
+import './AddEnigme.css';
 
-function validateform(enonce, lat, long) {
+function validateform(enonce, lat, long, file) {
     const errors = [];
     if (enonce.length === 0) {
         errors.push("L'ennonce doit être remplis");
@@ -15,6 +16,9 @@ function validateform(enonce, lat, long) {
     }
     if (long.length === 0) {
         errors.push("La longitude doit être remplis");
+    }
+    if (file.length === 0) {
+        errors.push(" Fichiers doit être remplis ");
     }
     return errors;
 }
@@ -200,8 +204,9 @@ export default class AddEgnimes extends React.Component {
         const enonce = ReactDOM.findDOMNode(this._enonceInput).value;
         const lat = ReactDOM.findDOMNode(this._latInput).value;
         const long = ReactDOM.findDOMNode(this._longInput).value;
+        const file = this.fileInput.current.files;
 
-        const errors = validateform(enonce, lat, long);
+        const errors = validateform(enonce, lat, long, file);
         if (errors.length > 0) {
             this.setState({ errors });
             return
@@ -281,7 +286,10 @@ export default class AddEgnimes extends React.Component {
                 <form>
                     <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
                         <Label for="exampleFile">File</Label>
-                        <input type="file" name="file" id="exampleFile" ref={this.fileInput} />
+                        <input type="file" name="file" id="exampleFile" 
+                        // ref={fileInput => (this._fileInput = fileInput)}
+                        ref={this.fileInput} />
+                        <small className="obligatoire"> (*obligatoire)</small>
                         <FormText color="muted">
                             This is some placeholder block-level help text for the above input.
                             It's a bit lighter and easily wraps to a new line.
@@ -294,6 +302,7 @@ export default class AddEgnimes extends React.Component {
 
                     <FormGroup>
                         <Label for="exampleText">Énoncé</Label>
+                        <small className="obligatoire"> (*obligatoire)</small>
                         <Input type="textarea" name="text" id="exampleText"
                             ref={enonceInput => (this._enonceInput = enonceInput)}
                             onChange={this.modifyAnnouncement} />
@@ -301,7 +310,7 @@ export default class AddEgnimes extends React.Component {
 
                     <FormGroup>
                         <Label for="exampleText">Question</Label>
-                        <small className="obligatoire"> (*obligatoire)</small>
+                        
                         <Input type="textarea" name="text" id="exampleText" onChange={this.modifyQuestion} />
                     </FormGroup>
 

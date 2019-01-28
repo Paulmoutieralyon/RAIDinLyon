@@ -40,3 +40,7 @@
 .close {
     position: absolute !important;
 }
+
+.obligatoire{
+    color: orange;
+}

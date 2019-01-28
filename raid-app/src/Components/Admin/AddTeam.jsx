@@ -3,7 +3,8 @@ import { CardFooter, Button, Input, Label, FormGroup } from 'reactstrap';
 import axios from 'axios';
 import ReactDOM from "react-dom";
 import { NavLink } from 'react-router-dom';
-import generator from 'generate-password'
+import generator from 'generate-password';
+import './AddTeam.css';
 
 function validateform(email) {
     const errors = [];
