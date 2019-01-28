@@ -1,19 +1,33 @@
 import React from 'react';
 import { Button, FormGroup, Label, Input, Breadcrumb, ListGroup } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import Moment from 'react-moment';
 const axios = require('axios');
+const moment = require('moment');
+
 export default class Classement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       classement: [],
+      timeractivation: null
     };
+  }
+
+  componentDidMount() {
+    axios.get(`http://localhost:5000/api/session`)
+      .then(response => {
+        this.setState({
+          timeractivation: response.data[0].activetimer
+        })
+      });
   }
 
   saveChoice = (e) => {
     if (e.target.value === "points") {
       axios.get(`http://localhost:5000/api/equipes/byscore`)
         .then(response => {
+          console.log(response)
           this.setState({
             classement: response.data
           })
@@ -28,7 +42,7 @@ export default class Classement extends React.Component {
         <div>
           <Breadcrumb>
             <ListGroup>
-              {classement.nom} : {classement.score} points
+              {classement.nom} : {classement.score} points ; Heure de fin : {classement.h_fin}
             </ListGroup>
           </Breadcrumb>
         </div>
@@ -43,8 +57,7 @@ export default class Classement extends React.Component {
         <FormGroup>
           <Label for="exampleSelect">Selectionnez le type de Classement</Label>
           <Input type="select" name="tri" id="tri" onChange={this.saveChoice}>
-            <option value="temps" name="par temps">Par temps</option>
-            <option value="indices" name="par temps">Par indices</option>
+            <option value="indices" name="par temps">Choix...</option>
             <option value="points" name="par temps">Par points</option>
           </Input>
         </FormGroup>

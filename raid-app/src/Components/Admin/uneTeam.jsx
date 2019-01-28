@@ -83,7 +83,10 @@ export default class uneTeam extends Component {
                 h_fin: this.state.h_fin,
             })
             .then(function (response) {
-                console.log(response);
+                console.log(response)
+                if (response.status === 200) {
+                    window.location.href = `/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`
+                }
             })
             .catch(function (error) {
                 console.log(error);

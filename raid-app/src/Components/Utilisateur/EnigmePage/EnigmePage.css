@@ -70,7 +70,7 @@
 }
 
 .visible {
-    background-color: orange !important;
+    background-color: orange;
 }
 
 .btn-primary {

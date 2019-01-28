@@ -414,11 +414,6 @@ app.put('/api/equipes/donnees/:_id', function (req, res) {
     console.log('Hello la team marche', equipe)
     Equipe.updateInfoEquipe(id, {
         $set: {
-            score: equipe.score,
-            nom: equipe.nom,
-            email: equipe.email,
-            telephone: equipe.telephone,
-            participants: equipe.participants,
             h_fin: equipe.h_fin,
         }
     }, (err, result) => {
@@ -573,6 +568,7 @@ app.put('/api/session/modifytitle', function (req, res) {
     })
 })
 
+//Modification de l'activation de la session
 app.put('/api/session/activation', function (req, res) {
     const id = req.params._id
     var session = req.body
@@ -585,6 +581,22 @@ app.put('/api/session/activation', function (req, res) {
         res.json(session)
     })
 })
+
+//Modification de l'activation du timer
+app.put('/api/session/timeractivation', function (req, res) {
+    const id = req.params._id
+    var session = req.body
+    Session.updateSession(id, {
+        activetimer: session.activetimer
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(session)
+    })
+})
+
+
 
 //Modification du point de rencontre de fin de session
 app.put('/api/session/meetingpoint', function (req, res) {

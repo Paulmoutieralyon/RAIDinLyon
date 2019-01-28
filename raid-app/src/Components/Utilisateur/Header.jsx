@@ -9,7 +9,6 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody,
-    NavLink,
     Navbar,
     NavbarToggler,
     NavbarBrand,
@@ -19,13 +18,14 @@ import {
 } from "reactstrap"
 import './MapPage/MapPage.css'
 import './Header.css'
-import { FaCompass } from 'react-icons/fa'
+import { FaBars } from 'react-icons/fa'
 import { slideHeader } from '../../Actions/Utilisateur/headerActions'
 
 export class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            timeractivation: null,
             nameMap: "tu es proche",
             loaded: true,
             countAnswer: 0,
@@ -47,7 +47,7 @@ export class Header extends React.Component {
             interval: function () {
 
             }
-            
+
         };
         //this.user = this.props.match.params.id
         this.tab = []
@@ -73,7 +73,8 @@ export class Header extends React.Component {
         axios.get(`http://localhost:5000/api/session`)
             .then(response => {
                 this.setState({
-                    deadline: response.data[0].deadline
+                    deadline: response.data[0].deadline,
+                    timeractivation: response.data[0].activetimer
                 })
             });
     }
@@ -85,8 +86,8 @@ export class Header extends React.Component {
     }
 
     allToggle = (event) => {
-        
-        const {dataCallback} = this.props
+
+        const { dataCallback } = this.props
         this.toggleTimer()
         dataCallback(!this.state.modalMarker) // callback pour appler la function modalmarker
     }
@@ -114,33 +115,38 @@ export class Header extends React.Component {
         if (counterCheckEnd === counterEnd) {
             this.toggleTimer()
         }
-    
+
     }
 
     render() {
-        const {post} = this.props
+        const { post } = this.props
         return (
             <div className='headerContainer'>
                 <Navbar light expand="md">
                     <NavbarBrand><Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link></NavbarBrand>
-                    <div className="count_title" >Fin :</div>
-                    <Container className="d-none d-md-block">{this.props.title}</Container>
-                    <Row>
-                        <Col> {this.leading0(this.state.hours)}H</Col>
-                        <Col> {this.leading0(this.state.minutes)}M</Col>
-                        <Col>{this.leading0(this.state.seconds)}S</Col>
-                    </Row>
+
+                    {this.state.timeractivation ?
+                        <div>
+                            <div className="count_title" >Fin :</div>
+                            <Container className="d-none d-md-block">{this.props.title}</Container>
+
+                            <Row>
+                                <Col> {this.leading0(this.state.hours)}H</Col>
+                                <Col> {this.leading0(this.state.minutes)}M</Col>
+                                <Col>{this.leading0(this.state.seconds)}S</Col>
+                            </Row>
+                        </div> : null}
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
-                        <ModalHeader toggle={this.toggleTimer}>Session Terminée</ModalHeader>
+                        <ModalHeader toggle={this.toggleTimer}>Raid Terminé !</ModalHeader>
                         <ModalBody>
-                            Bravo à Vous, les épreuves sont terminées, dirigez-vous vers le point final pour le classement. Soyez content de vous !
+                            Retrouvez-vous à l'adresse indiquée sur la map !  
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
+                            <Button color="primary" onClick={this.allToggle}>En route !</Button>{' '}
                         </ModalFooter>
                     </Modal>
                     <NavbarToggler onClick={this.props.slideHeader}>
-                        <FaCompass style={{ color: '#c6c6c6' }} />
+                        <FaBars style={{ color: '#c6c6c6' }} />
                     </NavbarToggler>
                 </Navbar>
                 <ul className="menuList">

@@ -4,8 +4,9 @@ import axios from 'axios'
 import { NavLink, BrowserRouter } from 'react-router-dom';
 import { Route, Redirect } from 'react-router';
 import ReactDOM from "react-dom";
+import './AddEnigme.css';
 
-function validateform(enonce, lat, long){
+function validateform(enonce, lat, long, file) {
     const errors = [];
     if (enonce.length === 0) {
         errors.push("L'ennonce doit être remplis");
@@ -15,6 +16,9 @@ function validateform(enonce, lat, long){
     }
     if (long.length === 0) {
         errors.push("La longitude doit être remplis");
+    }
+    if (file.length === 0) {
+        errors.push(" Fichiers doit être remplis ");
     }
     return errors;
 }
@@ -34,12 +38,14 @@ export default class AddEgnimes extends React.Component {
             info: null,
             image: null,
             selectedFile: null,
+            agagner: null
         };
         this.addResp = [];
         this.Clue1 = null;
         this.Clue2 = null;
         this.Clue3 = null;
         this.fileInput = React.createRef();
+        this.idAdmin = this.props.match.params._id
     }
     /*Chargement de l'image*/
 
@@ -116,7 +122,7 @@ export default class AddEgnimes extends React.Component {
     /* Ajout des points pour cette enigme */
     addPoints = (e) => {
         this.setState({
-            points: e.target.value
+            agagner: e.target.value
         })
     }
 
@@ -185,25 +191,27 @@ export default class AddEgnimes extends React.Component {
         // data.append('indices', JSON.stringify(this.state.indices))
         // data.append('coordonnee', JSON.stringify(this.state.coordonnees))
         data.append('image', this.fileInput.current.files[0])
-        data.append('body',JSON.stringify({
-                titre: this.state.titre,
-                question: this.state.question,
-                enonce: this.state.enonce,
-                indices: this.state.indices,
-                info: this.state.info,
-                img: this.state.image,
-                reponse: this.state.responses,
-                coordonnee :this.state.coordonnees
-            }))
+        data.append('body', JSON.stringify({
+            titre: this.state.titre,
+            question: this.state.question,
+            enonce: this.state.enonce,
+            indices: this.state.indices,
+            info: this.state.info,
+            img: this.state.image,
+            reponse: this.state.responses,
+            coordonnee: this.state.coordonnees,
+            agagner: this.state.agagner
+        }))
 
 
         const enonce = ReactDOM.findDOMNode(this._enonceInput).value;
         const lat = ReactDOM.findDOMNode(this._latInput).value;
         const long = ReactDOM.findDOMNode(this._longInput).value;
+        const file = this.fileInput.current.files;
 
-        const errors = validateform (enonce, lat, long);
+        const errors = validateform(enonce, lat, long, file);
         if (errors.length > 0) {
-            this.setState({errors});
+            this.setState({ errors });
             return
         }
         axios({
@@ -214,46 +222,16 @@ export default class AddEgnimes extends React.Component {
             .then(function (response) {
                 console.log(response)
                 if (response.status === 200) {
-                    //window.location.href = 'ListEnigmes';
+
+                    window.location.href = `/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`
+
                 }
             }
             )
             .catch(function (error) {
                 console.log(error);
             });
-        //window.location.href = 'ListEnigmes';
     }
-
-    /*onChange = (e) => {
-        let files = e.target.files;
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-
-        reader.onload = (e) => {
-            const url = "http://localhost:5000/api/enigme";
-            const formData = {file: e.target.value}
-            return post (url, formData)
-                .then(response => console.warn("result", response))
-        }
-    }*/
-
-    // fileSelectedHandler = event => {
-    //     this.setState({
-    //         selectedFile: event.target.files[0]
-    //     })
-    // }
-
-    // fileUploadHandler = () => {
-    //     console.log("bijour")
-    //     const fd = new FormData();
-    //     fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
-    //     axios.post('http://localhost:5000/api/image', fd)
-    //         .then(res => {
-    //             console.log(res,'oui');
-    //         })
-    // }
-
-
 
     render() {
         const { errors } = this.state;
@@ -265,23 +243,13 @@ export default class AddEgnimes extends React.Component {
                 <h3>Création d'une énigme </h3>
 
                 Hello {token}<br />
-
-
-                {/*<FormGroup>
-                    <Label for="exampleFile">Image</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
-                        Importer une image pour cette session
-                </FormText>
-                </FormGroup>*/}
-                {/*<FormGroup>
-                    <Label for="exampleEmail">URL d'une image d'illustration</Label>
-                    <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyImage} />
-                </FormGroup>*/}
                 <form>
                     <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
                         <Label for="exampleFile">File</Label>
-                        <input type="file" name="file" id="exampleFile" ref={this.fileInput} />
+                        <input type="file" name="file" id="exampleFile" 
+                        // ref={fileInput => (this._fileInput = fileInput)}
+                        ref={this.fileInput} />
+                        <small className="obligatoire"> (*obligatoire)</small>
                         <FormText color="muted">
                             This is some placeholder block-level help text for the above input.
                             It's a bit lighter and easily wraps to a new line.
@@ -294,14 +262,15 @@ export default class AddEgnimes extends React.Component {
 
                     <FormGroup>
                         <Label for="exampleText">Énoncé</Label>
-                        <Input type="textarea" name="text" id="exampleText" 
-                        ref={enonceInput => (this._enonceInput = enonceInput)}
-                        onChange={this.modifyAnnouncement} />
+                        <small className="obligatoire"> (*obligatoire)</small>
+                        <Input type="textarea" name="text" id="exampleText"
+                            ref={enonceInput => (this._enonceInput = enonceInput)}
+                            onChange={this.modifyAnnouncement} />
                     </FormGroup>
 
                     <FormGroup>
                         <Label for="exampleText">Question</Label>
-                        <small className="obligatoire"> (*obligatoire)</small>
+                        
                         <Input type="textarea" name="text" id="exampleText" onChange={this.modifyQuestion} />
                     </FormGroup>
 
@@ -309,6 +278,12 @@ export default class AddEgnimes extends React.Component {
                         <Label for="exampleText">Réponse</Label>
                         <Input type="textarea" name="text" id="exampleText" onChange={this.addResponse} />
                     </FormGroup>
+
+                    <FormGroup>
+                        <Label for="exampleText">Points à gagner pour cette énigme</Label>
+                        <Input type="text" name="text" id="exampleText" onChange={this.addPoints} />
+                    </FormGroup>
+
 
                     <FormGroup>
                         <Label for="exampleEmail">Indices</Label>
@@ -337,16 +312,16 @@ export default class AddEgnimes extends React.Component {
                     <FormGroup>
                         <Label for="exampleEmail">Lattitude</Label>
                         <small className="obligatoire"> (*obligatoire)</small>
-                        <Input type="titre" name="titre" id="titreennigme" 
-                        ref={latInput => (this._latInput = latInput)}
-                        onChange={this.modifyLat} />
+                        <Input type="titre" name="titre" id="titreennigme"
+                            ref={latInput => (this._latInput = latInput)}
+                            onChange={this.modifyLat} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="exampleEmail">Longitude</Label>
                         <small className="obligatoire"> (*obligatoire)</small>
-                        <Input type="titre" name="titre" 
-                        ref={longInput => (this._longInput = longInput)}
-                        id="titreennigme" onChange={this.modifyLong} />
+                        <Input type="titre" name="titre"
+                            ref={longInput => (this._longInput = longInput)}
+                            id="titreennigme" onChange={this.modifyLong} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="exampleEmail">Règles du lieu</Label>
@@ -355,7 +330,9 @@ export default class AddEgnimes extends React.Component {
                 </form>
 
                 <Card body>
-                    <Button onClick={this.submit}>Enregistrer les modifications</Button>
+                    <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
+                        <Button onClick={this.submit}>Enregistrer les modifications</Button>
+                    </NavLink>
                 </Card>
                 <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
             </div>
