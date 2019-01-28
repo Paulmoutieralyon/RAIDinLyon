@@ -150,7 +150,7 @@ class MapPage extends React.Component {
 
     saveEndTime = () => {
         axios.put(`http://localhost:5000/api/equipes/donnees/${window.localStorage.getItem('id')}`, {
-            h_fin: moment().format()
+            h_fin: moment().format('LTS')
         })
             .then(function (response) {
                 console.log("L'envoi a fonctionné", response);

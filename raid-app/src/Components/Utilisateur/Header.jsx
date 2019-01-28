@@ -137,12 +137,12 @@ export class Header extends React.Component {
                             </Row>
                         </div> : null}
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
-                        <ModalHeader toggle={this.toggleTimer}>Session Terminée</ModalHeader>
+                        <ModalHeader toggle={this.toggleTimer}>Raid Terminé !</ModalHeader>
                         <ModalBody>
-                            Bravo à Vous, les épreuves sont terminées, dirigez-vous vers le point final pour le classement. Soyez content de vous !
+                            Retrouvez-vous à l'adresse indiquée sur la map !  
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
+                            <Button color="primary" onClick={this.allToggle}>En route !</Button>{' '}
                         </ModalFooter>
                     </Modal>
                     <NavbarToggler onClick={this.props.slideHeader}>

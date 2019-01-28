@@ -44,7 +44,7 @@ export default class AdminComptes extends React.Component {
                 if (response.data.success === true) {
                     window.localStorage.setItem("tokenAdmin", response.data.token)
                     window.localStorage.setItem("idAdmin", response.data.id)
-                    window.location.href = `Admin/SessionPage/${response.data.id}`
+                    window.location.href = `/Admin/SessionPage/${response.data.id}`
                 } else alert("Formulaire érroné")
             })
             .catch(function (error) {
