@@ -38,6 +38,7 @@ export default class AddEgnimes extends React.Component {
             info: null,
             image: null,
             selectedFile: null,
+            agagner: null
         };
         this.addResp = [];
         this.Clue1 = null;
@@ -121,7 +122,7 @@ export default class AddEgnimes extends React.Component {
     /* Ajout des points pour cette enigme */
     addPoints = (e) => {
         this.setState({
-            points: e.target.value
+            agagner: e.target.value
         })
     }
 
@@ -198,7 +199,8 @@ export default class AddEgnimes extends React.Component {
             info: this.state.info,
             img: this.state.image,
             reponse: this.state.responses,
-            coordonnee: this.state.coordonnees
+            coordonnee: this.state.coordonnees,
+            agagner: this.state.agagner
         }))
 
 
@@ -231,37 +233,6 @@ export default class AddEgnimes extends React.Component {
             });
     }
 
-    /*onChange = (e) => {
-        let files = e.target.files;
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-
-        reader.onload = (e) => {
-            const url = "http://localhost:5000/api/enigme";
-            const formData = {file: e.target.value}
-            return post (url, formData)
-                .then(response => console.warn("result", response))
-        }
-    }*/
-
-    // fileSelectedHandler = event => {
-    //     this.setState({
-    //         selectedFile: event.target.files[0]
-    //     })
-    // }
-
-    // fileUploadHandler = () => {
-    //     console.log("bijour")
-    //     const fd = new FormData();
-    //     fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
-    //     axios.post('http://localhost:5000/api/image', fd)
-    //         .then(res => {
-    //             console.log(res,'oui');
-    //         })
-    // }
-
-
-
     render() {
         const { errors } = this.state;
         //console.log(this.state.indices)
@@ -272,19 +243,6 @@ export default class AddEgnimes extends React.Component {
                 <h3>Création d'une énigme </h3>
 
                 Hello {token}<br />
-
-
-                {/*<FormGroup>
-                    <Label for="exampleFile">Image</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
-                        Importer une image pour cette session
-                </FormText>
-                </FormGroup>*/}
-                {/*<FormGroup>
-                    <Label for="exampleEmail">URL d'une image d'illustration</Label>
-                    <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyImage} />
-                </FormGroup>*/}
                 <form>
                     <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
                         <Label for="exampleFile">File</Label>
@@ -372,7 +330,9 @@ export default class AddEgnimes extends React.Component {
                 </form>
 
                 <Card body>
-                    <Button onClick={this.submit}>Enregistrer les modifications</Button>
+                    <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
+                        <Button onClick={this.submit}>Enregistrer les modifications</Button>
+                    </NavLink>
                 </Card>
                 <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
             </div>

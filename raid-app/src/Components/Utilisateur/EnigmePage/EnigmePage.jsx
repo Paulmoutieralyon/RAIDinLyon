@@ -6,15 +6,13 @@ import { displayEnigmeAction, enigmeValidation } from '../../../Actions/displayE
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { AvForm, AvField } from 'availity-reactstrap-validation'
 import { NavLink } from 'react-router-dom'
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, Alert } from 'reactstrap'
 import './EnigmePage.css'
 import info from './info.1.png'
-import Faux from './faux.png'
-import Vrai from './vrai.png'
-import Vide from './Vide.png'
 import './InfosModalEgnime.css'
 import Header from '../Header'
 import '../MapPage/MapPage.css'
+import { timingSafeEqual } from 'crypto';
 
 export class EnigmePage extends React.Component {
     constructor(props) {
@@ -23,7 +21,6 @@ export class EnigmePage extends React.Component {
             compteurcontinue: 0,
             proposition: "",
             isResTrue: false,
-            final: Vide,
             modal: false,
             indice: null,
             indiceNumber: 0,
@@ -32,6 +29,8 @@ export class EnigmePage extends React.Component {
             continuer: null,
             isContinue: false,
             markernumber: null,
+            disableIndice: null,
+            visibleAlert: true,
             //Les états qu'on l'on fetchera
             question: null,
             titre: null,
@@ -46,12 +45,18 @@ export class EnigmePage extends React.Component {
             isLoaded: false,
             agagner: null,
             //Affichage du score 
-            scoregeneral: null
+            scoregeneral: null,
         };
         this.data = null
         this.scoreg = null
         this.enigme = this.props.match.params._id
         this.user = this.props.match.params.id
+    }
+
+    onDismiss = () => {
+        this.setState({
+            visibleAlert: false
+        });
     }
 
     //Fetch et stockage des données de l'énigme en state + stockage du score du joueur //
@@ -120,6 +125,10 @@ export class EnigmePage extends React.Component {
                     indice: this.state.indices[0],
                     agagner: Math.ceil(this.state.agagner / 1.3)
                 })
+            } else {
+                this.setState({
+                    disableIndice: true
+                })
             }
             console.log("indice 1:", this.state.indices[0])
             console.log(this.state.agagner)
@@ -133,6 +142,11 @@ export class EnigmePage extends React.Component {
                     agagner: Math.ceil(this.state.agagner / 2)
                 })
             }
+            else {
+                this.setState({
+                    disableIndice: true
+                })
+            }
             console.log("indice 2:", this.state.indices[1])
             console.log(this.state.indices)
             console.log(this.state.agagner)
@@ -144,6 +158,11 @@ export class EnigmePage extends React.Component {
                     indiceNumber: this.state.indiceNumber + 1,
                     indice: this.state.indices[2],
                     agagner: Math.ceil(this.state.agagner / 3)
+                })
+            }
+            else {
+                this.setState({
+                    disableIndice: true
                 })
             }
             console.log("indice 3:", this.state.indices[2])
@@ -174,7 +193,6 @@ export class EnigmePage extends React.Component {
                     this.setState({
                         isContinue: true,
                         isResTrue: true,
-                        final: Vrai,
                         visibilite: "pasvisible",
                         succeed: true,
                     })
@@ -185,7 +203,6 @@ export class EnigmePage extends React.Component {
                     this.setState({
                         agagner: 0,
                         isResTrue: false,
-                        final: Faux,
                         succeed: false,
                     })
                     this.saveResp()
@@ -193,7 +210,6 @@ export class EnigmePage extends React.Component {
                 } else if (this.state.indiceNumber >= 2 || (this.state.numClickValidate >= 3 && this.state.isResTrue === false)) {
                     this.setState({
                         isResTrue: false,
-                        final: Faux,
                         succeed: false,
                     })
                     this.saveResp()
@@ -201,7 +217,6 @@ export class EnigmePage extends React.Component {
                 } else {
                     this.setState({
                         isResTrue: false,
-                        // final: Faux,
                     })
 
                 }
@@ -210,13 +225,13 @@ export class EnigmePage extends React.Component {
                     check: true,
                     numClickValidate: this.state.numClickValidate + 1
                 })
-
             })
             .catch(function (error) {
                 console.log(error);
             });
-
     }
+
+
 
 
     //Enregistrement du score et de l'ID en BDD//
@@ -236,53 +251,73 @@ export class EnigmePage extends React.Component {
             });
     }
 
+    selectColorIcon = () => {
+        if (this.state.succeed === null) return "warning"
+        else if (this.state.succeed === false) return "danger"
+        else if (this.state.succeed) return "success"
+    }
+
     render() {
         console.log("gain:", this.state.agagner)
-        //console.log("score:", this.state.score) 
-        //console.log(this.state.agagner + this.state.score)
-        //console.log('indices', this.state.indiceNumber)
-        //console.log('succeed', this.state.succeed)
-        //this.props.enigme[0] ? console.log([this.props.enigme[0].coordonnee[0], this.props.enigme[0].coordonnee[1]]) : console.log('wait')
-        //console.log(this.props.check)
+        let tentatives = this.state.numClickValidate - 3
         return (
-            <div class="EnigmePageContainer">
+            <div className="EnigmePageContainer">
                 <Header scoreuser={this.state.scoregeneral} />
                 {this.state.isLoaded ?
-                    <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
+                    <div style={{ padding: '5vw' }} id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                         {this.state.img ? <img className="Illustration" src={`/api/image?img=${this.state.img}`} alt='' /> : null}
-                        <h3 className="Titre">{this.state.titre}</h3>
+                        <h2 className="Titre">{this.state.titre}</h2>
                         <p >{this.state.enonce}</p>
 
                         <AvForm className="reponse" onSubmit={this.isTrue}>
                             <h3 className="TitreQuestion">{this.state.question}</h3>
                             <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                             <div className="validationContainer">
-                                {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed || this.state.succeed === false) ?
-                                    <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color="primary" type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
+                                {this.state.succeed || this.state.succeed === false ?
+                                    null
                                     :
-                                    <Button color="primary" onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
-                                <img className="final" src={this.state.final} alt='' />
+                                    <div style={{ textAlign: "center" }}>
+                                        <p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p>
+                                    </div>
+                                }
+                                {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed || this.state.succeed === false) ?
+                                    <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color={this.selectColorIcon(this.state.succeed)} type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
+                                    :
+                                    <Button color={this.selectColorIcon(this.state.succeed)} onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
                             </div>
-                            <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                            {this.state.succeed === false || this.state.succeed ?
+                                null
+                                :
+                                <div>
+                                    {this.state.disableIndice || this.state.indices[0] === null ?
+                                        <div>
+                                            <Button disabled type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                                        </div>
+                                        :
+                                        <div>
+                                            <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                                        </div>}
+                                </div>}
                             <div className="Textindices">{this.state.indice}</div>
                         </AvForm>
                         <br />
-                        {this.state.indiceNumber === 2 ?
+                        {this.state.indiceNumber === 2 && this.state.indices[2] ?
                             <div className="TitreQuestion"><i>
                                 Attention il ne vous reste plus qu'un indice !!
                                 </i></div>
                             :
                             null}
                         <br />
-                        {this.state.numClickValidate === 2 && !this.state.isResTrue ?
-                            <div className="TitreQuestion"><i>
-                                Attention il ne vous reste plus qu'une tentative !!
-                                </i></div>
+                        {this.state.numClickValidate === 2 && !this.state.isResTrue && !this.state.succeed ?
+                            < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
+                                Attention il ne vous reste plus qu'une tentative.
+                            </Alert>
                             :
                             null}
                     </div>
                     :
-                    null}
+                    null
+                }
             </div>
 
         );
