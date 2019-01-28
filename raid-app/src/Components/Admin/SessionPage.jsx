@@ -7,6 +7,8 @@ import './SessionPage.css';
 import DatePicker from 'react-datepicker'
 import { NavLink } from 'react-router-dom';
 import Moment from 'react-moment';
+import Sessionactivation from './Sessionactivation';
+import Sessiontimer from './Sessiontimer'
 import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
 const moment = require('moment');
@@ -19,7 +21,7 @@ export default class SessionPage extends React.Component {
             nom: null,
             deadline: null,
             etat: null,
-            checked: null,
+            etattimer: null,
             pointrencontre: ["Vide", "Vide"],
             startDate: new Date(),
             visible: "visible",
@@ -42,14 +44,12 @@ export default class SessionPage extends React.Component {
                     idsession: response.data[0]._id,
                     nom: response.data[0].nom,
                     deadline: response.data[0].deadline,
-                    checked: response.data[0].isactivate,
                     pointrencontre: response.data[0].pointrencontre
                 })
             })
             .catch(error => {
                 throw (error);
             });
-        this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
     }
 
     async modifyTitle(value) {
@@ -68,22 +68,6 @@ export default class SessionPage extends React.Component {
             });
     }
 
-    async modifyActivation(value) {
-        await this.setState({
-            checked: value
-        })
-        await this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
-        await axios.put(`http://localhost:5000/api/session/activation`,
-            {
-                isactivate: this.state.checked
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
 
     modify = (e) => {
         this.setState({
@@ -172,13 +156,9 @@ export default class SessionPage extends React.Component {
                 <NavLink to={`/Admin/Classement/${window.localStorage.getItem('idAdmin')}`} ><Button>Classement</Button></NavLink>
                 <NavLink to={`/Admin`}><Button>Retour</Button></NavLink>
 
-                <Breadcrumb>
-                    <BreadcrumbItem active>Session {this.state.etat}</BreadcrumbItem>
-                    <Toggle
-                        mode="select"
-                        checked={this.state.checked}
-                        onToggle={value => this.modifyActivation(value)} />
-                </Breadcrumb>
+                <Sessionactivation />
+                <Sessiontimer />
+
                 <p>Fin de la partie le :</p> <p className={this.state.visible}><Moment date={this.state.startDate} format="MMMM, DD, YYYY, H:mm:ss" /></p>
                 <Button className={this.state.visible} onClick={this.modify}>Modifier la date</Button>
                 <Button className={this.state.invisible} onClick={this.submit}>Enregistrer les modification</Button>
