@@ -220,7 +220,9 @@ export default class AddEgnimes extends React.Component {
             .then(function (response) {
                 console.log(response)
                 if (response.status === 200) {
-                    this.props.history.push(`/Admin/AddEgnimes/${this.idAdmin}`);
+
+                    window.location.href = `/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`
+
                 }
             }
             )

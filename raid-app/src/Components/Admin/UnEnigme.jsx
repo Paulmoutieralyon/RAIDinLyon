@@ -144,7 +144,10 @@ export default class UnEnigme extends Component {
                 reponse: this.state.reponse,
             })
             .then(function (response) {
-                console.log(response);
+                console.log(response)
+                if (response.status === 200) {
+                    window.location.href = `/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`
+                }
             })
             .catch(function (error) {
                 console.log(error);
