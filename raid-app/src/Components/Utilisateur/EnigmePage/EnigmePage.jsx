@@ -273,7 +273,13 @@ export class EnigmePage extends React.Component {
                             <h3 className="TitreQuestion">{this.state.question}</h3>
                             <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                             <div className="validationContainer">
-                                <div style={{ textAlign: "center" }}><p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p></div>
+                                {this.state.succeed || this.state.succeed === false ?
+                                    null
+                                    :
+                                    <div style={{ textAlign: "center" }}>
+                                        <p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p>
+                                    </div>
+                                }
                                 {(this.state.isResTrue || this.state.indiceNumber > 3 || this.state.succeed || this.state.succeed === false) ?
                                     <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color={this.selectColorIcon(this.state.succeed)} type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
                                     :
@@ -295,14 +301,14 @@ export class EnigmePage extends React.Component {
                             <div className="Textindices">{this.state.indice}</div>
                         </AvForm>
                         <br />
-                        {this.state.indiceNumber === 2 ?
+                        {this.state.indiceNumber === 2 && this.state.indices[2] ?
                             <div className="TitreQuestion"><i>
                                 Attention il ne vous reste plus qu'un indice !!
                                 </i></div>
                             :
                             null}
                         <br />
-                        {this.state.numClickValidate === 2 && !this.state.isResTrue ?
+                        {this.state.numClickValidate === 2 && !this.state.isResTrue && !this.state.succeed ?
                             < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
                                 Attention il ne vous reste plus qu'une tentative.
                             </Alert>

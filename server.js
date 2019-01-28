@@ -414,11 +414,6 @@ app.put('/api/equipes/donnees/:_id', function (req, res) {
     console.log('Hello la team marche', equipe)
     Equipe.updateInfoEquipe(id, {
         $set: {
-            score: equipe.score,
-            nom: equipe.nom,
-            email: equipe.email,
-            telephone: equipe.telephone,
-            participants: equipe.participants,
             h_fin: equipe.h_fin,
         }
     }, (err, result) => {

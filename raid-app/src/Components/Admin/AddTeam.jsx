@@ -3,7 +3,8 @@ import { CardFooter, Button, Input, Label, FormGroup } from 'reactstrap';
 import axios from 'axios';
 import ReactDOM from "react-dom";
 import { NavLink } from 'react-router-dom';
-import generator from 'generate-password'
+import generator from 'generate-password';
+import './AddTeam.css';
 
 function validateform(email) {
     const errors = [];
@@ -113,7 +114,8 @@ export default class AddTeam extends React.Component {
         })
             .then(function (response) {
                 if (response.status === 200) {
-                    window.location.href = 'ListTeam'
+                    console.log(response.status + "hello")
+                    window.location.href = `/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`
                 }
             })
             .catch(function (error) {
