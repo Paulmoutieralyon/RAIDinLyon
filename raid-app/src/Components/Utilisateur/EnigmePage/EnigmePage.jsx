@@ -79,10 +79,12 @@ export class EnigmePage extends React.Component {
                     agagner: this.data.agagner,
                     baseagagner: this.data.agagner
                 })
-                if (!this.state.indices[0]) {
-                    this.setState({
-                        disableIndice: true
-                    })
+                if (this.state.indices[0]) {
+                    if (!this.state.indices[0]) {
+                        this.setState({
+                            disableIndice: true
+                        })
+                    }
                 }
             })
             .catch(error => {
@@ -284,8 +286,7 @@ export class EnigmePage extends React.Component {
                             <h3 className="TitreQuestion">{this.state.question}</h3>
                             <br />
                             {this.state.succeed || this.state.succeed === false ?
-                            
-                            <p style={{fontSize:'3vh', color:'#ffbb34', textAlign: 'center'}}>réponse: <strong>{this.state.reponse}</strong></p>
+                                <p style={{ fontSize: '3vh', color: '#ffbb34', textAlign: 'center' }}>réponse: <strong>{this.state.reponse}</strong></p>
                                 :
                                 <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                             }
@@ -315,7 +316,11 @@ export class EnigmePage extends React.Component {
                                             <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
                                         </div>}
                                 </div>}
-                            <div className="Textindices">{this.state.indice}</div>
+                            {this.state.succeed || this.state.succeed === false ?
+                                null
+                                :
+                                <div className="Textindices">{this.state.indice}</div>
+                            }
                         </AvForm>
                         <br />
                         {this.state.indiceNumber === 2 && this.state.indices[2] ?
