@@ -151,19 +151,19 @@ class MapPage extends React.Component {
     saveEndTime = () => {
         axios.put(`http://localhost:5000/api/equipes/donnees/${window.localStorage.getItem('id')}`, {
             h_fin: moment().format('LTS')
+                .then(function (response) {
+                    console.log("L'envoi a fonctionné", response);
+                })
+                .catch(function (error) {
+                    console.log("L'envoi n'a PAS fonctionné", error);
+                })
         })
-            .then(function (response) {
-                console.log("L'envoi a fonctionné", response);
-            })
-            .catch(function (error) {
-                console.log("L'envoi n'a PAS fonctionné", error);
-            });
     }
 
 
     render() {
         return (
-            <div className="mapPageContainer">
+            <div className="mapPageContainer" >
                 <Header
                     dataCallback={this.handleModalCallback}
                     scoreuser={this.state.scoreuser}
