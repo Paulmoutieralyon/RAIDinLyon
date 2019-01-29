@@ -170,7 +170,6 @@ class MapPage extends React.Component {
                     dataCallback={this.handleModalCallback}
                     scoreuser={this.state.scoreuser}
                 />
-
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">
                         <Map className="map" center={this.props.currentPosition} zoom={this.props.zoom} zoomControl={false}>

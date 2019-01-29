@@ -1,15 +1,96 @@
-.containerSessionPage {
+.containerAdmin {
+    margin: 2em;
+}
+
+.containerSessionPage .btn {
     text-align: center;
     margin-top: 5vh;
     margin-bottom: 5vh;
     padding: 0.3em;
-    font-size: 2em;
+    font-size: 1.9em !important;
+    border-style: none;
 }
 
 .btn {
-    margin-top: 1em !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin-top: 0.2em !important;
+    margin-bottom: 0.2em !important;
+    height: 3em !important;
+    text-align: left !important;
+    width: 100%;
 }
 
-.invisible {
-    display: none
+.btn:hover {
+    color: orange !important;
 }
+
+.textButton {
+    padding-left: 10vw;
+    width: 80%;
+    display: inline-block;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.textButtonIcon {
+    text-align: right;
+    display: inline-block;
+}
+
+.togglerButtonText {
+    width: 50%;
+    padding-left: 2vw;
+}
+
+.toggle {
+    display: inline-block !important;
+    top: 30%;
+}
+
+.buttonBig {
+    height: 7em !important;
+    background-color: #6c757d !important;
+}
+
+/* #buttonBigDate {
+    height: 7em !important;
+    background-color: #6c757d !important;
+    transition: transform 300ms ease-in;
+}
+
+#buttonBigDate.buttonDate {
+    transform: translate(0,0) scale(1,1);
+}
+
+#buttonBigDate.buttonDateContainer {
+    transform: translate(200%,0) scale(1,1);
+} */
+
+.buttonMenu {
+    background-color: black !important;
+    border-style: none !important;
+}
+
+.buttonMenu:hover {
+    background-color: rgb(32, 32, 32) !important;
+}
+
+/* .dateContainer {
+    height: 210px;
+    background-color: #6c757d;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+.datePicker {
+    position: relative;
+    display: inline-block;
+    width:100%;
+}
+
+.dateValidation {
+    display: inline-block;
+    width:100%;
+}
+ */
