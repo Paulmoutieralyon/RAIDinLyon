@@ -273,26 +273,35 @@ export class EnigmePage extends React.Component {
                 <Header scoreuser={this.state.scoregeneral} />
                 {this.state.isLoaded ?
                     <div style={{ padding: '5vw' }} id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
+                        {this.state.indiceNumber === 2 && this.state.indices[2] ?
+                            < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
+                                Attention il ne vous reste plus qu'un tentative.
+                        </Alert>
+                            :
+                            null}
                         {this.state.img ? <img className="Illustration" src={`/api/image?img=${this.state.img}`} alt='' /> : null}
                         <h2 className="Titre">{this.state.titre}</h2>
-                        <p >{this.state.enonce}</p>
+                        <br />
+                        <p className="enonce">{this.state.enonce}</p>
 
-                        <AvForm className="reponse" onSubmit={this.isTrue}>
+                        <AvForm onSubmit={this.isTrue}>
                             <h3 className="TitreQuestion">{this.state.question}</h3>
                             <br />
+                            {this.state.succeed || this.state.succeed === false ?
+                                null
+                                :
+                                <div style={{ textAlign: "start", marginBottom: '-2vh' }}>
+                                    <p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p>
+                                </div>
+                            }
                             {this.state.succeed || this.state.succeed === false ?
                                 <p style={{ fontSize: '3vh', color: '#ffbb34', textAlign: 'center' }}>réponse: <strong>{this.state.reponse}</strong></p>
                                 :
                                 <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
                             }
+                            <br />
                             <div className="validationContainer">
-                                {this.state.succeed || this.state.succeed === false ?
-                                    null
-                                    :
-                                    <div style={{ textAlign: "center" }}>
-                                        <p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p>
-                                    </div>
-                                }
+
                                 {(this.state.isResTrue || this.state.succeed || this.state.succeed === false) ?
                                     <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color={this.selectColorIcon(this.state.succeed)} type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
                                     :
@@ -317,13 +326,6 @@ export class EnigmePage extends React.Component {
                                 <div className="Textindices">{this.state.indice}</div>
                             }
                         </AvForm>
-                        <br />
-                        {this.state.indiceNumber === 2 && this.state.indices[2] ?
-                            <div className="TitreQuestion"><i>
-                                Attention il ne vous reste plus qu'un indice !!
-                                </i></div>
-                            :
-                            null}
                     </div>
                     :
                     null
