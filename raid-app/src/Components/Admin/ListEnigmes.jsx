@@ -95,7 +95,7 @@ export default class ListSessionPage extends React.Component {
     render() {
         return (
             <div className="containerAdmin">
-                <h1>Énigmes</h1>
+                <h1 className="titreH1">Énigmes</h1>
                 {this.EnigmesList()}
                 {this.deleteValidation()}
                 < Button className="buttonMenu">

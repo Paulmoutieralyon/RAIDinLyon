@@ -2,3 +2,37 @@
     position:absolute;
     display: none
 }
+
+.textButtonUne{
+    
+    width:  auto;
+    color: black;
+    
+    
+}
+.buttonMenu:hover {
+    background-color: rgb(32, 32, 32) !important;
+}
+
+
+
+.id {
+    background-color: #6c757d !important;
+    border-style: none !important;
+   text-decoration: white;
+}
+
+.titre{
+    color: orange;
+    font-family: Arial, Helvetica, sans-serif, bold;
+}
+
+.editable-container a {
+    color: white !important;
+}
+
+.edit{
+    color: white; 
+}
+
+
