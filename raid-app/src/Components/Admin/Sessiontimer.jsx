@@ -5,6 +5,7 @@ import { InputGroup, InputGroupAddon, Input, Button, Breadcrumb, BreadcrumbItem 
 import logo from './logo_tinyplanet_orange.png'
 import './Connexion.css'
 import './SessionPage.css'
+import { FaStopwatch } from 'react-icons/fa'
 
 
 export default class AdminComptes extends React.Component {
@@ -17,6 +18,7 @@ export default class AdminComptes extends React.Component {
     }
 
     componentDidMount() {
+        //this.modifyTimerActivation()
         axios.get('http://localhost:5000/api/session')
             .then(response => {
                 console.log(response.data[0])
@@ -32,7 +34,7 @@ export default class AdminComptes extends React.Component {
     }
 
 
-    modifyTimerActivation=()=> {
+    modifyTimerActivation = () => {
         this.setState({
             timerchecked: !this.state.timerchecked
         })
@@ -53,7 +55,10 @@ export default class AdminComptes extends React.Component {
         return (
             <div className="toggleBlock">
                 <Button className="togglerButton" onClick={this.modifyTimerActivation}>
-                    <div className="togglerButtonText">Timer : {this.state.timeretat}</div>
+                    <div className='textButtonIcon'>
+                        <FaStopwatch />
+                    </div>
+                    <div className="togglerButtonText">{this.state.timeretat}</div>
                 </Button>
             </div>
         )

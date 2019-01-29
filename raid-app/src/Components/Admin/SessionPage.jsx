@@ -181,36 +181,34 @@ export default class SessionPage extends React.Component {
                     </Row>
                     <Row>
                         <Col>
-                            {this.state.displayDate ?
-                                <Button onClick={this.modify} className="buttonBig">
-                                    <div className='textButton'>
+                            <div>
+                                {this.state.displayDate ?
+                                    <div className="dateContainer">
+                                        <DatePicker
+                                            selected={this.state.startDate}
+                                            onChange={this.handleChange}
+                                            showTimeSelect
+                                            timeFormat="HH:mm"
+                                            timeIntervals={15}
+                                            dateFormat="MM, yyyy, dd h:mm aa"
+                                            timeCaption="time"
+                                        />
+                                    </div>
+                                    :
+                                    null
+                                }
+                            </div>
+                            <Button onClick={this.modify} className="buttonBig" /* className={this.state.displayDate ? "buttonDateContainer" : "buttonDate"} */>
+                                <div className='textButton'>
+                                    {this.state.displayDate ?
+                                        null
+                                        :
                                         <p>
-                                            Fin de la partie le : <br /> <Moment date={this.state.startDate} format="MMMM, DD, YYYY, H:mm:ss" />
+                                            <Moment date={this.state.startDate} format="MMMM, DD, YYYY, H:mm:ss" />
                                         </p>
-                                    </div>
-                                    <div className='textButtonIcon'>
-                                        <FaStopwatch />
-                                    </div>
-                                </Button>
-                                :
-                                <div>
-                                    <Button onClick={this.submit} className="buttonBig">
-                                        <div className='textButton'>
-                                            Enregistrer les modification
-    
-                                    </div>
-                                    </Button>
-                                    <DatePicker
-                                        selected={this.state.startDate}
-                                        onChange={this.handleChange}
-                                        showTimeSelect
-                                        timeFormat="HH:mm"
-                                        timeIntervals={15}
-                                        dateFormat="MM, yyyy, dd h:mm aa"
-                                        timeCaption="time"
-                                    />
+                                    }
                                 </div>
-                            }
+                            </Button>
                         </Col>
                     </Row>
                     <Row>

@@ -168,7 +168,6 @@ class MapPage extends React.Component {
                     dataCallback={this.handleModalCallback}
                     scoreuser={this.state.scoreuser}
                 />
-
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">
                         <Map className="map" center={this.props.currentPosition} zoom={this.props.zoom} zoomControl={false}>
@@ -180,7 +179,6 @@ class MapPage extends React.Component {
                                 <div>
                                     {this.props.enigme.map((x, i) =>
                                         <div>
-
                                             {this.state.countAnswer === this.props.enigme.length || this.state.modalMarker ?
                                                 <div>
                                                     {this.saveEndTime()}

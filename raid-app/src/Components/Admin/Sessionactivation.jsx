@@ -5,6 +5,7 @@ import { Button } from 'reactstrap'
 import logo from './logo_tinyplanet_orange.png'
 import './Connexion.css'
 import './SessionPage.css'
+import { FaLock } from 'react-icons/fa'
 
 
 export default class AdminComptes extends React.Component {
@@ -17,7 +18,7 @@ export default class AdminComptes extends React.Component {
     }
 
     componentDidMount() {
-        this.modifyActivation()
+        //this.modifyActivation()
         axios.get('http://localhost:5000/api/session')
             .then(response => {
                 console.log(response.data[0])
@@ -53,7 +54,10 @@ export default class AdminComptes extends React.Component {
         return (
             <div className="toggleBlock">
                 <Button className="togglerButton" onClick={this.modifyActivation} >
-                    <div className="togglerButtonText">Session {this.state.etat}</div>
+                    <div className='textButtonIcon'>
+                        <FaLock />
+                    </div>
+                    <div className="togglerButtonText">{this.state.etat}</div>
                 </Button>
             </div>
         )
