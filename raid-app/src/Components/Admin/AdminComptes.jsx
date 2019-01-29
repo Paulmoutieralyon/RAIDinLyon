@@ -32,7 +32,7 @@ export default class AddTeam extends React.Component {
         console.log('oui',this.state.email,this.state.mdp)
         axios({
             method: 'post',
-            url: 'http://localhost:5000/api/administrateurs',
+            url: '/api/administrateurs',
             data: {
                 email: this.state.email,
                 password: this.state.mdp,

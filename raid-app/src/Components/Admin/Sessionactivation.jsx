@@ -19,7 +19,7 @@ export default class AdminComptes extends React.Component {
 
     componentDidMount() {
         //this.modifyActivation()
-        axios.get('http://localhost:5000/api/session')
+        axios.get('/api/session')
             .then(response => {
                 console.log(response.data[0])
                 this.setState({
@@ -39,7 +39,7 @@ export default class AdminComptes extends React.Component {
             checked: !this.state.checked
         })
         this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
-        axios.put(`http://localhost:5000/api/session/activation`,
+        axios.put(`/api/session/activation`,
             {
                 isactivate: this.state.checked
             })

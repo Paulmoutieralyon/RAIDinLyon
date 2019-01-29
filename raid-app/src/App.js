@@ -31,7 +31,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/session')
+    axios.get('/api/session')
       .then(response => {
         this.setState({
           componentsession: response.data[0].isactivate

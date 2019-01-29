@@ -24,7 +24,7 @@ export default class uneTeam extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/equipe/${this.page}`)
+        axios.get(`/api/equipe/${this.page}`)
             .then(response => {
                 console.log(response)
                 this.setState({
@@ -72,7 +72,7 @@ export default class uneTeam extends Component {
     }
 
     sendModifications = () => {
-        axios.put(`http://localhost:5000/api/equipes/donnees/${this.page}`,
+        axios.put(`/api/equipes/donnees/${this.page}`,
             {
                 // equipe: response.data
                 score: this.state.score,

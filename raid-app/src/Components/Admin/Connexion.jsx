@@ -33,7 +33,7 @@ export default class AdminComptes extends React.Component {
     submitLogin = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/authenticateAdmin',
+            url: '/authenticateAdmin',
             data: {
                 email: this.state.email,
                 password: this.state.password,

@@ -63,7 +63,7 @@ export default class AddEgnimes extends React.Component {
         console.log('up', data)
 
 
-        axios.post('http://localhost:5000/api/image', data, config)
+        axios.post('/api/image', data, config)
             .then(result => {
                 console.log(result)
             })
@@ -216,7 +216,7 @@ export default class AddEgnimes extends React.Component {
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/api/enigmes',
+            url: '/api/enigmes',
             data
         })
             .then(function (response) {

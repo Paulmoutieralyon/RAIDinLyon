@@ -8,7 +8,8 @@
         "server": "nodemon server.js",
         "database": "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json && mongoimport --db RAIDinLyon --collection equipe --file equipe.json && mongoimport --db RAIDinLyon --collection map --file map.json && mongoimport --db RAIDinLyon --collection administrateur --file administrateur.json && mongoimport --db RAIDinLyon --collection session --file session.json ",
         "jeffrey": "concurrently --kill-others-on-fail \"mongoimportyarn setdb\" \"yarn server\" \"yarn database\" \"yarn client\"",
-        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix raid-app && npm run build --prefix raid-app"
     },
     "dependencies": {
         "bcrypt": "^3.0.3",

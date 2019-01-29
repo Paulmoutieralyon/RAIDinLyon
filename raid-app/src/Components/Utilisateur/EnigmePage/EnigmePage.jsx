@@ -62,7 +62,7 @@ export class EnigmePage extends React.Component {
 
     //Fetch et stockage des données de l'énigme en state + stockage du score du joueur //
     componentDidMount = () => {
-        axios.get(`http://localhost:5000/api/enigmes/${this.enigme}`)
+        axios.get(`/api/enigmes/${this.enigme}`)
             .then(data => {
                 this.data = data.data[0]
                 this.setState({
@@ -90,7 +90,7 @@ export class EnigmePage extends React.Component {
             .catch(error => {
                 throw (error);
             })
-        axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+        axios.get(`/api/equipe/${this.user}`)
             .then(data => {
                 this.scoreg = data.data[0]
                 this.setState({
@@ -192,7 +192,7 @@ export class EnigmePage extends React.Component {
 
     //Gestion de la bonne ou mauvaise réponse//
     ReponseManagement() {
-        axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
+        axios.post(`/api/enigmes/${this.state.id}`, {
             proposition: this.state.proposition,
         })
             .then(response => {
@@ -244,7 +244,7 @@ export class EnigmePage extends React.Component {
 
     //Enregistrement du score et de l'ID en BDD//
     saveResp = () => {
-        axios.put(`http://localhost:5000/api/equipes/${this.user}`, {
+        axios.put(`/api/equipes/${this.user}`, {
             score: this.state.agagner,
             _idQuestion: this.state.id,
             check: this.state.check,

@@ -19,7 +19,7 @@ export default class AdminComptes extends React.Component {
 
     componentDidMount() {
         //this.modifyTimerActivation()
-        axios.get('http://localhost:5000/api/session')
+        axios.get('/api/session')
             .then(response => {
                 this.setState({
                     idsession: response.data[0]._id,
@@ -38,7 +38,7 @@ export default class AdminComptes extends React.Component {
             timerchecked: !this.state.timerchecked
         })
         this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
-        axios.put('http://localhost:5000/api/session/timeractivation',
+        axios.put('/api/session/timeractivation',
             {
                 activetimer: this.state.timerchecked
             })

@@ -65,7 +65,7 @@ class MapPage extends React.Component {
         await this.props.enigmesFetch()
         // this.setState({ loaded: true })
         this.areAllAnswersTrue()
-        axios.get('http://localhost:5000/api/session')
+        axios.get('/api/session')
             .then(response => {
                 this.setState({
                     pointrencontre: response.data[0].pointrencontre,
@@ -76,7 +76,7 @@ class MapPage extends React.Component {
             .catch(error => {
                 throw (error);
             });
-        axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+        axios.get(`/api/equipe/${this.user}`)
             .then(data => {
                 // this.idEnigme = data.data[0].enigmes
                 let score = data.data[0]
@@ -151,7 +151,7 @@ class MapPage extends React.Component {
     }
 
     saveEndTime = () => {
-        axios.put(`http://localhost:5000/api/equipes/donnees/${window.localStorage.getItem('id')}`, {
+        axios.put(`/api/equipes/donnees/${window.localStorage.getItem('id')}`, {
             h_fin: moment().format('LTS')
                 .then(function (response) {
                     console.log("L'envoi a fonctionné", response);

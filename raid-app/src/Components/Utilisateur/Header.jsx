@@ -61,7 +61,7 @@ export class Header extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/equipe/${window.localStorage.getItem('id')}`)
+        axios.get(`/api/equipe/${window.localStorage.getItem('id')}`)
             .then(data => {
                 this.setState({
                     score: data.data[0].score
@@ -70,7 +70,7 @@ export class Header extends React.Component {
             .catch(error => {
                 throw (error);
             })
-        axios.get(`http://localhost:5000/api/session`)
+        axios.get(`/api/session`)
             .then(response => {
                 this.setState({
                     deadline: response.data[0].deadline,

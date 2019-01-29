@@ -15,7 +15,7 @@ export default class Classement extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:5000/api/session`)
+    axios.get(`/api/session`)
       .then(response => {
         this.setState({
           timeractivation: response.data[0].activetimer
@@ -25,7 +25,7 @@ export default class Classement extends React.Component {
 
   saveChoice = (e) => {
     if (e.target.value === "points") {
-      axios.get(`http://localhost:5000/api/equipes/byscore`)
+      axios.get(`/api/equipes/byscore`)
         .then(response => {
           console.log(response)
           this.setState({

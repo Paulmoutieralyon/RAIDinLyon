@@ -11,9 +11,10 @@ const jwt = require('jsonwebtoken')
 const morgan = require('morgan');
 const multer = require('multer');
 const fs = require('fs');
+const path = require('path')
 // Mongoose connexion to Mlab server with constiable as ID ans Password
-const userID = require('./keys').userID
-const userPass = require('./keys').userPass
+const userID = process.env.userID;
+const userPass = process.env.userPass;
 
 mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwild`, {
     useNewUrlParser: true
@@ -218,14 +219,14 @@ apiRoutes.post('/authenticateAdmin', function (req, res) {
 /*FIN AUTHENTIFICATION ADMIN*/
 
 // route to show a random message 
-apiRoutes.get('/', function (req, res) {
+apiRoutes.get('/api', function (req, res) {
     res.json({
         message: 'Hi guys'
     });
 });
 
 // route to return all users 
-apiRoutes.get('/users', function (req, res) {
+apiRoutes.get('/api/users', function (req, res) {
     Equipe.findOne({
         //email: req.body.email
     })
@@ -233,9 +234,15 @@ apiRoutes.get('/users', function (req, res) {
 });
 // apply the routes to our application with the prefix /api
 app.use( /* '/api',  */ apiRoutes);
+app.use(cors(corsOptions))
+app.use(express.static(__dirname + "/public"));
 
 
 
+//Get All Items
+app.get('/', function (req, res) {
+    res.send('/public')
+})
 //Get All Items
 /* app.get('/', function (req, res) {
     res.send('Please use /api/enigmes or /api/markers or /api/equipes')
@@ -596,6 +603,13 @@ app.put('/api/session/timeractivation', function (req, res) {
     })
 })
 
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, '/public/index.html'), (err)=> {
+      if (err) {
+        res.status(500).send(err)
+      }
+    })
+  })
 
 
 //Modification du point de rencontre de fin de session

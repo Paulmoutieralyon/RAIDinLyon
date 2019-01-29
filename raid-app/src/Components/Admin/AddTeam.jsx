@@ -102,7 +102,7 @@ export default class AddTeam extends React.Component {
             }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/api/equipes',
+            url: '/api/equipes',
             data: {
                 score: 0,
                 nom: this.state.nom,

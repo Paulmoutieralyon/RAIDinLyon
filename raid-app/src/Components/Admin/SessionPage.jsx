@@ -37,7 +37,7 @@ export default class SessionPage extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/session')
+        axios.get('/api/session')
             .then(response => {
                 this.setState({
                     idsession: response.data[0]._id,
@@ -55,7 +55,7 @@ export default class SessionPage extends React.Component {
         await this.setState({
             nom: value
         })
-        await axios.put(`http://localhost:5000/api/session/modifytitle`,
+        await axios.put(`/api/session/modifytitle`,
             {
                 nom: this.state.nom
             })
@@ -81,7 +81,7 @@ export default class SessionPage extends React.Component {
             pointrencontre: newLat
         })
         console.log(this.state.pointrencontre)
-        await axios.put(`http://localhost:5000/api/session/meetingpoint`,
+        await axios.put(`/api/session/meetingpoint`,
             {
                 pointrencontre: this.state.pointrencontre
             })
@@ -100,7 +100,7 @@ export default class SessionPage extends React.Component {
             pointrencontre: newLat
         })
         console.log(this.state.pointrencontre)
-        await axios.put(`http://localhost:5000/api/session/meetingpoint`,
+        await axios.put(`/api/session/meetingpoint`,
             {
                 pointrencontre: this.state.pointrencontre
             })
@@ -114,7 +114,7 @@ export default class SessionPage extends React.Component {
 
     submit = () => {
         let momentDate = moment(this.state.startDate).format("MMMM, DD, YYYY, H:mm:ss")
-        axios.put(`http://localhost:5000/api/session/modifydeadline`,
+        axios.put(`/api/session/modifydeadline`,
             {
                 deadline: momentDate
             })
