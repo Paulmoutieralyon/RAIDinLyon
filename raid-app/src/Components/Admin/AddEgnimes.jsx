@@ -339,4 +339,3 @@ export default class AddEgnimes extends React.Component {
         );
     }
 }
-

@@ -9,6 +9,11 @@ const ObjectId = require('mongodb').ObjectID;
 const bcrypt = require('bcrypt-nodejs')
 const jwt = require('jsonwebtoken')
 const morgan = require('morgan');
+
+
+// Mongoose connexion to Mlab server with variable as ID ans Password
+// const userID = require('./Keys').userID
+// const userPass = require('./Keys').userPass
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path')
@@ -22,7 +27,6 @@ mongoose.connect(`mongodb://${userID}:${userPass}@ds024748.mlab.com:24748/raidwi
     .then(() => console.log('MongoDB Connected WOAW'))
     .catch(err => console.log("Error :", err, "IT DOESNT FUCKING WORK"))
 
-mongoose.set('useFindAndModify', false);
 //Options CORS
 const corsOptions = {
     // origin: 'http://example.com',
@@ -220,9 +224,11 @@ apiRoutes.post('/authenticateAdmin', function (req, res) {
 
 // route to show a random message 
 apiRoutes.get('/api', function (req, res) {
+
     res.json({
         message: 'Hi guys'
     });
+
 });
 
 // route to return all users 
@@ -238,6 +244,10 @@ app.use(cors(corsOptions))
 app.use(express.static(__dirname + "/public"));
 
 
+
+
+app.use(cors(corsOptions))
+app.use(express.static(__dirname + "/public"));
 
 //Get All Items
 app.get('/', function (req, res) {
@@ -393,6 +403,32 @@ app.get('/api/equipes', function (req, res) {
     })
 })
 
+
+//Update score & progression dans le jeu
+app.put('/api/equipes/:_id', function (req, res) {
+    const id = req.params._id
+    const equipe = req.body
+    console.log(equipe._idQuestion)
+    Equipe.updateEquipe(id, {
+        $inc: {
+            score: equipe.score,
+        },
+        $addToSet: {
+            enigmes: {
+                check: equipe.check,
+                succeed: equipe.succeed,
+                gain: equipe.gain,
+                _idQuestion: equipe._idQuestion,
+            }
+        }
+    }, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(equipe)
+    })
+})
+
 //Classement des equipes par ordre décroissant de score
 app.get('/api/equipes/byscore', function (req, res) {
     Equipe.getRank([{ $sort: { score: -1 } }], (err, rank) => {
@@ -430,6 +466,12 @@ app.put('/api/equipes/donnees/:_id', function (req, res) {
         res.json(equipe)
     })
 })
+
+      
+
+     
+
+
 
 // Comparaison de la réponse de l'utilisateur avec la réponse de l'énigme
 app.post('/api/equipes/:_id', function (req, res) {
@@ -631,4 +673,4 @@ app.put('/api/session/meetingpoint', function (req, res) {
 //...
 
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`))

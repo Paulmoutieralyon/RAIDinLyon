@@ -1,16 +1,19 @@
 {
-    "name": "my-first-own-mern",
+    "name": "raid_in_lyon",
     "version": "1.0.0",
-    "license": "private",
+    "description": "",
+    "main": "server.js",
     "scripts": {
-        "setdb": "mongo RAIDinLyon --eval db.enigme.drop && mongo RAIDinLyon --eval db.marker.drop",
-        "client": "cd raid-app && yarn start",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js",
         "server": "nodemon server.js",
         "database": "cd collections && mongoimport --db RAIDinLyon --collection enigme --file enigme.json && mongoimport --db RAIDinLyon --collection marker --file marker.json && mongoimport --db RAIDinLyon --collection equipe --file equipe.json && mongoimport --db RAIDinLyon --collection map --file map.json && mongoimport --db RAIDinLyon --collection administrateur --file administrateur.json && mongoimport --db RAIDinLyon --collection session --file session.json ",
         "jeffrey": "concurrently --kill-others-on-fail \"mongoimportyarn setdb\" \"yarn server\" \"yarn database\" \"yarn client\"",
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
         "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix raid-app && npm run build --prefix raid-app"
     },
+    "author": "",
+    "license": "ISC",
     "dependencies": {
         "bcrypt": "^3.0.3",
         "bcrypt-nodejs": "0.0.3",
