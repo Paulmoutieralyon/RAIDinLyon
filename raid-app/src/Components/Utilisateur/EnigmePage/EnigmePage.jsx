@@ -302,7 +302,7 @@ export class EnigmePage extends React.Component {
                                 null
                                 :
                                 <div>
-                                    {this.state.disableIndice || this.state.indices[0] === null ?
+                                    {this.state.disableIndice || this.state.indices === null ?
                                         <div>
                                             <Button disabled type="button" onClick={this.displayIndices} className="bonton2" >indices épuisés</Button><br></br>
                                         </div>
