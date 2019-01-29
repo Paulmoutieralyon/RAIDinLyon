@@ -14,6 +14,7 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
+    Button
 } from "reactstrap"
 //import Loader from 'react-loader-spinner'
 
@@ -207,12 +208,12 @@ class MapPage extends React.Component {
                                                                     toggle={this.toggle}
                                                                 >
                                                                     <ModalHeader toggle={this.toggle}>
-                                                                        <p>{this.props.enigme[i].titre}</p>
+                                                                        <h3 className="titreModal">{this.props.enigme[i].titre}</h3>
                                                                     </ModalHeader>
-                                                                    <ModalBody className="modaltexte">
+                                                                    <ModalBody className="modaltext">
                                                                         <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
                                                                             {" "}
-                                                                            <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                                            <Button class="btn btn-default" /* className="goEnigme" */ onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</Button>{" "}
                                                                         </NavLink>
                                                                     </ModalBody>
                                                                 </Modal>
