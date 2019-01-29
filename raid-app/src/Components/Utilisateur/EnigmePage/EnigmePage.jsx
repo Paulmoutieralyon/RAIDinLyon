@@ -227,7 +227,6 @@ export class EnigmePage extends React.Component {
                     this.setState({
                         isResTrue: false,
                     })
-
                 }
                 console.log(response);
                 this.setState({
@@ -267,10 +266,6 @@ export class EnigmePage extends React.Component {
     }
 
     render() {
-        console.log("indiceNumber", this.state.indiceNumber)
-        console.log("succeed", this.state.succeed)
-        console.log("gain:", this.state.agagner)
-        console.log("Numclick:", this.state.numClickValidate)
         console.log("reponse: ", this.state.reponse)
         let tentatives = this.state.numClickValidate - 3
         return (
@@ -278,12 +273,6 @@ export class EnigmePage extends React.Component {
                 <Header scoreuser={this.state.scoregeneral} />
                 {this.state.isLoaded ?
                     <div style={{ padding: '5vw' }} id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
-                        {this.state.numClickValidate === 2 && !this.state.isResTrue && !this.state.succeed ?
-                            < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
-                                Attention il ne vous reste plus qu'une tentative.
-                            </Alert>
-                            :
-                            null}
                         {this.state.img ? <img className="Illustration" src={`/api/image?img=${this.state.img}`} alt='' /> : null}
                         <h2 className="Titre">{this.state.titre}</h2>
                         <p >{this.state.enonce}</p>
