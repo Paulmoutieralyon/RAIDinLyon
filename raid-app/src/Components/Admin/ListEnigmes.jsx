@@ -87,7 +87,6 @@ export default class ListSessionPage extends React.Component {
                         enigmes: tab,
                         modal: !this.state.modal
                     })
-                    console.log(this.state.enigmes)
                 }
             })
     }

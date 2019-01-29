@@ -16,13 +16,7 @@ export default class HomePage extends React.Component {
     render() {
         return (
             <div className="bodyHome">
-                <div className='allinfo'>
-                    <img className='Infologo' onClick={this.toggle} src={info} alt='infologo'>{this.props.buttonLabel}</img>
-
-                    <h1>Cette page n'est pas accessible ! :) </h1>
-                    <img className="LogoImg" src={logo} alt='homelogo' />
-                    {/*                         <h1 className="TitreSession"> BIENVENUE <br /> A <br />RaidInLyon</h1> */}
-                </div>
+                <h1>Cette page n'est pas accessible ! :) </h1>
             </div>
 
         );

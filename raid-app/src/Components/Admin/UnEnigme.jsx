@@ -22,7 +22,8 @@ export default class UnEnigme extends Component {
             indices: [],
             info: null,
             image: null,
-            id: null
+            id: null,
+            agagner: null
         }
         this.page = this.props.match.params.id;
         this.addResp = [];
@@ -45,7 +46,8 @@ export default class UnEnigme extends Component {
                     indices: response.data[0].indices,
                     reponse: response.data[0].reponse,
                     coordonnees: response.data[0].coordonnee,
-                    info: response.data[0].info
+                    info: response.data[0].info,
+                    agagner: response.data[0].agagner
                 })
             })
             .then(console.log('ok', this.state.indices))
@@ -142,9 +144,13 @@ export default class UnEnigme extends Component {
                 coordonnee: [this.state.coordonnees[0], this.state.coordonnees[1]],
                 img: this.state.img,
                 reponse: this.state.reponse,
+                agagner: this.state.agagner
             })
             .then(function (response) {
-                console.log(response);
+                console.log(response)
+                if (response.status === 200) {
+                    window.location.href = `/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -167,6 +173,24 @@ export default class UnEnigme extends Component {
                                 name="username"
                                 dataType="text"
                                 value={this.state.titre}
+                                validate={(value) => {
+                                    if (!value) {
+                                        return 'Required';
+                                    }
+                                    else {
+                                        this.modifyTitle(value)
+                                    }
+                                }
+                                }
+                            />
+                        </Alert>
+
+                        <Alert color="dark">
+                            Points à gagner :
+                            <Editable
+                                name="agagner"
+                                dataType="number"
+                                value={this.state.agagner}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';

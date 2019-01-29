@@ -26,11 +26,12 @@ export default class AdminComptes extends React.Component {
                     idsession: response.data[0]._id,
                     checked: response.data[0].isactivate,
                 })
+                this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
             })
             .catch(error => {
                 throw (error);
             });
-        this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
+        
     }
 
     modifyActivation = () => {

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Karma:400,700');
+
+
 .EnigmePageContainer {
     width: 100vw;
     color: white;
@@ -32,11 +35,9 @@
     background-color: white;
 }
 
-.reponse {
-    /*     border-width:3px;
-    border-style:solid;
-    border-color:rgb(249, 160, 7);
-    border-radius: 3vmin; */
+.enonce {
+    font-family: 'Karma', serif;
+    font-size: 2.4vh;
 }
 
 .points {
@@ -59,6 +60,8 @@
 }
 
 .TitreQuestion {
+    font-family: 'Karma', serif;
+    font-weight: 700;
     text-align: center;
     font-size: 1.5em;
 }
@@ -70,7 +73,7 @@
 }
 
 .visible {
-    background-color: orange !important;
+    background-color: orange;
 }
 
 .btn-primary {
