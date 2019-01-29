@@ -10,7 +10,7 @@ import Sessionactivation from './Sessionactivation'
 import Sessiontimer from './Sessiontimer'
 import axios from 'axios'
 import "react-datepicker/dist/react-datepicker.css"
-import { FaUsers, FaScroll, FaTrophy, FaChevronLeft, FaStopwatch } from 'react-icons/fa'
+import { FaUsers, FaScroll, FaTrophy, FaChevronLeft } from 'react-icons/fa'
 
 const moment = require('moment')
 
@@ -134,7 +134,10 @@ export default class SessionPage extends React.Component {
         return (
             <div className='containerSessionPage'>
                 <Container>
-                    {/*                     <Editable
+                    <Row>
+                        <Col xs="0" md="2"/>
+                        <Col xs="12" md="8">
+                            {/*                     <Editable
                         name="username"
                         dataType="text"
                         value={this.state.nom}
@@ -148,129 +151,135 @@ export default class SessionPage extends React.Component {
                         }
                         }
                     /> */}
-                    <Row>
-                        <Col>
-                            <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`} >
-                                <Button>
-                                    <div className='textButton'>Enigmes</div>
-                                    <div className='textButtonIcon'><FaScroll /></div>
-                                </Button>
-                            </NavLink>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`} >
-                                <Button>
-                                    <div className='textButton'>Equipes</div>
-                                    <div className='textButtonIcon'><FaUsers /></div>
-                                </Button>
-                            </NavLink>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <NavLink to={`/Admin/Classement/${window.localStorage.getItem('idAdmin')}`} >
-                                <Button>
-                                    <div className='textButton'>Classement</div>
-                                    <div className='textButtonIcon'><FaTrophy /></div>
-                                </Button>
-                            </NavLink>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <div>
-                                {this.state.displayDate ?
-                                    <div className="dateContainer">
-                                        <DatePicker
-                                            selected={this.state.startDate}
-                                            onChange={this.handleChange}
-                                            showTimeSelect
-                                            timeFormat="HH:mm"
-                                            timeIntervals={15}
-                                            dateFormat="MM, yyyy, dd h:mm aa"
-                                            timeCaption="time"
-                                        />
-                                    </div>
-                                    :
-                                    null
-                                }
+                            <Row>
+                                <Col>
+                                    <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`} >
+                                        <Button>
+                                            <div className='textButton'>Enigmes</div>
+                                            <div className='textButtonIcon'><FaScroll /></div>
+                                        </Button>
+                                    </NavLink>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`} >
+                                        <Button>
+                                            <div className='textButton'>Equipes</div>
+                                            <div className='textButtonIcon'><FaUsers /></div>
+                                        </Button>
+                                    </NavLink>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <NavLink to={`/Admin/Classement/${window.localStorage.getItem('idAdmin')}`} >
+                                        <Button>
+                                            <div className='textButton'>Classement</div>
+                                            <div className='textButtonIcon'><FaTrophy /></div>
+                                        </Button>
+                                    </NavLink>
+                                </Col>
+                            </Row>
+                            <div className="bigOnes">
+                                <Row>
+                                    <Col>
+                                        <Button onClick={this.modify} className="buttonBig" /* className={this.state.displayDate ? "buttonDateContainer" : "buttonDate"} */>
+                                            <div>
+                                                {this.state.displayDate ?
+                                                    <div>
+                                                        {this.state.displayDate ?
+                                                            <div className="dateContainer" onClick={{ return: 'false' }}>
+                                                                <DatePicker
+                                                                    selected={this.state.startDate}
+                                                                    onChange={this.handleChange}
+                                                                    showTimeSelect
+                                                                    timeFormat="HH:mm"
+                                                                    timeIntervals={15}
+                                                                    dateFormat="MM, yyyy, dd h:mm aa"
+                                                                    timeCaption="time"
+                                                                />
+                                                            </div>
+                                                            :
+                                                            null
+                                                        }
+                                                    </div>
+                                                    :
+                                                    <p>
+                                                        <Moment date={this.state.startDate} format="MMMM, DD, YYYY, H:mm:ss" />
+                                                    </p>
+                                                }
+                                            </div>
+                                        </Button>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Button className="buttonBig">
+                                            <Container>
+                                                <Row>
+                                                    <Col>
+                                                        <p>Lieu de rendez-vous </p>
+                                                    </Col>
+                                                    <Col>
+                                                        <p>Lattitude:</p>
+                                                        <Editable
+                                                            name="username"
+                                                            dataType="text"
+                                                            value={this.state.pointrencontre[0]}
+                                                            validate={(value) => {
+                                                                if (!value) {
+                                                                    return 'Required';
+                                                                }
+                                                                else {
+                                                                    this.modifyLattitude(value)
+                                                                }
+                                                            }
+                                                            }
+                                                        />
+                                                        <p>Longitude:</p>
+                                                        <Editable
+                                                            name="username"
+                                                            dataType="text"
+                                                            value={this.state.pointrencontre[1]}
+                                                            validate={(value) => {
+                                                                if (!value) {
+                                                                    return 'Required';
+                                                                }
+                                                                else {
+                                                                    this.modifyLongitude(value)
+                                                                }
+                                                            }
+                                                            }
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </Button>
+                                    </Col>
+                                </Row>
                             </div>
-                            <Button onClick={this.modify} className="buttonBig" /* className={this.state.displayDate ? "buttonDateContainer" : "buttonDate"} */>
-                                <div className='textButton'>
-                                    {this.state.displayDate ?
-                                        null
-                                        :
-                                        <p>
-                                            <Moment date={this.state.startDate} format="MMMM, DD, YYYY, H:mm:ss" />
-                                        </p>
-                                    }
-                                </div>
-                            </Button>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Button className="buttonBig">
-                                <Container>
-                                    <Row>
-                                        <Col>
-                                            <p>Lieu de rendez-vous en fin de partie :</p>
-                                        </Col>
-                                        <Col>
-                                            <p>Lattitude:</p>
-                                            <Editable
-                                                name="username"
-                                                dataType="text"
-                                                value={this.state.pointrencontre[0]}
-                                                validate={(value) => {
-                                                    if (!value) {
-                                                        return 'Required';
-                                                    }
-                                                    else {
-                                                        this.modifyLattitude(value)
-                                                    }
-                                                }
-                                                }
-                                            />
-                                            <p>Longitude:</p>
-                                            <Editable
-                                                name="username"
-                                                dataType="text"
-                                                value={this.state.pointrencontre[1]}
-                                                validate={(value) => {
-                                                    if (!value) {
-                                                        return 'Required';
-                                                    }
-                                                    else {
-                                                        this.modifyLongitude(value)
-                                                    }
-                                                }
-                                                }
-                                            />
-                                        </Col>
-                                    </Row>
-                                </Container>
-                            </Button>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs="6">
-                            <Sessionactivation />
-                        </Col>
-                        <Col xs="6">
-                            <Sessiontimer />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <NavLink to={`/Admin`}>
-                                <Button className="buttonMenu">
-                                    <div className='textButton'>Retour</div>
-                                    <div className='textButtonIcon'><FaChevronLeft /></div>
-                                </Button>
-                            </NavLink>
+                            <div className="smallOnes">
+                                <Row>
+                                    <Col xs="6">
+                                        <Sessionactivation />
+                                    </Col>
+                                    <Col xs="6">
+                                        <Sessiontimer />
+                                    </Col>
+                                </Row>
+                            </div>
+                            <Row>
+                                <Col>
+                                    <NavLink to={`/Admin`}>
+                                        <Button className="buttonMenu">
+                                            <div className='textButton'>Retour</div>
+                                            <div className='textButtonIcon'><FaChevronLeft /></div>
+                                        </Button>
+                                    </NavLink>
+                                </Col>
+                            </Row>
+                            <Col />
                         </Col>
                     </Row>
                 </Container>

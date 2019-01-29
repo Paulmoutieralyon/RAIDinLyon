@@ -54,7 +54,7 @@ export default class AdminComptes extends React.Component {
     render() {
         return (
             <div className="toggleBlock">
-                <Button className="togglerButton" onClick={this.modifyActivation} >
+                <Button className={this.state.etat === "activée" ? "toggleActived" : "toggleDeactivated"} onClick={this.modifyActivation} >
                     <div className='textButtonIcon'>
                         <FaLock />
                     </div>

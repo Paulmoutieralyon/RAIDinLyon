@@ -53,7 +53,7 @@ export default class AdminComptes extends React.Component {
     render() {
         return (
             <div className="toggleBlock">
-                <Button className="togglerButton" onClick={this.modifyTimerActivation}>
+                <Button className={this.state.timeretat === "activée"?"toggleActived":"toggleDeactivated"} onClick={this.modifyTimerActivation}>
                     <div className='textButtonIcon'>
                         <FaStopwatch />
                     </div>
