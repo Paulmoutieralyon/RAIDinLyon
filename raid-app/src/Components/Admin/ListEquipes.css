@@ -1,8 +1,14 @@
-.containerListEquipe h1 {
-    text-align: center;
-    margin-top: 5vh;
-    margin-bottom: 5vh;
-    padding: 0.3em;
-    font-size:2em;
+.trash {
+    max-width: 5vmin;
 }
 
+.navlink {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.titreH1{
+    text-align: center;
+    color: orange;
+    
+}
