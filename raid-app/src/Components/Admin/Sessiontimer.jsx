@@ -30,6 +30,7 @@ export default class AdminComptes extends React.Component {
             .catch(error => {
                 throw (error);
             });
+        this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
     }
 
 

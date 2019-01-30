@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, FormGroup, Label, Input, Breadcrumb, ListGroup, Container, Col, Row } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import Moment from 'react-moment';
-import './Classement.css';
 const axios = require('axios');
 const moment = require('moment');
 
@@ -24,6 +22,7 @@ export default class Classement extends React.Component {
         })
       });
   }
+  
 
   saveChoice = (e) => {
     if (e.target.value === "points") {
