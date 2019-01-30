@@ -150,7 +150,7 @@ export class Header extends React.Component {
                     </NavbarToggler>
                 </Navbar>
                 <ul className="menuList">
-                    <li id='pts'>{this.props.scoreuser} pts</li>
+                    <li id='pts'>{this.state.score} pts</li>
                     <Link style={{ textDecoration: 'none' }} to={`/`}><li>Accueil</li></Link>
                     <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Qui sommes-nous</li></a>
                     <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Mentions légales / CGU</li></Link>
