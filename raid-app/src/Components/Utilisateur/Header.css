@@ -11,11 +11,17 @@
 }
 
 .timerHeader{
-    margin-top: -2.5em;
-    
-
+    color: white;
 }
+
+.timerHeader p{
+    color: white;
+}
+
 ul, li {
     color: white;
 }
 
+.navbar-brand{
+    width: 60vw !important;
+}
