@@ -69,9 +69,7 @@ export default class SessionPage extends React.Component {
 
 
     modify = (e) => {
-        this.setState({
-            displayDate: !this.state.displayDate
-        })
+        this.submit()
     }
 
     async modifyLattitude(value) {
@@ -124,10 +122,6 @@ export default class SessionPage extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-
-        this.setState({
-            displayDate: !this.state.displayDate
-        })
     }
 
     render() {
@@ -189,7 +183,7 @@ export default class SessionPage extends React.Component {
                                                 {this.state.displayDate ?
                                                     <div>
                                                         {this.state.displayDate ?
-                                                            <div className="dateContainer" onClick={{ return: 'false' }}>
+                                                            <div className="dateContainer">
                                                                 <DatePicker
                                                                     selected={this.state.startDate}
                                                                     onChange={this.handleChange}
