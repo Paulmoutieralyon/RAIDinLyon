@@ -4,18 +4,21 @@ import Toggle from "react-toggle-component"
 import { InputGroup, InputGroupAddon, Input, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import logo from './logo_tinyplanet_orange.png'
 import './Connexion.css'
+import './SessionPage.css'
+import { FaStopwatch } from 'react-icons/fa'
 
 
 export default class AdminComptes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            timerchecked: null,
-            timeretat: null,
+            timerchecked: true,
+            timeretat: "desactivée",
         }
     }
 
     componentDidMount() {
+        //this.modifyTimerActivation()
         axios.get('http://localhost:5000/api/session')
             .then(response => {
                 this.setState({
@@ -31,12 +34,12 @@ export default class AdminComptes extends React.Component {
     }
 
 
-    async modifyTimerActivation(value) {
-        await this.setState({
-            timerchecked: value
+    modifyTimerActivation = () => {
+        this.setState({
+            timerchecked: !this.state.timerchecked
         })
-        await this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
-        await axios.put('http://localhost:5000/api/session/timeractivation',
+        this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
+        axios.put('http://localhost:5000/api/session/timeractivation',
             {
                 activetimer: this.state.timerchecked
             })
@@ -50,16 +53,14 @@ export default class AdminComptes extends React.Component {
 
     render() {
         return (
-
-            <Breadcrumb>
-                <BreadcrumbItem>Timer : {this.state.timeretat}</BreadcrumbItem>
-                <Toggle
-                    name="timer"
-                    mode="switch"
-                    checked={this.state.timerchecked}
-                    onToggle={value => this.modifyTimerActivation(value)} />
-            </Breadcrumb>
-
-        );
+            <div className="toggleBlock">
+                <Button className={this.state.timeretat === "activée"?"toggleActived":"toggleDeactivated"} onClick={this.modifyTimerActivation}>
+                    <div className='textButtonIcon'>
+                        <FaStopwatch />
+                    </div>
+                    <div className="togglerButtonText">{this.state.timeretat}</div>
+                </Button>
+            </div>
+        )
     }
 }
