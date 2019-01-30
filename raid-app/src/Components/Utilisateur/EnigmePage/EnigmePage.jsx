@@ -15,14 +15,14 @@ import Header from '../Header'
 import '../MapPage/MapPage.css'
 import { timingSafeEqual } from 'crypto';
 
-function validateform (respo) {
+function validateform(respo) {
     console.log("hello", respo)
     const errors = [];
-        if (respo.length === 0 ) {
-            errors.push(" Le champ doit être remplis");
-        }
-            return errors;
- }
+    if (respo.length === 0) {
+        errors.push(" Le champ doit être remplis");
+    }
+    return errors;
+}
 
 export class EnigmePage extends React.Component {
     constructor(props) {
@@ -210,13 +210,13 @@ export class EnigmePage extends React.Component {
     ReponseManagement() {
 
         const respo = ReactDOM.findDOMNode(this._respoInput).value;
-        const errors = validateform (this.state.proposition) ;
-            if (errors.length > 0){
-                this.setState({errors});
-                return
-            }else{
-                this.setState({errors:[]});
-            }
+        const errors = validateform(this.state.proposition);
+        if (errors.length > 0) {
+            this.setState({ errors });
+            return
+        } else {
+            this.setState({ errors: [] });
+        }
         axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
             proposition: this.state.proposition.toLowerCase()
         })
@@ -293,12 +293,6 @@ export class EnigmePage extends React.Component {
                 <Header />
                 {this.state.isLoaded ?
                     <div style={{ padding: '5vw' }} id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
-                        {this.state.indiceNumber === 2 && this.state.indices[2] ?
-                            < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
-                                1 indice restant
-                        </Alert>
-                            :
-                            null}
                         {this.state.img ? <img className="Illustration" src={`/api/image?img=${this.state.img}`} alt='' /> : null}
                         <h2 className="Titre">{this.state.titre}</h2>
                         <br />
@@ -325,11 +319,11 @@ export class EnigmePage extends React.Component {
                                 {(this.state.isResTrue || this.state.succeed || this.state.succeed === false) ?
                                     <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color={this.selectColorIcon(this.state.succeed)} type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
                                     :
-                                    <Button 
-                                    color={this.selectColorIcon(this.state.succeed)} 
-                                    onClick={() => { this.ReponseManagement() }} 
-                                    ref={respoInput => (this._respoInput = respoInput)}
-                                    className={this.state.visibilite}>Valider</Button>}
+                                    <Button
+                                        color={this.selectColorIcon(this.state.succeed)}
+                                        onClick={() => { this.ReponseManagement() }}
+                                        ref={respoInput => (this._respoInput = respoInput)}
+                                        className={this.state.visibilite}>Valider</Button>}
                             </div>
                             {this.state.succeed === false || this.state.succeed ?
                                 null
@@ -344,6 +338,12 @@ export class EnigmePage extends React.Component {
                                             <Button type="button" onClick={this.displayIndices} className="bonton2" href="#indices">Indice</Button><br></br>
                                         </div>}
                                 </div>}
+                            {this.state.indiceNumber === 2 && this.state.indices[2] ?
+                                < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
+                                    1 indice restant
+                        </Alert>
+                                :
+                                null}
                             {this.state.succeed || this.state.succeed === false ?
                                 null
                                 :
@@ -352,7 +352,7 @@ export class EnigmePage extends React.Component {
                                         <div>{/* {this.state.displayedIndices} */}
                                             <ul>
                                                 {this.state.displayedIndices.map((item, i) => (
-                                                    <li id="indices" key={item}>indice n°{i+1}: {item}</li>
+                                                    <li id="indices" key={item}>indice n°{i + 1}: {item}</li>
                                                 ))}
                                             </ul>
 
@@ -362,9 +362,9 @@ export class EnigmePage extends React.Component {
                                 </div>
                             }
                         </AvForm>
-                    </div> 
-                :
-                null}
+                    </div>
+                    :
+                    null}
             </div>
 
         );
