@@ -25,7 +25,7 @@ html, body {
     margin-top: 5vh;
     margin-bottom: 5vh;
     padding: 0.3em;
- text-align: center !important; 
+    text-align: center !important;
     border-style: none;
 }
 
@@ -64,7 +64,6 @@ html, body {
     box-shadow: 1.2px 0px rgb(83, 83, 83);
     transform: translateX(-40vw);
     transition: transform 300ms ease-in;
-    
 }
 
 #blockMap.slideIn {
@@ -129,3 +128,24 @@ input, button, select, optgroup, textarea {
     color: orange;
 }
 
+.modal-header {
+    border: none !important;
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.589) !important;
+    color: white !important;
+    border-radius: 0px !important;
+}
+
+.modal-content .btn {
+    text-align: center !important;
+    text-decoration: none !important;
+    /* background-color: orange !important; */
+}
+
+.modal-content span {
+    color: white !important;
+    padding-right: 1em !important;
+    font-size: 1em !important;
+}
