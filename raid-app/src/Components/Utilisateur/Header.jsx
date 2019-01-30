@@ -122,32 +122,34 @@ export class Header extends React.Component {
         const { post } = this.props
         return (
             <div className='headerContainer'>
-                <Navbar light expand="md">
-                    <NavbarBrand><Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link></NavbarBrand>
-
-                    {this.state.timeractivation ?
-                        <div className="timerHeader">
-                            <Container className="d-none d-md-block">{this.props.title}</Container>
-                            <div className="count_title" >Fin:</div>
-                                <Row>
-                                    <Col> {this.leading0(this.state.hours)}h</Col>
-                                    <Col> {this.leading0(this.state.minutes)}mn</Col>
-                                    <Col>{this.leading0(this.state.seconds)}s</Col>
-                                </Row>
-                        </div> : null}
+                <Navbar>
+                    <NavbarBrand>
+                        <Container>
+                            <Row>
+                                <Col xs="3">
+                                    <Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link>
+                                </Col>
+                                <Col xs="3" />
+                                <Col xs="6" className="timerHeader">
+                                    {this.state.timeractivation ?
+                                        <div>Fin: {this.leading0(this.state.hours)}h {this.leading0(this.state.minutes)}mn {this.leading0(this.state.seconds)}s
+                                        </div> : null}
+                                </Col>
+                            </Row>
+                        </Container>
+                    </NavbarBrand>
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
                         <ModalHeader toggle={this.toggleTimer}>Raid Terminé !</ModalHeader>
                         <ModalBody>
-                            Retrouvez-vous à l'adresse indiquée sur la map !  
+                            Retrouvez-vous à l'adresse indiquée sur la map !
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" onClick={this.allToggle}>En route !</Button>{' '}
                         </ModalFooter>
                     </Modal>
-                        <NavbarToggler onClick={this.props.slideHeader}>
-                            <FaBars style={{ color: '#c6c6c6' }} />
-                        </NavbarToggler>
-                     
+                    <NavbarToggler onClick={this.props.slideHeader}>
+                        <FaBars style={{ color: '#c6c6c6' }} />
+                    </NavbarToggler>
                 </Navbar>
                 <ul className="menuList">
                     <li id='pts'>{this.props.scoreuser} pts</li>
