@@ -25,3 +25,8 @@ ul, li {
 .navbar-brand{
     width: 60vw !important;
 }
+
+.position-nav {
+    position:fixed !important;
+    width: 100%;
+}
