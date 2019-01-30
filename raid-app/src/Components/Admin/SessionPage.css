@@ -94,11 +94,12 @@
 .bigOnes {
     padding-top: 2em;
     padding-bottom: 2em;
+    font-size: 0.8em !important;
 }
 
-.bigOnes button {
+/* .bigOnes button {
     background-color: #6c7b7d !important;
-}
+} */
 
 .toggleActivated {
     background-color: #6c757d !important;
@@ -120,3 +121,13 @@
     color: orange;
 }
 
+.btn-success{
+    width: 82% !important;
+    height: 10vmin !important;
+    background-color: green !important;
+}
+
+.btn-danger{
+    width: 82% !important;
+    height: 10vmin !important;
+}
