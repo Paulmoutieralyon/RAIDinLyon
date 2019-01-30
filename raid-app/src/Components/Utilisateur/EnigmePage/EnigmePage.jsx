@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import ReactDOM from "react-dom";
 import { bindActionCreators } from 'redux'
 import { displayEnigmeAction, enigmeValidation } from '../../../Actions/displayEnigmeAction.js'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
@@ -13,6 +14,15 @@ import './InfosModalEgnime.css'
 import Header from '../Header'
 import '../MapPage/MapPage.css'
 import { timingSafeEqual } from 'crypto';
+
+function validateform (respo) {
+    console.log("hello", respo)
+    const errors = [];
+        if (respo.length === 0 ) {
+            errors.push(" Le champ doit être remplis");
+        }
+            return errors;
+ }
 
 export class EnigmePage extends React.Component {
     constructor(props) {
@@ -49,6 +59,7 @@ export class EnigmePage extends React.Component {
             baseagagner: null,
             //Affichage du score 
             scoregeneral: null,
+            errors: [],
         };
         this.data = null
         this.scoreg = null
@@ -197,9 +208,19 @@ export class EnigmePage extends React.Component {
 
     //Gestion de la bonne ou mauvaise réponse//
     ReponseManagement() {
+
+        const respo = ReactDOM.findDOMNode(this._respoInput).value;
+        const errors = validateform (this.state.proposition) ;
+            if (errors.length > 0){
+                this.setState({errors});
+                return
+            }else{
+                this.setState({errors:[]});
+            }
         axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
-            proposition: this.state.proposition,
+            proposition: this.state.proposition.toLowerCase()
         })
+
             .then(response => {
                 //console.log(response.data.status)
                 if (response.data.status === true) {
@@ -262,6 +283,7 @@ export class EnigmePage extends React.Component {
     }
 
     render() {
+        const { errors } = this.state;
         console.log("reponse: ", this.state.reponse)
         console.log("indices", this.state.indices)
         console.log('numValidate', this.state.numClickValidate)
@@ -296,14 +318,18 @@ export class EnigmePage extends React.Component {
                                 <p style={{ fontSize: '3vh', color: '#ffbb34', textAlign: 'center' }}>réponse: <strong>{this.state.reponse}</strong></p>
                                 :
                                 <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
-                            }
+                            }{errors.map(error => (<p key={error}> * {error}</p>))}
                             <br />
                             <div className="validationContainer">
 
                                 {(this.state.isResTrue || this.state.succeed || this.state.succeed === false) ?
                                     <NavLink to={`/MapPage/${window.localStorage.getItem("id")}`}><Button color={this.selectColorIcon(this.state.succeed)} type="button" className={this.state.visibilite}>Continuer</Button></NavLink>
                                     :
-                                    <Button color={this.selectColorIcon(this.state.succeed)} onClick={() => { this.ReponseManagement() }} className={this.state.visibilite}>Valider</Button>}
+                                    <Button 
+                                    color={this.selectColorIcon(this.state.succeed)} 
+                                    onClick={() => { this.ReponseManagement() }} 
+                                    ref={respoInput => (this._respoInput = respoInput)}
+                                    className={this.state.visibilite}>Valider</Button>}
                             </div>
                             {this.state.succeed === false || this.state.succeed ?
                                 null
