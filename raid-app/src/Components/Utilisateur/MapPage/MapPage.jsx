@@ -6,7 +6,6 @@ import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
 import './MapPage.css'
 import L from 'leaflet'
 import axios from 'axios'
-import { UncontrolledAlert } from 'reactstrap';
 import { getPosition } from '../../../Actions/Utilisateur/MapPageActions'
 import { enigmesFetch } from '../../../Actions/Utilisateur/enigmesFetchAction'
 import { displayEnigmeAction } from '../../../Actions/displayEnigmeAction.js'
@@ -45,8 +44,6 @@ class MapPage extends React.Component {
             loadedEnigmeEquipe: false,
             isSuccess: false,
             enigmeChecked: [],
-            activetimer: null,
-            visible: true,
             interval: function () {
 
             }
@@ -108,28 +105,17 @@ class MapPage extends React.Component {
     }
 
     allToggle = () => {
-        console.log('tous ca ne mrche')
         this.setState({
             modalMarker: !this.state.modalMarker
         })
         this.toggleTimer()
     }
 
-    /* 
-     areAllAnswersTrue = () => {
-         for (let i = 0; i < this.props.enigme.length; i++) {
-             if (this.props.enigme[i].check === true) {
-                 this.setState({ countAnswer: this.state.countAnswer + 1 })
-             }
-         }
-     }
- */
     areAllAnswerTrues = () => {
         this.state.enigmeChecked.map((enigme) => {
             if (enigme.check === true) {
                 this.setState({ countAnswer: this.state.countAnswer + 1 })
             }
-            console.log(this.state.countAnswer)
         })
 
     }
