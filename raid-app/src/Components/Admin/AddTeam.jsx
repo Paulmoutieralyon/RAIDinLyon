@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardFooter, Button, Input, Label, FormGroup } from 'reactstrap';
+import { CardFooter, Button, Input, Label, FormGroup, Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import ReactDOM from "react-dom";
 import { NavLink } from 'react-router-dom';
@@ -16,9 +16,9 @@ function validateform(email) {
     }
     if (email.indexOf(".") === -1) {
         errors.push("Email should contain at least one dot");
-      }
-        return errors;
     }
+    return errors;
+}
 export default class AddTeam extends React.Component {
     constructor(props) {
         super(props);
@@ -95,11 +95,11 @@ export default class AddTeam extends React.Component {
         });
         const email = ReactDOM.findDOMNode(this._emailInput).value;
 
-            const errors = validateform (email);
-            if (errors.length > 0) {
-                this.setState({errors});
-                return
-            }
+        const errors = validateform(email);
+        if (errors.length > 0) {
+            this.setState({ errors });
+            return
+        }
         axios({
             method: 'post',
             url: 'http://localhost:5000/api/equipes',
@@ -128,49 +128,57 @@ export default class AddTeam extends React.Component {
         const { errors } = this.state;
         return (
             <div>
+                <Container>
+                    <Row>
+                        <Col xs="0" md="2" />
+                        <Col xs="12" md="8">
+                            <h3>Création d'une équipe </h3>
 
-                <h3>Création d'une équipe </h3>
+                            <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
+                                <Label for="exampleEmail">Titre de l'équipe</Label>
+                                <Input required type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
+                            </FormGroup>
 
-                <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
-                    <Label for="exampleEmail">Titre de l'équipe</Label>
-                    <Input required type="titre" name="titre" id="titreequipe" onChange={this.modifyNom} />
-                </FormGroup>
+                            <FormGroup>
+                                <Label for="exampleEmail">E-mail de l'équipe</Label>
+                                <small className="obligatoire"> (*obligatoire)</small>
+                                <Input type="email" name="email" id="emailequipe"
+                                    ref={emailInput => (this._emailInput = emailInput)}
+                                    onChange={this.modifyEmail} />
+                            </FormGroup>
 
-                <FormGroup>
-                    <Label for="exampleEmail">E-mail de l'équipe</Label>
-                    <small className="obligatoire"> (*obligatoire)</small>
-                    <Input type="email" name="email" id="emailequipe" 
-                    ref={emailInput => (this._emailInput = emailInput)}
-                    onChange={this.modifyEmail} />
-                </FormGroup>
+                            <FormGroup>
+                                <Label for="exampleEmail">Téléphone de l'équipe</Label>
+                                <Input type="phone" name="phone" id="phoneequipe" onChange={this.modifyTelephone} />
+                            </FormGroup>
 
-                <FormGroup>
-                    <Label for="exampleEmail">Téléphone de l'équipe</Label>
-                    <Input type="phone" name="phone" id="phoneequipe" onChange={this.modifyTelephone} />
-                </FormGroup>
+                            <FormGroup>
+                                <Label for="exampleEmail">Participants</Label><br />
+                                {this.state.participants.map((participants, index) => (
+                                    <span key={index}>
+                                        <Input
+                                            type="text"
+                                            size="2"
+                                            onChange={this.handleText(index)}
+                                            value={participants}
+                                        />
+                                        <button onClick={this.handleDelete(index)}>supprimer</button>
+                                        <hr />
+                                    </span>
+                                ))}
+                                <Button onClick={this.addParticipants}>Add New participants</Button>
 
-                <FormGroup>
-                    <Label for="exampleEmail">Participants</Label><br />
-                    {this.state.participants.map((participants, index) => (
-                        <span key={index}>
-                            <Input
-                                type="text"
-                                size="2"
-                                onChange={this.handleText(index)}
-                                value={participants}
-                            />
-                            <button onClick={this.handleDelete(index)}>supprimer</button>
-                            <hr />
-                        </span>
-                    ))}
-                    <Button onClick={this.addParticipants}>Add New participants</Button>
+                            </FormGroup>
 
-                </FormGroup>
+                            <CardFooter>
+                                <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
+                            </CardFooter>
+                            <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
 
-                <CardFooter>
-                    <Button onClick={this.submitTeam}>Enregistrer les modifications</Button>
-                </CardFooter>
-                <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
+                        </Col>
+                    </Row>
+                </Container>
+
 
             </div>
         );
