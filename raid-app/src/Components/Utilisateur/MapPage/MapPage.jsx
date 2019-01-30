@@ -44,6 +44,7 @@ class MapPage extends React.Component {
             succeed: false,
             loadedEnigmeEquipe: false,
             isSuccess: false,
+            enigmeChecked: [],
             interval: function () {
 
             }
@@ -65,24 +66,24 @@ class MapPage extends React.Component {
         await this.props.getPosition()
         await this.props.enigmesFetch()
         // this.setState({ loaded: true })
-        this.areAllAnswersTrue()
-        axios.get('http://localhost:5000/api/session')
+        await axios.get('http://localhost:5000/api/session')
             .then(response => {
                 this.setState({
                     pointrencontre: response.data[0].pointrencontre,
                     activationsession: response.data[0].isactivate
                 })
-                console.log(this.state.pointrencontre)
             })
             .catch(error => {
                 throw (error);
             });
-        axios.get(`http://localhost:5000/api/equipe/${this.user}`)
+        await axios.get(`http://localhost:5000/api/equipe/${this.user}`)
             .then(data => {
                 // this.idEnigme = data.data[0].enigmes
                 let score = data.data[0]
+
                 this.setState({
-                    scoreuser: score.score
+                    scoreuser: score.score,
+                    enigmeChecked: score.enigmes
                 })
                 if (data.data.length >= 0) {
                     this.data = data.data[0].enigmes
@@ -100,22 +101,23 @@ class MapPage extends React.Component {
             .catch(error => {
                 throw (error);
             })
+        await this.areAllAnswerTrues()
     }
 
     allToggle = () => {
-        console.log('tous ca ne mrche')
         this.setState({
             modalMarker: !this.state.modalMarker
         })
         this.toggleTimer()
     }
 
-    areAllAnswersTrue = () => {
-        for (let i = 0; i < this.props.enigme.length; i++) {
-            if (this.props.enigme[i].check === true) {
+    areAllAnswerTrues = () => {
+        this.state.enigmeChecked.map((enigme) => {
+            if (enigme.check === true) {
                 this.setState({ countAnswer: this.state.countAnswer + 1 })
             }
-        }
+        })
+
     }
 
     getDistance(distance1, currentPosition) {
@@ -154,16 +156,15 @@ class MapPage extends React.Component {
     saveEndTime = () => {
         axios.put(`http://localhost:5000/api/equipes/donnees/${window.localStorage.getItem('id')}`, {
             h_fin: moment().format('LTS')
-                .then(function (response) {
-                    console.log("L'envoi a fonctionné", response);
-                })
-                .catch(function (error) {
-                    console.log("L'envoi n'a PAS fonctionné", error);
-                })
         })
+            .then(function (response) {
+                console.log("L'envoi a fonctionné", response);
+            })
+            .catch(function (error) {
+                console.log("L'envoi n'a PAS fonctionné", error);
+            })
     }
-
-
+    
     render() {
         return (
             <div className="mapPageContainer" >
@@ -189,7 +190,7 @@ class MapPage extends React.Component {
                                                             {this.saveEndTime()}
                                                             < Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
                                                                 <Popup>
-                                                                    <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
+                                                                    <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici pour les resultats du Raid !</p>
                                                                 </Popup>
                                                             </Marker>
                                                         </div>
