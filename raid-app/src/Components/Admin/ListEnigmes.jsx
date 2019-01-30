@@ -1,7 +1,7 @@
 import React from 'react';
 import './ListEnigmes.css'
 import { NavLink } from 'react-router-dom';
-import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import trash from './trash.png'
 import "react-toggle-component/styles.css"
@@ -95,25 +95,32 @@ export default class ListSessionPage extends React.Component {
     render() {
         return (
             <div className="containerAdmin">
-                <h1>Énigmes</h1>
-                {this.EnigmesList()}
-                {this.deleteValidation()}
-                < Button className="buttonMenu">
-                    <NavLink to={`/Admin/AddEgnimes/${window.localStorage.getItem('idAdmin')}`} onClick={this.forceUpdate}>
-                        <p className="textButton">Nouvelle énigme</p>
-                    </NavLink>
-                    <div className='textButtonIcon'>
-                        <FaScroll />
-                    </div>
-                </Button >
-                < Button className="buttonMenu">
-                    <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}>
-                        <p className="textButton">Retour</p>
-                    </NavLink>
-                    <div className='textButtonIcon'>
-                        <FaChevronLeft />
-                    </div>
-                </Button>
+                <Container>
+                    <Row>
+                        <Col xs="0" md="2" />
+                        <Col xs="12" md="8">
+                            <h1>Énigmes</h1>
+                            {this.EnigmesList()}
+                            {this.deleteValidation()}
+                            < Button className="buttonMenu">
+                                <NavLink to={`/Admin/AddEgnimes/${window.localStorage.getItem('idAdmin')}`} onClick={this.forceUpdate}>
+                                    <p className="textButton">Nouvelle énigme</p>
+                                </NavLink>
+                                <div className='textButtonIcon'>
+                                    <FaScroll />
+                                </div>
+                            </Button >
+                            < Button className="buttonMenu">
+                                <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}>
+                                    <p className="textButton">Retour</p>
+                                </NavLink>
+                                <div className='textButtonIcon'>
+                                    <FaChevronLeft />
+                                </div>
+                            </Button>
+                        </Col>
+                    </Row>
+                </Container>
             </div >
         );
     }
