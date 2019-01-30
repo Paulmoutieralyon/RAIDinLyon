@@ -202,7 +202,7 @@ export default class uneTeam extends Component {
                         </div>
                         : null}
 
-                    <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                    <Button className="buttonMenu" onClick={this.sendModifications}>Valider les modifications</Button>
                     <Button className="buttonMenu">
                         <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}>
                             <p className="textButton">Retour</p>
