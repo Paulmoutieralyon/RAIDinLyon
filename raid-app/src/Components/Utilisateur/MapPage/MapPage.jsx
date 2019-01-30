@@ -30,7 +30,7 @@ class MapPage extends React.Component {
             isOpenT: false,
             //deadline: 'January, 16, 2019, 18:00:00', // Choix : date et heure de fin
             hourEnd: '0',
-            minEnd: '1', // Choix : temps de fin (ex : fin 30min avant 13h ) 
+            minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
             secEnd: '0',
             hours: 0,
             minutes: 0,
@@ -169,7 +169,6 @@ class MapPage extends React.Component {
             <div className="mapPageContainer" >
                 <Header
                     dataCallback={this.handleModalCallback}
-                    scoreuser={this.state.scoreuser}
                 />
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">

@@ -1,0 +1,21 @@
+.count_title{
+    width: 2em;
+    margin-left: 0vh;
+    margin-top: 5.5vh;
+}
+
+.timer{
+    margin-top: -3.2vh;
+    margin-left: 6vh;
+
+}
+
+.timerHeader{
+    margin-top: -2.5em;
+    
+
+}
+ul, li {
+    color: white;
+}
+

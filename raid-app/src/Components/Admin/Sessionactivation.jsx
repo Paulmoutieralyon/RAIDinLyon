@@ -31,6 +31,7 @@ export default class AdminComptes extends React.Component {
             .catch(error => {
                 throw (error);
             });
+        this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
         
     }
 
