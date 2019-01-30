@@ -30,6 +30,7 @@ export default class AdminComptes extends React.Component {
             .catch(error => {
                 throw (error);
             });
+        this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
     }
 
 
@@ -53,7 +54,7 @@ export default class AdminComptes extends React.Component {
     render() {
         return (
             <div className="toggleBlock">
-                <Button className="togglerButton" onClick={this.modifyTimerActivation}>
+                <Button className={this.state.timeretat === "activée"?"toggleActived":"toggleDeactivated"} onClick={this.modifyTimerActivation}>
                     <div className='textButtonIcon'>
                         <FaStopwatch />
                     </div>

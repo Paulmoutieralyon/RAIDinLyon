@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Input, Label, FormGroup, FormText } from 'reactstrap';
+import { Button, Input, Label, FormGroup, FormText, Container, Row, Col } from 'reactstrap';
 import axios from 'axios'
 import { NavLink, BrowserRouter } from 'react-router-dom';
 import { Route, Redirect } from 'react-router';
@@ -239,102 +239,105 @@ export default class AddEgnimes extends React.Component {
         const token = localStorage.getItem('token');
         return (
             <div>
+                <Container>
+                    <Row>
+                        <Col xs="0" md="2" />
+                        <Col xs="12" md="8">
+                            <h3>Création d'une énigme </h3>
 
-                <h3>Création d'une énigme </h3>
+                            Hello {token}<br />
+                            <form>
+                                <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
+                                    <Label for="exampleFile">File</Label>
+                                    <input type="file" name="file" id="exampleFile"
+                                        // ref={fileInput => (this._fileInput = fileInput)}
+                                        ref={this.fileInput} />
+                                    <small className="obligatoire"> (*obligatoire)</small>
+                                    <FormText color="muted">
+                                        This is some placeholder block-level help text for the above input.
+                                        It's a bit lighter and easily wraps to a new line.
+    </FormText>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="exampleEmail">Titre énigme</Label>
+                                    <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyTitle} />
+                                </FormGroup>
 
-                Hello {token}<br />
-                <form>
-                    <FormGroup>{errors.map(error => (<p key={error}> Error: {error}</p>))}
-                        <Label for="exampleFile">File</Label>
-                        <input type="file" name="file" id="exampleFile" 
-                        // ref={fileInput => (this._fileInput = fileInput)}
-                        ref={this.fileInput} />
-                        <small className="obligatoire"> (*obligatoire)</small>
-                        <FormText color="muted">
-                            This is some placeholder block-level help text for the above input.
-                            It's a bit lighter and easily wraps to a new line.
-                    </FormText>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="exampleEmail">Titre énigme</Label>
-                        <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyTitle} />
-                    </FormGroup>
+                                <FormGroup>
+                                    <Label for="exampleText">Énoncé</Label>
+                                    <small className="obligatoire"> (*obligatoire)</small>
+                                    <Input type="textarea" name="text" id="exampleText"
+                                        ref={enonceInput => (this._enonceInput = enonceInput)}
+                                        onChange={this.modifyAnnouncement} />
+                                </FormGroup>
 
-                    <FormGroup>
-                        <Label for="exampleText">Énoncé</Label>
-                        <small className="obligatoire"> (*obligatoire)</small>
-                        <Input type="textarea" name="text" id="exampleText"
-                            ref={enonceInput => (this._enonceInput = enonceInput)}
-                            onChange={this.modifyAnnouncement} />
-                    </FormGroup>
+                                <FormGroup>
+                                    <Label for="exampleText">Question</Label>
 
-                    <FormGroup>
-                        <Label for="exampleText">Question</Label>
-                        
-                        <Input type="textarea" name="text" id="exampleText" onChange={this.modifyQuestion} />
-                    </FormGroup>
+                                    <Input type="textarea" name="text" id="exampleText" onChange={this.modifyQuestion} />
+                                </FormGroup>
 
-                    <FormGroup>
-                        <Label for="exampleText">Réponse</Label>
-                        <Input type="textarea" name="text" id="exampleText" onChange={this.addResponse} />
-                    </FormGroup>
+                                <FormGroup>
+                                    <Label for="exampleText">Réponse</Label>
+                                    <Input type="textarea" name="text" id="exampleText" onChange={this.addResponse} />
+                                </FormGroup>
 
-                    <FormGroup>
-                        <Label for="exampleText">Points à gagner pour cette énigme</Label>
-                        <Input type="text" name="text" id="exampleText" onChange={this.addPoints} />
-                    </FormGroup>
-
-
-                    <FormGroup>
-                        <Label for="exampleEmail">Indices</Label>
-                        <Input
-                            type="indice"
-                            name="indice"
-                            placeholder="Indice #1"
-                            onChange={this.add1Clue}
-                        />
-                        <Input
-                            type="indice"
-                            name="indice"
-                            placeholder="Indice #2"
-                            onChange={this.add2Clue}
-                        />
-                        <Input
-                            type="indice"
-                            name="indice"
-                            placeholder="Indice #3"
-                            onChange={this.add3Clue}
-                        />
-                    </FormGroup>
+                                <FormGroup>
+                                    <Label for="exampleText">Points à gagner pour cette énigme</Label>
+                                    <Input type="text" name="text" id="exampleText" onChange={this.addPoints} />
+                                </FormGroup>
 
 
-                    <h3>Localisation</h3>
-                    <FormGroup>
-                        <Label for="exampleEmail">Lattitude</Label>
-                        <small className="obligatoire"> (*obligatoire)</small>
-                        <Input type="titre" name="titre" id="titreennigme"
-                            ref={latInput => (this._latInput = latInput)}
-                            onChange={this.modifyLat} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="exampleEmail">Longitude</Label>
-                        <small className="obligatoire"> (*obligatoire)</small>
-                        <Input type="titre" name="titre"
-                            ref={longInput => (this._longInput = longInput)}
-                            id="titreennigme" onChange={this.modifyLong} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="exampleEmail">Règles du lieu</Label>
-                        <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyInfo} />
-                    </FormGroup>
-                </form>
+                                <FormGroup>
+                                    <Label for="exampleEmail">Indices</Label>
+                                    <Input
+                                        type="indice"
+                                        name="indice"
+                                        placeholder="Indice #1"
+                                        onChange={this.add1Clue}
+                                    />
+                                    <Input
+                                        type="indice"
+                                        name="indice"
+                                        placeholder="Indice #2"
+                                        onChange={this.add2Clue}
+                                    />
+                                    <Input
+                                        type="indice"
+                                        name="indice"
+                                        placeholder="Indice #3"
+                                        onChange={this.add3Clue}
+                                    />
+                                </FormGroup>
 
-                <Card body>
-                    <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
-                        <Button onClick={this.submit}>Enregistrer les modifications</Button>
-                    </NavLink>
-                </Card>
-                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
+
+                                <h3>Localisation</h3>
+                                <FormGroup>
+                                    <Label for="exampleEmail">Lattitude</Label>
+                                    <small className="obligatoire"> (*obligatoire)</small>
+                                    <Input type="titre" name="titre" id="titreennigme"
+                                        ref={latInput => (this._latInput = latInput)}
+                                        onChange={this.modifyLat} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="exampleEmail">Longitude</Label>
+                                    <small className="obligatoire"> (*obligatoire)</small>
+                                    <Input type="titre" name="titre"
+                                        ref={longInput => (this._longInput = longInput)}
+                                        id="titreennigme" onChange={this.modifyLong} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="exampleEmail">Règles du lieu</Label>
+                                    <Input type="titre" name="titre" id="titreennigme" onChange={this.modifyInfo} />
+                                </FormGroup>
+                            </form>
+                            <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
+                                <Button onClick={this.submit}>Enregistrer les modifications</Button>
+                            </NavLink>
+                            <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}><Button>Retour</Button></NavLink>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         );
     }

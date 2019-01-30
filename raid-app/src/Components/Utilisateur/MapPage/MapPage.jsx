@@ -14,6 +14,7 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
+    Button
 } from "reactstrap"
 //import Loader from 'react-loader-spinner'
 
@@ -29,7 +30,7 @@ class MapPage extends React.Component {
             isOpenT: false,
             //deadline: 'January, 16, 2019, 18:00:00', // Choix : date et heure de fin
             hourEnd: '0',
-            minEnd: '1', // Choix : temps de fin (ex : fin 30min avant 13h ) 
+            minEnd: '30', // Choix : temps de fin (ex : fin 30min avant 13h ) 
             secEnd: '0',
             hours: 0,
             minutes: 0,
@@ -43,6 +44,7 @@ class MapPage extends React.Component {
             succeed: false,
             loadedEnigmeEquipe: false,
             isSuccess: false,
+            enigmeChecked: [],
             interval: function () {
 
             }
@@ -64,24 +66,24 @@ class MapPage extends React.Component {
         await this.props.getPosition()
         await this.props.enigmesFetch()
         // this.setState({ loaded: true })
-        this.areAllAnswersTrue()
-        axios.get('/api/session')
+        await axios.get('/api/session')
             .then(response => {
                 this.setState({
                     pointrencontre: response.data[0].pointrencontre,
                     activationsession: response.data[0].isactivate
                 })
-                console.log(this.state.pointrencontre)
             })
             .catch(error => {
                 throw (error);
             });
-        axios.get(`/api/equipe/${this.user}`)
+        await axios.get(`/api/equipe/${this.user}`)
             .then(data => {
                 // this.idEnigme = data.data[0].enigmes
                 let score = data.data[0]
+
                 this.setState({
-                    scoreuser: score.score
+                    scoreuser: score.score,
+                    enigmeChecked: score.enigmes
                 })
                 if (data.data.length >= 0) {
                     this.data = data.data[0].enigmes
@@ -99,22 +101,23 @@ class MapPage extends React.Component {
             .catch(error => {
                 throw (error);
             })
+        await this.areAllAnswerTrues()
     }
 
     allToggle = () => {
-        console.log('tous ca ne mrche')
         this.setState({
             modalMarker: !this.state.modalMarker
         })
         this.toggleTimer()
     }
 
-    areAllAnswersTrue = () => {
-        for (let i = 0; i < this.props.enigme.length; i++) {
-            if (this.props.enigme[i].check === true) {
+    areAllAnswerTrues = () => {
+        this.state.enigmeChecked.map((enigme) => {
+            if (enigme.check === true) {
                 this.setState({ countAnswer: this.state.countAnswer + 1 })
             }
-        }
+        })
+
     }
 
     getDistance(distance1, currentPosition) {
@@ -153,22 +156,20 @@ class MapPage extends React.Component {
     saveEndTime = () => {
         axios.put(`/api/equipes/donnees/${window.localStorage.getItem('id')}`, {
             h_fin: moment().format('LTS')
-                .then(function (response) {
-                    console.log("L'envoi a fonctionné", response);
-                })
-                .catch(function (error) {
-                    console.log("L'envoi n'a PAS fonctionné", error);
-                })
         })
+            .then(function (response) {
+                console.log("L'envoi a fonctionné", response);
+            })
+            .catch(function (error) {
+                console.log("L'envoi n'a PAS fonctionné", error);
+            })
     }
-
-
+    
     render() {
         return (
             <div className="mapPageContainer" >
                 <Header
                     dataCallback={this.handleModalCallback}
-                    scoreuser={this.state.scoreuser}
                 />
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">
@@ -189,7 +190,7 @@ class MapPage extends React.Component {
                                                             {this.saveEndTime()}
                                                             < Marker position={[this.state.pointrencontre[0], this.state.pointrencontre[1]]}>
                                                                 <Popup>
-                                                                    <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici, un cadeau t'attend</p>
+                                                                    <p>Félicitation, tu as répondu à toutes les énigmes !<br /> Rends-toi ici pour les resultats du Raid !</p>
                                                                 </Popup>
                                                             </Marker>
                                                         </div>
@@ -207,12 +208,12 @@ class MapPage extends React.Component {
                                                                     toggle={this.toggle}
                                                                 >
                                                                     <ModalHeader toggle={this.toggle}>
-                                                                        <p>{this.props.enigme[i].titre}</p>
+                                                                        <h3 className="titreModal">{this.props.enigme[i].titre}</h3>
                                                                     </ModalHeader>
-                                                                    <ModalBody className="modaltexte">
+                                                                    <ModalBody className="modaltext">
                                                                         <NavLink to={`/EnigmePage/${this.props.enigme[i]._id}/${window.localStorage.getItem("id")}`}>
                                                                             {" "}
-                                                                            <button onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</button>{" "}
+                                                                            <Button class="btn btn-default" /* className="goEnigme" */ onClick={() => this.props.displayEnigmeAction(i)}> Accéder à lénigme</Button>{" "}
                                                                         </NavLink>
                                                                     </ModalBody>
                                                                 </Modal>

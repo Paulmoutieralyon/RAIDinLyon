@@ -3,6 +3,10 @@ import { Button, Alert, Input, FormGroup, Label, FormText } from 'reactstrap';
 import Editable from 'react-x-editable';
 import { NavLink } from 'react-router-dom';
 import './UnEnigme.css';
+import './ListEnigmes.css';
+import './SessionPage.css';
+import "react-toggle-component/styles.css";
+import { FaScroll, FaChevronLeft } from 'react-icons/fa'
 const axios = require('axios');
 
 
@@ -160,18 +164,27 @@ export default class UnEnigme extends Component {
 
     render() {
         return (
-            <div>
+            <Button>
+            <div className='textButtonUne'>
 
                 {this.state.titre ?
                     <div>
-                        <Alert color="dark">
-                            Id de l'énigme : {this.state.id}
+                        <Alert 
+                        color="dark">
+                            Id Enigme {this.state.id}
                         </Alert>
-                        <Alert color="dark">
-                            Titre :
+
+                        <Alert 
+                        className="id"
+                        color="dark">
+                        
+                        <p className="titre">Titre : </p>
                             <Editable
+                                className="inputtext"
                                 name="username"
                                 dataType="text"
+                                mode="inline"
+                                
                                 value={this.state.titre}
                                 validate={(value) => {
                                     if (!value) {
@@ -185,9 +198,11 @@ export default class UnEnigme extends Component {
                             />
                         </Alert>
 
-                        <Alert color="dark">
-                            Points à gagner :
+                        <Alert className="id"
+                        color="dark">
+                            <p className="titre">Points à gagner :</p>
                             <Editable
+                                className="titre"
                                 name="agagner"
                                 dataType="number"
                                 value={this.state.agagner}
@@ -203,24 +218,10 @@ export default class UnEnigme extends Component {
                             />
                         </Alert>
 
-                        <Alert color="dark">
-                            Image utilisée (Ne fonctionne pas pour l'instant): <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.img}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyImage(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
-                        <Alert color="dark">
-                            Énoncé : <Editable
+                        
+                        <Alert className="id"
+                        color="dark">
+                             <p className="titre">Énoncé :</p><Editable
                                 name="username"
                                 dataType="textarea"
                                 value={this.state.enonce}
@@ -236,8 +237,9 @@ export default class UnEnigme extends Component {
                             />
 
                         </Alert>
-                        <Alert color="dark">
-                            Question : <Editable
+                        <Alert className="id"
+                        color="dark">
+                             <p className="titre">Question : </p><Editable
                                 name="username"
                                 dataType="textarea"
                                 value={this.state.question}
@@ -252,8 +254,9 @@ export default class UnEnigme extends Component {
                                 }
                             />
                         </Alert>
-                        <Alert color="dark">
-                            Indices :
+                        <Alert className="id"
+                        color="dark">
+                            <p className="titre"> Indices : </p>
                         <Editable
                                 name="username"
                                 dataType="text"
@@ -297,8 +300,9 @@ export default class UnEnigme extends Component {
                                 }
                             />
                         </Alert>
-                        <Alert color="dark">
-                            Réponse :
+                        <Alert className="id"
+                        color="dark">
+                            <p className="titre"> Réponse : </p>
                             <Editable
                                 name="username"
                                 dataType="text"
@@ -314,9 +318,10 @@ export default class UnEnigme extends Component {
                                 }
                             />
                         </Alert>
-                        <h3>Informations géographiques du lieu :</h3>
-                        <Alert color="dark">
-                            Lattitude : <Editable
+                        <h3 className="edit">Informations géographiques du lieu :</h3>
+                        <Alert className="id"
+                        color="dark">
+                            <p className="titre">Lattitude : </p> <Editable
                                 name="username"
                                 dataType="text"
                                 value={this.state.coordonnees[0]}
@@ -330,7 +335,7 @@ export default class UnEnigme extends Component {
                                 }
                                 }
                             />
-                            Longitude :
+                            <p className="titre">Longitude : </p>
                             <Editable
                                 name="username"
                                 dataType="text"
@@ -346,8 +351,9 @@ export default class UnEnigme extends Component {
                                 }
                             />
                         </Alert>
-                        <Alert color="dark">
-                            Précautions sur le lieu :
+                        <Alert className="id"
+                        color="dark">
+                            <p className="titre">Précautions sur le lieu : </p>
                             <Editable
                                 name="username"
                                 dataType="text"
@@ -365,11 +371,17 @@ export default class UnEnigme extends Component {
                         </Alert>
                     </div>
                     : null}
-                <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                <Button className="buttonMenu" onClick={this.sendModifications}>Valider les modifications</Button>
+                < Button className="buttonMenu">
                 <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
-                    <Button>Retour</Button>
+                <p className="textButton">Retour</p>
                 </NavLink>
+                <div className='textButtonIcon'>
+                        <FaChevronLeft />
+                    </div>
+                </Button>
             </div>
+            </Button>
         );
     }
 }

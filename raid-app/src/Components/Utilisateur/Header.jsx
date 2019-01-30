@@ -122,24 +122,26 @@ export class Header extends React.Component {
         const { post } = this.props
         return (
             <div className='headerContainer'>
-                <Navbar light expand="md">
-                    <NavbarBrand><Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link></NavbarBrand>
-
-                    {this.state.timeractivation ?
-                        <div>
-                            <div className="count_title" >Fin :</div>
-                            <Container className="d-none d-md-block">{this.props.title}</Container>
-
+                <Navbar className="position-nav">
+                    <NavbarBrand>
+                        <Container>
                             <Row>
-                                <Col> {this.leading0(this.state.hours)}H</Col>
-                                <Col> {this.leading0(this.state.minutes)}M</Col>
-                                <Col>{this.leading0(this.state.seconds)}S</Col>
+                                <Col xs="3">
+                                    <Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link>
+                                </Col>
+                                <Col xs="3" />
+                                <Col xs="6" className="timerHeader">
+                                    {this.state.timeractivation ?
+                                        <div>Fin: {this.leading0(this.state.hours)}h {this.leading0(this.state.minutes)}mn {this.leading0(this.state.seconds)}s
+                                        </div> : null}
+                                </Col>
                             </Row>
-                        </div> : null}
+                        </Container>
+                    </NavbarBrand>
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
                         <ModalHeader toggle={this.toggleTimer}>Raid Terminé !</ModalHeader>
                         <ModalBody>
-                            Retrouvez-vous à l'adresse indiquée sur la map !  
+                            Retrouvez-vous à l'adresse indiquée sur la map !
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" onClick={this.allToggle}>En route !</Button>{' '}
@@ -150,12 +152,12 @@ export class Header extends React.Component {
                     </NavbarToggler>
                 </Navbar>
                 <ul className="menuList">
-                    <li id='pts'>{this.props.scoreuser} pts</li>
+                    <li id='pts'>{this.state.score} pts</li>
                     <Link style={{ textDecoration: 'none' }} to={`/`}><li>Accueil</li></Link>
-                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Qui sommes-nous</li></a>
-                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Mentions légales / CGU</li></Link>
-                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Nos partenaires</li></Link>
-                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Contactez-nous</li></Link>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/lassociation-raidinlyon/`}><li>Qui sommes-nous</li></a>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Mentions légales / CGU</li></a>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Nos partenaires</li></a>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/contact/`}><li>Contactez-nous</li></a>
                 </ul>
             </div>
         )

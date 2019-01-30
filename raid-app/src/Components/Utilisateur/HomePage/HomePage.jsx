@@ -1,11 +1,9 @@
 import React from 'react'
 import axios from 'axios'
-import { NavLink } from 'react-router-dom'
 import logo from './RaidLyonLogo.png'
-import info from './info.png'
 import './HomePage.css'
 import './InfosModalHome.css'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, Form, FormGroup, Label, Input, Col } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, Container, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -54,7 +52,6 @@ export default class HomePage extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-        //this.props.history.push('/MapPage')
     }
 
     toggle = () => {
@@ -66,9 +63,8 @@ export default class HomePage extends React.Component {
     render() {
         return (
             <div className="bodyHome">
+            <img className="LogoImg" src={logo} alt='homelogo' />
                 <div className='allinfo'>
-                    <img className='Infologo'  onClick={this.toggle}  src={info} alt='infologo'>{this.props.buttonLabel}</img>
-                    
                         <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                             <ModalHeader toggle={this.toggle}>Règle du jeu de piste</ModalHeader>
                             <ModalBody className='modaltexte'>
@@ -84,7 +80,7 @@ export default class HomePage extends React.Component {
                                         type="email"
                                         name="email"
                                         id="exampleEmail"
-                                        placeholder="myemail@email.com"
+                                        placeholder="monemail@email.com"
                                         onChange={this.modifyEmail}
                                     />
                                 </FormGroup>
@@ -101,15 +97,18 @@ export default class HomePage extends React.Component {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Button onClick={this.submitLogin}>Lancer la partie</Button>
+                            <Container>
+                            <Row>
+                                <Col>
+                                    <Button className="btn-start" size="lg" onClick={this.submitLogin}>Lancer la partie</Button>
+                                </Col>
+                            </Row>
+                            </Container>
+                            
                         </Form>
                     </Container>
-
-                    <img className="LogoImg" src={logo} alt='homelogo' />
-                    {/*                         <h1 className="TitreSession"> BIENVENUE <br /> A <br />RaidInLyon</h1> */}
                 </div>
             </div>
-
         );
     }
 }

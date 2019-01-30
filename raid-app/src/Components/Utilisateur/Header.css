@@ -1,0 +1,32 @@
+.count_title{
+    width: 2em;
+    margin-left: 0vh;
+    margin-top: 5.5vh;
+}
+
+.timer{
+    margin-top: -3.2vh;
+    margin-left: 6vh;
+
+}
+
+.timerHeader{
+    color: white;
+}
+
+.timerHeader p{
+    color: white;
+}
+
+ul, li {
+    color: white;
+}
+
+.navbar-brand{
+    width: 60vw !important;
+}
+
+.position-nav {
+    position:fixed !important;
+    width: 100%;
+}

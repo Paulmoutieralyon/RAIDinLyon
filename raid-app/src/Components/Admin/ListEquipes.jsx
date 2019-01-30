@@ -1,11 +1,12 @@
 import React from 'react';
 import './ListEquipes.css'
 import { BrowserRouter, NavLink } from 'react-router-dom';
-import { Modal, ModalBody, ModalFooter, Breadcrumb, Card, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, Button, Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import trash from './trash.png'
-
+import './SessionPage.css'
 import "react-toggle-component/styles.css"
+import { FaScroll, FaChevronLeft } from 'react-icons/fa';
 
 export default class ListEquipes extends React.Component {
     constructor(props) {
@@ -37,20 +38,16 @@ export default class ListEquipes extends React.Component {
     EquipeList = () => {
         return this.state.equipe.map((equipe, i) => {
             return (
-                <BrowserRouter>
-                    <Breadcrumb>
-                        <ListGroup>
-                            <NavLink to={`/Admin/equipe/${window.localStorage.getItem('idAdmin')}/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
-                                <ListGroupItem active>
-                                    <ListGroupItemHeading>{equipe.nom}</ListGroupItemHeading>
-                                    <ListGroupItemText>
-                                    </ListGroupItemText>
-                                </ListGroupItem>
-                            </NavLink>
-                            <img src={trash} onClick={() => this.willDelete(equipe._id, i)} className="trash" />
-                        </ListGroup>
-                    </Breadcrumb>
-                </BrowserRouter>
+                <Button>
+                    <div className="textButton">
+                        <NavLink to={`/Admin/equipe/${window.localStorage.getItem('idAdmin')}/${equipe._id}`} onClick={this.forceUpdate} className="navlink">
+                            {equipe.nom}
+                        </NavLink>
+                    </div>
+                    <div className='textButtonIcon'>
+                        <img src={trash} onClick={() => this.willDelete(equipe._id, i)} className="trash" />
+                    </div>
+                </Button>
             )
         })
 
@@ -106,19 +103,34 @@ export default class ListEquipes extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1 className="titre"> Liste des Equipes </h1>
-                {this.EquipeList()}
-                {this.deleteValidation()}
-                <Card body>
-                    <NavLink to={`/Admin/AddTeam/${window.localStorage.getItem('idAdmin')}`} onClick={this.forceUpdate}>
-                        <Button> Nouvelle Equipe </Button>
-                    </NavLink>
-                    <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}>
-                        <Button>Retour</Button>
-                    </NavLink>
-                </Card>
-            </div>
+            <div className="containerAdmin">
+                <Container>
+                    <Row>
+                        <Col xs="0" md="2" />
+                        <Col xs="12" md="8">
+                            <h1 className="titreH1"> Equipes </h1>
+                            {this.EquipeList()}
+                            {this.deleteValidation()}
+                            <Button className="buttonMenu">
+                                <NavLink to={`/Admin/AddTeam/${window.localStorage.getItem('idAdmin')}`} onClick={this.forceUpdate}>
+                                    <p className="textButton"> Nouvelle Equipe </p>
+                                </NavLink>
+                                <div className="textButtonIcon">
+                                    <FaScroll />
+                                </div>
+                            </Button>
+                            < Button className="buttonMenu">
+                                <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}>
+                                    <p className="textButton">Retour</p>
+                                </NavLink>
+                                <div className="textButtonIcon">
+                                    <FaChevronLeft />
+                                </div>
+                            </ Button>
+                        </Col>
+                    </Row>
+                </Container>
+            </div >
         );
     }
 }

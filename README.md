@@ -1,23 +1,64 @@
-# RAIDinLyon
+Bienvenue dans RaidInLyon,
 
-### Salut c'est Jeffrey
+Pour récupérer l'ensemble du projet il vous faut aller sur cette adresse :
 
-**Petite note sur les commandes**
+https://github.com/Paulmoutieralyon/RAIDinLyon 
 
-### `yarn setdb`
+puis fork la branche dev.
 
-Vide vos tables mongodb
 
-### `yarn database`
+Pour lancer le projet il vous faudra suivre quelques étapes, les voici :
 
-Importe les fichiers json du dossier collection
+- lancer via le terminal à la racine du projet les variables environnements suivantes, voici la commande à taper :
 
-### `yarn dev`
+export userPass="raiddinguedetoi69" export userId="RaidWild"
 
-Lance le back sur le port 5000 puis le front sur le port 3000
 
-### `yarn jeffrey`
 
-Commande à usage personel
+- lancer, toujours via le terminal à la racine du projet, le server via cette commande :
 
-**Pour aller plus loin, voir le package.json**
+node server.js
+
+
+- ensuite, ouvrir votre navigateur ( google chrome ....) et mettre l'adresse suivante :
+
+localhost:5000
+
+
+et voilà pour le côté front de l'appli (côté utilisateur).
+
+
+Pour le côté Back (Base de données...)
+
+sur le navigateur (google chrome...) rajouter : 
+
+/admin   à la page page d'acceuil de l'appli. 
+
+Pour la base de données,
+
+elle est hébérgée sur https://mlab.com/ , pour vous connecter ils vous suffit de rentrer les identifiants suivants :
+
+USERNAME : RaidWild
+PASSWORD : raiddinguedetoi
+
+
+Pour ce qui est de l'architecture du code, voici le résumé :
+ 
+ Le back se trouve à la racine (server.js...)
+
+ le front est organisé dans raidapp, dedans il y'a deux dossiers : 
+ 
+ Admin et Utilisateur.
+
+ dans le dossier Utilisateur il y'a 3 sous dossiers :
+
+ EnigmePage, HomePage et MapPage
+
+
+
+
+ petite astuce :
+
+ pour rentrer les coordonnées GPS lors de la création d'une énigme. Vous trouverez les ceux-ci sur le site :
+
+ https://www.coordonnees-gps.fr/
