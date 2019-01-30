@@ -70,8 +70,7 @@ class MapPage extends React.Component {
             .then(response => {
                 this.setState({
                     pointrencontre: response.data[0].pointrencontre,
-                    activationsession: response.data[0].isactivate,
-                    activetimer: response.data[0].activetimer
+                    activationsession: response.data[0].isactivate
                 })
             })
             .catch(error => {
@@ -165,12 +164,7 @@ class MapPage extends React.Component {
                 console.log("L'envoi n'a PAS fonctionné", error);
             })
     }
-
-    onDismiss = () => {
-        this.setState({ visible: false });
-    }
-
-
+    
     render() {
         return (
             <div className="mapPageContainer" >
