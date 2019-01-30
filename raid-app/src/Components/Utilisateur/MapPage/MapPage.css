@@ -20,6 +20,15 @@ html, body {
     height: 100%;
 }
 
+.mapPageContainer .btn .btn .btn {
+    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding: 0.3em;
+ text-align: center !important; 
+    border-style: none;
+}
+
 .map {
     flex-grow: 1;
     z-index: 10;
@@ -40,6 +49,10 @@ html, body {
     color: white;
     height: 50px;
     z-index: 999999999999999
+}
+
+.titreModal {
+    font-family: 'Lilita One', cursive;
 }
 
 .navbar a {
