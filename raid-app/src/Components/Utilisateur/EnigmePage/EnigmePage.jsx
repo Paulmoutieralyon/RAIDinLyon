@@ -37,6 +37,8 @@ export class EnigmePage extends React.Component {
             enonce: null,
             reponse: null,
             indices: null,
+            displayedIndices: [],
+            loadedIndice: false,
             info: null,
             check: null,
             succeed: null,
@@ -129,9 +131,12 @@ export class EnigmePage extends React.Component {
         //this.setState({ indiceNumber: this.state.indiceNumber + 1 })
         if (this.state.indiceNumber === 0) {
             if (this.state.indices[0]) {
+                const push = this.state.displayedIndices.push(this.state.indices[0])
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
-                    indice: this.state.indices[0],
+                    loadedIndice: true,
+                    //indice: this.state.indices[0],
+                    //displayedIndices: this.state.displayedIndices.push(this.state.indices[0]),
                     agagner: Math.ceil(this.state.baseagagner / 1.3)
                 })
             } else {
@@ -145,9 +150,11 @@ export class EnigmePage extends React.Component {
 
         if (this.state.indiceNumber === 1) {
             if (this.state.indices[1]) {
+                const push1 = this.state.displayedIndices.push(this.state.indices[1])
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
-                    indice: this.state.indices[1],
+                    //indice: this.state.indices[1],
+                    //displayedIndices: [this.state.indices[0], this.state.indices[1]],
                     agagner: Math.ceil(this.state.baseagagner / 2)
                 })
             }
@@ -163,9 +170,11 @@ export class EnigmePage extends React.Component {
 
         if (this.state.indiceNumber === 2) {
             if (this.state.indices[2]) {
+                const push2 = this.state.displayedIndices.push(this.state.indices[2])
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
-                    indice: this.state.indices[2],
+                    //indice: this.state.indices[2],
+                    displayedIndices: [this.state.indices[0], this.state.indices[1], this.state.indices[2]],
                     agagner: Math.ceil(this.state.baseagagner / 3)
                 })
             }
@@ -179,6 +188,9 @@ export class EnigmePage extends React.Component {
         }
 
         if (this.state.indiceNumber >= 3) {
+            this.setState({
+                disableIndice: true
+            })
             this.ReponseManagement()
         }
     };
@@ -206,16 +218,7 @@ export class EnigmePage extends React.Component {
                     })
                     this.saveResp()
 
-                }
-                else if (this.state.numClickValidate >= 2 && !response.data.status) {
-                    this.setState({
-                        agagner: 0,
-                        isResTrue: false,
-                        succeed: false,
-                    })
-                    this.saveResp()
-
-                } else if (this.state.numClickValidate >= 3 && this.state.isResTrue === false) {
+                } else if (this.state.numClickValidate >= 2 && this.state.isResTrue === false) {
                     this.setState({
                         isResTrue: false,
                         succeed: false,
@@ -267,6 +270,8 @@ export class EnigmePage extends React.Component {
 
     render() {
         console.log("reponse: ", this.state.reponse)
+        console.log("indices", this.state.indices)
+        console.log('numValidate', this.state.numClickValidate)
         let tentatives = this.state.numClickValidate - 3
         return (
             <div className="EnigmePageContainer">
@@ -275,7 +280,7 @@ export class EnigmePage extends React.Component {
                     <div style={{ padding: '5vw' }} id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                         {this.state.indiceNumber === 2 && this.state.indices[2] ?
                             < Alert color="dark" isOpen={this.state.visibleAlert} toggle={this.onDismiss}>
-                                Attention il ne vous reste plus qu'un tentative.
+                                1 indice restant
                         </Alert>
                             :
                             null}
@@ -311,7 +316,7 @@ export class EnigmePage extends React.Component {
                                 null
                                 :
                                 <div>
-                                    {this.state.disableIndice || this.state.indices === null ?
+                                    {this.state.disableIndice || this.state.indices === [] ?
                                         <div>
                                             <Button disabled type="button" onClick={this.displayIndices} className="bonton2" >indices épuisés</Button><br></br>
                                         </div>
@@ -323,7 +328,19 @@ export class EnigmePage extends React.Component {
                             {this.state.succeed || this.state.succeed === false ?
                                 null
                                 :
-                                <div className="Textindices">{this.state.indice}</div>
+                                <div>
+                                    {this.state.loadedIndice ?
+                                        <div>{/* {this.state.displayedIndices} */}
+                                            <ul>
+                                                {this.state.displayedIndices.map(item => (
+                                                    <li key={item}>{item}</li>
+                                                ))}
+                                            </ul>
+
+                                        </div>
+                                        :
+                                        null}
+                                </div>
                             }
                         </AvForm>
                     </div>
