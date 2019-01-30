@@ -207,7 +207,7 @@ export class EnigmePage extends React.Component {
     }
 
     //Gestion de la bonne ou mauvaise réponse//
-    ReponseManagement() {
+    async ReponseManagement() {
 
         const respo = ReactDOM.findDOMNode(this._respoInput).value;
         const errors = validateform(this.state.proposition);
@@ -217,7 +217,7 @@ export class EnigmePage extends React.Component {
         } else {
             this.setState({ errors: [] });
         }
-        axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
+       await axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
             proposition: this.state.proposition.toLowerCase()
         })
 
@@ -254,6 +254,8 @@ export class EnigmePage extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
+        await this.setState({proposition : ""})
+
     }
 
 
@@ -311,7 +313,7 @@ export class EnigmePage extends React.Component {
                             {this.state.succeed || this.state.succeed === false ?
                                 <p style={{ fontSize: '3vh', color: '#ffbb34', textAlign: 'center' }}>réponse: <strong>{this.state.reponse}</strong></p>
                                 :
-                                <AvField name="enigme" type="text" placeholder="votre réponse" onChange={this.isProposing} />
+                                <AvField name="enigme" type="text" value={this.state.proposition} onChange={this.isProposing} />
                             }{errors.map(error => (<p key={error}> * {error}</p>))}
                             <br />
                             <div className="validationContainer">
