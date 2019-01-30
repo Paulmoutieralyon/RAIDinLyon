@@ -135,8 +135,6 @@ export class EnigmePage extends React.Component {
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
                     loadedIndice: true,
-                    //indice: this.state.indices[0],
-                    //displayedIndices: this.state.displayedIndices.push(this.state.indices[0]),
                     agagner: Math.ceil(this.state.baseagagner / 1.3)
                 })
             } else {
@@ -153,8 +151,6 @@ export class EnigmePage extends React.Component {
                 const push1 = this.state.displayedIndices.push(this.state.indices[1])
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
-                    //indice: this.state.indices[1],
-                    //displayedIndices: [this.state.indices[0], this.state.indices[1]],
                     agagner: Math.ceil(this.state.baseagagner / 2)
                 })
             }
@@ -173,8 +169,6 @@ export class EnigmePage extends React.Component {
                 const push2 = this.state.displayedIndices.push(this.state.indices[2])
                 this.setState({
                     indiceNumber: this.state.indiceNumber + 1,
-                    //indice: this.state.indices[2],
-                    displayedIndices: [this.state.indices[0], this.state.indices[1], this.state.indices[2]],
                     agagner: Math.ceil(this.state.baseagagner / 3)
                 })
             }
@@ -191,7 +185,6 @@ export class EnigmePage extends React.Component {
             this.setState({
                 disableIndice: true
             })
-            this.ReponseManagement()
         }
     };
 
@@ -296,7 +289,7 @@ export class EnigmePage extends React.Component {
                                 null
                                 :
                                 <div style={{ textAlign: "start", marginBottom: '-2vh' }}>
-                                    <p><i>Il vous reste {Math.abs(tentatives)} tentatives sur 3</i></p>
+                                    <p><i>Il vous reste {Math.abs(tentatives)} tentatives de réponse</i></p>
                                 </div>
                             }
                             {this.state.succeed || this.state.succeed === false ?
@@ -322,7 +315,7 @@ export class EnigmePage extends React.Component {
                                         </div>
                                         :
                                         <div>
-                                            <Button type="button" onClick={this.displayIndices} className="bonton2" >Indice</Button><br></br>
+                                            <Button type="button" onClick={this.displayIndices} className="bonton2" href="#indices">Indice</Button><br></br>
                                         </div>}
                                 </div>}
                             {this.state.succeed || this.state.succeed === false ?
@@ -332,8 +325,8 @@ export class EnigmePage extends React.Component {
                                     {this.state.loadedIndice ?
                                         <div>{/* {this.state.displayedIndices} */}
                                             <ul>
-                                                {this.state.displayedIndices.map(item => (
-                                                    <li key={item}>{item}</li>
+                                                {this.state.displayedIndices.map((item, i) => (
+                                                    <li id="indices" key={item}>indice n°{i+1}: {item}</li>
                                                 ))}
                                             </ul>
 
