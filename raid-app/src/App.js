@@ -49,17 +49,26 @@ export default class App extends Component {
       <div className="App">
         <BrowserRouter>
           <div>
-            {window.localStorage.getItem("token") ?
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/EnigmePage/:_id/:id" component={EnigmePage} />
-                <Route path="/MapPage/:_id" component={MapPage} />
-              </Switch>
+            {this.state.componentsession ?
+              <div>
+                {window.localStorage.getItem("token") ?
+                  <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/EnigmePage/:_id/:id" component={EnigmePage} />
+                    <Route path="/MapPage/:_id" component={MapPage} />
+                  </Switch>
+                  :
+                  <Switch>
+                    <Route exact path="/" component={HomePage} />
+                  </Switch>
+                }
+                </div>
               :
               <Switch>
-                <Route exact path="/" component={HomePage} />
+                <Route path="/redirection" component={HomePageRedirect} />
               </Switch>
             }
+
             {window.localStorage.getItem("tokenAdmin") ?
               <Switch>
                 <Route exact path="/Admin" component={Connexion} />

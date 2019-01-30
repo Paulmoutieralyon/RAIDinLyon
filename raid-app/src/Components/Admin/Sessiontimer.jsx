@@ -11,18 +11,18 @@ export default class AdminComptes extends React.Component {
         super(props)
         this.state = {
             timerchecked: null,
-            timeretat: "desactivée",
+            timeretat: null,
         }
     }
 
     componentDidMount() {
         axios.get('http://localhost:5000/api/session')
             .then(response => {
-                console.log(response.data[0])
                 this.setState({
                     idsession: response.data[0]._id,
                     timerchecked: response.data[0].activetimer,
                 })
+                this.state.timerchecked ? this.setState({ timeretat: "activée" }) : this.setState({ timeretat: "désactivée" })
             })
             .catch(error => {
                 throw (error);
@@ -49,7 +49,6 @@ export default class AdminComptes extends React.Component {
     }
 
     render() {
-        console.log(this.state.timerchecked)
         return (
 
             <Breadcrumb>

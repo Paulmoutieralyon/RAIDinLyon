@@ -1,8 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import Toggle from "react-toggle-component"
-import { InputGroup, InputGroupAddon, Input, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap'
-import logo from './logo_tinyplanet_orange.png'
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import './Connexion.css'
 
 
@@ -11,7 +10,7 @@ export default class AdminComptes extends React.Component {
         super(props)
         this.state = {
             checked: null,
-            etat: "désactivée"
+            etat: null,
         }
     }
 
@@ -23,11 +22,13 @@ export default class AdminComptes extends React.Component {
                     idsession: response.data[0]._id,
                     checked: response.data[0].isactivate,
                 })
+                this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
             })
             .catch(error => {
                 throw (error);
             });
         this.state.checked ? this.setState({ etat: "activée" }) : this.setState({ etat: "désactivée" })
+        
     }
 
     async modifyActivation(value) {

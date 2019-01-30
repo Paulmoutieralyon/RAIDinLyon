@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, FormGroup, Label, Input, Breadcrumb, ListGroup } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 const axios = require('axios');
+const moment = require('moment');
+
 export default class Classement extends React.Component {
   constructor(props) {
     super(props);
@@ -20,10 +22,12 @@ export default class Classement extends React.Component {
       });
   }
   
+
   saveChoice = (e) => {
     if (e.target.value === "points") {
       axios.get(`http://localhost:5000/api/equipes/byscore`)
         .then(response => {
+          console.log(response)
           this.setState({
             classement: response.data
           })
@@ -38,7 +42,7 @@ export default class Classement extends React.Component {
         <div>
           <Breadcrumb>
             <ListGroup>
-              {classement.nom} : {classement.score} points
+              {classement.nom} : {classement.score} points ; Heure de fin : {classement.h_fin}
             </ListGroup>
           </Breadcrumb>
         </div>

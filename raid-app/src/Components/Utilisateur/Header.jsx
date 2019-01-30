@@ -20,7 +20,6 @@ import './MapPage/MapPage.css'
 import './Header.css'
 import { FaBars } from 'react-icons/fa'
 import { slideHeader } from '../../Actions/Utilisateur/headerActions'
-import Responsive from 'react-responsive';
 
 export class Header extends React.Component {
     constructor(props) {
@@ -127,36 +126,36 @@ export class Header extends React.Component {
                     <NavbarBrand><Link to={`/MapPage/${window.localStorage.getItem("id")}`}> Raid In Lyon </Link></NavbarBrand>
 
                     {this.state.timeractivation ?
-                        <div>
-                            <div className="count_title" >Fin :</div>
+                        <div className="timerHeader">
                             <Container className="d-none d-md-block">{this.props.title}</Container>
-
-                            <Row>
-                                <Col> {this.leading0(this.state.hours)}H</Col>
-                                <Col> {this.leading0(this.state.minutes)}M</Col>
-                                <Col>{this.leading0(this.state.seconds)}S</Col>
-                            </Row>
+                            <div className="count_title" >Fin:</div>
+                                <Row>
+                                    <Col> {this.leading0(this.state.hours)}h</Col>
+                                    <Col> {this.leading0(this.state.minutes)}mn</Col>
+                                    <Col>{this.leading0(this.state.seconds)}s</Col>
+                                </Row>
                         </div> : null}
                     <Modal isOpen={this.state.modalTimer} toggle={this.toggleTimer}>
-                        <ModalHeader toggle={this.toggleTimer}>Session Terminée</ModalHeader>
+                        <ModalHeader toggle={this.toggleTimer}>Raid Terminé !</ModalHeader>
                         <ModalBody>
-                            Bravo à Vous, les épreuves sont terminées, dirigez-vous vers le point final pour le classement. Soyez content de vous !
+                            Retrouvez-vous à l'adresse indiquée sur la map !  
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={this.allToggle}>Allez !</Button>{' '}
+                            <Button color="primary" onClick={this.allToggle}>En route !</Button>{' '}
                         </ModalFooter>
                     </Modal>
-                    <NavbarToggler sizeonClick={this.props.slideHeader}>
-                        <FaBars style={{ color: '#c6c6c6' }} />
-                    </NavbarToggler>
+                        <NavbarToggler onClick={this.props.slideHeader}>
+                            <FaBars style={{ color: '#c6c6c6' }} />
+                        </NavbarToggler>
+                     
                 </Navbar>
                 <ul className="menuList">
                     <li id='pts'>{this.props.scoreuser} pts</li>
                     <Link style={{ textDecoration: 'none' }} to={`/`}><li>Accueil</li></Link>
-                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Qui sommes-nous</li></a>
-                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Mentions légales / CGU</li></Link>
-                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Nos partenaires</li></Link>
-                    <Link style={{ textDecoration: 'none' }} to={`/${window.location.pathname}/`}><li>Contactez-nous</li></Link>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/lassociation-raidinlyon/`}><li>Qui sommes-nous</li></a>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Mentions légales / CGU</li></a>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/`}><li>Nos partenaires</li></a>
+                    <a style={{ textDecoration: 'none' }} href={`http://raidinlyon.fr/contact/`}><li>Contactez-nous</li></a>
                 </ul>
             </div>
         )

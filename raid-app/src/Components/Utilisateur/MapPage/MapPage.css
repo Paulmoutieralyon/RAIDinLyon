@@ -51,6 +51,7 @@ html, body {
     box-shadow: 1.2px 0px rgb(83, 83, 83);
     transform: translateX(-40vw);
     transition: transform 300ms ease-in;
+    
 }
 
 #blockMap.slideIn {
