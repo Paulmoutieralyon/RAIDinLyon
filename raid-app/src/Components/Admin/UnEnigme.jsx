@@ -371,7 +371,7 @@ export default class UnEnigme extends Component {
                         </Alert>
                     </div>
                     : null}
-                <Button className={this.state.button} onClick={this.sendModifications}>Valider les modifications</Button>
+                <Button className="buttonMenu" onClick={this.sendModifications}>Valider les modifications</Button>
                 < Button className="buttonMenu">
                 <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
                 <p className="textButton">Retour</p>
