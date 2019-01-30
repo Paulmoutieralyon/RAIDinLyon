@@ -3,17 +3,39 @@ body {
     color: white !important;
 }
 
+.bodyHome .btn {
+    width: 100% !important;
+    margin: 1.5em 0 1.5em 0 !important;
+    border: none !important;
+    text-align: center !important;
+}
+
+.bodyHome .position-relative {
+    padding: 1.5em 0 1.5em 0 !important;
+}
+
 /* Image Home Page */
-.LogoImg{  
+
+.LogoImg {
     width: 40vh;
     display: block;
     margin: 1em auto;
     margin-top: 4em;
-
 }
+
 /* Boutton Lancer la partie*/
+
 .btn-start {
-    border:1px solid orange !important;
-    width:69% !important;
+    border: 1px solid orange !important;
+    width: 69% !important;
 }
 
+.form-control {
+    border: none !important;
+    border-radius: 0px !important;
+}
+
+.form-control input {
+    border: none !important;
+    background-color: orange !important;
+}

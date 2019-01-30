@@ -63,6 +63,7 @@ export default class HomePage extends React.Component {
     render() {
         return (
             <div className="bodyHome">
+            <img className="LogoImg" src={logo} alt='homelogo' />
                 <div className='allinfo'>
                         <Modal className='Modale' isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                             <ModalHeader toggle={this.toggle}>Règle du jeu de piste</ModalHeader>
@@ -106,8 +107,6 @@ export default class HomePage extends React.Component {
                             
                         </Form>
                     </Container>
-
-                    <img className="LogoImg" src={logo} alt='homelogo' />
                 </div>
             </div>
         );
