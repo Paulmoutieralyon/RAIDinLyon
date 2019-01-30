@@ -193,7 +193,7 @@ export class EnigmePage extends React.Component {
     //Gestion de la bonne ou mauvaise réponse//
     ReponseManagement() {
         axios.post(`http://localhost:5000/api/enigmes/${this.state.id}`, {
-            proposition: this.state.proposition,
+            proposition: this.state.proposition.toLowerCase(),
         })
             .then(response => {
                 //console.log(response.data.status)
