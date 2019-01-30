@@ -1,10 +1,12 @@
 import React from 'react';
 import './ListEnigmes.css'
-import { BrowserRouter, NavLink } from 'react-router-dom';
-import { Breadcrumb, Card, Button, Modal, ModalHeader, ModalBody, ModalFooter, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import axios from 'axios';
 import trash from './trash.png'
 import "react-toggle-component/styles.css"
+import './SessionPage.css'
+import { FaScroll, FaChevronLeft } from 'react-icons/fa'
 
 export default class ListSessionPage extends React.Component {
     constructor(props) {
@@ -30,26 +32,19 @@ export default class ListSessionPage extends React.Component {
             });
     }
 
-    
-
-
     EnigmesList = () => {
-
         return this.state.enigmes.map((enigme, i) => {
-
             return (
-                <Breadcrumb>
-                    <ListGroup>
+                <Button>
+                    <div className='textButton'>
                         <NavLink to={`/Admin/enigmes/${window.localStorage.getItem('idAdmin')}/${enigme._id}`} onClick={this.forceUpdate} className="navlink">
-                            <ListGroupItem active>
-                                <ListGroupItemHeading>{enigme.titre}</ListGroupItemHeading>
-                                <ListGroupItemText>
-                                </ListGroupItemText>
-                            </ListGroupItem>
+                            {enigme.titre}
                         </NavLink>
+                    </div>
+                    <div className='textButtonIcon'>
                         <img src={trash} onClick={() => this.willDelete(enigme._id, i)} className="trash" />
-                    </ListGroup>
-                </Breadcrumb>
+                    </div>
+                </Button>
             )
         })
     }
@@ -99,18 +94,26 @@ export default class ListSessionPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>Énigmes</h1>
+            <div className="containerAdmin">
+                <h1 className="titreH1">Énigmes</h1>
                 {this.EnigmesList()}
                 {this.deleteValidation()}
-                < Card body >
+                < Button className="buttonMenu">
                     <NavLink to={`/Admin/AddEgnimes/${window.localStorage.getItem('idAdmin')}`} onClick={this.forceUpdate}>
-                        <Button>Nouvelle énigme</Button>
+                        <p className="textButton">Nouvelle énigme</p>
                     </NavLink>
+                    <div className='textButtonIcon'>
+                        <FaScroll />
+                    </div>
+                </Button >
+                < Button className="buttonMenu">
                     <NavLink to={`/Admin/SessionPage/${window.localStorage.getItem('idAdmin')}`}>
-                        <Button>Retour</Button>
+                        <p className="textButton">Retour</p>
                     </NavLink>
-                </Card >
+                    <div className='textButtonIcon'>
+                        <FaChevronLeft />
+                    </div>
+                </Button>
             </div >
         );
     }

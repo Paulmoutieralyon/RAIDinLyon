@@ -1,15 +1,117 @@
-.containerSessionPage {
+.containerAdmin {
+    margin: 2em;
+}
+
+/* .containerSessionPage {
+    width: 400px;
+    margin: auto;
+} */
+
+.containerSessionPage .btn {
     text-align: center;
     margin-top: 5vh;
     margin-bottom: 5vh;
     padding: 0.3em;
-    font-size: 2em;
+    font-size: 1.9em !important;
+    border-style: none;
 }
 
 .btn {
-    margin-top: 1em !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin-top: 0.2em !important;
+    margin-bottom: 0.2em !important;
+    height: 3em !important;
+    text-align: left !important;
+    width: 100%;
 }
 
-.invisible {
-    display: none
+.btn:hover {
+    color: orange !important;
+}
+
+.textButton {
+    padding-left: 10vw;
+    width: 80%;
+    display: inline-block;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.textButtonIcon {
+    text-align: right;
+    display: inline-block;
+}
+
+.togglerButtonText {
+    width: 50%;
+    padding-left: 2vw;
+}
+
+.toggle {
+    display: inline-block !important;
+    top: 30%;
+}
+
+.buttonBig {
+    height: 7em !important;
+    background-color: #6c757d !important;
+    color: white !important;
+}
+
+.buttonBig p {
+    color: white;
+}
+
+.buttonMenu {
+    background-color: black !important;
+    border-style: none !important;
+}
+
+.buttonMenu:hover {
+    background-color: rgb(32, 32, 32) !important;
+}
+
+.dateContainer {
+    border-style: none;
+    width: 500px;
+    height: 100%;
+    margin: auto;
+}
+
+.react-datepicker-wrapper input {
+    font-size: 1.1em;
+    border-style: none !important;
+    width: 100%;
+    height: 100%;
+    color: orange;
+}
+
+.bigOnes {
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.bigOnes button {
+    background-color: #6c7b7d !important;
+}
+
+.toggleActivated {
+    background-color: #6c757d !important;
+}
+
+.toggleDeactivated {
+    background-color: #878f9634 !important;
+    color: #6c757d94 !important;
+}
+
+.toggleDeactivated:hover {
+    background-color: #878f9634 !important;
+    color: #6c757d94 !important;
+}
+
+.editable-container {}
+
+.editable-container a {
+    color: orange;
 }

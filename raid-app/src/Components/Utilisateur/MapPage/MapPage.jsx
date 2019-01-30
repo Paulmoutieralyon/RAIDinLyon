@@ -13,8 +13,10 @@ import moment from 'moment'
 import {
     Modal,
     ModalHeader,
-    ModalBody
+    ModalBody,
 } from "reactstrap"
+//import Loader from 'react-loader-spinner'
+
 import Header from '../Header'
 
 class MapPage extends React.Component {
@@ -78,7 +80,6 @@ class MapPage extends React.Component {
             .then(data => {
                 // this.idEnigme = data.data[0].enigmes
                 let score = data.data[0]
-                console.log("HALLO :", score)
                 this.setState({
                     scoreuser: score.score
                 })
@@ -93,10 +94,6 @@ class MapPage extends React.Component {
                             loadedEnigmeEquipe: true,
                         })
                     }
-                    console.log("idENIsddGME", this.idEnigme)
-                    //console.log("DATA: ", data.data[0].enigmes)
-                    //console.log("OoOoO: ", this.data) 
-
                 }
             })
             .catch(error => {
@@ -167,16 +164,12 @@ class MapPage extends React.Component {
 
 
     render() {
-        console.log("OK: ", this.data)
-        /* console.log("id: ", this.data[0].id)
-        console.log("check: ", this.data[0].check) */
         return (
             <div className="mapPageContainer" >
                 <Header
                     dataCallback={this.handleModalCallback}
                     scoreuser={this.state.scoreuser}
                 />
-
                 <div id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                     <div className="middle">
                         <Map className="map" center={this.props.currentPosition} zoom={this.props.zoom} zoomControl={false}>
@@ -235,7 +228,12 @@ class MapPage extends React.Component {
                                         null}
                                 </div>
                                 :
-                                null}
+                               /*  <Loader
+                                    type="Plane"
+                                    color="#00BFFF"
+                                    height="100"
+                                    width="100"
+                                /> */null}
                             <Marker icon={iconYou} position={this.props.currentPosition}>
                                 <Circle
                                     center={this.props.currentPosition}
@@ -279,12 +277,12 @@ const iconYou = new L.Icon({
 const iconRed = new L.Icon({
     iconUrl: require("./map-default-red.png"),
     iconRetinaUrl: require("./map-default-red.png"),
-    iconSize: [50, 100]
+    iconSize: [50, 50]
 });
 const iconBlack = new L.Icon({
     iconUrl: require("./map-default-black.png"),
     iconRetinaUrl: require("./map-default-black.png"),
-    iconSize: [50, 100]
+    iconSize: [50, 50]
 });
 const iconGreen = new L.Icon({
     iconUrl: require("./map-default-green.png"),
