@@ -275,7 +275,7 @@ export class EnigmePage extends React.Component {
         let tentatives = this.state.numClickValidate - 3
         return (
             <div className="EnigmePageContainer">
-                <Header scoreuser={this.state.scoregeneral} />
+                <Header />
                 {this.state.isLoaded ?
                     <div style={{ padding: '5vw' }} id='blockMap' className={this.props.isSliderOpen ? 'slideOut' : 'slideIn'}>
                         {this.state.indiceNumber === 2 && this.state.indices[2] ?
@@ -343,10 +343,9 @@ export class EnigmePage extends React.Component {
                                 </div>
                             }
                         </AvForm>
-                    </div>
-                    :
-                    null
-                }
+                    </div> 
+                :
+                null}
             </div>
 
         );
