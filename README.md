@@ -1,5 +1,11 @@
 Bienvenue dans RaidInLyon,
 
+Pour récupérer l'ensemble du projet il vous faut aller sur cette adresse :
+
+https://github.com/Paulmoutieralyon/RAIDinLyon 
+
+puis fork la branche dev.
+
 
 Pour lancer le projet il vous faudra suivre quelques étapes, les voici :
 
