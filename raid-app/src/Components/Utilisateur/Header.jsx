@@ -122,7 +122,7 @@ export class Header extends React.Component {
         const { post } = this.props
         return (
             <div className='headerContainer'>
-                <Navbar>
+                <Navbar className="position-nav">
                     <NavbarBrand>
                         <Container>
                             <Row>
