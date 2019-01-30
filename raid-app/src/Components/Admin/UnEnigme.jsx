@@ -180,9 +180,11 @@ export default class UnEnigme extends Component {
                         
                         <p className="titre">Titre : </p>
                             <Editable
-                                className="id"
+                                className="inputtext"
                                 name="username"
                                 dataType="text"
+                                mode="inline"
+                                
                                 value={this.state.titre}
                                 validate={(value) => {
                                     if (!value) {
