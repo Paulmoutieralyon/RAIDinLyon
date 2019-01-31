@@ -27,6 +27,8 @@
 
 .btn {
     display: block !important;
+    margin: 0 auto !important;
+    font-size: 30px !important;
 }
 
 .inputadmin{

@@ -125,7 +125,7 @@
     color: orange;
 }
 
-.btn-success {
+/* .btn-success {
     width: 82% !important;
     height: 10vmin !important;
     background-color: green !important;
@@ -134,7 +134,7 @@
 .btn-danger {
     width: 82% !important;
     height: 10vmin !important;
-}
+} */
 
 .dateContainer {
     font-size: 1em;
