@@ -353,7 +353,8 @@ app.put('/api/enigmes/:_id', function (req, res) {
             info: enigme.info,
             coordonnee: [enigme.coordonnee[0], enigme.coordonnee[1]],
             img: enigme.img,
-            reponse: enigme.reponse
+            reponse: enigme.reponse,
+            agagner: enigme.agagner
         }
     }, (err, result) => {
         if (err) {
