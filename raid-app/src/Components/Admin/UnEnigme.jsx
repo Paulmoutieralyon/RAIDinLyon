@@ -94,6 +94,13 @@ export default class UnEnigme extends Component {
             button: "visible"
         })
     }
+
+    modifyGain = (value) => {
+        this.setState({
+            agagner:value,
+            button: "visible"
+        })
+    }
     /* ________________________________
     MODIFICATION INDICES
     _________________________________ */
@@ -204,14 +211,14 @@ export default class UnEnigme extends Component {
                             <Editable
                                 className="titre"
                                 name="agagner"
-                                dataType="number"
+                                dataType="text"
                                 value={this.state.agagner}
                                 validate={(value) => {
                                     if (!value) {
                                         return 'Required';
                                     }
                                     else {
-                                        this.modifyTitle(value)
+                                        this.modifyGain(value)
                                     }
                                 }
                                 }
