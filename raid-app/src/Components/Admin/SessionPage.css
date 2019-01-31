@@ -78,7 +78,6 @@
 
 .dateContainer {
     border-style: none;
-    width: 500px;
     height: 100%;
     margin: auto;
 }
@@ -97,9 +96,9 @@
     font-size: 0.8em !important;
 }
 
-/* .bigOnes button {
+.bigOnes button {
     background-color: #6c7b7d !important;
-} */
+}
 
 .toggleActivated {
     background-color: #6c757d !important;
@@ -121,13 +120,41 @@
     color: orange;
 }
 
-.btn-success{
+.btn-success {
     width: 82% !important;
     height: 10vmin !important;
     background-color: green !important;
 }
 
-.btn-danger{
+.btn-danger {
     width: 82% !important;
     height: 10vmin !important;
+}
+
+.dateContainer {
+    font-size: 1em;
+}
+
+.dateContainer p {
+    font-size: 1.2em;
+}
+
+.editable-btn .btn {
+    height: 20px !important;
+}
+
+/* .editable-btn .btn-success .btn-danger {
+    height: 20px !important;
+}
+ */
+.editable-btn .btn-success {
+    height: 20px !important;
+    background-color: green !important;
+    width: 100% !important;
+}
+
+.editable-btn .btn-danger {
+    height: 20px !important;
+    background-color: red !important;
+    width: 100% !important;
 }
