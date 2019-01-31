@@ -131,3 +131,15 @@
     width: 82% !important;
     height: 10vmin !important;
 }
+
+.coorContainer {
+
+}
+
+.coorContainer p {
+    width: 50%;
+}
+
+.coorContainer editable-container {
+    width: 50%;
+}
