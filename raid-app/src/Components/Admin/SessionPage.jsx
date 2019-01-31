@@ -210,17 +210,12 @@ export default class SessionPage extends React.Component {
                                 <Row>
                                     <Col>
                                         <Button className="buttonBig">
-                                            <Container>
+                                            <Container className="dateContainer">
                                                 <Row>
-                                                    <Col>
-                                                        <p>Lieu de rendez-vous </p>
-                                                    </Col>
-                                                    <Col className="coorContainer">
+                                                    <Col xs="12">
                                                         <Row>
-                                                            <Col>
+                                                            <Col xs="6">
                                                                 <p>Lattitude:</p>
-                                                            </Col>
-                                                            <Col>
                                                                 <Editable
                                                                     name="username"
                                                                     dataType="text"
@@ -236,22 +231,24 @@ export default class SessionPage extends React.Component {
                                                                     }
                                                                 />
                                                             </Col>
+                                                            <Col xs="6">
+                                                                <p>Longitude:</p>
+                                                                <Editable
+                                                                    name="username"
+                                                                    dataType="text"
+                                                                    value={this.state.pointrencontre[1]}
+                                                                    validate={(value) => {
+                                                                        if (!value) {
+                                                                            return 'Required';
+                                                                        }
+                                                                        else {
+                                                                            this.modifyLongitude(value)
+                                                                        }
+                                                                    }
+                                                                    }
+                                                                />
+                                                            </Col>
                                                         </Row>
-                                                        <p>Longitude:</p>
-                                                        <Editable
-                                                            name="username"
-                                                            dataType="text"
-                                                            value={this.state.pointrencontre[1]}
-                                                            validate={(value) => {
-                                                                if (!value) {
-                                                                    return 'Required';
-                                                                }
-                                                                else {
-                                                                    this.modifyLongitude(value)
-                                                                }
-                                                            }
-                                                            }
-                                                        />
                                                     </Col>
                                                 </Row>
                                             </Container>

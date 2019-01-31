@@ -97,9 +97,9 @@
     font-size: 0.8em !important;
 }
 
-/* .bigOnes button {
+.bigOnes button {
     background-color: #6c7b7d !important;
-} */
+}
 
 .toggleActivated {
     background-color: #6c757d !important;
@@ -121,25 +121,29 @@
     color: orange;
 }
 
-.btn-success{
+.btn-success {
     width: 82% !important;
     height: 10vmin !important;
     background-color: green !important;
 }
 
-.btn-danger{
+.btn-danger {
     width: 82% !important;
     height: 10vmin !important;
 }
 
-.coorContainer {
-
+.dateContainer {
+    font-size: 1em;
 }
 
-.coorContainer p {
-    width: 50%;
+.dateContainer p {
+    font-size: 1.2em;
 }
 
-.coorContainer editable-container {
-    width: 50%;
+.editable-btn .btn {
+    height: 20px !important;
+}
+
+.editable-btn .btn-success .btn-danger {
+    height: 20px !important;
 }
