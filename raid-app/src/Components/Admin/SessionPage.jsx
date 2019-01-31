@@ -212,7 +212,7 @@ export default class SessionPage extends React.Component {
                                         <Button className="buttonBig">
                                             <Container className="dateContainer">
                                                 <Row>
-                                                    <Col xs="12">
+                                                    <Col>
                                                         <Row>
                                                             <Col xs="6">
                                                                 <p>Lattitude:</p>

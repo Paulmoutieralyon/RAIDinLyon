@@ -97,8 +97,12 @@
     font-size: 0.8em !important;
 }
 
-.bigOnes button {
-    background-color: #6c7b7d !important;
+.bigOnes .btn-success {
+    background-color: green !important;
+}
+
+.bigOnes .btn-danger {
+    background-color: red !important;
 }
 
 .toggleActivated {
