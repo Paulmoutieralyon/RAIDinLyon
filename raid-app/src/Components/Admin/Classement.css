@@ -1,12 +1,12 @@
-.ClassementText{
-    color: black;
+.ClassementText {
+    color: black !important;
 }
 
-.Breadcrumb{
+.Breadcrumb {
     margin-top: -3vh;
     margin-right: 20vh;
 }
 
-.titre{
+.titre {
     padding-top: 4vh;
 }

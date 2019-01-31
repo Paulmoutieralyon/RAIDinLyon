@@ -23,7 +23,7 @@ const initialState = {
     eg5: '"Le chemin de traverse"',
     eg6: '"Rendez vous sur la voie 9 3/4"',
 
-    currentPosition: [0, 0],
+    currentPosition: [45.739246, 4.817564],
 }
 
 export function reducerMapPage(state = initialState, action) {
