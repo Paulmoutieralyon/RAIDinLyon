@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Alert, Input, FormGroup, Label, FormText } from 'reactstrap';
+import { Button, Alert, Container, Row, Col } from 'reactstrap';
 import Editable from 'react-x-editable';
 import { NavLink } from 'react-router-dom';
 import './UnEnigme.css';
@@ -164,224 +164,230 @@ export default class UnEnigme extends Component {
 
     render() {
         return (
-            <Button>
+
             <div className='textButtonUne'>
+                <Container>
+                    <Row>
+                        <Col xs="0" md="2" />
+                        <Col xs="12" md="8">
+                            {this.state.titre ?
+                                <div>
+                                    <Alert
+                                        color="dark">
+                                        Id Enigme {this.state.id}
+                                    </Alert>
 
-                {this.state.titre ?
-                    <div>
-                        <Alert 
-                        color="dark">
-                            Id Enigme {this.state.id}
-                        </Alert>
+                                    <Alert
+                                        className="id"
+                                        color="dark">
 
-                        <Alert 
-                        className="id"
-                        color="dark">
-                        
-                        <p className="titre">Titre : </p>
-                            <Editable
-                                className="inputtext"
-                                name="username"
-                                dataType="text"
-                                mode="inline"
-                                
-                                value={this.state.titre}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyTitle(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
+                                        <p className="titre">Titre : </p>
+                                        <Editable
+                                            className="inputtext"
+                                            name="username"
+                                            dataType="text"
+                                            mode="inline"
 
-                        <Alert className="id"
-                        color="dark">
-                            <p className="titre">Points à gagner :</p>
-                            <Editable
-                                className="titre"
-                                name="agagner"
-                                dataType="number"
-                                value={this.state.agagner}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyTitle(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
+                                            value={this.state.titre}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyTitle(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
 
-                        
-                        <Alert className="id"
-                        color="dark">
-                             <p className="titre">Énoncé :</p><Editable
-                                name="username"
-                                dataType="textarea"
-                                value={this.state.enonce}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyAnnouncement(value)
-                                    }
-                                }
-                                }
-                            />
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre">Points à gagner :</p>
+                                        <Editable
+                                            className="titre"
+                                            name="agagner"
+                                            dataType="text"
+                                            value={this.state.agagner}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyTitle(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
 
-                        </Alert>
-                        <Alert className="id"
-                        color="dark">
-                             <p className="titre">Question : </p><Editable
-                                name="username"
-                                dataType="textarea"
-                                value={this.state.question}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyQuestion(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
-                        <Alert className="id"
-                        color="dark">
-                            <p className="titre"> Indices : </p>
-                        <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.indices[0]}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.add1Clue(value)
-                                    }
-                                }
-                                }
-                            />
-                            <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.indices[1]}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.add2Clue(value)
-                                    }
-                                }
-                                }
-                            />
-                            <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.indices[2]}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.add3Clue(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
-                        <Alert className="id"
-                        color="dark">
-                            <p className="titre"> Réponse : </p>
-                            <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.reponse}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.addResponse(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
-                        <h3 className="edit">Informations géographiques du lieu :</h3>
-                        <Alert className="id"
-                        color="dark">
-                            <p className="titre">Lattitude : </p> <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.coordonnees[0]}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyLat(value)
-                                    }
-                                }
-                                }
-                            />
-                            <p className="titre">Longitude : </p>
-                            <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.coordonnees[1]}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyLong(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
-                        <Alert className="id"
-                        color="dark">
-                            <p className="titre">Précautions sur le lieu : </p>
-                            <Editable
-                                name="username"
-                                dataType="text"
-                                value={this.state.info}
-                                validate={(value) => {
-                                    if (!value) {
-                                        return 'Required';
-                                    }
-                                    else {
-                                        this.modifyInfo(value)
-                                    }
-                                }
-                                }
-                            />
-                        </Alert>
-                    </div>
-                    : null}
-                <Button className="buttonMenu" onClick={this.sendModifications}>Valider les modifications</Button>
-                < Button className="buttonMenu">
-                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
-                <p className="textButton">Retour</p>
-                </NavLink>
-                <div className='textButtonIcon'>
-                        <FaChevronLeft />
-                    </div>
-                </Button>
+
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre">Énoncé :</p><Editable
+                                            name="username"
+                                            dataType="textarea"
+                                            value={this.state.enonce}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyAnnouncement(value)
+                                                }
+                                            }
+                                            }
+                                        />
+
+                                    </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre">Question : </p><Editable
+                                            name="username"
+                                            dataType="textarea"
+                                            value={this.state.question}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyQuestion(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre"> Indices : </p>
+                                        <Editable
+                                            name="username"
+                                            dataType="text"
+                                            value={this.state.indices[0]}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.add1Clue(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                        <Editable
+                                            name="username"
+                                            dataType="text"
+                                            value={this.state.indices[1]}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.add2Clue(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                        <Editable
+                                            name="username"
+                                            dataType="text"
+                                            value={this.state.indices[2]}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.add3Clue(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre"> Réponse : </p>
+                                        <Editable
+                                            name="username"
+                                            dataType="text"
+                                            value={this.state.reponse}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.addResponse(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
+                                    <h3 className="edit">Informations géographiques du lieu :</h3>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre">Lattitude : </p> <Editable
+                                            name="username"
+                                            dataType="text"
+                                            value={this.state.coordonnees[0]}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyLat(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                        <p className="titre">Longitude : </p>
+                                        <Editable
+                                            name="username"
+                                            dataType="text"
+                                            value={this.state.coordonnees[1]}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyLong(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre">Précautions sur le lieu : </p>
+                                        <Editable
+                                            name="username"
+                                            dataType="text"
+                                            value={this.state.info}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyInfo(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
+                                </div>
+                                : null}
+                            <Button className="buttonMenu" onClick={this.sendModifications}>Valider les modifications</Button>
+                            < Button className="buttonMenu">
+                                <NavLink to={`/Admin/ListEnigmes/${window.localStorage.getItem('idAdmin')}`}>
+                                    <p className="textButton">Retour</p>
+                                </NavLink>
+                                <div className='textButtonIcon'>
+                                    <FaChevronLeft />
+                                </div>
+                            </Button>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
-            </Button>
+
         );
     }
 }

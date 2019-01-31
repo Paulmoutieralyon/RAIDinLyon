@@ -129,7 +129,7 @@ export default class SessionPage extends React.Component {
             <div className='containerSessionPage'>
                 <Container>
                     <Row>
-                        <Col xs="0" md="2"/>
+                        <Col xs="0" md="2" />
                         <Col xs="12" md="8">
                             {/*                     <Editable
                         name="username"
@@ -178,7 +178,7 @@ export default class SessionPage extends React.Component {
                             <div className="bigOnes">
                                 <Row>
                                     <Col>
-                                        <Button onClick={this.modify} className="buttonBig" /* className={this.state.displayDate ? "buttonDateContainer" : "buttonDate"} */>
+                                        <Button onClick={this.submit} className="buttonBig" /* className={this.state.displayDate ? "buttonDateContainer" : "buttonDate"} */>
                                             <div>
                                                 {this.state.displayDate ?
                                                     <div>
@@ -210,42 +210,45 @@ export default class SessionPage extends React.Component {
                                 <Row>
                                     <Col>
                                         <Button className="buttonBig">
-                                            <Container>
+                                            <Container className="dateContainer">
                                                 <Row>
                                                     <Col>
-                                                        <p>Lieu de rendez-vous </p>
-                                                    </Col>
-                                                    <Col>
-                                                        <p>Lattitude:</p>
-                                                        <Editable
-                                                            name="username"
-                                                            dataType="text"
-                                                            value={this.state.pointrencontre[0]}
-                                                            validate={(value) => {
-                                                                if (!value) {
-                                                                    return 'Required';
-                                                                }
-                                                                else {
-                                                                    this.modifyLattitude(value)
-                                                                }
-                                                            }
-                                                            }
-                                                        />
-                                                        <p>Longitude:</p>
-                                                        <Editable
-                                                            name="username"
-                                                            dataType="text"
-                                                            value={this.state.pointrencontre[1]}
-                                                            validate={(value) => {
-                                                                if (!value) {
-                                                                    return 'Required';
-                                                                }
-                                                                else {
-                                                                    this.modifyLongitude(value)
-                                                                }
-                                                            }
-                                                            }
-                                                        />
+                                                        <Row>
+                                                            <Col xs="6">
+                                                                <p>Lattitude:</p>
+                                                                <Editable
+                                                                    name="username"
+                                                                    dataType="text"
+                                                                    value={this.state.pointrencontre[0]}
+                                                                    validate={(value) => {
+                                                                        if (!value) {
+                                                                            return 'Required';
+                                                                        }
+                                                                        else {
+                                                                            this.modifyLattitude(value)
+                                                                        }
+                                                                    }
+                                                                    }
+                                                                />
+                                                            </Col>
+                                                            <Col xs="6">
+                                                                <p>Longitude:</p>
+                                                                <Editable
+                                                                    name="username"
+                                                                    dataType="text"
+                                                                    value={this.state.pointrencontre[1]}
+                                                                    validate={(value) => {
+                                                                        if (!value) {
+                                                                            return 'Required';
+                                                                        }
+                                                                        else {
+                                                                            this.modifyLongitude(value)
+                                                                        }
+                                                                    }
+                                                                    }
+                                                                />
+                                                            </Col>
+                                                        </Row>
                                                     </Col>
                                                 </Row>
                                             </Container>

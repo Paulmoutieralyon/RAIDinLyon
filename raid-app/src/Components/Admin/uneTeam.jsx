@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Alert, Input, FormGroup, Label, FormText } from 'reactstrap';
+import { Button, Alert, Container, Row, Col } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import Editable from 'react-x-editable';
 import './UnEnigme.css';
@@ -29,7 +29,7 @@ export default class uneTeam extends Component {
     }
 
     componentDidMount() {
-        axios.get(`/api/equipe/${this.page}`)
+        axios.get(`http://localhost:5000/api/equipe/${this.page}`)
             .then(response => {
                 console.log(response)
                 this.setState({
@@ -77,7 +77,7 @@ export default class uneTeam extends Component {
     }
 
     sendModifications = () => {
-        axios.put(`/api/equipes/donnees/${this.page}`,
+        axios.put(`http://localhost:5000/api/equipes/donnees/${this.page}`,
             {
                 // equipe: response.data
                 score: this.state.score,
@@ -102,117 +102,122 @@ export default class uneTeam extends Component {
 
     render() {
         return (
-            <Button>
-                <div className='textButtonUne'>
 
-                    {this.state.equipe ?
-                        <div>
-                            <Alert color="dark">
-                                Id Equipe : {this.state.id}
-                            </Alert>
+            <div className='textButtonUne'>
+                <Container>
+                    <Row>
+                        <Col xs="0" md="2" />
+                        <Col xs="12" md="8">
+                            {this.state.equipe ?
+                                <div>
+                                    <Alert color="dark">
+                                        Id Equipe : {this.state.id}
+                                    </Alert>
 
-                            <Alert className="id"
-                                color="dark">
-                                <p className="titre"> Mot de passe : {this.state.password}</p>
-                            </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre"> Mot de passe : {this.state.password}</p>
+                                    </Alert>
 
-                            <Alert className="id"
-                                color="dark">
-                                <p className="titre"> Score : {this.state.score} </p>
-                            </Alert>
-                            <Alert className="id"
-                                color="dark">
-                                <p className="titre"> Heure de fin de parcours : {this.state.h_fin} </p>
-                            </Alert>
-                            <Alert className="id"
-                                color="dark">
-                                <p className="titre">  Nom :</p>
-                                <Editable
-                                    name="nom d'équipe"
-                                    dataType="text"
-                                    value={this.state.nom}
-                                    validate={(value) => {
-                                        if (!value) {
-                                            return 'Required';
-                                        }
-                                        else {
-                                            this.modifyNom(value)
-                                        }
-                                    }}
-                                />
-                            </Alert>
-
-
-                            <Alert className="id"
-                                color="dark">
-                                <p className="titre"> Email : </p>
-                                <Editable
-                                    name="Email"
-                                    dataType="text"
-                                    value={this.state.email}
-                                    validate={(value) => {
-                                        if (!value) {
-                                            return 'Required';
-                                        }
-                                        else {
-                                            this.modifyEmail(value)
-                                        }
-                                    }
-                                    }
-                                />
-                            </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre"> Score : {this.state.score} </p>
+                                    </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre"> Heure de fin de parcours : {this.state.h_fin} </p>
+                                    </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre">  Nom :</p>
+                                        <Editable
+                                            name="nom d'équipe"
+                                            dataType="text"
+                                            value={this.state.nom}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyNom(value)
+                                                }
+                                            }}
+                                        />
+                                    </Alert>
 
 
-                            <Alert className="id"
-                                color="dark">
-                                <p className="titre"> Participants : </p>
-                                <Editable
-                                    name="Participants"
-                                    dataType="textarea"
-                                    value={this.state.participants}
-                                    validate={(value) => {
-                                        if (!value) {
-                                            return 'Required';
-                                        }
-                                        else {
-                                            this.modifyParticipants(value)
-                                        }
-                                    }
-                                    }
-                                />
-                            </Alert>
-                            <Alert className="id"
-                                color="dark">
-                                <p className="titre">  Telephone : </p>
-                                <Editable
-                                    name="telephone"
-                                    dataType="text"
-                                    value={this.state.telephone}
-                                    validate={(value) => {
-                                        if (!value) {
-                                            return 'Required';
-                                        }
-                                        else {
-                                            this.modifyTelephone(value)
-                                        }
-                                    }
-                                    }
-                                />
-                            </Alert>
-                        </div>
-                        : null}
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre"> Email : </p>
+                                        <Editable
+                                            name="Email"
+                                            dataType="text"
+                                            value={this.state.email}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyEmail(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
 
-                    <Button className="buttonMenu" onClick={this.sendModifications}>Valider les modifications</Button>
-                    <Button className="buttonMenu">
-                        <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}>
-                            <p className="textButton">Retour</p>
-                        </NavLink>
-                        <div className='textButtonIcon'>
-                            <FaChevronLeft />
-                        </div>
-                    </Button>
-                </div>
-            </Button>
+
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre"> Participants : </p>
+                                        <Editable
+                                            name="Participants"
+                                            dataType="textarea"
+                                            value={this.state.participants}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyParticipants(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
+                                    <Alert className="id"
+                                        color="dark">
+                                        <p className="titre">  Telephone : </p>
+                                        <Editable
+                                            name="telephone"
+                                            dataType="text"
+                                            value={this.state.telephone}
+                                            validate={(value) => {
+                                                if (!value) {
+                                                    return 'Required';
+                                                }
+                                                else {
+                                                    this.modifyTelephone(value)
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </Alert>
+                                </div>
+                                : null}
+
+                            <Button className="buttonMenu" onClick={this.sendModifications}>Valider les modifications</Button>
+                            <Button className="buttonMenu">
+                                <NavLink to={`/Admin/ListTeam/${window.localStorage.getItem('idAdmin')}`}>
+                                    <p className="textButton">Retour</p>
+                                </NavLink>
+                                <div className='textButtonIcon'>
+                                    <FaChevronLeft />
+                                </div>
+                            </Button>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         );
     }
 }
