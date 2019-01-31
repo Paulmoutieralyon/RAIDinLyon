@@ -215,13 +215,14 @@ export default class UnEnigme extends Component {
                                             className="titre"
                                             name="agagner"
                                             dataType="text"
+                                            mode="inline"
                                             value={this.state.agagner}
                                             validate={(value) => {
                                                 if (!value) {
                                                     return 'Required';
                                                 }
                                                 else {
-                                                    this.modifyTitle(value)
+                                                    this.modifyGain(value)
                                                 }
                                             }
                                             }
