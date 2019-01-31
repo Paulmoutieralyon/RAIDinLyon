@@ -178,7 +178,7 @@ export default class SessionPage extends React.Component {
                             <div className="bigOnes">
                                 <Row>
                                     <Col>
-                                        <Button onClick={this.modify} className="buttonBig" /* className={this.state.displayDate ? "buttonDateContainer" : "buttonDate"} */>
+                                        <Button onClick={this.submit} className="buttonBig" /* className={this.state.displayDate ? "buttonDateContainer" : "buttonDate"} */>
                                             <div>
                                                 {this.state.displayDate ?
                                                     <div>

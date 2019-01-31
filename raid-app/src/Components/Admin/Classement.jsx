@@ -3,11 +3,9 @@ import { Button, FormGroup, Label, Input, Breadcrumb, ListGroup, Container, Col,
 import './Classement.css'
 import './SessionPage.css'
 
-
 import { NavLink } from 'react-router-dom';
 const axios = require('axios');
 const moment = require('moment');
-
 
 export default class Classement extends React.Component {
   constructor(props) {

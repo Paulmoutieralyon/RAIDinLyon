@@ -207,7 +207,7 @@ export default class UnEnigme extends Component {
                                         <Editable
                                             className="titre"
                                             name="agagner"
-                                            dataType="number"
+                                            dataType="text"
                                             value={this.state.agagner}
                                             validate={(value) => {
                                                 if (!value) {
