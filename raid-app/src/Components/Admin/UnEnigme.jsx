@@ -209,7 +209,7 @@ export default class UnEnigme extends Component {
                         color="dark">
                             <p className="titre">Points à gagner :</p>
                             <Editable
-                                className="titre"
+                                //className="titre"
                                 name="agagner"
                                 dataType="textarea"
                                 value={this.state.agagner}
