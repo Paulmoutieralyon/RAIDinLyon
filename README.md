@@ -34,7 +34,7 @@ Pour la base de données,
 elle est hébérgée sur https://mlab.com/ , pour vous connecter ils vous suffit de rentrer les identifiants suivants :
 
 USERNAME : RaidWild
-PASSWORD : raiddinguedetoi
+PASSWORD : *********
 
 
 Pour ce qui est de l'architecture du code, voici le résumé :
