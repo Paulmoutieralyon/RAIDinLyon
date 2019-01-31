@@ -1,5 +1,9 @@
 import React from 'react';
 import { Button, FormGroup, Label, Input, Breadcrumb, ListGroup, Container, Col, Row } from 'reactstrap';
+import './Classement.css'
+import './SessionPage.css'
+
+
 import { NavLink } from 'react-router-dom';
 const axios = require('axios');
 const moment = require('moment');

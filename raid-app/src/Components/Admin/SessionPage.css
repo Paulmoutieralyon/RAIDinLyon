@@ -144,6 +144,12 @@
     height: 20px !important;
 }
 
-.editable-btn .btn-success .btn-danger {
+.editable-btn .btn-success {
     height: 20px !important;
+    color: green !important;
+}
+
+.editable-btn .btn-danger {
+    height: 20px !important;
+    color: red !important;
 }
