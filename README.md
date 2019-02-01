@@ -1,6 +1,6 @@
 Bienvenue dans RaidInLyon ! 
 
-## RÉCUPÉRER LE PROJET SUR GITHUB 
+### RÉCUPÉRER LE PROJET SUR GITHUB 
 
 https://github.com/Paulmoutieralyon/RAIDinLyon 
 
@@ -34,7 +34,7 @@ Vous êtes sur l'application, côté utilisateur. Pour accéder au coté adminis
 
 
 
-### CONCERNANT L'ARCHITECTURE DES DOSSIERS DU CODE#
+### CONCERNANT L'ARCHITECTURE DES DOSSIERS DU CODE
  
  Le back se trouve à la racine du dossier et se compose des dossiers suivants : "Collections", "Models" et du fichier "server.js"  
  - Models : Il se compose des schema mongoDB
@@ -43,6 +43,6 @@ Vous êtes sur l'application, côté utilisateur. Pour accéder au coté adminis
 Retrouvez toute la partie front dans le dossier "Raid-app", dossier "src". Les dossiers Admin et Utilisateur sont au complet.
 
 
-### L'astuce des coordonnées géographiques :
+##### L'astuce des coordonnées géographiques :
 
 L'application nécéssite des coordonnées géographiques. N'hésitez pas à trouvez ces dernieres sur le site https://www.coordonnees-gps.fr/
