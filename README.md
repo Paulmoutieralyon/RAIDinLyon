@@ -7,12 +7,12 @@ https://github.com/Paulmoutieralyon/RAIDinLyon
 puis forkez la branche **chicken** (La branche dev et master ne sont pas les bonnes versions. Celle déployée est la "chicken").
 
 
-### CONCERNANT LA BASE DE DONNÉE #
+### CONCERNANT LA BASE DE DONNÉE 
 
 Elle est hébérgée sur https://mlab.com/ , pour vous connecter ils vous suffit de rentrer les identifiants présents sur le Word du dossier livré avec le projet.  
 
 
-### LANCER LE PROJET EN LOCAL : #
+### LANCER LE PROJET EN LOCAL : 
 
 1. Lancez via le terminal à la racine du projet les variables environnements suivantes, voici la commande à taper :
 
